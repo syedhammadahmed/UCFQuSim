@@ -1,2 +1,9 @@
 # Default ignored files
+.idea/
 /workspace.xml
+/deployment.xml
+/misc.xml
+/modules.xml
+/UCFQuSim.iml
+/vcs.xml
+/webServers.xml
