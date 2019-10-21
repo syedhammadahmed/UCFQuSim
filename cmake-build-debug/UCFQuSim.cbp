@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="UCFQuSim"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="UCFQuSim">
+				<Option output="C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/UCFQuSim.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 UCFQuSim"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="UCFQuSim/fast">
+				<Option output="C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/UCFQuSim.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/bin/../lib/gcc/i686-w64-mingw32/8.1.0/../../../../i686-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 UCFQuSim/fast"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~2/MINGW-~1/I686-8~1.0-P/mingw32/bin/mingw32-make.exe -f &quot;C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/ShortestPathFinder.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/ShortestPathFinder.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuRegister.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuRegister.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CHadamard.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CHadamard.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CNot.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CNot.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CRz.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CRz.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CU1.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CU1.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CU3.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CU3.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CY.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CY.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CZ.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CZ.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Hadamard.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Hadamard.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Identity.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Identity.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Measure.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Measure.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/NoOp.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/NoOp.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Not.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Not.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rx.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rx.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Ry.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Ry.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rz.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rz.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/S.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/S.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Sdg.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Sdg.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Swap.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Swap.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/T.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/T.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Tdg.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Tdg.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Toffoli.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Toffoli.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U1.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U1.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U2.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U2.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U3.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U3.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/X.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/X.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Y.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Y.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/main.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
