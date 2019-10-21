@@ -1,0 +1,4 @@
+/opt/clion-2019.2.2/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/hammad/CLionProjects/UCFQuSim
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/hammad/CLionProjects/UCFQuSim/cmake-build-debug

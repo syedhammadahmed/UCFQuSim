@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="UCFQuSim"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="UCFQuSim">
+				<Option output="/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/UCFQuSim" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 UCFQuSim"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="UCFQuSim/fast">
+				<Option output="/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/UCFQuSim" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 UCFQuSim/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/hammad/CLionProjects/UCFQuSim/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/QuArchitecture.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/QuArchitecture.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuBit.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuBit.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuCircuit.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuCircuit.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuGateFactory.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuGateFactory.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuRegister.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuRegister.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuSimulator.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/QuSimulator.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CHadamard.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CHadamard.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CNot.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CNot.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CRz.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CRz.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CU1.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CU1.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CU3.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CU3.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CY.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CY.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CZ.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/CZ.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Hadamard.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Hadamard.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Identity.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Identity.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Measure.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Measure.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Not.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Not.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/QuGate.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/QuGate.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Rx.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Rx.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Ry.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Ry.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Rz.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Rz.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/S.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/S.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Sdg.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Sdg.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Swap.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Swap.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/T.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/T.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Tdg.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Tdg.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Toffoli.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Toffoli.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/U1.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/U1.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/U2.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/U2.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/U3.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/U3.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/X.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/X.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Y.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Y.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Z.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/core/gates/Z.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/main.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="/home/hammad/CLionProjects/UCFQuSim/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
