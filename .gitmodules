@@ -1,0 +1,3 @@
+[submodule "UCFQuSim"]
+	path = UCFQuSim
+	url = https://github.com/syedhammadahmed/UCFQuSim.git
