@@ -7,7 +7,7 @@
 
 
 #include "QuCircuit.h"
-#include "../QuArchitecture.h"
+#include "QuArchitecture.h"
 
 // will primarily  generate  and run the circuit
 // also will contain the logical to physical qubit mappings

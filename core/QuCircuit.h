@@ -9,19 +9,24 @@
 #include <ostream>
 #include <string>
 #include "gates/QuGate.h"
+#include "QuInstruction.h"
 
 using namespace std;
 
 class QuCircuit {
 
 private:
+
     int rows; // # of physical quBits (max rows)
     int cols; // depth
-    int* quBitConfiguration; // logical positions of quBits (as they may change due to swap)
-    int* quBitMapping; // logical to physical mapping of quBits
-    int* quBitLastLayer; // the last layer # where any gate is using this qubit
-    QuBit* quBits;
+    int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
+    int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
+    int* quBitRecentLayer;
+    QuBit* logicalQuBits;
     QuGate*** grid;
+
+    vector<QuGate*> instructions;
+
 
 public:
     QuCircuit();
@@ -29,6 +34,7 @@ public:
     QuCircuit(int rows, int cols);
 
     void add(QuGate* gate, int row, int depth);
+    void add(QuGate* gate, int depth);
     void addMapping(int logicalQuBit, int physicalQuBit);
     void run();
 //    QuGate* operator[][](int, int);
@@ -38,9 +44,27 @@ public:
     virtual ~QuCircuit();
 
     void init1();
+
     void init2();
 
-    void setGateQubits(QuGate *pGate, int pInt[3]);
+    int getLayerForNewGate(int gates[3], int operands);
+
+    bool somethingInBetween(int row1, int row2, int layer);
+
+    void initQuBitMappings(int **couplingMap);
+
+    int findSwapsFor1Instruction(QuGate* quGate, int **couplingMap);
+
+    void initializeMappings();
+
+    void initializeMappings(int **couplingMap);
+
+    void printMappings();
+    void printGrid();
+
+    int findTotalSwaps(int **couplingMap);
+
+    int swapAlongPath(int *parent, int source, int destination);
 };
 
 

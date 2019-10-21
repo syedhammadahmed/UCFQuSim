@@ -3,7 +3,7 @@
 //
 
 #include "QuSimulator.h"
-#include "../QuArchitecture.h"
+#include "QuArchitecture.h"
 
 QuSimulator::QuSimulator(int logicalBits, int depth, QuCircuit& circuit, QuArchitecture& architecture): circuit(circuit), architecture(architecture) {
 

@@ -14,7 +14,7 @@ public:
     static const int TARGET = 1;
 
     CNot();
-    CNot(int depth, int cardinality);
+//    CNot(int depth, int cardinality);
 
     void apply(QuBit *bit, int i) override;
 

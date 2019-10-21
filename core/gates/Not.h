@@ -12,7 +12,7 @@ class Not : public QuGate {
 public:
     Not();
 
-    Not(int depth, int cardinality);
+//    Not(int depth, int cardinality);
 
     // TODO: generate constructors
     void apply(QuBit *bit, int i) override;

@@ -7,6 +7,7 @@
 
 #include "../QuBit.h"
 
+using namespace std;
 // abstract super-class for all elementary and
 class QuGate {
 
@@ -15,18 +16,22 @@ protected:
     bool isElementary;
     int cardinality; // # of qubits required to be applied
     QuBit* arg[3];
-    char symbol;
+    std::string symbol;
     int** matrix;
+    int* argIndex;
+    std::string printSymbol[3];
+    int printIndex;
+    string mnemonic;
 
 public:
     static const int MAX_OPERANDS = 3;
 
     QuGate();
-    QuGate(int depth); // default cardinality = 1, isElemenatary = false
-    QuGate(int depth, bool isElementary); // default cardinality = 1
-    QuGate(int depth, bool isElementary, int cardinality);
+//    QuGate(int depth); // default cardinality = 1, isElemenatary = false
+//    QuGate(int depth, bool isElementary); // default cardinality = 1
+//    QuGate(int depth, bool isElementary, int cardinality);
 
-    QuGate(int depth, int cardinality, char symbol);
+    QuGate(int cardinality, std::string symbol, string mnemonic);
 
     QuBit& operator[](int);
 
@@ -34,8 +39,17 @@ public:
 
     virtual void apply(QuBit*, int) = 0;
 
-    char getSymbol() const;
+    std::string getSymbol() const;
 
+    int* getArgIndex() const;
+
+    int getCardinality() const;
+
+    int getPrintIndex() const;
+
+    void setPrintIndex(int printIndex);
+
+    std::string getPrintSymbol();
 };
 
 

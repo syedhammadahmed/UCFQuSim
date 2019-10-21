@@ -12,6 +12,8 @@ class CRz : public QuGate {
 public:
     // TODO: generate constructors
     void apply(QuBit *bit, int i) override;
+
+    CRz();
 };
 
 

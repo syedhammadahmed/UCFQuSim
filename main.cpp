@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <map>
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
@@ -8,68 +6,67 @@
 
 #include "core/gates/CNot.h"
 #include "core/gates/QuGate.h"
-#include "QuArchitecture.h"
 #include "core/QuSimulator.h"
 #include "core/gates/Hadamard.h"
 #include "core/gates/Not.h"
+#include "ShortestPathFinder.h"
 
 using namespace std;
 
-int sigma(int n){
-    if(n>0)
-        return n + sigma(n-1);
-    return 0;
-}
 int main() {
-    int i = 1;
-    for (int i = 1; i < 20; i++) {
-        cout << "n = " << i << " k = " << (i * (i + 1)) / 2 << " k/2 = " << (i * (i + 1)) / 4 << endl;
-    }
-    return 0;
-}
-/*
-int main() {
-    const int QU_BITS = 6;
+
+    const int QU_BITS = 4;
     const int MAX_DEPTH = 10;
 
     string inputFileName = "sample.qasm";
-    string inputDirectory(getenv("HOME"));
+//    getenv("HOME")
+//    getenv("HOMEPATH")
+    string inputDirectory(string(getenv("HOMEDRIVE")) + getenv("HOMEPATH"));
     inputDirectory += "/input/";
     cout << "Input File Directory: " << inputDirectory << endl;
 
-    QuArchitecture architecture(16);
-    architecture.addConstraint(1,2);
-    architecture.addConstraint(2,3);
-    architecture.addConstraint(3,14);
-    architecture.addConstraint(15,14);
-    architecture.addConstraint(15,0);
-    architecture.addConstraint(0,1);
-    cout << "Architecture constraints: " <<  endl << architecture;
+    QuArchitecture architectureQX3(16);
+    architectureQX3.addConstraint(1,2);
+    architectureQX3.addConstraint(2,3);
+    architectureQX3.addConstraint(3,14);
+    architectureQX3.addConstraint(15,14);
+    architectureQX3.addConstraint(15,0);
+    architectureQX3.addConstraint(0,1);
 
-//    QuCircuit circuit(QU_BITS, MAX_DEPTH);
-//    circuit.add(new Hadamard(), 0, 0);
-//    circuit.add(new Not(), 0, 1);
-//    circuit.add(new Hadamard(), 0, 2);
-//    circuit.add(new Not(), 0, 7);
-//    circuit.add(new Hadamard(), 1, 0);
-//    circuit.add(new Hadamard(), 4, 4);
-//    circuit.add(new Hadamard(), 0, 8);
+    architectureQX3.addConstraint(4,3);
+    architectureQX3.addConstraint(4,5);
+    architectureQX3.addConstraint(12,5);
+    architectureQX3.addConstraint(12,13);
+    architectureQX3.addConstraint(13,4);
+    architectureQX3.addConstraint(13,14);
+
+    architectureQX3.addConstraint(12,11);
+    architectureQX3.addConstraint(6,11);
+    architectureQX3.addConstraint(6,7);
+    architectureQX3.addConstraint(8,7);
+    architectureQX3.addConstraint(9,8);
+    architectureQX3.addConstraint(9,10);
+    architectureQX3.addConstraint(7,10);
+    architectureQX3.addConstraint(11,10);
+//    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
+
+//    QuArchitecture architectureQX3(4);
+//    architectureQX3.addConstraint(0,1);
+//    architectureQX3.addConstraint(1,2);
+//    architectureQX3.addConstraint(2,3);
+//    architectureQX3.addConstraint(1,3);
+//    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
+
+    QuCircuit circuit(inputDirectory + inputFileName, architectureQX3.getN());
+//    circuit.initializeMappings(architectureQX3.getCouplingMap());
+    circuit.initializeMappings(NULL); // NULL is for trivial mapping x[i] = i
+    int totalSwaps = circuit.findTotalSwaps(architectureQX3.getCouplingMap());
 //    cout << "Circuit: " <<  endl << circuit;
+    cout << "Total Swaps Required: " << totalSwaps << endl;
 
-      QuCircuit circuit(inputDirectory + inputFileName, architecture.getN()); // input circuit file, # of physical qubits (max logical qubits)
-//    circuit.add(new Hadamard(), 0, 0);
-//    circuit.add(new Not(), 0, 1);
-//    circuit.add(new Hadamard(), 0, 2);
-//    circuit.add(new Not(), 0, 7);
-//    circuit.add(new Hadamard(), 1, 0);
-//    circuit.add(new Hadamard(), 4, 4);
-//    circuit.add(new Hadamard(), 0, 8);
-//    cout << "Circuit: " <<  endl << circuit;
-//
-    QuSimulator simulator(QU_BITS, MAX_DEPTH, circuit, architecture);
-    simulator.run();
 
+//    QuSimulator simulator(QU_BITS, MAX_DEPTH, circuit, architectureQX3);
+//    simulator.run();
 
     return 0;
 }
-*/

@@ -7,3 +7,6 @@
 void CHadamard::apply(QuBit *bit, int i) {
 
 }
+
+CHadamard::CHadamard() : QuGate(1, "CH", "ch"){}
+

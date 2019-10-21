@@ -3,3 +3,9 @@
 //
 
 #include "CRz.h"
+
+void CRz::apply(QuBit *bit, int i) {
+
+}
+
+CRz::CRz() : QuGate(2, "CRz", "CRz"){}

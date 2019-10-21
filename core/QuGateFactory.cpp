@@ -26,10 +26,6 @@
 #include "gates/CZ.h"
 #include "gates/Measure.h"
 
-QuGate* QuGateFactory::getQuGate(string symbol, int *args) {
-    return NULL;
-}
-
 QuGate* QuGateFactory::getQuGate(string symbol) {
     QuGate* gate = NULL;
 

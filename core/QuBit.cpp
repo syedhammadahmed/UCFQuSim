@@ -45,11 +45,3 @@ int QuBit::measure() {
 
         return 0;
 }
-
-int QuBit::getId() const {
-    return id;
-}
-
-void QuBit::setId(int id) {
-    QuBit::id = id;
-}

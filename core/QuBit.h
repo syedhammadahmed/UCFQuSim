@@ -13,7 +13,7 @@ class QuBit {
 private:
     int amplitudes[2];
     int classicalBit;
-    int id;
+
 
 public:
     static const int STATE_SUPERPOSITION = 0;
@@ -34,9 +34,6 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const QuBit &bit);
 
-    int getId() const;
-
-    void setId(int id);
 
 };
 

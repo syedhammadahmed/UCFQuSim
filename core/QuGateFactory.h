@@ -14,7 +14,6 @@ using namespace std;
 class QuGateFactory {
 
 public:
-    static QuGate* getQuGate(string symbol, int args[]);
     static QuGate* getQuGate(string symbol);
 
 };
