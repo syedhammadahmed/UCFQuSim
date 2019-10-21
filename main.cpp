@@ -21,8 +21,10 @@ int main() {
     string inputFileName = "sample.qasm";
 //    getenv("HOME")
 //    getenv("HOMEPATH")
-    string inputDirectory(string(getenv("HOMEDRIVE")) + getenv("HOMEPATH"));
-    inputDirectory += "/input/";
+//    string inputDirectory(string(getenv("HOMEDRIVE")) + getenv("HOMEPATH"));
+//    string inputDirectory(string(getenv("HOME")));
+    string inputDirectory("");
+    inputDirectory += "../input/";
     cout << "Input File Directory: " << inputDirectory << endl;
 
     QuArchitecture architectureQX3(16);
