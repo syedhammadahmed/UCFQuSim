@@ -1,7 +1,7 @@
 //
 // Created by hammad on 10/8/19.
 //
-
+#include <cctype>
 #include "QuGateFactory.h"
 #include "gates/Hadamard.h"
 #include "gates/CNot.h"
@@ -25,78 +25,85 @@
 #include "gates/CU3.h"
 #include "gates/CZ.h"
 #include "gates/Measure.h"
+#include "gates/Swap.h"
+#include "Util.h"
 
-QuGate* QuGateFactory::getQuGate(string symbol) {
+QuGate* QuGateFactory::getQuGate(string mnemonic) {
     QuGate* gate = NULL;
 
-    if(symbol == "h"){
+    mnemonic = Util::toLower(mnemonic);
+
+    if(mnemonic == "h"){
         gate = new Hadamard();
     }
-    else if(symbol == "cx"){
+    else if(mnemonic == "cx"){
         gate = new CNot();
     }
-    else if(symbol == "id"){
+    else if(mnemonic == "id"){
         gate = new Identity();
     }
-    else if(symbol == "u3"){
+    else if(mnemonic == "u3"){
         gate = new U3();
     }
-    else if(symbol == "u2"){
+    else if(mnemonic == "u2"){
         gate = new U2();
     }
-    else if(symbol == "u1"){
+    else if(mnemonic == "u1"){
         gate = new U1();
     }
-    else if(symbol == "rx"){
+    else if(mnemonic == "rx"){
         gate = new Rx();
     }
-    else if(symbol == "ry"){
+    else if(mnemonic == "ry"){
         gate = new Ry();
     }
-    else if(symbol == "rz"){
+    else if(mnemonic == "rz"){
         gate = new Rz();
     }
-    else if(symbol == "x"){
+    else if(mnemonic == "x"){
         gate = new X();
     }
-    else if(symbol == "y"){
+    else if(mnemonic == "y"){
         gate = new Y();
     }
-    else if(symbol == "z"){
+    else if(mnemonic == "z"){
         gate = new Z();
     }
-    else if(symbol == "s"){
+    else if(mnemonic == "s"){
         gate = new S();
     }
-    else if(symbol == "sdg"){
+    else if(mnemonic == "sdg"){
         gate = new Sdg();
     }
-    else if(symbol == "t"){
+    else if(mnemonic == "t"){
         gate = new T();
     }
-    else if(symbol == "tdg"){
+    else if(mnemonic == "tdg"){
         gate = new Tdg();
     }
-    else if(symbol == "ch"){
+    else if(mnemonic == "ch"){
         gate = new CHadamard();
     }
-    else if(symbol == "cy"){
+    else if(mnemonic == "cy"){
         gate = new CY();
     }
-    else if(symbol == "cz"){
+    else if(mnemonic == "cz"){
         gate = new CZ();
     }
-    else if(symbol == "crz"){
+    else if(mnemonic == "crz"){
         gate = new Rx();
     }
-    else if(symbol == "cu1"){
+    else if(mnemonic == "cu1"){
         gate = new CU1();
     }
-    else if(symbol == "cu3"){
+    else if(mnemonic == "cu3"){
         gate = new CU3();
     }
-    else if(symbol == "measure"){
+    else if(mnemonic == "measure"){
         gate = new Measure();
+    }
+    else if(mnemonic == "swap"){
+        gate = new Swap();
     }
 
     return gate;

@@ -10,7 +10,7 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
         couplingMap[i] = new int[n];
     for(int i = 0; i < n; i++)
         for(int j = 0; j < n; j++)
-            couplingMap[i][j] = INT16_MAX;
+            couplingMap[i][j] = INT32_MAX;
 }
 
 void QuArchitecture::addConstraint(int src, int dest) {

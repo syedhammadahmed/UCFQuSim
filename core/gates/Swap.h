@@ -9,6 +9,10 @@
 #include "QuGate.h"
 
 class Swap : public QuGate {
+public:
+    Swap();
+
+private:
     void apply(QuBit *bit, int i) override;
 };
 

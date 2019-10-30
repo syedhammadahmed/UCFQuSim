@@ -7,3 +7,9 @@
 void Swap::apply(QuBit *bit, int i) {
 
 }
+Swap::Swap() : QuGate(2, "><", "SWAP") {
+    printSymbol[0] = "><";
+    printSymbol[1] = "><";
+    printIndex = 0;
+}
+

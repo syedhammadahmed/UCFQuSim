@@ -10,6 +10,8 @@
 #include "core/gates/Hadamard.h"
 #include "core/gates/Not.h"
 #include "ShortestPathFinder.h"
+#include "core/QuCircuitBuilder.h"
+#include "evaluation/QuCircuitEvaluator.h"
 
 using namespace std;
 
@@ -59,14 +61,31 @@ int main() {
 //    architectureQX3.addConstraint(1,3);
 //    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
 
-    QuCircuit circuit(inputDirectory + inputFileName, architectureQX3.getN());
+//    QuCircuit circuit(inputDirectory + inputFileName, architectureQX3.getN());
+    QuCircuit circuit(architectureQX3.getN());
+    QuCircuitBuilder quCircuitBuilder(circuit);
+    quCircuitBuilder.buildFromFile(inputDirectory + inputFileName);
 //    circuit.initializeMappings(architectureQX3.getCouplingMap());
     circuit.initializeMappings(NULL); // NULL is for trivial mapping x[i] = i
     int totalSwaps = circuit.findTotalSwaps(architectureQX3.getCouplingMap());
 //    cout << "Circuit: " <<  endl << circuit;
+
+    circuit.printInstructions();
+
+    quCircuitBuilder.setInstructions(circuit.getInstructionsV1());
+    quCircuitBuilder.makeProgramFile(inputDirectory + "output.qasm");
+
     cout << "Total Swaps Required: " << totalSwaps << endl;
 
-
+    QuCircuit testCircuit(architectureQX3.getN());
+    QuCircuitBuilder testQuCircuitBuilder(testCircuit);
+    testQuCircuitBuilder.buildFromFile(inputDirectory + "output.qasm");
+    QuCircuitEvaluator quCircuitEvaluator(testCircuit);
+    bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(architectureQX3.getCouplingMap());
+    if(satisfied)
+        cout << "CNOT Constraints satisfied!" << endl;
+    else
+        cout << "CNOT Constraints NOT satisfied! Please make sure all non-unary gates have adjacent qubits!" << endl;
 //    QuSimulator simulator(QU_BITS, MAX_DEPTH, circuit, architectureQX3);
 //    simulator.run();
 

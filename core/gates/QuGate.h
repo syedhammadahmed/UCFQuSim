@@ -36,6 +36,7 @@ public:
     QuBit& operator[](int);
 
     virtual ~QuGate();
+    friend std::ostream &operator<<(std::ostream &os, const QuGate& quGate);
 
     virtual void apply(QuBit*, int) = 0;
 
@@ -50,6 +51,10 @@ public:
     void setPrintIndex(int printIndex);
 
     std::string getPrintSymbol();
+
+    const string &getMnemonic() const;
+
+    void setMnemonic(const string &mnemonic);
 };
 
 

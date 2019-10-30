@@ -3,6 +3,7 @@
 //
 
 #include "QuGate.h"
+#include "../Util.h"
 
 QuGate::QuGate() : depth(0), isElementary(false), cardinality(1), symbol("@"), printIndex(0) {
     argIndex = new int[cardinality];
@@ -52,3 +53,19 @@ std::string QuGate::getPrintSymbol() {
     return symbol;
 }
 
+const string &QuGate::getMnemonic() const {
+    return mnemonic;
+}
+
+void QuGate::setMnemonic(const string &mnemonic) {
+    QuGate::mnemonic = mnemonic;
+}
+
+std::ostream &operator<<(std::ostream &os, const QuGate& quGate) {
+    string instruction = Util::toLower(quGate.getMnemonic()) + " q[" + to_string(quGate.getArgIndex()[0]) + "]";
+    if (quGate.getCardinality() > 1)
+        instruction += ", q[" + to_string(quGate.getArgIndex()[1]) + "]";
+    instruction += ";";
+    os << instruction;
+    return os;
+}

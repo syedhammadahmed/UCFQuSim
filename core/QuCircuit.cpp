@@ -9,15 +9,20 @@
 #include "QuGateFactory.h"
 #include "../ShortestPathFinder.h"
 #include "QuInstruction.h"
+#include "Util.h"
 
 using namespace std;
 
-QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), quBitRecentLayer(NULL), grid(NULL) {
+QuCircuit::QuCircuit(int rows): rows(rows), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
     init1();
-    init2();
 }
 
-QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), quBitRecentLayer(NULL), grid(NULL) {
+QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
+    init1();
+}
+
+/*
+QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
     ifstream ifs;
     string quGate = "";
     string qubitArgs = "";
@@ -67,7 +72,7 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
                 layer++;
 //                layer = getLayerForNewGate(gates, newGate -> getCardinality());
                 add(newGate, layer);
-                instructions.push_back(newGate);
+                instructionsV0.push_back(newGate);
 //                printGrid();
 //                cout << "Added at layer : " << layer << " " << newGate -> getSymbol() << endl;
 //                cols++;
@@ -78,29 +83,41 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 //    printGrid();
 //    init2();
 }
+*/
+
+//// initializes the circuit grid
+//void QuCircuit::init2() {
+//    grid = new QuGate**[rows];
+//    for(int i = 0; i < rows; i++)
+//        grid[i] = new QuGate*[cols];
+//    for(int i = 0; i < rows; i++)
+//        for (int j = 0; j < cols; j++)
+//            grid[i][j] = NULL;
+////    printGrid();
+//}
+
 
 QuCircuit::~QuCircuit() {
     delete [] logicalToPhysicalMapping;
     delete [] physicalToLogicalMapping;
-    delete [] quBitRecentLayer;
     delete [] logicalQuBits;
-    for(int i=0; i<rows; i++)
-        delete [] grid[i];
-    delete [] grid;
+//    for(int i=0; i<rows; i++)
+//        delete [] grid[i];
+//    delete [] grid;
 }
 
 
-void QuCircuit::add(QuGate* gate, int row, int depth) {
-    grid[row][depth] = gate;
-}
+//void QuCircuit::add(QuGate* gate, int row, int depth) {
+//    grid[row][depth] = gate;
+//}
 
-void QuCircuit::add(QuGate* gate, int depth) {
-    int* quBitIndexes = gate -> getArgIndex();
-    grid[quBitIndexes[0]][depth] = gate;
-    if(gate -> getCardinality() == 2) {
-        grid[quBitIndexes[1]][depth] = gate;
-    }
-}
+//void QuCircuit::add(QuGate* gate, int depth) {
+//    int* quBitIndexes = gate -> getArgIndex();
+//    grid[quBitIndexes[0]][depth] = gate;
+//    if(gate -> getCardinality() == 2) {
+//        grid[quBitIndexes[1]][depth] = gate;
+//    }
+//}
 
 void QuCircuit::run() {
     std::cout << "Circuit execution start..." << std::endl;
@@ -149,24 +166,19 @@ std::ostream &operator<<(std::ostream &os, const QuCircuit &circuit) {
 void QuCircuit::init1() {
     logicalToPhysicalMapping = new int[rows];
     physicalToLogicalMapping = new int[rows];
-    //    for(int i=0; i<rows; i++)
-//        quBitConfiguration[i] = i; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
-    quBitRecentLayer = new int[rows];
-    for(int i=0; i<rows; i++)
-        quBitRecentLayer[i] = -1;
     logicalQuBits = new QuBit[rows];
 }
 
-// initializes the circuit grid
-void QuCircuit::init2() {
-    grid = new QuGate**[rows];
-    for(int i=0; i<rows; i++)
-        grid[i] = new QuGate*[cols];
-    for(int i=0; i<rows; i++)
-        for (int j = 0; j < cols; j++)
-            grid[i][j] = NULL;
-//    printGrid();
-}
+//// initializes the circuit grid
+//void QuCircuit::init2() {
+//    grid = new QuGate**[rows];
+//    for(int i=0; i<rows; i++)
+//        grid[i] = new QuGate*[cols];
+//    for(int i=0; i<rows; i++)
+//        for (int j = 0; j < cols; j++)
+//            grid[i][j] = NULL;
+////    printGrid();
+//}
 
 void QuCircuit::printGrid(){
     cout << "Printing Circuit Grid (grid of pointers to qugates): " << endl;
@@ -179,48 +191,6 @@ void QuCircuit::printGrid(){
     }
     for(int i=0; i<50; i++) cout << "__";
     cout << endl;
-}
-
-int QuCircuit::getLayerForNewGate(int* gates, int operands) {
-    int layer = 0;
-    int max = quBitRecentLayer[gates[0]];
-    for(int i = 1; i < operands; i++){
-        if(quBitRecentLayer[gates[i]] > max)
-            max = quBitRecentLayer[gates[i]];
-    }
-    layer = max + 1;
-    for(int i = 0; i < operands; i++) {
-        quBitRecentLayer[gates[i]] = layer;
-    }
-
-//    if(operands > 1) {
-//        // if a gate is b/w a binary S and T qbits of the new gate in the same layer
-//        max = gates[0];
-//        int min = gates[0];
-//        for (int i = 1; i < operands; i++) {
-//            if (gates[i] > max) max = gates[i];
-//            if (gates[i] < min) min = gates[i];
-//        }
-//
-//        while (somethingInBetween(min + 1, max - 1, layer)) {
-//            layer++;
-//            for (int i = 0; i < operands; i++) {
-//                quBitRecentLayer[gates[i]] = layer;
-//            }
-//        }
-//
-//        //    for(int i = 0; i < operands; i++) {
-//        //        quBitRecentLayer[gates[i]] = layer;
-//        //    }
-//    }
-    return layer;
-}
-
-bool QuCircuit::somethingInBetween(int row1, int row2, int layer) {
-    for (int i = row1; i <= row2; i++)
-        if (grid[i][layer] != NULL)
-            return true;
-    return false;
 }
 
 void QuCircuit::initializeMappings(int** couplingMap){
@@ -249,6 +219,11 @@ int QuCircuit::swapAlongPath(int* parent, int source, int destination)
         std::cout << "Swap: <" << parent[destination] << ", " << destination << ">" << std::endl;
         swap(logicalToPhysicalMapping[physicalToLogicalMapping[parent[destination]]], logicalToPhysicalMapping[physicalToLogicalMapping[destination]]);
         swap(physicalToLogicalMapping[parent[destination]], physicalToLogicalMapping[destination]);
+        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
+        int* args = swapGate -> getArgIndex();
+        args[0] = source;
+        args[1] = destination;
+        instructionsV1.push_back(swapGate);
     }
     return count;
 }
@@ -269,6 +244,7 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
             cout << "No swap required!" << endl;
         printMappings();
     }
+    instructionsV1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
     return swaps;
 }
 
@@ -278,6 +254,11 @@ void QuCircuit::printMappings() {
         cout << "Q" << i << " -> q" << physicalToLogicalMapping[i] << endl;
     }
     cout << endl;
+//    cout << "Printing logical-physical qubit mappings: " << endl;
+//    for(int i = 0; i < rows; i++) {
+//        cout << "Q" << logicalToPhysicalMapping[i] << " -> q" << i << endl;
+//    }
+//    cout << endl;
 }
 
 int QuCircuit::findTotalSwaps(int** couplingMap) {
@@ -286,4 +267,38 @@ int QuCircuit::findTotalSwaps(int** couplingMap) {
         total += findSwapsFor1Instruction(quGate, couplingMap);
     }
     return total;
+}
+
+void QuCircuit::printInstructions() {
+    try {
+        for (QuGate *quGate: instructionsV1) {
+            cout << *quGate << endl;
+        }
+    } catch (exception& e){
+        cout << "Exception : " << e.what() << '\n';
+    }
+}
+
+int QuCircuit::getRows() const {
+    return rows;
+}
+
+void QuCircuit::setCols(int cols) {
+    this -> cols = cols;
+}
+
+void QuCircuit::setGrid(QuGate ***grid) {
+    this -> grid = grid;
+}
+
+void QuCircuit::setInstructions(const vector<QuGate*> instructions) {
+    this -> instructions = instructions;
+}
+
+const vector<QuGate*> QuCircuit::getInstructionsV1() const{
+    return instructionsV1;
+}
+
+const vector<QuGate*> QuCircuit::getInstructions() const{
+    return instructions;
 }

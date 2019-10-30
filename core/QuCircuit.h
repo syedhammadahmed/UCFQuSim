@@ -16,7 +16,6 @@ using namespace std;
 class QuCircuit {
 
 private:
-
     int rows; // # of physical quBits (max rows)
     int cols; // depth
     int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
@@ -25,13 +24,18 @@ private:
     QuBit* logicalQuBits;
     QuGate*** grid;
 
-    vector<QuGate*> instructions;
+    vector<QuGate*> instructions; // qasm program instructions/qugates
 
+//    vector<QuGate*> instructionsV0; // original qasm program instructions/qugates
+    vector<QuGate*> instructionsV1; // modified qasm program after inserting swap and H instructions/qugates
+
+    string fileName; // circuit input file name (absolute path)
 
 public:
     QuCircuit();
-    QuCircuit(string fileName, int rows);
+    QuCircuit(int rows);
     QuCircuit(int rows, int cols);
+    QuCircuit(string fileName, int rows);
 
     void add(QuGate* gate, int row, int depth);
     void add(QuGate* gate, int depth);
@@ -44,27 +48,31 @@ public:
     virtual ~QuCircuit();
 
     void init1();
-
     void init2();
 
     int getLayerForNewGate(int gates[3], int operands);
-
     bool somethingInBetween(int row1, int row2, int layer);
-
     void initQuBitMappings(int **couplingMap);
-
     int findSwapsFor1Instruction(QuGate* quGate, int **couplingMap);
-
     void initializeMappings();
-
     void initializeMappings(int **couplingMap);
-
     void printMappings();
     void printGrid();
-
     int findTotalSwaps(int **couplingMap);
-
     int swapAlongPath(int *parent, int source, int destination);
+    void printInstructions();
+
+//    void build(string fileName);
+    void build(string fileName);
+    int getRows() const;
+    void setCols(int cols);
+    void setGrid(QuGate ***grid);
+    void setInstructions(const vector<QuGate*> instructions);
+
+    const vector<QuGate*> getInstructionsV1() const;
+
+    const vector<QuGate*> getInstructions() const;
+
 };
 
 
