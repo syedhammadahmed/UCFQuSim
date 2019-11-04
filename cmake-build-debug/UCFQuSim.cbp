@@ -104,6 +104,12 @@
 		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h">
 			<Option target="UCFQuSim"/>
 		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuitBuilder.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuitBuilder.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
 		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.cpp">
 			<Option target="UCFQuSim"/>
 		</Unit>
@@ -126,6 +132,12 @@
 			<Option target="UCFQuSim"/>
 		</Unit>
 		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h">
 			<Option target="UCFQuSim"/>
 		</Unit>
 		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CHadamard.cpp">
@@ -294,6 +306,12 @@
 			<Option target="UCFQuSim"/>
 		</Unit>
 		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.h">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.cpp">
+			<Option target="UCFQuSim"/>
+		</Unit>
+		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.h">
 			<Option target="UCFQuSim"/>
 		</Unit>
 		<Unit filename="C:/Users/YUSHAH/CLionProjects/UCFQuSim/main.cpp">

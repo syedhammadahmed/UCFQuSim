@@ -230,6 +230,33 @@ core/QuCircuit.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.s
 .PHONY : core/QuCircuit.cpp.s
 
+core/QuCircuitBuilder.obj: core/QuCircuitBuilder.cpp.obj
+
+.PHONY : core/QuCircuitBuilder.obj
+
+# target to build an object file
+core/QuCircuitBuilder.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj
+.PHONY : core/QuCircuitBuilder.cpp.obj
+
+core/QuCircuitBuilder.i: core/QuCircuitBuilder.cpp.i
+
+.PHONY : core/QuCircuitBuilder.i
+
+# target to preprocess a source file
+core/QuCircuitBuilder.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.i
+.PHONY : core/QuCircuitBuilder.cpp.i
+
+core/QuCircuitBuilder.s: core/QuCircuitBuilder.cpp.s
+
+.PHONY : core/QuCircuitBuilder.s
+
+# target to generate assembly for a file
+core/QuCircuitBuilder.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.s
+.PHONY : core/QuCircuitBuilder.cpp.s
+
 core/QuGateFactory.obj: core/QuGateFactory.cpp.obj
 
 .PHONY : core/QuGateFactory.obj
@@ -337,6 +364,33 @@ core/QuSimulator.s: core/QuSimulator.cpp.s
 core/QuSimulator.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.s
 .PHONY : core/QuSimulator.cpp.s
+
+core/Util.obj: core/Util.cpp.obj
+
+.PHONY : core/Util.obj
+
+# target to build an object file
+core/Util.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj
+.PHONY : core/Util.cpp.obj
+
+core/Util.i: core/Util.cpp.i
+
+.PHONY : core/Util.i
+
+# target to preprocess a source file
+core/Util.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/Util.cpp.i
+.PHONY : core/Util.cpp.i
+
+core/Util.s: core/Util.cpp.s
+
+.PHONY : core/Util.s
+
+# target to generate assembly for a file
+core/Util.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/Util.cpp.s
+.PHONY : core/Util.cpp.s
 
 core/gates/CHadamard.obj: core/gates/CHadamard.cpp.obj
 
@@ -1094,6 +1148,33 @@ core/gates/Z.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.s
 .PHONY : core/gates/Z.cpp.s
 
+evaluation/QuCircuitEvaluator.obj: evaluation/QuCircuitEvaluator.cpp.obj
+
+.PHONY : evaluation/QuCircuitEvaluator.obj
+
+# target to build an object file
+evaluation/QuCircuitEvaluator.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj
+.PHONY : evaluation/QuCircuitEvaluator.cpp.obj
+
+evaluation/QuCircuitEvaluator.i: evaluation/QuCircuitEvaluator.cpp.i
+
+.PHONY : evaluation/QuCircuitEvaluator.i
+
+# target to preprocess a source file
+evaluation/QuCircuitEvaluator.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.i
+.PHONY : evaluation/QuCircuitEvaluator.cpp.i
+
+evaluation/QuCircuitEvaluator.s: evaluation/QuCircuitEvaluator.cpp.s
+
+.PHONY : evaluation/QuCircuitEvaluator.s
+
+# target to generate assembly for a file
+evaluation/QuCircuitEvaluator.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.s
+.PHONY : evaluation/QuCircuitEvaluator.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -1142,6 +1223,9 @@ help:
 	@echo ... core/QuCircuit.obj
 	@echo ... core/QuCircuit.i
 	@echo ... core/QuCircuit.s
+	@echo ... core/QuCircuitBuilder.obj
+	@echo ... core/QuCircuitBuilder.i
+	@echo ... core/QuCircuitBuilder.s
 	@echo ... core/QuGateFactory.obj
 	@echo ... core/QuGateFactory.i
 	@echo ... core/QuGateFactory.s
@@ -1154,6 +1238,9 @@ help:
 	@echo ... core/QuSimulator.obj
 	@echo ... core/QuSimulator.i
 	@echo ... core/QuSimulator.s
+	@echo ... core/Util.obj
+	@echo ... core/Util.i
+	@echo ... core/Util.s
 	@echo ... core/gates/CHadamard.obj
 	@echo ... core/gates/CHadamard.i
 	@echo ... core/gates/CHadamard.s
@@ -1238,6 +1325,9 @@ help:
 	@echo ... core/gates/Z.obj
 	@echo ... core/gates/Z.i
 	@echo ... core/gates/Z.s
+	@echo ... evaluation/QuCircuitEvaluator.obj
+	@echo ... evaluation/QuCircuitEvaluator.i
+	@echo ... evaluation/QuCircuitEvaluator.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
