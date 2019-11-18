@@ -537,6 +537,45 @@ CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.s"
 	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\YUSHAH\CLionProjects\UCFQuSim\core\QuInstruction.cpp -o CMakeFiles\UCFQuSim.dir\core\QuInstruction.cpp.s
 
+CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj: CMakeFiles/UCFQuSim.dir/flags.make
+CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj: ../core/Util.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\YUSHAH\CLionProjects\UCFQuSim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\UCFQuSim.dir\core\Util.cpp.obj -c C:\Users\YUSHAH\CLionProjects\UCFQuSim\core\Util.cpp
+
+CMakeFiles/UCFQuSim.dir/core/Util.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/UCFQuSim.dir/core/Util.cpp.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\YUSHAH\CLionProjects\UCFQuSim\core\Util.cpp > CMakeFiles\UCFQuSim.dir\core\Util.cpp.i
+
+CMakeFiles/UCFQuSim.dir/core/Util.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/UCFQuSim.dir/core/Util.cpp.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\YUSHAH\CLionProjects\UCFQuSim\core\Util.cpp -o CMakeFiles\UCFQuSim.dir\core\Util.cpp.s
+
+CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: CMakeFiles/UCFQuSim.dir/flags.make
+CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../evaluation/QuCircuitEvaluator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\YUSHAH\CLionProjects\UCFQuSim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\UCFQuSim.dir\evaluation\QuCircuitEvaluator.cpp.obj -c C:\Users\YUSHAH\CLionProjects\UCFQuSim\evaluation\QuCircuitEvaluator.cpp
+
+CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\YUSHAH\CLionProjects\UCFQuSim\evaluation\QuCircuitEvaluator.cpp > CMakeFiles\UCFQuSim.dir\evaluation\QuCircuitEvaluator.cpp.i
+
+CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\YUSHAH\CLionProjects\UCFQuSim\evaluation\QuCircuitEvaluator.cpp -o CMakeFiles\UCFQuSim.dir\evaluation\QuCircuitEvaluator.cpp.s
+
+CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: CMakeFiles/UCFQuSim.dir/flags.make
+CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/QuCircuitBuilder.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\YUSHAH\CLionProjects\UCFQuSim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\UCFQuSim.dir\core\QuCircuitBuilder.cpp.obj -c C:\Users\YUSHAH\CLionProjects\UCFQuSim\core\QuCircuitBuilder.cpp
+
+CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\YUSHAH\CLionProjects\UCFQuSim\core\QuCircuitBuilder.cpp > CMakeFiles\UCFQuSim.dir\core\QuCircuitBuilder.cpp.i
+
+CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\YUSHAH\CLionProjects\UCFQuSim\core\QuCircuitBuilder.cpp -o CMakeFiles\UCFQuSim.dir\core\QuCircuitBuilder.cpp.s
+
 # Object files for target UCFQuSim
 UCFQuSim_OBJECTS = \
 "CMakeFiles/UCFQuSim.dir/main.cpp.obj" \
@@ -575,7 +614,10 @@ UCFQuSim_OBJECTS = \
 "CMakeFiles/UCFQuSim.dir/core/gates/Toffoli.cpp.obj" \
 "CMakeFiles/UCFQuSim.dir/core/gates/NoOp.cpp.obj" \
 "CMakeFiles/UCFQuSim.dir/ShortestPathFinder.cpp.obj" \
-"CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj"
+"CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj" \
+"CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj" \
+"CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj" \
+"CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj"
 
 # External object files for target UCFQuSim
 UCFQuSim_EXTERNAL_OBJECTS =
@@ -617,11 +659,14 @@ UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/core/gates/Toffoli.cpp.obj
 UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/core/gates/NoOp.cpp.obj
 UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/ShortestPathFinder.cpp.obj
 UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj
+UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj
+UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj
+UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj
 UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/build.make
 UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/linklibs.rsp
 UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/objects1.rsp
 UCFQuSim.exe: CMakeFiles/UCFQuSim.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\YUSHAH\CLionProjects\UCFQuSim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Linking CXX executable UCFQuSim.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\YUSHAH\CLionProjects\UCFQuSim\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Linking CXX executable UCFQuSim.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\UCFQuSim.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

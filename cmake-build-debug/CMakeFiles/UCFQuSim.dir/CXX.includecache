@@ -12,22 +12,6 @@ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
 ostream
 -
 
-C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.cpp
-iostream
--
-fstream
--
-sstream
--
-QuCircuit.h
-C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
-QuGateFactory.h
-C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.h
-../ShortestPathFinder.h
-C:/Users/YUSHAH/CLionProjects/UCFQuSim/ShortestPathFinder.h
-QuInstruction.h
-C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
-
 C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
 vector
 -
@@ -50,7 +34,27 @@ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
 string
 -
 
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
+string
+-
+
 C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
 ../QuBit.h
 C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
+
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.cpp
+QuCircuitEvaluator.h
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.h
+../core/Util.h
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
+../ShortestPathFinder.h
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/ShortestPathFinder.h
+../core/QuGateFactory.h
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.h
+iostream
+-
+
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.h
+../core/QuCircuit.h
+C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
 

@@ -8,10 +8,12 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuArchitecture.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuBit.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuitBuilder.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuRegister.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuRegister.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CHadamard.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/CHadamard.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CNot.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/CNot.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CRz.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/CRz.cpp.obj"
@@ -40,6 +42,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/X.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/X.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Y.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Y.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/main.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
