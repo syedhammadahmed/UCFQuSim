@@ -10,6 +10,7 @@
 #include <string>
 #include "gates/QuGate.h"
 #include "QuInstruction.h"
+#include "QuMapping.h"
 
 using namespace std;
 
@@ -18,8 +19,10 @@ class QuCircuit {
 private:
     int rows; // # of physical quBits (max rows)
     int cols; // depth
-    int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
-    int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
+    int logicalToPhysicalMapping[16]; // logical to physical mapping of quBits : logical index -> physical elements
+    int physicalToLogicalMapping[16]; // physical to logical mapping of quBits : physical index -> logical elements
+//    int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
+//    int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
     int* quBitRecentLayer;
     QuBit* logicalQuBits;
     QuGate*** grid;
@@ -30,7 +33,8 @@ private:
     vector<QuGate*> instructionsV1; // modified qasm program after inserting swap and H instructions/qugates
 
     string fileName; // circuit input file name (absolute path)
-
+    QuMapping mapping;
+    vector<int> swapPath;
 public:
     QuCircuit();
     QuCircuit(int rows);
@@ -59,7 +63,7 @@ public:
     void printMappings();
     void printGrid();
     int findTotalSwaps(int **couplingMap);
-    int swapAlongPath(int *parent, int source, int destination);
+    vector<int> swapAlongPath(int *parent, int source, int destination);
     void printInstructions();
 
 //    void build(string fileName);

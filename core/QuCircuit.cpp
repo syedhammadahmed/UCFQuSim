@@ -13,13 +13,19 @@
 
 using namespace std;
 
-QuCircuit::QuCircuit(int rows): rows(rows), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
+QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL), mapping(rows) {
     init1();
 }
+//QuCircuit::QuCircuit(int rows): rows(rows), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
+//    init1();
+//}
 
-QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
+QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), grid(NULL), mapping(rows) {
     init1();
 }
+//QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
+//    init1();
+//}
 
 /*
 QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
@@ -98,8 +104,8 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 
 
 QuCircuit::~QuCircuit() {
-    delete [] logicalToPhysicalMapping;
-    delete [] physicalToLogicalMapping;
+//    delete [] logicalToPhysicalMapping;
+//    delete [] physicalToLogicalMapping;
     delete [] logicalQuBits;
 //    for(int i=0; i<rows; i++)
 //        delete [] grid[i];
@@ -120,17 +126,18 @@ QuCircuit::~QuCircuit() {
 //}
 
 void QuCircuit::run() {
-    std::cout << "Circuit execution start..." << std::endl;
+    cout << "Circuit execution start..." << endl;
     // todo: apply each gate depth-wise
-    std::cout << "Circuit execution end..." << std::endl;
+    cout << "Circuit execution end..." << endl;
 }
 
 void QuCircuit::addMapping(int logicalQuBit, int physicalQuBit) {
-    logicalToPhysicalMapping[logicalQuBit] = physicalQuBit;
-    physicalToLogicalMapping[physicalQuBit] = logicalQuBit;
+    mapping.setLogicalMapping(physicalQuBit, logicalQuBit);
+//    logicalToPhysicalMapping[logicalQuBit] = physicalQuBit;
+//    physicalToLogicalMapping[physicalQuBit] = logicalQuBit;
 }
 
-std::ostream &operator<<(std::ostream &os, const QuCircuit &circuit) {
+ostream &operator<<(ostream &os, const QuCircuit &circuit) {
     int temp = 0;
     for (int i = 0; i < circuit.rows; i++) {
 //        temp = 0;
@@ -157,15 +164,15 @@ std::ostream &operator<<(std::ostream &os, const QuCircuit &circuit) {
             } else
                 os << "~ ";
         }
-        os << std::endl;
+        os << endl;
     }
     return os;
 }
 
 // initializes the 1D arrays - qubits, mappings, etc.
 void QuCircuit::init1() {
-    logicalToPhysicalMapping = new int[rows];
-    physicalToLogicalMapping = new int[rows];
+//    logicalToPhysicalMapping = new int[rows];
+//    physicalToLogicalMapping = new int[rows];
     logicalQuBits = new QuBit[rows];
 }
 
@@ -194,39 +201,55 @@ void QuCircuit::printGrid(){
 }
 
 void QuCircuit::initializeMappings(int** couplingMap){
-    if(couplingMap == NULL){
-        for(int i=0; i<rows; i++) {
-            logicalToPhysicalMapping[i] = i; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
-            physicalToLogicalMapping[i] = i; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
-        }
-    }
-    else {
-//    int k = 1;
-//    quBitConfiguration[0] = 0;
-//    for(int i = 0; k < rows && i < rows; i++)
-//        for(int j = i + 1; k < rows && j < rows; j++)
-//            if((quBitConfiguration[k] == -1) && ((couplingMap[i][j] == 1) || (couplingMap[i][j] == -1)))
-//                quBitConfiguration[k++] = j;
-    }
+    mapping.init(couplingMap);
 //    printMappings();
 }
 
-int QuCircuit::swapAlongPath(int* parent, int source, int destination)
+vector<int> QuCircuit::swapAlongPath(int* parent, int source, int destination)
 {
     int count = 0;
+
     if (parent[destination] != -1){
-        count = swapAlongPath(parent, source, parent[destination]) + 1;
-        std::cout << "Swap: <" << parent[destination] << ", " << destination << ">" << std::endl;
-        swap(logicalToPhysicalMapping[physicalToLogicalMapping[parent[destination]]], logicalToPhysicalMapping[physicalToLogicalMapping[destination]]);
-        swap(physicalToLogicalMapping[parent[destination]], physicalToLogicalMapping[destination]);
+//        count = swapAlongPath(parent, mapping.getPhysicalBit(mapping.getLogicalMapping(source)), mapping.getPhysicalBit(mapping.getLogicalMapping(parent[destination]))) + 1;
+        swapAlongPath(parent, source, parent[destination]);
+//        count = swapAlongPath(parent, source, parent[destination]) + 1;
+//        cout << "(" << source << " | ) " << destination << " -> ";
+        cout << "Swap: <";
+        cout << mapping.getLogicalMapping(source) << ", "
+             << mapping.getLogicalMapping(destination) << ">" << endl;
+        swapPath.push_back(destination);
+//        mapping.quSwap(source, destination);
+//        int temp = mapping.getLogicalMapping(parent[destination]);
+//        mapping.setLogicalMapping(parent[destination], mapping.getLogicalMapping(destination));
+//        mapping.setLogicalMapping(destination, temp);
         QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
         int* args = swapGate -> getArgIndex();
-        args[0] = source;
-        args[1] = destination;
+        args[0] = mapping.getLogicalMapping(source);
+        args[1] = mapping.getLogicalMapping(destination);
         instructionsV1.push_back(swapGate);
     }
-    return count;
+    return swapPath;
 }
+
+
+//int QuCircuit::swapAlongPath(int* parent, int source, int destination)
+//{
+//    int count = 0;
+//    if (parent[destination] != -1){
+//        count = swapAlongPath(parent, source, parent[destination]) + 1;
+//        cout << "Swap: <";
+//        cout << physicalToLogicalMapping[source] << ", " << physicalToLogicalMapping[destination] << ">" << endl;
+//        swap(physicalToLogicalMapping[parent[destination]], physicalToLogicalMapping[destination]);
+//        swap(logicalToPhysicalMapping[physicalToLogicalMapping[parent[destination]]], logicalToPhysicalMapping[physicalToLogicalMapping[destination]]);
+//
+//        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
+//        int* args = swapGate -> getArgIndex();
+//        args[0] = physicalToLogicalMapping[source];
+//        args[1] = physicalToLogicalMapping[destination];
+//        instructionsV1.push_back(swapGate);
+//    }
+//    return count;
+//}
 
 int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
     ShortestPathFinder spf(couplingMap, rows);
@@ -234,12 +257,16 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
     int inputs = quGate -> getCardinality(); // # of qubits in a gate
     int* quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
     int swaps = 0;
-    int physicalIndex1 = logicalToPhysicalMapping[quBitIndexes[0]];
+    int physicalIndex1 = mapping.getPhysicalBit(quBitIndexes[0]);
     parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
     if(inputs == 2){
-        int physicalIndex2 = logicalToPhysicalMapping[quBitIndexes[1]];
+        int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
         cout << "Finding swaps from " << quBitIndexes[0] << " to " << quBitIndexes[1] << " : " << endl;
-        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
+        swapPath.clear();
+        swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
+        mapping.fixMappings(physicalIndex1, swapPath);
+//        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
+        swaps = swapPath.size();
         if(swaps == 0)
             cout << "No swap required!" << endl;
         printMappings();
@@ -248,10 +275,32 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
     return swaps;
 }
 
+//int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
+//    ShortestPathFinder spf(couplingMap, rows);
+//    int* parent = NULL;
+//    int inputs = quGate -> getCardinality(); // # of qubits in a gate
+//    int* quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
+//    int swaps = 0;
+//    int physicalIndex1 = mapping.getPhysicalBit(quBitIndexes[0]);
+//    parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
+//    if(inputs == 2){
+//        int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
+//        cout << "Finding swaps from " << quBitIndexes[0] << " to " << quBitIndexes[1] << " : " << endl;
+//        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
+////        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
+//        if(swaps == 0)
+//            cout << "No swap required!" << endl;
+//        printMappings();
+//    }
+//    instructionsV1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
+//    return swaps;
+//}
+
 void QuCircuit::printMappings() {
     cout << "Printing physical-logical qubit mappings: " << endl;
     for(int i = 0; i < rows; i++) {
-        cout << "Q" << i << " -> q" << physicalToLogicalMapping[i] << endl;
+        cout << "Q" << i << " -> q" << mapping.getLogicalMapping(i) << endl;
+//        cout << "Q" << i << " -> q" << physicalToLogicalMapping[i] << endl;
     }
     cout << endl;
 //    cout << "Printing logical-physical qubit mappings: " << endl;
