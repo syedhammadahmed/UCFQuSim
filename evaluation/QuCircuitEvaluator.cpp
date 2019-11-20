@@ -40,30 +40,31 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
     int arg1 = 0;
     int arg2 = 0;
     vector<QuGate*> instructions = circuit.getInstructions();
-    cout << "Before evaluation: " << endl;
-    printMappings();
+//    cout << "Before evaluation: " << endl;
+//    printMappings();
     try {
         for (QuGate *quGate: instructions) {
-            cout << endl;
+//            cout << endl;
 //            printMappings();
-            cout << endl;
+//            cout << endl;
             string quGateName = Util::toLower(quGate->getMnemonic());
             arg1 = quGate -> getArgIndex()[0];
-            cout << "Evaluating instruction: " << *quGate << " : ";
+//            cout << "Evaluating instruction: " << *quGate << " : ";
             if (quGate -> getCardinality() > 1) {
                 arg2 = quGate->getArgIndex()[1];
                 if(quGateName == "swap") {
                     swap(logicalToPhysicalMapping[arg1],logicalToPhysicalMapping[arg2]);
                     swap(physicalToLogicalMapping[logicalToPhysicalMapping[arg1]], physicalToLogicalMapping[logicalToPhysicalMapping[arg2]]);
-                    cout << "pass: default" << endl;
+//                    cout << "pass: default" << endl;
                 }
                 else{
                     if((couplingMap[logicalToPhysicalMapping[arg1]][logicalToPhysicalMapping[arg2]] == 1)
-                         || (couplingMap[logicalToPhysicalMapping[arg1]][logicalToPhysicalMapping[arg2]]) == -1)
-                        cout << "pass: qubits adjacent!" << endl;
+                         || (couplingMap[logicalToPhysicalMapping[arg1]][logicalToPhysicalMapping[arg2]]) == -1){
+//                        cout << "pass: qubits adjacent!" << endl;
                     // todo need to check for H gate - for the case where direction is different
+                    }
                     else{
-                        cout << "fail: qubits not adjacent!" << endl;
+//                        cout << "fail: qubits not adjacent!" << endl;
                         satisfied = false;
 //                        break;
                     }
@@ -71,15 +72,19 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
                 }
             }
             else{
-                cout << "pass : default" << endl;
+//                cout << "pass : default" << endl;
             }
         }
-    cout << "After evaluation: " << endl;
-    printMappings();
+//    cout << "After evaluation: " << endl;
+//    printMappings();
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';
     }
 
+    if(satisfied)
+        cout << "CNOT Constraints satisfied!" << endl;
+    else
+        cout << "CNOT Constraints NOT satisfied! Please make sure all non-unary gates have adjacent qubits!" << endl;
 
     return satisfied;
 }
