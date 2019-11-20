@@ -7,3 +7,5 @@
 void Measure::apply(QuBit *bit, int i) {
 
 }
+
+Measure::Measure(): QuGate(2, "m", "measure"){}

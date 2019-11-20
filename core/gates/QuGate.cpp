@@ -46,7 +46,6 @@ void QuGate::setPrintIndex(int printIndex) {
     QuGate::printIndex = printIndex;
 }
 
-
 std::string QuGate::getPrintSymbol() {
     if (printIndex >= 1)
         return printSymbol[printIndex];

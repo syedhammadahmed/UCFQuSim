@@ -12,6 +12,8 @@ class Measure : public QuGate {
 
 public:
     void apply(QuBit *bit, int i) override;
+
+    Measure();
 };
 
 

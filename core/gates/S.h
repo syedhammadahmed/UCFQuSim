@@ -11,6 +11,8 @@ class S : public QuGate {
 
 public:
     void apply(QuBit *bit, int i) override;
+
+    S();
 };
 
 #endif //UCFQUSIM_S_H

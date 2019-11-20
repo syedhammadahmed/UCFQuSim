@@ -7,3 +7,5 @@
 void S::apply(QuBit *bit, int i) {
 
 }
+
+S::S(): QuGate(1, "S", "s"){}
