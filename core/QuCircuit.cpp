@@ -258,7 +258,7 @@ vector<int> QuCircuit::swapAlongPath(int* parent, int source, int destination)
 
 int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    QuSwapStrategy* strategy = new QuNaiiveSwapper();
-    QuSwapStrategy* strategy = new QuSmartSwapper();
+    QuSwapStrategy* strategy = new QuNaiiveSwapper();
     return strategy->findSwaps(quGate, couplingMap, this);
 }
 
