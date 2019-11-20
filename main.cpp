@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <evaluation/QuMultiEvaluator.h>
 
 #include "core/gates/CNot.h"
 #include "core/gates/QuGate.h"
@@ -62,30 +63,20 @@ int main() {
 //    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
 
 //    QuCircuit circuit(inputDirectory + inputFileName, architectureQX3.getN());
-    QuCircuit circuit(architectureQX3.getN());
-    QuCircuitBuilder quCircuitBuilder(circuit);
-    quCircuitBuilder.buildFromFile(inputDirectory + inputFileName);
-//    circuit.initializeMappings(architectureQX3.getCouplingMap());
-    circuit.initializeMappings(NULL); // NULL is for trivial mapping x[i] = i
-    int totalSwaps = circuit.findTotalSwaps(architectureQX3.getCouplingMap());
-//    cout << "Circuit: " <<  endl << circuit;
 
-    circuit.printInstructions();
+    QuMultiEvaluator quMultiEvaluator(inputDirectory, architectureQX3);
+    quMultiEvaluator.evaluateAll();
 
-    quCircuitBuilder.setInstructions(circuit.getInstructionsV1());
-    quCircuitBuilder.makeProgramFile(inputDirectory + "output.qasm");
+//    QuCircuit testCircuit(architectureQX3.getN());
+//    QuCircuitBuilder testQuCircuitBuilder(testCircuit);
+//    testQuCircuitBuilder.buildFromFile(inputDirectory + "output.qasm");
+//    QuCircuitEvaluator quCircuitEvaluator(testCircuit);
+//    bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(architectureQX3.getCouplingMap());
+//    if(satisfied)
+//        cout << "CNOT Constraints satisfied!" << endl;
+//    else
+//        cout << "CNOT Constraints NOT satisfied! Please make sure all non-unary gates have adjacent qubits!" << endl;
 
-    cout << "Total Swaps Required: " << totalSwaps << endl;
-
-    QuCircuit testCircuit(architectureQX3.getN());
-    QuCircuitBuilder testQuCircuitBuilder(testCircuit);
-    testQuCircuitBuilder.buildFromFile(inputDirectory + "output.qasm");
-    QuCircuitEvaluator quCircuitEvaluator(testCircuit);
-    bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(architectureQX3.getCouplingMap());
-    if(satisfied)
-        cout << "CNOT Constraints satisfied!" << endl;
-    else
-        cout << "CNOT Constraints NOT satisfied! Please make sure all non-unary gates have adjacent qubits!" << endl;
 //    QuSimulator simulator(QU_BITS, MAX_DEPTH, circuit, architectureQX3);
 //    simulator.run();
 

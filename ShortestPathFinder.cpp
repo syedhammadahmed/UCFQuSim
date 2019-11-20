@@ -5,19 +5,23 @@
 #include <iostream>
 #include <cstdlib>
 #include "ShortestPathFinder.h"
+using namespace std;
 
 
-ShortestPathFinder::ShortestPathFinder(int **graph, int n): graph(graph), n(n) {
-    dist = new int*[n];
-    for (int i = 0; i < n; i++)
-        dist[i] = new int[n];
+ShortestPathFinder::ShortestPathFinder(int **graph, int n): graph(graph), dist(NULL), dist1D(NULL), n(n), parent(NULL) {
+    if(dist == NULL) {
+        dist = new int*[n];
+        for (int i = 0; i < n; i++)
+            dist[i] = new int[n];
 
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            dist[i][j] = graph[i][j];
-
-    dist1D = new int[n];
-    parent = new int[n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                dist[i][j] = graph[i][j];
+    }
+    if(dist1D == NULL)
+        dist1D = new int[n];
+    if(parent == NULL)
+        parent = new int[n];
 
 }
 
@@ -77,14 +81,14 @@ int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
     for (int i = 0; i < n; i++)
     {
         parent[i] = -1;
-        dist1D[i] = INT16_MAX;
+        dist1D[i] = INT32_MAX;  // set to +infinity
         shortestPathSet[i] = false;
     }
 
     dist1D[source] = 0;
 
     // Find shortest path for all vertices
-    for (int count = 0; count < n - 1; count++)
+    for (int count = 0; count < n; count++)
     {
         // Pick the minimum distance
         // vertex from the set of
@@ -118,7 +122,7 @@ int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
 
 
     }
-
+    delete [] shortestPathSet;
     return parent;
 }
 
@@ -128,12 +132,24 @@ int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
 // value, from the set of vertices
 // not yet included in shortest
 // path tree
-int ShortestPathFinder::findMin(int* dist, bool* shortestPathSet)
-{
-    int min = INT_MAX, min_index;
+int ShortestPathFinder::findMin(int* dist, bool* shortestPathSet){
+    int min = INT32_MAX, minIndex;
 
-    for (int v = 0; v < n; v++)
-        if (shortestPathSet[v] == false && dist[v] <= min)
-            min = dist[v], min_index = v;
-    return min_index;
+    for (int v = 0; v < n; v++){
+        if (shortestPathSet[v] == false && dist[v] <= min){
+            min = dist[v];
+            minIndex = v;
+        }
+    }
+    return minIndex;
+}
+
+ShortestPathFinder::~ShortestPathFinder() {
+//    cout << "~ShortestPathFinder()" << endl;
+    for (int i = 0; i < n; i++)
+        delete[] dist[i];
+    delete[] dist;
+
+    delete[] dist1D;
+    delete[] parent;
 }

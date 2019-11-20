@@ -29,6 +29,8 @@ public:
 //    int swapAlongPath(int *parent, int source, int destination);
 
     void swap(int &num1, int &num2);
+
+    virtual ~ShortestPathFinder();
 };
 
 
