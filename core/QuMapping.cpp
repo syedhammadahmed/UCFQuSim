@@ -5,8 +5,15 @@
 #include <cstdlib>
 #include "QuMapping.h"
 
-QuMapping::QuMapping(int n) : n(n) {
+QuMapping::QuMapping(int n) : physicalToLogical(NULL), n(n) {
     physicalToLogical = new int[n];
+}
+
+QuMapping::QuMapping(const QuMapping& arg):physicalToLogical(NULL), n(arg.n) {
+    physicalToLogical = new int[n];
+    for(int i=0; i<n; i++){
+        physicalToLogical[i] = arg.physicalToLogical[i];
+    }
 }
 
 QuMapping::~QuMapping() {
@@ -52,7 +59,10 @@ void QuMapping::quSwap(int i, int j) {
 }
 
 void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
-    for(int i: swapSeq){
-        quSwap(src, i);
+    if(swapSeq.empty())
+        return;
+    quSwap(src, swapSeq[0]);
+    for(int i=0; i<swapSeq.size()-1; i++){
+        quSwap(swapSeq[i], swapSeq[i+1]);
     }
 }

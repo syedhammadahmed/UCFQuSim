@@ -14,6 +14,9 @@ class QuMapping {
 
 public:
     QuMapping(int n);
+
+    QuMapping(const QuMapping& arg);
+
     virtual ~QuMapping();
 
     int getLogicalMapping(int physicalBit);
