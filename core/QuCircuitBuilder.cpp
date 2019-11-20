@@ -52,7 +52,7 @@ void QuCircuitBuilder::buildFromFile(string fileName) {
                     operandIndexes[i++] = stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1));
                 }
             }
-            if(quGate != "qreg" && quGate != "creg") {
+            if(quGate != "qreg" && quGate != "creg" && quGate != "measure") {
                 QuGate *newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     int* arr = newGate->getArgIndex();
@@ -142,7 +142,7 @@ bool QuCircuitBuilder::somethingInBetween(int row1, int row2, int layer) {
 
 void QuCircuitBuilder::makeProgramFile(string outputFileName) {
     ofstream ofs;
-    ofs.open(outputFileName);
+    ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
         for (QuGate *quGate: instructions) {
             string instruction = Util::toLower(quGate->getMnemonic()) + " q[" + to_string(quGate->getArgIndex()[0]) + "]";

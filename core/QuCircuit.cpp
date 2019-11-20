@@ -10,6 +10,9 @@
 #include "../ShortestPathFinder.h"
 #include "QuInstruction.h"
 #include "Util.h"
+#include "QuSwapStrategy.h"
+#include "QuNaiiveSwapper.h"
+#include "QuSmartSwapper.h"
 
 using namespace std;
 
@@ -214,14 +217,15 @@ vector<int> QuCircuit::swapAlongPath(int* parent, int source, int destination)
         swapAlongPath(parent, source, parent[destination]);
 //        count = swapAlongPath(parent, source, parent[destination]) + 1;
 //        cout << "(" << source << " | ) " << destination << " -> ";
-        cout << "Swap: <";
-        cout << mapping.getLogicalMapping(source) << ", "
-             << mapping.getLogicalMapping(destination) << ">" << endl;
+//        cout << "Swap: <";
+//        cout << mapping.getLogicalMapping(source) << ", "
+//             << mapping.getLogicalMapping(destination) << ">" << endl;
         swapPath.push_back(destination);
 //        mapping.quSwap(source, destination);
 //        int temp = mapping.getLogicalMapping(parent[destination]);
 //        mapping.setLogicalMapping(parent[destination], mapping.getLogicalMapping(destination));
 //        mapping.setLogicalMapping(destination, temp);
+
         QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
         int* args = swapGate -> getArgIndex();
         args[0] = mapping.getLogicalMapping(source);
@@ -251,29 +255,37 @@ vector<int> QuCircuit::swapAlongPath(int* parent, int source, int destination)
 //    return count;
 //}
 
+
 int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
-    ShortestPathFinder spf(couplingMap, rows);
-    int* parent = NULL;
-    int inputs = quGate -> getCardinality(); // # of qubits in a gate
-    int* quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
-    int swaps = 0;
-    int physicalIndex1 = mapping.getPhysicalBit(quBitIndexes[0]);
-    parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
-    if(inputs == 2){
-        int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
-        cout << "Finding swaps from " << quBitIndexes[0] << " to " << quBitIndexes[1] << " : " << endl;
-        swapPath.clear();
-        swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
-        mapping.fixMappings(physicalIndex1, swapPath);
-//        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
-        swaps = swapPath.size();
-        if(swaps == 0)
-            cout << "No swap required!" << endl;
-        printMappings();
-    }
-    instructionsV1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
-    return swaps;
+//    QuSwapStrategy* strategy = new QuNaiiveSwapper();
+    QuSwapStrategy* strategy = new QuSmartSwapper();
+    return strategy->findSwaps(quGate, couplingMap, this);
 }
+
+
+//int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
+//    ShortestPathFinder spf(couplingMap, rows);
+//    int* parent = NULL;
+//    int inputs = quGate -> getCardinality(); // # of qubits in a gate
+//    int* quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
+//    int swaps = 0;
+//    int physicalIndex1 = mapping.getPhysicalBit(quBitIndexes[0]);
+//    parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
+//    if(inputs == 2){
+//        int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
+////        cout << "Finding swaps from " << quBitIndexes[0] << " to " << quBitIndexes[1] << " : " << endl;
+//        swapPath.clear();
+//        swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
+//        mapping.fixMappings(physicalIndex1, swapPath);
+////        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
+//        swaps = swapPath.size();
+////        if(swaps == 0)
+////            cout << "No swap required!" << endl;
+////        printMappings();
+//    }
+//    instructionsV1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
+//    return swaps;
+//}
 
 //int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, rows);
@@ -312,7 +324,10 @@ void QuCircuit::printMappings() {
 
 int QuCircuit::findTotalSwaps(int** couplingMap) {
     int total = 0;
+    int i = 1;
     for(QuGate* quGate: instructions){
+        cout << endl;
+        cout << "Instruction #: " << i++ << endl;
         total += findSwapsFor1Instruction(quGate, couplingMap);
     }
     return total;
@@ -344,10 +359,20 @@ void QuCircuit::setInstructions(const vector<QuGate*> instructions) {
     this -> instructions = instructions;
 }
 
-const vector<QuGate*> QuCircuit::getInstructionsV1() const{
+vector<QuGate*>& QuCircuit::getInstructionsV1(){
     return instructionsV1;
 }
 
 const vector<QuGate*> QuCircuit::getInstructions() const{
     return instructions;
 }
+
+QuMapping& QuCircuit::getMapping() {
+    return mapping;
+}
+
+vector<int>& QuCircuit::getSwapPath(){
+    return swapPath;
+}
+
+

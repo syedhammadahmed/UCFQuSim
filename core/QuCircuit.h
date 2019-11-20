@@ -73,10 +73,12 @@ public:
     void setGrid(QuGate ***grid);
     void setInstructions(const vector<QuGate*> instructions);
 
-    const vector<QuGate*> getInstructionsV1() const;
-
+    vector<QuGate*>& getInstructionsV1();
     const vector<QuGate*> getInstructions() const;
 
+    QuMapping& getMapping();
+
+    vector<int> &getSwapPath();
 };
 
 
