@@ -7,8 +7,13 @@
 
 
 #include <vector>
+#include <iostream>
+#include "QuArchitecture.h"
+
+using namespace std;
 
 class QuMapping {
+private:
     int* physicalToLogical;
     int n;
 
@@ -22,13 +27,14 @@ public:
     int getLogicalMapping(int physicalBit);
     void setLogicalMapping(int physicalBit, int logicalBit);
 
-    void init(int **couplingMap);
+    void init(int initializingPolicy);
 
     int getPhysicalBit(int logicalBit);
 
     void quSwap(int i, int j);
 
     void fixMappings(int src, std::vector<int> swapSeq);
+    void print();
 };
 
 

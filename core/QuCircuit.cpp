@@ -13,6 +13,7 @@
 #include "QuSwapStrategy.h"
 #include "QuNaiiveSwapper.h"
 #include "QuSmartSwapper.h"
+#include "QuArchitecture.h"
 
 using namespace std;
 
@@ -203,37 +204,36 @@ void QuCircuit::printGrid(){
     cout << endl;
 }
 
-void QuCircuit::initializeMappings(int** couplingMap){
-    mapping.init(couplingMap);
+void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
+//    mapping.init(0);
 //    printMappings();
 }
 
-vector<int> QuCircuit::swapAlongPath(int* parent, int source, int destination)
-{
-    int count = 0;
-
-    if (parent[destination] != -1){
-//        count = swapAlongPath(parent, mapping.getPhysicalBit(mapping.getLogicalMapping(source)), mapping.getPhysicalBit(mapping.getLogicalMapping(parent[destination]))) + 1;
-        swapAlongPath(parent, source, parent[destination]);
-//        count = swapAlongPath(parent, source, parent[destination]) + 1;
-//        cout << "(" << source << " | ) " << destination << " -> ";
-//        cout << "Swap: <";
-//        cout << mapping.getLogicalMapping(source) << ", "
-//             << mapping.getLogicalMapping(destination) << ">" << endl;
-        swapPath.push_back(destination);
-//        mapping.quSwap(source, destination);
-//        int temp = mapping.getLogicalMapping(parent[destination]);
-//        mapping.setLogicalMapping(parent[destination], mapping.getLogicalMapping(destination));
-//        mapping.setLogicalMapping(destination, temp);
-
-        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
-        int* args = swapGate -> getArgIndex();
-        args[0] = mapping.getLogicalMapping(source);
-        args[1] = mapping.getLogicalMapping(destination);
-        instructionsV1.push_back(swapGate);
-    }
-    return swapPath;
-}
+//vector<int> QuCircuit::swapAlongPath(int* parent, int source, int destination) {
+//    int count = 0;
+//
+//    if (parent[destination] != -1){
+////        count = swapAlongPath(parent, mapping.getPhysicalBit(mapping.getLogicalMapping(source)), mapping.getPhysicalBit(mapping.getLogicalMapping(parent[destination]))) + 1;
+//        swapAlongPath(parent, source, parent[destination]);
+////        count = swapAlongPath(parent, source, parent[destination]) + 1;
+////        cout << "(" << source << " | ) " << destination << " -> ";
+////        cout << "Swap: <";
+////        cout << mapping.getLogicalMapping(source) << ", "
+////             << mapping.getLogicalMapping(destination) << ">" << endl;
+//        swapPath.push_back(destination);
+////        mapping.quSwap(source, destination);
+////        int temp = mapping.getLogicalMapping(parent[destination]);
+////        mapping.setLogicalMapping(parent[destination], mapping.getLogicalMapping(destination));
+////        mapping.setLogicalMapping(destination, temp);
+//
+//        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
+//        int* args = swapGate -> getArgIndex();
+//        args[0] = mapping.getLogicalMapping(source);
+//        args[1] = mapping.getLogicalMapping(destination);
+//        instructionsV1.push_back(swapGate);
+//    }
+//    return swapPath;
+//}
 
 
 //int QuCircuit::swapAlongPath(int* parent, int source, int destination)
@@ -257,9 +257,9 @@ vector<int> QuCircuit::swapAlongPath(int* parent, int source, int destination)
 
 
 int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
-//    QuSwapStrategy* strategy = new QuNaiiveSwapper();
-    QuSwapStrategy* strategy = new QuNaiiveSwapper();
-    return strategy->findSwaps(quGate, couplingMap, this);
+//    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
+    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
+    return strategy->findSwapsFor1Instruction(quGate, couplingMap);
 }
 
 
@@ -322,15 +322,9 @@ void QuCircuit::printMappings() {
 //    cout << endl;
 }
 
-int QuCircuit::findTotalSwaps(int** couplingMap) {
-    int total = 0;
-    int i = 1;
-    for(QuGate* quGate: instructions){
-        cout << endl;
-        cout << "Instruction #: " << i++ << endl;
-        total += findSwapsFor1Instruction(quGate, couplingMap);
-    }
-    return total;
+int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
+    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
+    return strategy->findTotalSwaps(quArchitecture);
 }
 
 void QuCircuit::printInstructions() {
@@ -371,8 +365,8 @@ QuMapping& QuCircuit::getMapping() {
     return mapping;
 }
 
-vector<int>& QuCircuit::getSwapPath(){
-    return swapPath;
-}
-
+//vector<int>& QuCircuit::getSwapPath(){
+//    return swapPath;
+//}
+//
 

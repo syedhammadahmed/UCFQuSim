@@ -10,9 +10,16 @@
 #include "QuCircuit.h"
 
 class QuSwapStrategy {
+protected:
+    QuCircuit& circuit;
+    int programCounter;
+    vector<int> swapPath;
 public:
-    virtual int findSwaps(QuGate *quGate, int **couplingMap, QuCircuit* circuit) = 0;
-
+    virtual int findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) = 0;
+    virtual int findTotalSwaps(QuArchitecture& quArchitecture) = 0;
+    QuSwapStrategy(QuCircuit& circuit);
+    virtual vector<int> swapAlongPath(int* parent, int source, int destination) = 0;
+    virtual QuMapping getCurrentMapping() = 0;
 };
 
 

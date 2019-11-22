@@ -11,6 +11,7 @@
 #include "gates/QuGate.h"
 #include "QuInstruction.h"
 #include "QuMapping.h"
+#include "QuArchitecture.h"
 
 using namespace std;
 
@@ -34,7 +35,8 @@ private:
 
     string fileName; // circuit input file name (absolute path)
     QuMapping mapping;
-    vector<int> swapPath;
+//    vector<int> swapPath;
+
 public:
     QuCircuit();
     QuCircuit(int rows);
@@ -59,10 +61,10 @@ public:
     void initQuBitMappings(int **couplingMap);
     int findSwapsFor1Instruction(QuGate* quGate, int **couplingMap);
     void initializeMappings();
-    void initializeMappings(int **couplingMap);
+    void initializeMappings(QuArchitecture& quArchitecture);
     void printMappings();
     void printGrid();
-    int findTotalSwaps(int **couplingMap);
+    int findTotalSwaps(QuArchitecture& quArchitecture);
     vector<int> swapAlongPath(int *parent, int source, int destination);
     void printInstructions();
 
@@ -77,8 +79,9 @@ public:
     const vector<QuGate*> getInstructions() const;
 
     QuMapping& getMapping();
+//
+//    vector<int> &getSwapPath();
 
-    vector<int> &getSwapPath();
 };
 
 

@@ -3,3 +3,8 @@
 //
 
 #include "QuSwapStrategy.h"
+#include "QuGateFactory.h"
+
+QuSwapStrategy::QuSwapStrategy(QuCircuit &circuit): circuit(circuit), programCounter(0) {
+
+}
