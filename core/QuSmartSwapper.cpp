@@ -7,36 +7,36 @@
 #include "QuSmartSwapper.h"
 #include "QuGateFactory.h"
 
-
-void QuSmartSwapper::findAllMappings(int src, int dest, QuCircuit *circuit) {
-    vector<int>& swapSequence = swapPath;
-//    vector<int>& swapSequence = circuit->getSwapPath();
-    // get the path
-    int totalMoves = swapSequence.size()-2;
-
-//    for(int i=0; i<swapSequence.size(); i++)
-//        cout << swapSequence[i] << " ";
-//    cout << endl;
-
-    for(int i=0; i<totalMoves+1; i++){
-        QuMapping mapping(circuit->getMapping());  // todo save mappings for each permutation in instructionWiseMappings
-        cout << "Permutation #: " << i+1 << endl;
-        int srcMoves = totalMoves - i;
-        int destMoves = i;
-        for(int j=0; j<srcMoves; j++)
-            cout << "Swap: <" << src << ", " << swapSequence[j+1] << ">" << endl;
-        for(int j=0; j<destMoves; j++)
-            cout << "Swap: <" << swapSequence[totalMoves-j] << ", " << dest << ">" << endl;
-        if(swapSequence.size()>0)
-            swapSequence.pop_back();
-        if(swapSequence.size()>0)
-            swapSequence.erase(swapSequence.begin());
-        mapping.fixMappings(swapSequence[0], swapSequence);
-        instructionWiseMappings[programCounter].push_back(mapping); // todo need to insert for ith instruction instead of 0th
-    }
-//    printMappings();
-
-}
+//
+//void QuSmartSwapper::findAllMappings(int src, int dest, QuCircuit *circuit) {
+//    vector<int>& swapSequence = swapPath;
+////    vector<int>& swapSequence = circuit->getSwapPath();
+//    // get the path
+//    int totalMoves = swapSequence.size()-2;
+//
+////    for(int i=0; i<swapSequence.size(); i++)
+////        cout << swapSequence[i] << " ";
+////    cout << endl;
+//
+//    for(int i=0; i<totalMoves+1; i++){
+//        QuMapping mapping(circuit->getMapping());  // todo save mappings for each permutation in instructionWiseMappings
+//        cout << "Permutation #: " << i+1 << endl;
+//        int srcMoves = totalMoves - i;
+//        int destMoves = i;
+//        for(int j=0; j<srcMoves; j++)
+//            cout << "Swap: <" << src << ", " << swapSequence[j+1] << ">" << endl;
+//        for(int j=0; j<destMoves; j++)
+//            cout << "Swap: <" << swapSequence[totalMoves-j] << ", " << dest << ">" << endl;
+//        if(swapSequence.size()>0)
+//            swapSequence.pop_back();
+//        if(swapSequence.size()>0)
+//            swapSequence.erase(swapSequence.begin());
+//        mapping.fixMappings(swapSequence[0], swapSequence);
+//        instructionWiseMappings[programCounter].push_back(mapping); // todo need to insert for ith instruction instead of 0th
+//    }
+////    printMappings();
+//
+//}
 
 QuMapping QuSmartSwapper::getCurrentMapping() {
     QuMapping currentMapping = initialMapping;
