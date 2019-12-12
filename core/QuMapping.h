@@ -18,6 +18,7 @@ private:
     int n;
 
 public:
+    static const int DEFAULT;
     QuMapping(int n);
 
     QuMapping(const QuMapping& arg);

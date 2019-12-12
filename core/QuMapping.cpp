@@ -6,6 +6,8 @@
 #include "QuMapping.h"
 #include "QuArchitecture.h"
 
+const int QuMapping::DEFAULT = 0;
+
 QuMapping::QuMapping(int n) : physicalToLogical(NULL), n(n) {
     physicalToLogical = new int[n];
     init(0);
