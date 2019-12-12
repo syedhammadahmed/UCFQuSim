@@ -23,8 +23,10 @@ public:
 
 //    void findAllMappings(int src, int dest, QuCircuit *circuit);
     void printMappings();
-    vector<QuMapping> findAllMappings();
 
+    vector<QuMapping> getAllMappingsForCurrentInstruction();
+
+    vector<QuMapping> findAllMappingsFromPermutations(QuMapping& mapping, vector<int> sequence);
 };
 
 
