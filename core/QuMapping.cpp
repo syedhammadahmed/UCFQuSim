@@ -8,20 +8,31 @@
 
 const int QuMapping::DEFAULT = 0;
 
-QuMapping::QuMapping(int n) : physicalToLogical(NULL), n(n) {
-    physicalToLogical = new int[n];
+//todo uncomment to restore dynamic array logic
+//QuMapping::QuMapping(int n) : physicalToLogical(NULL), n(n) {
+//    physicalToLogical = new int[n];
+//    init(0);
+//}
+//
+//QuMapping::QuMapping(const QuMapping& arg):physicalToLogical(NULL), n(arg.n) {
+//    physicalToLogical = new int[n];
+//    for(int i=0; i<n; i++){
+//        physicalToLogical[i] = arg.physicalToLogical[i];
+//    }
+//}
+//
+//QuMapping::~QuMapping() {
+//    delete [] physicalToLogical;
+//}
+
+QuMapping::QuMapping(int n) : n(n) {
     init(0);
 }
 
-QuMapping::QuMapping(const QuMapping& arg):physicalToLogical(NULL), n(arg.n) {
-    physicalToLogical = new int[n];
+QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
     for(int i=0; i<n; i++){
         physicalToLogical[i] = arg.physicalToLogical[i];
     }
-}
-
-QuMapping::~QuMapping() {
-    delete [] physicalToLogical;
 }
 
 void QuMapping::init(int initializingPolicy) {  // 0 = default
@@ -63,6 +74,12 @@ void QuMapping::quSwap(int i, int j) {
     physicalToLogical[j] = temp;
 }
 
+//void QuMapping::quSwap(int i, int j) {
+//    int temp = physicalToLogical[getPhysicalBit(i)];
+//    physicalToLogical[getPhysicalBit(i)] = physicalToLogical[getPhysicalBit(j)];
+//    physicalToLogical[getPhysicalBit(j)] = temp;
+//}
+
 void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
     if(swapSeq.empty())
         return;
@@ -76,4 +93,12 @@ void QuMapping::print() {
     for(int i = 0; i < n; i++) {
         cout << "Q" << i << " -> q" << physicalToLogical[i] << endl;
     }
+}
+
+void QuMapping::quSwapLogical(int i, int j) {
+    int pi = getPhysicalBit(i);
+    int pj = getPhysicalBit(j);
+    int temp = physicalToLogical[pi];
+    physicalToLogical[pi] = physicalToLogical[pj];
+    physicalToLogical[pj] = temp;
 }

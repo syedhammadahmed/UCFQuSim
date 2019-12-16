@@ -14,7 +14,8 @@ using namespace std;
 
 class QuMapping {
 private:
-    int* physicalToLogical;
+//    int* physicalToLogical;  // todo revert to dynamic logic
+    int physicalToLogical[16];
     int n;
 
 public:
@@ -23,7 +24,7 @@ public:
 
     QuMapping(const QuMapping& arg);
 
-    virtual ~QuMapping();
+//    virtual ~QuMapping();
 
     int getLogicalMapping(int physicalBit);
     void setLogicalMapping(int physicalBit, int logicalBit);
@@ -33,6 +34,7 @@ public:
     int getPhysicalBit(int logicalBit);
 
     void quSwap(int i, int j);
+    void quSwapLogical(int i, int j);
 
     void fixMappings(int src, std::vector<int> swapSeq);
     void print();
