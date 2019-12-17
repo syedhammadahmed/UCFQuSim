@@ -84,7 +84,7 @@ void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
     if(swapSeq.empty())
         return;
 //    quSwap(src, swapSeq[0]);
-    for(int i=0; i<swapSeq.size()-2; i++){
+    for(int i=0; i<signed(swapSeq.size()-2); i++){
         quSwap(swapSeq[i], swapSeq[i+1]);
     }
 }

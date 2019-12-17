@@ -29,7 +29,7 @@ int QuNaiiveSwapper::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap)
         swaps = swapSequence.size();
 //        if(swaps == 0)
 //            cout << "No swap required!" << endl;
-//        printMappings();
+        mapping.print();
     }
     circuit.getInstructionsV1().push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
     return swaps;

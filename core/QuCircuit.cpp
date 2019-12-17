@@ -323,6 +323,7 @@ void QuCircuit::printMappings() {
 }
 
 int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
+//    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
     QuSwapStrategy* strategy = new QuSmartSwapper(*this);
     return strategy->findTotalSwaps(quArchitecture);
 }
