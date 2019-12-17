@@ -14,11 +14,11 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         QuGate* currentInstruction = instructions[i];
         vector<vector<int>> paths;  // saves the swap path of each mapping
         // get current mapping
-        vector<QuMapping> mappings = getAllMappingsForCurrentInstruction();
+        vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
         cout << "Instruction #: " << programCounter << endl;
         perInstructionMappingCounter = 0;
-        int min = INT32_MAX;
-        for(QuMapping mapping: mappings){   // input mappings for an instruction
+        unsigned int min = INT32_MAX;
+        for(QuMapping mapping: inputMappings){   // input mappings for an instruction
             swapPath.clear();
             int swaps = findSwapsFor1Instruction(currentInstruction, quArchitecture.getCouplingMap());
             cout << "Swaps: " << swaps << endl;
@@ -34,14 +34,15 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
             if (paths[j].size()-2 > min) {
                 cout << "Removing Mapping Having Swaps: " << paths[j].size() << endl;
                 paths.erase(paths.begin() + j);
-                mappings.erase(mappings.begin() + j);
+                inputMappings.erase(inputMappings.begin() + j);
             }
         }
         // find permutations of each mapping and generate mappings for next instruction
-        for(int j=0; j<mappings.size(); j++) {
-            vector<QuMapping> currentInstructionMappings = findAllMappingsFromPermutations(mappings[j], paths[j]);
+        for(int j=0; j<inputMappings.size(); j++) {
+            vector<QuMapping> currentInstructionMappings = findAllMappingsFromPermutations(inputMappings[j], paths[j]);
             instructionWiseMappings.push_back(currentInstructionMappings);
         }
+        circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
         programCounter++;
     }
     return total;
@@ -147,11 +148,12 @@ int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **c
 //        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
 
         swaps = swapSequence.size() - 2;
+//        cout << "Swaps: " << swaps << endl;
 //        if(swaps == 0)
 //            cout << "No swap required!" << endl;
 //        printMappings();
     }
-    circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
+//    circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
     return swaps;
 }
 
