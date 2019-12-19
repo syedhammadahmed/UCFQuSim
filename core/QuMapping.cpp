@@ -21,6 +21,7 @@ const int QuMapping::DEFAULT = 0;
 //    }
 //}
 //
+
 //QuMapping::~QuMapping() {
 //    delete [] physicalToLogical;
 //}

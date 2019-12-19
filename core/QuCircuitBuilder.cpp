@@ -52,7 +52,8 @@ void QuCircuitBuilder::buildFromFile(string fileName) {
                     operandIndexes[i++] = stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1));
                 }
             }
-            if(quGate != "qreg" && quGate != "creg" && quGate != "measure") {
+
+            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz") {
                 QuGate *newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     int* arr = newGate->getArgIndex();

@@ -27,6 +27,10 @@ public:
     vector<QuMapping> getAllMappingsForCurrentInstruction();
 
     vector<QuMapping> findAllMappingsFromPermutations(QuMapping& mapping, vector<int> sequence);
+
+    void printSwapPath(vector<int> swapPath);
+
+    void insertSwapGates(int source, int destination);
 };
 
 

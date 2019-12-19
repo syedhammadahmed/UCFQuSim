@@ -7,3 +7,6 @@
 void Tdg::apply(QuBit *bit, int i) {
 
 }
+
+Tdg::Tdg() : QuGate(1, "g", "tdg"){}
+

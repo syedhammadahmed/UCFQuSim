@@ -28,6 +28,7 @@ int main() {
 //    string inputDirectory(string(getenv("HOME")));
     string inputDirectory("");
     inputDirectory += "../input/";
+//    inputDirectory += "/home/hammad/input/";
     cout << "Input File Directory: " << inputDirectory << endl;
 
     QuArchitecture architectureQX3(16);

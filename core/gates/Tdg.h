@@ -11,6 +11,8 @@
 class Tdg : public QuGate {
 
 public:
+    Tdg();
+
     void apply(QuBit *bit, int i) override;
 };
 

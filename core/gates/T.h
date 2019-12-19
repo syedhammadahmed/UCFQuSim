@@ -10,6 +10,8 @@
 class T : public QuGate {
 
 public:
+    T();
+
     void apply(QuBit *bit, int i) override;
 };
 
