@@ -3,4 +3,88 @@ project(UCFQuSim)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(UCFQuSim main.cpp core/QuBit.h core/QuBit.cpp core/QuRegister.cpp core/QuRegister.h core/QuCircuit.cpp core/QuCircuit.h core/QuSimulator.cpp core/QuSimulator.h core/gates/QuGate.cpp core/gates/QuGate.h core/gates/Hadamard.cpp core/gates/Hadamard.h core/gates/CNot.cpp core/gates/CNot.h core/gates/Swap.cpp core/gates/Swap.h core/gates/Measure.cpp core/gates/Measure.h core/QuArchitecture.cpp core/QuArchitecture.h core/gates/Not.cpp core/gates/Not.h core/QuGateFactory.cpp core/QuGateFactory.h core/gates/Identity.cpp core/gates/Identity.h core/gates/U1.cpp core/gates/U1.h core/gates/U2.cpp core/gates/U2.h core/gates/U3.cpp core/gates/U3.h core/gates/Rx.cpp core/gates/Rx.h core/gates/Ry.cpp core/gates/Ry.h core/gates/Rz.cpp core/gates/Rz.h core/gates/X.cpp core/gates/X.h core/gates/Y.cpp core/gates/Y.h core/gates/Z.cpp core/gates/Z.h core/gates/S.cpp core/gates/S.h core/gates/Sdg.cpp core/gates/Sdg.h core/gates/T.cpp core/gates/T.h core/gates/Tdg.cpp core/gates/Tdg.h core/gates/CHadamard.cpp core/gates/CHadamard.h core/gates/CY.cpp core/gates/CY.h core/gates/CZ.cpp core/gates/CZ.h core/gates/CRz.cpp core/gates/CRz.h core/gates/CU1.cpp core/gates/CU1.h core/gates/CU3.cpp core/gates/CU3.h core/gates/Toffoli.cpp core/gates/Toffoli.h core/gates/NoOp.cpp core/gates/NoOp.h ShortestPathFinder.cpp ShortestPathFinder.h core/QuInstruction.cpp core/QuInstruction.h core/Util.cpp core/Util.h evaluation/QuCircuitEvaluator.cpp evaluation/QuCircuitEvaluator.h core/QuCircuitBuilder.cpp core/QuCircuitBuilder.h)
+include_directories(.)
+include_directories(core)
+include_directories(core/gates)
+include_directories(evaluator)
+
+add_executable(UCFQuSim
+        core/gates/CHadamard.cpp
+        core/gates/CHadamard.h
+        core/gates/CNot.cpp
+        core/gates/CNot.h
+        core/gates/CRz.cpp
+        core/gates/CRz.h
+        core/gates/CU1.cpp
+        core/gates/CU1.h
+        core/gates/CU3.cpp
+        core/gates/CU3.h
+        core/gates/CY.cpp
+        core/gates/CY.h
+        core/gates/CZ.cpp
+        core/gates/CZ.h
+        core/gates/Hadamard.cpp
+        core/gates/Hadamard.h
+        core/gates/Identity.cpp
+        core/gates/Identity.h
+        core/gates/Measure.cpp
+        core/gates/Measure.h
+        core/gates/NoOp.cpp
+        core/gates/NoOp.h
+        core/gates/Not.cpp
+        core/gates/Not.h
+        core/gates/QuGate.cpp
+        core/gates/QuGate.h
+        core/gates/Rx.cpp
+        core/gates/Rx.h
+        core/gates/Ry.cpp
+        core/gates/Ry.h
+        core/gates/Rz.cpp
+        core/gates/Rz.h
+        core/gates/S.cpp
+        core/gates/S.h
+        core/gates/Sdg.cpp
+        core/gates/Sdg.h
+        core/gates/Swap.cpp
+        core/gates/Swap.h
+        core/gates/T.cpp
+        core/gates/T.h
+        core/gates/Tdg.cpp
+        core/gates/Tdg.h
+        core/gates/Toffoli.cpp
+        core/gates/Toffoli.h
+        core/gates/U1.cpp
+        core/gates/U1.h
+        core/gates/U2.cpp
+        core/gates/U2.h
+        core/gates/U3.cpp
+        core/gates/U3.h
+        core/gates/X.cpp
+        core/gates/X.h
+        core/gates/Y.cpp
+        core/gates/Y.h
+        core/gates/Z.cpp
+        core/gates/Z.h
+        core/QuArchitecture.cpp
+        core/QuArchitecture.h
+        core/QuBit.cpp
+        core/QuBit.h
+        core/QuCircuit.cpp
+        core/QuCircuit.h
+        core/generator/QuCircuitGenerator.cpp
+        core/generator/QuCircuitGenerator.h
+        core/gates/QuGateFactory.cpp
+        core/gates/QuGateFactory.h
+        core/QuInstruction.cpp
+        core/QuInstruction.h
+        core/QuRegister.cpp
+        core/QuRegister.h
+        core/QuSimulator.cpp
+        core/QuSimulator.h
+        util/Util.cpp
+        util/Util.h
+        evaluator/QuCircuitEvaluator.cpp
+        evaluator/QuCircuitEvaluator.h
+        main.cpp
+        ShortestPathFinder.cpp
+        ShortestPathFinder.h core/QuMapping.cpp core/QuMapping.h evaluator/QuMultiEvaluator.cpp evaluator/QuMultiEvaluator.h core/generator/QuSwapStrategy.cpp core/generator/QuSwapStrategy.h core/generator/QuNaiiveSwapper.cpp core/generator/QuNaiiveSwapper.h core/generator/QuSmartSwapper.cpp core/generator/QuSmartSwapper.h core/generator/QuMultiGenerator.cpp core/generator/QuMultiGenerator.h)
