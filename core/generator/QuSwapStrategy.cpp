@@ -6,5 +6,5 @@
 #include "QuGateFactory.h"
 
 QuSwapStrategy::QuSwapStrategy(QuCircuit &circuit): circuit(circuit), programCounter(0) {
-
+//    cout << "QuSwapStrategy OK" << endl;
 }

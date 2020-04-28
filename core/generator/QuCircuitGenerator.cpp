@@ -6,20 +6,47 @@
 #include <sstream>
 #include <iostream>
 #include <string>
-#include "QuCircuitBuilder.h"
+#include "QuCircuitGenerator.h"
 #include "QuGateFactory.h"
-#include "Util.h"
+#include "util/Util.h"
 
 using namespace std;
 
-QuCircuitBuilder::QuCircuitBuilder(QuCircuit& circuit) : circuit(circuit) {
-    rows = circuit.getRows();
+//QuCircuitGenerator::QuCircuitGenerator(QuCircuit& circuit) : layer(-1), circuit(circuit) {
+//    rows = circuit.getRows();
+//    quBitRecentLayer = new int[rows];
+//    for(int i=0; i<rows; i++)
+//        quBitRecentLayer[i] = -1;
+//}
+
+QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture):circuit(architecture), architecture(architecture), layer(-1) {
+//    circuit = new QuCircuit(architecture);
+    rows = architecture.getN();
     quBitRecentLayer = new int[rows];
     for(int i=0; i<rows; i++)
         quBitRecentLayer[i] = -1;
 }
 
-void QuCircuitBuilder::buildFromFile(string fileName) {
+QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture, string inputFileAbsPath):circuit(architecture), architecture(architecture), layer(-1), inputFileAbsPath(inputFileAbsPath) {
+//    circuit = new QuCircuit(architecture);
+    rows = architecture.getN();
+    quBitRecentLayer = new int[rows];
+    for(int i=0; i<rows; i++)
+        quBitRecentLayer[i] = -1;
+    buildFromFile(inputFileAbsPath);
+}
+
+
+//
+//QuCircuitGenerator::QuCircuitGenerator(QuCircuit &circuit, QuArchitecture &architecture):circuit(circuit), architecture(architecture), layer(-1) {
+//    rows = circuit.getRows();
+//    quBitRecentLayer = new int[rows];
+//    for(int i=0; i<rows; i++)
+//        quBitRecentLayer[i] = -1;
+//}
+
+
+void QuCircuitGenerator::buildFromFile(string fileName) {
     ifstream ifs;
     string quGate = "";
     string qubitArgs = "";
@@ -38,6 +65,7 @@ void QuCircuitBuilder::buildFromFile(string fileName) {
         pos2 = 0;
         string line;
         getline(ifs, line);
+//        cout << ">>> " << line << "<<<\t\t";
         if(line == "") continue;
         stringstream lineStream(line);
         getline(lineStream, quGate, ' '); // mnemonic for qu-gate e.g. h for Hadamard, x for NOT, cx for C-NOT, etc.
@@ -53,7 +81,7 @@ void QuCircuitBuilder::buildFromFile(string fileName) {
                 }
             }
 
-            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz") {
+            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
                 QuGate *newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     int* arr = newGate->getArgIndex();
@@ -74,9 +102,7 @@ void QuCircuitBuilder::buildFromFile(string fileName) {
     buildGrid();
 }
 
-void QuCircuitBuilder::buildGrid() {
-    int layer = -1;
-
+void QuCircuitGenerator::buildGrid() {
     init2(); // make grid
     try {
         for (QuGate *newGate: instructions) {
@@ -91,7 +117,7 @@ void QuCircuitBuilder::buildGrid() {
     }
 }
 
-void QuCircuitBuilder::add(QuGate* gate, int depth) {
+void QuCircuitGenerator::add(QuGate* gate, int depth) {
     int* quBitIndexes = gate -> getArgIndex();
     grid[quBitIndexes[0]][depth] = gate;
     if(gate -> getCardinality() == 2) {
@@ -99,7 +125,7 @@ void QuCircuitBuilder::add(QuGate* gate, int depth) {
     }
 }
 
-int QuCircuitBuilder::getLayerForNewGate(int* gates, int operands) {
+int QuCircuitGenerator::getLayerForNewGate(int* gates, int operands) {
     int layer = 0;
     int max = quBitRecentLayer[gates[0]];
     for(int i = 1; i < operands; i++){
@@ -134,14 +160,14 @@ int QuCircuitBuilder::getLayerForNewGate(int* gates, int operands) {
     return layer;
 }
 
-bool QuCircuitBuilder::somethingInBetween(int row1, int row2, int layer) {
+bool QuCircuitGenerator::somethingInBetween(int row1, int row2, int layer) {
     for (int i = row1; i <= row2; i++)
         if (grid[i][layer] != NULL)
             return true;
     return false;
 }
 
-void QuCircuitBuilder::makeProgramFile(string outputFileName) {
+void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     ofstream ofs;
     ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
@@ -157,12 +183,18 @@ void QuCircuitBuilder::makeProgramFile(string outputFileName) {
     }
 }
 
-QuCircuitBuilder::~QuCircuitBuilder() {
+QuCircuitGenerator::~QuCircuitGenerator() {
     delete [] quBitRecentLayer;
+    for(int i = 0; i < rows; i++)
+        delete [] grid[i];
+    delete [] grid;
+    for(QuGate* ptr: instructions){
+        delete ptr;
+    }
 }
 
 // initializes the circuit grid
-void QuCircuitBuilder::init2() {
+void QuCircuitGenerator::init2() {
     grid = new QuGate**[rows];
     for(int i = 0; i < rows; i++)
         grid[i] = new QuGate*[cols];
@@ -172,11 +204,19 @@ void QuCircuitBuilder::init2() {
 //    printGrid();
 }
 
-void QuCircuitBuilder::setInstructions(const vector<QuGate*> instructions) {
+void QuCircuitGenerator::setInstructions(const vector<QuGate*> instructions) {
     this -> instructions = instructions;
 }
 
-const vector<QuGate*> QuCircuitBuilder::getInstructions() const{
+const vector<QuGate*> QuCircuitGenerator::getInstructions() const{
     return instructions;
+}
+
+int QuCircuitGenerator::getLayer() const {
+    return layer;
+}
+
+QuCircuit& QuCircuitGenerator::getCircuit() {
+    return circuit;
 }
 
