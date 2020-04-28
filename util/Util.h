@@ -11,7 +11,9 @@ using namespace std;
 
 class Util {
 public:
+    static string FILE_EXTENSION;
     static string toLower(string str);
+    static double timeIt(bool isEnd);
 
 };
 
