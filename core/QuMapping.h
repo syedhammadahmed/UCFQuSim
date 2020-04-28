@@ -22,6 +22,8 @@ public:
     static const int DEFAULT;
     QuMapping(int n);
 
+    QuMapping();
+
     QuMapping(const QuMapping& arg);
 
 //    virtual ~QuMapping();

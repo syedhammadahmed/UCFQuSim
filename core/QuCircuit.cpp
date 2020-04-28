@@ -9,22 +9,34 @@
 #include "QuGateFactory.h"
 #include "../ShortestPathFinder.h"
 #include "QuInstruction.h"
-#include "Util.h"
-#include "QuSwapStrategy.h"
-#include "QuNaiiveSwapper.h"
-#include "QuSmartSwapper.h"
+#include "util/Util.h"
+#include "core/generator/QuSwapStrategy.h"
+#include "core/generator/QuNaiiveSwapper.h"
+#include "core/generator/QuSmartSwapper.h"
 #include "QuArchitecture.h"
 
 using namespace std;
 
-QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL), mapping(rows) {
+QuCircuit::QuCircuit() {
+    cout << "QuCircuit default" << endl;
+}
+
+QuCircuit::QuCircuit(QuArchitecture& architecture): rows(architecture.getN()), grid(NULL) {
+//    cout << "QuCircuit parameterized!" << endl;
+    init1();
+}
+
+//QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL), mapping(rows) {
+QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL) {
+//    cout << "QuCircuit parameterized!" << endl;
     init1();
 }
 //QuCircuit::QuCircuit(int rows): rows(rows), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
 //    init1();
 //}
 
-QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), grid(NULL), mapping(rows) {
+//QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), grid(NULL), mapping(rows) {
+QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), grid(NULL){
     init1();
 }
 //QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), logicalToPhysicalMapping(NULL), physicalToLogicalMapping(NULL), grid(NULL) {
@@ -108,7 +120,7 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 
 
 QuCircuit::~QuCircuit() {
-//    delete [] logicalToPhysicalMapping;
+//    cout << "~QuCircuit()" << endl;
 //    delete [] physicalToLogicalMapping;
     delete [] logicalQuBits;
 //    for(int i=0; i<rows; i++)
@@ -193,7 +205,7 @@ void QuCircuit::init1() {
 
 void QuCircuit::printGrid(){
     cout << "Printing Circuit Grid (grid of pointers to qugates): " << endl;
-    for(int i=0; i<50; i++) cout << "__";
+    for(int i=0; i<50; i++) cout << "__";   // todo make it generic for any layers
     cout << endl;
     for(int i=0; i<rows; i++) {
         for (int j = 0; j < cols; j++)
@@ -324,8 +336,16 @@ void QuCircuit::printMappings() {
 
 int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-    return strategy->findTotalSwaps(quArchitecture);
+    try {
+        QuSwapStrategy *strategy = new QuSmartSwapper(*this);
+        int n = strategy->findTotalSwaps(quArchitecture);
+        delete strategy;
+        return n;
+    }
+    catch (exception& e)
+    {
+        cout << e.what() << endl;
+    }
 }
 
 void QuCircuit::printInstructions() {

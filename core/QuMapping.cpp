@@ -28,6 +28,7 @@ const int QuMapping::DEFAULT = 0;
 
 QuMapping::QuMapping(int n) : n(n) {
     init(0);
+//    cout << "QuMapping Constructor OK!" << endl;
 }
 
 QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
@@ -103,3 +104,5 @@ void QuMapping::quSwapLogical(int i, int j) {
     physicalToLogical[pi] = physicalToLogical[pj];
     physicalToLogical[pj] = temp;
 }
+
+QuMapping::QuMapping() {}

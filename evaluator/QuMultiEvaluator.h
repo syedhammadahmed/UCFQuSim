@@ -14,20 +14,19 @@ using namespace std;
 
 class QuMultiEvaluator {
 private:
-    string directoryPath;
-    string outputSubDirectoryName;
+    string directory;
 
     QuArchitecture& quArchitecture;  // physical architecture
-    vector<string> inputFiles;
-    vector<string> outputFiles;
+    vector<string> files;
 
     void loadFiles();
 
 public:
-    QuMultiEvaluator(const string &directoryPath, QuArchitecture& quArchitecture);
-    void evaluateAll();
+    QuMultiEvaluator(const string directory, QuArchitecture& quArchitecture);
+    void evaluateAllCircuits();
 
 };
+
 
 
 #endif //UCFQUSIM_QUMULTIEVALUATOR_H

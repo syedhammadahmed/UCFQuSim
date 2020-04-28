@@ -16,6 +16,7 @@ private:
 public:
     QuArchitecture(int n);
     void addConstraint(int src, int dest);
+    void addConstraintsQX3();
 
     friend std::ostream &operator<<(std::ostream &os, const QuArchitecture &architecture);
     // adds a CNOT constraint from src qubit to dest qubit

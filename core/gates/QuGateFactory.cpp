@@ -26,7 +26,7 @@
 #include "gates/CZ.h"
 #include "gates/Measure.h"
 #include "gates/Swap.h"
-#include "Util.h"
+#include "util/Util.h"
 
 QuGate* QuGateFactory::getQuGate(string mnemonic) {
     QuGate* gate = NULL;

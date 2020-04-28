@@ -3,9 +3,9 @@
 //
 
 #include "QuCircuitEvaluator.h"
-#include "../core/Util.h"
+#include "util/Util.h"
 #include "../ShortestPathFinder.h"
-#include "../core/QuGateFactory.h"
+#include "core/gates/QuGateFactory.h"
 #include <iostream>
 
 using namespace std;
@@ -40,7 +40,7 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
     int arg1 = 0;
     int arg2 = 0;
     vector<QuGate*> instructions = circuit.getInstructions();
-//    cout << "Before evaluation: " << endl;
+//    cout << "Before evaluator: " << endl;
 //    printMappings();
     try {
         for (QuGate *quGate: instructions) {
@@ -75,7 +75,7 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //                cout << "pass : default" << endl;
             }
         }
-//    cout << "After evaluation: " << endl;
+//    cout << "After evaluator: " << endl;
 //    printMappings();
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';
@@ -128,4 +128,9 @@ void QuCircuitEvaluator::printMappings() {
 //        cout << "Q" << logicalToPhysicalMapping[i] << " -> q" << i << endl;
 //    }
 //    cout << endl;
+}
+
+QuCircuitEvaluator::~QuCircuitEvaluator() {
+    delete [] logicalToPhysicalMapping;
+    delete [] physicalToLogicalMapping;
 }

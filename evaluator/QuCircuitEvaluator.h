@@ -16,6 +16,9 @@ private:
 
 public:
     QuCircuitEvaluator(QuCircuit &circuit);
+
+    virtual ~QuCircuitEvaluator();
+
     bool evaluateCNOTConstraints(int** couplingMap);
     void initializeMappings(int** couplingMap);
 

@@ -3,7 +3,7 @@
 //
 
 #include "QuGate.h"
-#include "../Util.h"
+#include "util/Util.h"
 
 QuGate::QuGate() : depth(0), isElementary(false), cardinality(1), symbol("@"), printIndex(0) {
     argIndex = new int[cardinality];

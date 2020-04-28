@@ -42,6 +42,7 @@ public:
     QuCircuit(int rows);
     QuCircuit(int rows, int cols);
     QuCircuit(string fileName, int rows);
+    QuCircuit(QuArchitecture& architecture);
 
     void add(QuGate* gate, int row, int depth);
     void add(QuGate* gate, int depth);
@@ -83,6 +84,5 @@ public:
 //    vector<int> &getSwapPath();
 
 };
-
 
 #endif //UCFQUSIM_QUCIRCUIT_H
