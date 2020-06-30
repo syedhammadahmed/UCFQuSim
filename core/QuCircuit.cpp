@@ -336,16 +336,17 @@ void QuCircuit::printMappings() {
 
 int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
+    int n = 0;
     try {
         QuSwapStrategy *strategy = new QuSmartSwapper(*this);
-        int n = strategy->findTotalSwaps(quArchitecture);
+        n = strategy->findTotalSwaps(quArchitecture);
         delete strategy;
-        return n;
     }
     catch (exception& e)
     {
         cout << e.what() << endl;
     }
+    return n;
 }
 
 void QuCircuit::printInstructions() {
@@ -378,7 +379,7 @@ vector<QuGate*>& QuCircuit::getInstructionsV1(){
     return instructionsV1;
 }
 
-const vector<QuGate*> QuCircuit::getInstructions() const{
+vector<QuGate*> QuCircuit::getInstructions() const{
     return instructions;
 }
 

@@ -20,8 +20,8 @@ class QuCircuit {
 private:
     int rows; // # of physical quBits (max rows)
     int cols; // depth
-    int logicalToPhysicalMapping[16]; // logical to physical mapping of quBits : logical index -> physical elements
-    int physicalToLogicalMapping[16]; // physical to logical mapping of quBits : physical index -> logical elements
+//    int logicalToPhysicalMapping[16]; // logical to physical mapping of quBits : logical index -> physical elements
+//    int physicalToLogicalMapping[16]; // physical to logical mapping of quBits : physical index -> logical elements
 //    int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
 //    int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
     int* quBitRecentLayer;
@@ -77,7 +77,7 @@ public:
     void setInstructions(const vector<QuGate*> instructions);
 
     vector<QuGate*>& getInstructionsV1();
-    const vector<QuGate*> getInstructions() const;
+    vector<QuGate*> getInstructions() const;
 
     QuMapping& getMapping();
 //

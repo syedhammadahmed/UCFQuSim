@@ -91,6 +91,14 @@ void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
     }
 }
 
+void QuMapping::fixMappings(std::vector<int> swapSeq) {
+    if(swapSeq.empty())
+        return;
+    for(int i=0; i<signed(swapSeq.size()-2); i++){
+        quSwap(swapSeq[i], swapSeq[i+1]);
+    }
+}
+
 void QuMapping::print() {
     for(int i = 0; i < n; i++) {
         cout << "Q" << i << " -> q" << physicalToLogical[i] << endl;
@@ -105,4 +113,4 @@ void QuMapping::quSwapLogical(int i, int j) {
     physicalToLogical[pj] = temp;
 }
 
-QuMapping::QuMapping() {}
+QuMapping::QuMapping() = default;

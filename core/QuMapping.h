@@ -20,7 +20,7 @@ private:
 
 public:
     static const int DEFAULT;
-    QuMapping(int n);
+    explicit QuMapping(int n);
 
     QuMapping();
 
@@ -39,6 +39,7 @@ public:
     void quSwapLogical(int i, int j);
 
     void fixMappings(int src, std::vector<int> swapSeq);
+    void fixMappings(std::vector<int> swapSeq);
     void print();
 };
 

@@ -9,6 +9,9 @@
 #include <core/QuArchitecture.h>
 #include <string>
 #include <vector>
+
+#include "util/Result.h"
+
 using namespace std;
 
 class QuMultiGenerator {
@@ -23,10 +26,10 @@ private:
     void loadFiles();
 
 public:
-    QuMultiGenerator(const string inputDirectory, const string outputDirectory, QuArchitecture& quArchitecture);
-    void generateAllCircuits();
+    QuMultiGenerator(const string& inputDirectory, const string& outputDirectory, QuArchitecture& quArchitecture);
+    vector<Result> generateAllCircuits();
 
-    void timeIt(bool isEnd);
+//    void timeIt(bool isEnd);
 };
 
 
