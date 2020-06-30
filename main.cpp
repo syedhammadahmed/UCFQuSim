@@ -6,6 +6,8 @@
 #include <evaluator/QuMultiEvaluator.h>
 #include <core/generator/QuMultiGenerator.h>
 #include <iomanip>
+#include <util/Result.h>
+#include <util/Util.h>
 
 #include "core/gates/CNot.h"
 #include "core/gates/QuGate.h"
@@ -32,13 +34,17 @@ int main() {
     cout << "Input File Directory: " << inputDirectory << endl;
 
     QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
-    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
+//    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
 
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX3);
-    quMultiGenerator.generateAllCircuits();
+    vector<Result> results = quMultiGenerator.generateAllCircuits();
+    Result::printHeader();
+    for(Result result: results){
+        result.print();
+    }
 
-    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX3);
-    quMultiEvaluator.evaluateAllCircuits();
+//    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX3);
+//    quMultiEvaluator.evaluateAllCircuits();
 
 //    QuCircuit testCircuit(architectureQX3.getN());
 //    QuCircuitGenerator testQuCircuitBuilder(testCircuit);
@@ -55,3 +61,10 @@ int main() {
 
     return 0;
 }
+
+//int main(){
+//    int i = 1;
+//    Util::timeIt(false);
+//    while(i++ <1000000000);
+//    cout << Util::timeIt(true);
+//}
