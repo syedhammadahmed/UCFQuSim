@@ -87,4 +87,4 @@ add_executable(UCFQuSim
         evaluator/QuCircuitEvaluator.h
         main.cpp
         ShortestPathFinder.cpp
-        ShortestPathFinder.h core/QuMapping.cpp core/QuMapping.h evaluator/QuMultiEvaluator.cpp evaluator/QuMultiEvaluator.h core/generator/QuSwapStrategy.cpp core/generator/QuSwapStrategy.h core/generator/QuNaiiveSwapper.cpp core/generator/QuNaiiveSwapper.h core/generator/QuSmartSwapper.cpp core/generator/QuSmartSwapper.h core/generator/QuMultiGenerator.cpp core/generator/QuMultiGenerator.h)
+        ShortestPathFinder.h core/QuMapping.cpp core/QuMapping.h evaluator/QuMultiEvaluator.cpp evaluator/QuMultiEvaluator.h core/generator/QuSwapStrategy.cpp core/generator/QuSwapStrategy.h core/generator/QuNaiiveSwapper.cpp core/generator/QuNaiiveSwapper.h core/generator/QuSmartSwapper.cpp core/generator/QuSmartSwapper.h core/generator/QuMultiGenerator.cpp core/generator/QuMultiGenerator.h util/Result.cpp util/Result.h)
