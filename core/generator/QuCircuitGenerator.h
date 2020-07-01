@@ -47,6 +47,8 @@ public:
     int getLayer() const;
     const vector<QuGate*> getInstructions() const;
     QuCircuit& getCircuit();
+
+    QuGate *parseInstruction(string line);
 };
 
 
