@@ -10,55 +10,27 @@ CMakeFiles/UCFQuSim.dir/core/QuArchitecture.cpp.obj: ../core/QuArchitecture.h
 CMakeFiles/UCFQuSim.dir/core/QuBit.cpp.obj: ../core/QuBit.cpp
 CMakeFiles/UCFQuSim.dir/core/QuBit.cpp.obj: ../core/QuBit.h
 
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/gates/QuGateFactory.h
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/generator/QuNaiiveSwapper.h
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/generator/QuSmartSwapper.h
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/generator/QuSwapStrategy.h
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../util/Util.h
 CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../ShortestPathFinder.h
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/QuArchitecture.h
 CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/QuBit.h
 CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/QuCircuit.cpp
 CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/QuCircuit.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/QuGateFactory.h
 CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/QuInstruction.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/Util.h
+CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/QuMapping.h
 CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj: ../core/gates/QuGate.h
-
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/QuBit.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/QuCircuit.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/QuCircuitBuilder.cpp
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/QuCircuitBuilder.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/QuGateFactory.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/QuInstruction.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/Util.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj: ../core/gates/QuGate.h
-
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/QuBit.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/QuGateFactory.cpp
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/QuGateFactory.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/Util.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/CHadamard.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/CNot.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/CU1.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/CU3.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/CY.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/CZ.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Hadamard.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Identity.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Measure.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/QuGate.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Rx.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Ry.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Rz.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/S.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Sdg.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Swap.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/T.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Tdg.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/U1.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/U2.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/U3.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/X.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Y.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj: ../core/gates/Z.h
 
 CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj: ../core/QuInstruction.cpp
 CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj: ../core/QuInstruction.h
+
+CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.obj: ../core/QuMapping.cpp
+CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.obj: ../core/QuMapping.h
 
 CMakeFiles/UCFQuSim.dir/core/QuRegister.cpp.obj: ../core/QuBit.h
 CMakeFiles/UCFQuSim.dir/core/QuRegister.cpp.obj: ../core/QuRegister.cpp
@@ -68,12 +40,10 @@ CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/QuArchitecture.h
 CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/QuBit.h
 CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/QuCircuit.h
 CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/QuMapping.h
 CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/QuSimulator.cpp
 CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/QuSimulator.h
 CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj: ../core/gates/QuGate.h
-
-CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj: ../core/Util.cpp
-CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj: ../core/Util.h
 
 CMakeFiles/UCFQuSim.dir/core/gates/CHadamard.cpp.obj: ../core/QuBit.h
 CMakeFiles/UCFQuSim.dir/core/gates/CHadamard.cpp.obj: ../core/gates/CHadamard.cpp
@@ -136,9 +106,36 @@ CMakeFiles/UCFQuSim.dir/core/gates/Not.cpp.obj: ../core/gates/Not.h
 CMakeFiles/UCFQuSim.dir/core/gates/Not.cpp.obj: ../core/gates/QuGate.h
 
 CMakeFiles/UCFQuSim.dir/core/gates/QuGate.cpp.obj: ../core/QuBit.h
-CMakeFiles/UCFQuSim.dir/core/gates/QuGate.cpp.obj: ../core/Util.h
 CMakeFiles/UCFQuSim.dir/core/gates/QuGate.cpp.obj: ../core/gates/QuGate.cpp
 CMakeFiles/UCFQuSim.dir/core/gates/QuGate.cpp.obj: ../core/gates/QuGate.h
+
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/CHadamard.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/CNot.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/CU1.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/CU3.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/CY.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/CZ.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Hadamard.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Identity.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Measure.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Rx.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Ry.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Rz.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/S.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Sdg.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Swap.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/T.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Tdg.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/U1.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/U2.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/U3.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/X.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Y.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/Z.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/QuGateFactory.cpp
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj: ../core/gates/QuGateFactory.h
 
 CMakeFiles/UCFQuSim.dir/core/gates/Rx.cpp.obj: ../core/QuBit.h
 CMakeFiles/UCFQuSim.dir/core/gates/Rx.cpp.obj: ../core/gates/QuGate.h
@@ -215,27 +212,110 @@ CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.obj: ../core/gates/QuGate.h
 CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.obj: ../core/gates/Z.cpp
 CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.obj: ../core/gates/Z.h
 
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../ShortestPathFinder.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../core/QuBit.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../core/QuCircuit.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../core/QuGateFactory.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../core/QuInstruction.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../core/Util.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../core/gates/QuGate.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../evaluation/QuCircuitEvaluator.cpp
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj: ../evaluation/QuCircuitEvaluator.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/QuMapping.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/gates/QuGateFactory.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../util/Util.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/generator/QuCircuitGenerator.cpp
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj: ../core/generator/QuCircuitGenerator.h
 
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/QuMapping.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../util/Result.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../util/Util.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/generator/QuCircuitGenerator.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/generator/QuMultiGenerator.cpp
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj: ../core/generator/QuMultiGenerator.h
+
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../ShortestPathFinder.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/QuMapping.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/gates/QuGateFactory.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/generator/QuNaiiveSwapper.cpp
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/generator/QuNaiiveSwapper.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj: ../core/generator/QuSwapStrategy.h
+
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../ShortestPathFinder.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/QuMapping.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/gates/QuGateFactory.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/generator/QuSmartSwapper.cpp
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/generator/QuSmartSwapper.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj: ../core/generator/QuSwapStrategy.h
+
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/QuMapping.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/gates/QuGateFactory.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/generator/QuSwapStrategy.cpp
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj: ../core/generator/QuSwapStrategy.h
+
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../core/gates/QuGateFactory.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../util/Util.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../ShortestPathFinder.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../core/QuMapping.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../evaluator/QuCircuitEvaluator.cpp
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj: ../evaluator/QuCircuitEvaluator.h
+
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/generator/QuCircuitGenerator.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/QuBit.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/QuCircuit.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/QuMapping.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../evaluator/QuCircuitEvaluator.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../evaluator/QuMultiEvaluator.cpp
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj: ../evaluator/QuMultiEvaluator.h
+
+CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuArchitecture.h
+CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/generator/QuMultiGenerator.h
+CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../evaluator/QuMultiEvaluator.h
+CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../util/Result.h
+CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../util/Util.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../ShortestPathFinder.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuArchitecture.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuBit.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuCircuit.h
-CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuCircuitBuilder.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuMapping.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/QuSimulator.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/gates/CNot.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/gates/Hadamard.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/gates/Not.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/gates/QuGate.h
-CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../evaluation/QuCircuitEvaluator.h
+CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../core/generator/QuCircuitGenerator.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj: ../main.cpp
+
+CMakeFiles/UCFQuSim.dir/util/Result.cpp.obj: ../util/Result.cpp
+CMakeFiles/UCFQuSim.dir/util/Result.cpp.obj: ../util/Result.h
+
+CMakeFiles/UCFQuSim.dir/util/Util.cpp.obj: ../util/Util.cpp
+CMakeFiles/UCFQuSim.dir/util/Util.cpp.obj: ../util/Util.h
 

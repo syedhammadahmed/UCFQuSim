@@ -11,55 +11,27 @@ CMakeFiles/UCFQuSim.dir/core/QuBit.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.cpp
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
 CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj
+ ../core/gates/QuGate.h
+ ../core/gates/QuGateFactory.h
+ ../core/generator/QuNaiiveSwapper.h
+ ../core/generator/QuSmartSwapper.h
+ ../core/generator/QuSwapStrategy.h
+ ../util/Util.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/ShortestPathFinder.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.cpp
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
-CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuitBuilder.cpp
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuitBuilder.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
-CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.cpp
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CHadamard.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CNot.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CU1.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CU3.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CY.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CZ.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Hadamard.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Identity.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Measure.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rx.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Ry.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rz.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/S.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Sdg.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Swap.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/T.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Tdg.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U1.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U2.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/U3.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/X.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Y.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.h
 CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.cpp
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
+CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.obj
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.h
 CMakeFiles/UCFQuSim.dir/core/QuRegister.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuRegister.cpp
@@ -69,12 +41,10 @@ CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.cpp
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
-CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.cpp
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
 CMakeFiles/UCFQuSim.dir/core/gates/CHadamard.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CHadamard.cpp
@@ -137,9 +107,36 @@ CMakeFiles/UCFQuSim.dir/core/gates/Not.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
 CMakeFiles/UCFQuSim.dir/core/gates/QuGate.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.cpp
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
+CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj
+ ../core/QuBit.h
+ ../core/gates/CHadamard.h
+ ../core/gates/CNot.h
+ ../core/gates/CU1.h
+ ../core/gates/CU3.h
+ ../core/gates/CY.h
+ ../core/gates/CZ.h
+ ../core/gates/Hadamard.h
+ ../core/gates/Identity.h
+ ../core/gates/Measure.h
+ ../core/gates/QuGate.h
+ ../core/gates/Rx.h
+ ../core/gates/Ry.h
+ ../core/gates/Rz.h
+ ../core/gates/S.h
+ ../core/gates/Sdg.h
+ ../core/gates/Swap.h
+ ../core/gates/T.h
+ ../core/gates/Tdg.h
+ ../core/gates/U1.h
+ ../core/gates/U2.h
+ ../core/gates/U3.h
+ ../core/gates/X.h
+ ../core/gates/Y.h
+ ../core/gates/Z.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGateFactory.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGateFactory.h
 CMakeFiles/UCFQuSim.dir/core/gates/Rx.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
@@ -215,27 +212,110 @@ CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.obj
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.cpp
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.h
-CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj
+CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj
+ ../core/QuArchitecture.h
+ ../core/QuBit.h
+ ../core/QuCircuit.h
+ ../core/QuInstruction.h
+ ../core/QuMapping.h
+ ../core/gates/QuGate.h
+ ../core/gates/QuGateFactory.h
+ ../util/Util.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuCircuitGenerator.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuCircuitGenerator.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj
+ ../core/QuArchitecture.h
+ ../core/QuBit.h
+ ../core/QuCircuit.h
+ ../core/QuInstruction.h
+ ../core/QuMapping.h
+ ../core/gates/QuGate.h
+ ../util/Result.h
+ ../util/Util.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuCircuitGenerator.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuMultiGenerator.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuMultiGenerator.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj
+ ../ShortestPathFinder.h
+ ../core/QuArchitecture.h
+ ../core/QuBit.h
+ ../core/QuCircuit.h
+ ../core/QuInstruction.h
+ ../core/QuMapping.h
+ ../core/gates/QuGate.h
+ ../core/gates/QuGateFactory.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuNaiiveSwapper.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuNaiiveSwapper.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSwapStrategy.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj
+ ../ShortestPathFinder.h
+ ../core/QuArchitecture.h
+ ../core/QuBit.h
+ ../core/QuCircuit.h
+ ../core/QuInstruction.h
+ ../core/QuMapping.h
+ ../core/gates/QuGate.h
+ ../core/gates/QuGateFactory.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSmartSwapper.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSmartSwapper.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSwapStrategy.h
+CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj
+ ../core/QuArchitecture.h
+ ../core/QuBit.h
+ ../core/QuCircuit.h
+ ../core/QuInstruction.h
+ ../core/QuMapping.h
+ ../core/gates/QuGate.h
+ ../core/gates/QuGateFactory.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSwapStrategy.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSwapStrategy.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj
+ ../core/QuBit.h
+ ../core/gates/QuGate.h
+ ../core/gates/QuGateFactory.h
+ ../util/Util.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/ShortestPathFinder.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluator/QuCircuitEvaluator.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluator/QuCircuitEvaluator.h
+CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj
+ ../core/QuArchitecture.h
+ ../core/QuCircuit.h
+ ../core/generator/QuCircuitGenerator.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.cpp
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluator/QuCircuitEvaluator.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluator/QuMultiEvaluator.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluator/QuMultiEvaluator.h
 CMakeFiles/UCFQuSim.dir/main.cpp.obj
+ ../core/QuArchitecture.h
+ ../core/generator/QuMultiGenerator.h
+ ../evaluator/QuMultiEvaluator.h
+ ../util/Result.h
+ ../util/Util.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/ShortestPathFinder.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuitBuilder.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CNot.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Hadamard.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Not.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.h
- C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.h
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuCircuitGenerator.h
  C:/Users/YUSHAH/CLionProjects/UCFQuSim/main.cpp
+CMakeFiles/UCFQuSim.dir/util/Result.cpp.obj
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/util/Result.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/util/Result.h
+CMakeFiles/UCFQuSim.dir/util/Util.cpp.obj
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/util/Util.cpp
+ C:/Users/YUSHAH/CLionProjects/UCFQuSim/util/Util.h

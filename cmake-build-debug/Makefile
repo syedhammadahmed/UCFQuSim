@@ -230,60 +230,6 @@ core/QuCircuit.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.s
 .PHONY : core/QuCircuit.cpp.s
 
-core/QuCircuitBuilder.obj: core/QuCircuitBuilder.cpp.obj
-
-.PHONY : core/QuCircuitBuilder.obj
-
-# target to build an object file
-core/QuCircuitBuilder.cpp.obj:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj
-.PHONY : core/QuCircuitBuilder.cpp.obj
-
-core/QuCircuitBuilder.i: core/QuCircuitBuilder.cpp.i
-
-.PHONY : core/QuCircuitBuilder.i
-
-# target to preprocess a source file
-core/QuCircuitBuilder.cpp.i:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.i
-.PHONY : core/QuCircuitBuilder.cpp.i
-
-core/QuCircuitBuilder.s: core/QuCircuitBuilder.cpp.s
-
-.PHONY : core/QuCircuitBuilder.s
-
-# target to generate assembly for a file
-core/QuCircuitBuilder.cpp.s:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.s
-.PHONY : core/QuCircuitBuilder.cpp.s
-
-core/QuGateFactory.obj: core/QuGateFactory.cpp.obj
-
-.PHONY : core/QuGateFactory.obj
-
-# target to build an object file
-core/QuGateFactory.cpp.obj:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj
-.PHONY : core/QuGateFactory.cpp.obj
-
-core/QuGateFactory.i: core/QuGateFactory.cpp.i
-
-.PHONY : core/QuGateFactory.i
-
-# target to preprocess a source file
-core/QuGateFactory.cpp.i:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.i
-.PHONY : core/QuGateFactory.cpp.i
-
-core/QuGateFactory.s: core/QuGateFactory.cpp.s
-
-.PHONY : core/QuGateFactory.s
-
-# target to generate assembly for a file
-core/QuGateFactory.cpp.s:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.s
-.PHONY : core/QuGateFactory.cpp.s
-
 core/QuInstruction.obj: core/QuInstruction.cpp.obj
 
 .PHONY : core/QuInstruction.obj
@@ -310,6 +256,33 @@ core/QuInstruction.s: core/QuInstruction.cpp.s
 core/QuInstruction.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.s
 .PHONY : core/QuInstruction.cpp.s
+
+core/QuMapping.obj: core/QuMapping.cpp.obj
+
+.PHONY : core/QuMapping.obj
+
+# target to build an object file
+core/QuMapping.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.obj
+.PHONY : core/QuMapping.cpp.obj
+
+core/QuMapping.i: core/QuMapping.cpp.i
+
+.PHONY : core/QuMapping.i
+
+# target to preprocess a source file
+core/QuMapping.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.i
+.PHONY : core/QuMapping.cpp.i
+
+core/QuMapping.s: core/QuMapping.cpp.s
+
+.PHONY : core/QuMapping.s
+
+# target to generate assembly for a file
+core/QuMapping.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.s
+.PHONY : core/QuMapping.cpp.s
 
 core/QuRegister.obj: core/QuRegister.cpp.obj
 
@@ -364,33 +337,6 @@ core/QuSimulator.s: core/QuSimulator.cpp.s
 core/QuSimulator.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.s
 .PHONY : core/QuSimulator.cpp.s
-
-core/Util.obj: core/Util.cpp.obj
-
-.PHONY : core/Util.obj
-
-# target to build an object file
-core/Util.cpp.obj:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj
-.PHONY : core/Util.cpp.obj
-
-core/Util.i: core/Util.cpp.i
-
-.PHONY : core/Util.i
-
-# target to preprocess a source file
-core/Util.cpp.i:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/Util.cpp.i
-.PHONY : core/Util.cpp.i
-
-core/Util.s: core/Util.cpp.s
-
-.PHONY : core/Util.s
-
-# target to generate assembly for a file
-core/Util.cpp.s:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/Util.cpp.s
-.PHONY : core/Util.cpp.s
 
 core/gates/CHadamard.obj: core/gates/CHadamard.cpp.obj
 
@@ -742,6 +688,33 @@ core/gates/QuGate.s: core/gates/QuGate.cpp.s
 core/gates/QuGate.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/gates/QuGate.cpp.s
 .PHONY : core/gates/QuGate.cpp.s
+
+core/gates/QuGateFactory.obj: core/gates/QuGateFactory.cpp.obj
+
+.PHONY : core/gates/QuGateFactory.obj
+
+# target to build an object file
+core/gates/QuGateFactory.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj
+.PHONY : core/gates/QuGateFactory.cpp.obj
+
+core/gates/QuGateFactory.i: core/gates/QuGateFactory.cpp.i
+
+.PHONY : core/gates/QuGateFactory.i
+
+# target to preprocess a source file
+core/gates/QuGateFactory.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.i
+.PHONY : core/gates/QuGateFactory.cpp.i
+
+core/gates/QuGateFactory.s: core/gates/QuGateFactory.cpp.s
+
+.PHONY : core/gates/QuGateFactory.s
+
+# target to generate assembly for a file
+core/gates/QuGateFactory.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.s
+.PHONY : core/gates/QuGateFactory.cpp.s
 
 core/gates/Rx.obj: core/gates/Rx.cpp.obj
 
@@ -1148,32 +1121,194 @@ core/gates/Z.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.s
 .PHONY : core/gates/Z.cpp.s
 
-evaluation/QuCircuitEvaluator.obj: evaluation/QuCircuitEvaluator.cpp.obj
+core/generator/QuCircuitGenerator.obj: core/generator/QuCircuitGenerator.cpp.obj
 
-.PHONY : evaluation/QuCircuitEvaluator.obj
+.PHONY : core/generator/QuCircuitGenerator.obj
 
 # target to build an object file
-evaluation/QuCircuitEvaluator.cpp.obj:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj
-.PHONY : evaluation/QuCircuitEvaluator.cpp.obj
+core/generator/QuCircuitGenerator.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj
+.PHONY : core/generator/QuCircuitGenerator.cpp.obj
 
-evaluation/QuCircuitEvaluator.i: evaluation/QuCircuitEvaluator.cpp.i
+core/generator/QuCircuitGenerator.i: core/generator/QuCircuitGenerator.cpp.i
 
-.PHONY : evaluation/QuCircuitEvaluator.i
+.PHONY : core/generator/QuCircuitGenerator.i
 
 # target to preprocess a source file
-evaluation/QuCircuitEvaluator.cpp.i:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.i
-.PHONY : evaluation/QuCircuitEvaluator.cpp.i
+core/generator/QuCircuitGenerator.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.i
+.PHONY : core/generator/QuCircuitGenerator.cpp.i
 
-evaluation/QuCircuitEvaluator.s: evaluation/QuCircuitEvaluator.cpp.s
+core/generator/QuCircuitGenerator.s: core/generator/QuCircuitGenerator.cpp.s
 
-.PHONY : evaluation/QuCircuitEvaluator.s
+.PHONY : core/generator/QuCircuitGenerator.s
 
 # target to generate assembly for a file
-evaluation/QuCircuitEvaluator.cpp.s:
-	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.s
-.PHONY : evaluation/QuCircuitEvaluator.cpp.s
+core/generator/QuCircuitGenerator.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.s
+.PHONY : core/generator/QuCircuitGenerator.cpp.s
+
+core/generator/QuMultiGenerator.obj: core/generator/QuMultiGenerator.cpp.obj
+
+.PHONY : core/generator/QuMultiGenerator.obj
+
+# target to build an object file
+core/generator/QuMultiGenerator.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj
+.PHONY : core/generator/QuMultiGenerator.cpp.obj
+
+core/generator/QuMultiGenerator.i: core/generator/QuMultiGenerator.cpp.i
+
+.PHONY : core/generator/QuMultiGenerator.i
+
+# target to preprocess a source file
+core/generator/QuMultiGenerator.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.i
+.PHONY : core/generator/QuMultiGenerator.cpp.i
+
+core/generator/QuMultiGenerator.s: core/generator/QuMultiGenerator.cpp.s
+
+.PHONY : core/generator/QuMultiGenerator.s
+
+# target to generate assembly for a file
+core/generator/QuMultiGenerator.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.s
+.PHONY : core/generator/QuMultiGenerator.cpp.s
+
+core/generator/QuNaiiveSwapper.obj: core/generator/QuNaiiveSwapper.cpp.obj
+
+.PHONY : core/generator/QuNaiiveSwapper.obj
+
+# target to build an object file
+core/generator/QuNaiiveSwapper.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj
+.PHONY : core/generator/QuNaiiveSwapper.cpp.obj
+
+core/generator/QuNaiiveSwapper.i: core/generator/QuNaiiveSwapper.cpp.i
+
+.PHONY : core/generator/QuNaiiveSwapper.i
+
+# target to preprocess a source file
+core/generator/QuNaiiveSwapper.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.i
+.PHONY : core/generator/QuNaiiveSwapper.cpp.i
+
+core/generator/QuNaiiveSwapper.s: core/generator/QuNaiiveSwapper.cpp.s
+
+.PHONY : core/generator/QuNaiiveSwapper.s
+
+# target to generate assembly for a file
+core/generator/QuNaiiveSwapper.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.s
+.PHONY : core/generator/QuNaiiveSwapper.cpp.s
+
+core/generator/QuSmartSwapper.obj: core/generator/QuSmartSwapper.cpp.obj
+
+.PHONY : core/generator/QuSmartSwapper.obj
+
+# target to build an object file
+core/generator/QuSmartSwapper.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj
+.PHONY : core/generator/QuSmartSwapper.cpp.obj
+
+core/generator/QuSmartSwapper.i: core/generator/QuSmartSwapper.cpp.i
+
+.PHONY : core/generator/QuSmartSwapper.i
+
+# target to preprocess a source file
+core/generator/QuSmartSwapper.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.i
+.PHONY : core/generator/QuSmartSwapper.cpp.i
+
+core/generator/QuSmartSwapper.s: core/generator/QuSmartSwapper.cpp.s
+
+.PHONY : core/generator/QuSmartSwapper.s
+
+# target to generate assembly for a file
+core/generator/QuSmartSwapper.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.s
+.PHONY : core/generator/QuSmartSwapper.cpp.s
+
+core/generator/QuSwapStrategy.obj: core/generator/QuSwapStrategy.cpp.obj
+
+.PHONY : core/generator/QuSwapStrategy.obj
+
+# target to build an object file
+core/generator/QuSwapStrategy.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj
+.PHONY : core/generator/QuSwapStrategy.cpp.obj
+
+core/generator/QuSwapStrategy.i: core/generator/QuSwapStrategy.cpp.i
+
+.PHONY : core/generator/QuSwapStrategy.i
+
+# target to preprocess a source file
+core/generator/QuSwapStrategy.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.i
+.PHONY : core/generator/QuSwapStrategy.cpp.i
+
+core/generator/QuSwapStrategy.s: core/generator/QuSwapStrategy.cpp.s
+
+.PHONY : core/generator/QuSwapStrategy.s
+
+# target to generate assembly for a file
+core/generator/QuSwapStrategy.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.s
+.PHONY : core/generator/QuSwapStrategy.cpp.s
+
+evaluator/QuCircuitEvaluator.obj: evaluator/QuCircuitEvaluator.cpp.obj
+
+.PHONY : evaluator/QuCircuitEvaluator.obj
+
+# target to build an object file
+evaluator/QuCircuitEvaluator.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj
+.PHONY : evaluator/QuCircuitEvaluator.cpp.obj
+
+evaluator/QuCircuitEvaluator.i: evaluator/QuCircuitEvaluator.cpp.i
+
+.PHONY : evaluator/QuCircuitEvaluator.i
+
+# target to preprocess a source file
+evaluator/QuCircuitEvaluator.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.i
+.PHONY : evaluator/QuCircuitEvaluator.cpp.i
+
+evaluator/QuCircuitEvaluator.s: evaluator/QuCircuitEvaluator.cpp.s
+
+.PHONY : evaluator/QuCircuitEvaluator.s
+
+# target to generate assembly for a file
+evaluator/QuCircuitEvaluator.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.s
+.PHONY : evaluator/QuCircuitEvaluator.cpp.s
+
+evaluator/QuMultiEvaluator.obj: evaluator/QuMultiEvaluator.cpp.obj
+
+.PHONY : evaluator/QuMultiEvaluator.obj
+
+# target to build an object file
+evaluator/QuMultiEvaluator.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj
+.PHONY : evaluator/QuMultiEvaluator.cpp.obj
+
+evaluator/QuMultiEvaluator.i: evaluator/QuMultiEvaluator.cpp.i
+
+.PHONY : evaluator/QuMultiEvaluator.i
+
+# target to preprocess a source file
+evaluator/QuMultiEvaluator.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.i
+.PHONY : evaluator/QuMultiEvaluator.cpp.i
+
+evaluator/QuMultiEvaluator.s: evaluator/QuMultiEvaluator.cpp.s
+
+.PHONY : evaluator/QuMultiEvaluator.s
+
+# target to generate assembly for a file
+evaluator/QuMultiEvaluator.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.s
+.PHONY : evaluator/QuMultiEvaluator.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -1202,6 +1337,60 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+util/Result.obj: util/Result.cpp.obj
+
+.PHONY : util/Result.obj
+
+# target to build an object file
+util/Result.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/util/Result.cpp.obj
+.PHONY : util/Result.cpp.obj
+
+util/Result.i: util/Result.cpp.i
+
+.PHONY : util/Result.i
+
+# target to preprocess a source file
+util/Result.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/util/Result.cpp.i
+.PHONY : util/Result.cpp.i
+
+util/Result.s: util/Result.cpp.s
+
+.PHONY : util/Result.s
+
+# target to generate assembly for a file
+util/Result.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/util/Result.cpp.s
+.PHONY : util/Result.cpp.s
+
+util/Util.obj: util/Util.cpp.obj
+
+.PHONY : util/Util.obj
+
+# target to build an object file
+util/Util.cpp.obj:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/util/Util.cpp.obj
+.PHONY : util/Util.cpp.obj
+
+util/Util.i: util/Util.cpp.i
+
+.PHONY : util/Util.i
+
+# target to preprocess a source file
+util/Util.cpp.i:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/util/Util.cpp.i
+.PHONY : util/Util.cpp.i
+
+util/Util.s: util/Util.cpp.s
+
+.PHONY : util/Util.s
+
+# target to generate assembly for a file
+util/Util.cpp.s:
+	$(MAKE) -f CMakeFiles\UCFQuSim.dir\build.make CMakeFiles/UCFQuSim.dir/util/Util.cpp.s
+.PHONY : util/Util.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -1223,24 +1412,18 @@ help:
 	@echo ... core/QuCircuit.obj
 	@echo ... core/QuCircuit.i
 	@echo ... core/QuCircuit.s
-	@echo ... core/QuCircuitBuilder.obj
-	@echo ... core/QuCircuitBuilder.i
-	@echo ... core/QuCircuitBuilder.s
-	@echo ... core/QuGateFactory.obj
-	@echo ... core/QuGateFactory.i
-	@echo ... core/QuGateFactory.s
 	@echo ... core/QuInstruction.obj
 	@echo ... core/QuInstruction.i
 	@echo ... core/QuInstruction.s
+	@echo ... core/QuMapping.obj
+	@echo ... core/QuMapping.i
+	@echo ... core/QuMapping.s
 	@echo ... core/QuRegister.obj
 	@echo ... core/QuRegister.i
 	@echo ... core/QuRegister.s
 	@echo ... core/QuSimulator.obj
 	@echo ... core/QuSimulator.i
 	@echo ... core/QuSimulator.s
-	@echo ... core/Util.obj
-	@echo ... core/Util.i
-	@echo ... core/Util.s
 	@echo ... core/gates/CHadamard.obj
 	@echo ... core/gates/CHadamard.i
 	@echo ... core/gates/CHadamard.s
@@ -1280,6 +1463,9 @@ help:
 	@echo ... core/gates/QuGate.obj
 	@echo ... core/gates/QuGate.i
 	@echo ... core/gates/QuGate.s
+	@echo ... core/gates/QuGateFactory.obj
+	@echo ... core/gates/QuGateFactory.i
+	@echo ... core/gates/QuGateFactory.s
 	@echo ... core/gates/Rx.obj
 	@echo ... core/gates/Rx.i
 	@echo ... core/gates/Rx.s
@@ -1325,12 +1511,36 @@ help:
 	@echo ... core/gates/Z.obj
 	@echo ... core/gates/Z.i
 	@echo ... core/gates/Z.s
-	@echo ... evaluation/QuCircuitEvaluator.obj
-	@echo ... evaluation/QuCircuitEvaluator.i
-	@echo ... evaluation/QuCircuitEvaluator.s
+	@echo ... core/generator/QuCircuitGenerator.obj
+	@echo ... core/generator/QuCircuitGenerator.i
+	@echo ... core/generator/QuCircuitGenerator.s
+	@echo ... core/generator/QuMultiGenerator.obj
+	@echo ... core/generator/QuMultiGenerator.i
+	@echo ... core/generator/QuMultiGenerator.s
+	@echo ... core/generator/QuNaiiveSwapper.obj
+	@echo ... core/generator/QuNaiiveSwapper.i
+	@echo ... core/generator/QuNaiiveSwapper.s
+	@echo ... core/generator/QuSmartSwapper.obj
+	@echo ... core/generator/QuSmartSwapper.i
+	@echo ... core/generator/QuSmartSwapper.s
+	@echo ... core/generator/QuSwapStrategy.obj
+	@echo ... core/generator/QuSwapStrategy.i
+	@echo ... core/generator/QuSwapStrategy.s
+	@echo ... evaluator/QuCircuitEvaluator.obj
+	@echo ... evaluator/QuCircuitEvaluator.i
+	@echo ... evaluator/QuCircuitEvaluator.s
+	@echo ... evaluator/QuMultiEvaluator.obj
+	@echo ... evaluator/QuMultiEvaluator.i
+	@echo ... evaluator/QuMultiEvaluator.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... util/Result.obj
+	@echo ... util/Result.i
+	@echo ... util/Result.s
+	@echo ... util/Util.obj
+	@echo ... util/Util.i
+	@echo ... util/Util.s
 .PHONY : help
 
 

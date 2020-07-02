@@ -8,12 +8,10 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuArchitecture.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuArchitecture.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuBit.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuBit.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuit.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuCircuit.cpp.obj"
-  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuCircuitBuilder.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuCircuitBuilder.cpp.obj"
-  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuGateFactory.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuGateFactory.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuInstruction.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuInstruction.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuMapping.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuMapping.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuRegister.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuRegister.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/QuSimulator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/QuSimulator.cpp.obj"
-  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/Util.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/Util.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CHadamard.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/CHadamard.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CNot.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/CNot.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/CRz.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/CRz.cpp.obj"
@@ -27,6 +25,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/NoOp.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/NoOp.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Not.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Not.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGate.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/QuGate.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/QuGateFactory.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/QuGateFactory.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rx.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Rx.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Ry.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Ry.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Rz.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Rz.cpp.obj"
@@ -42,13 +41,25 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/X.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/X.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Y.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Y.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/gates/Z.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/gates/Z.cpp.obj"
-  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluation/QuCircuitEvaluator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/evaluation/QuCircuitEvaluator.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuCircuitGenerator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/generator/QuCircuitGenerator.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuMultiGenerator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/generator/QuMultiGenerator.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuNaiiveSwapper.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/generator/QuNaiiveSwapper.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSmartSwapper.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/generator/QuSmartSwapper.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/core/generator/QuSwapStrategy.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/core/generator/QuSwapStrategy.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluator/QuCircuitEvaluator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/evaluator/QuCircuitEvaluator.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/evaluator/QuMultiEvaluator.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/evaluator/QuMultiEvaluator.cpp.obj"
   "C:/Users/YUSHAH/CLionProjects/UCFQuSim/main.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/main.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/util/Result.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/util/Result.cpp.obj"
+  "C:/Users/YUSHAH/CLionProjects/UCFQuSim/util/Util.cpp" "C:/Users/YUSHAH/CLionProjects/UCFQuSim/cmake-build-debug/CMakeFiles/UCFQuSim.dir/util/Util.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../."
+  "../core"
+  "../core/gates"
+  "../evaluator"
   )
 
 # Targets to which this target links.
