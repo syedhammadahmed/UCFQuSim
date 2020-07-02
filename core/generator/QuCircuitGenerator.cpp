@@ -235,6 +235,9 @@ QuCircuitGenerator::~QuCircuitGenerator() {
     for(int i = 0; i < rows; i++)
         delete [] grid[i];
     delete [] grid;
+    for(int i = 0; i < rows; i++)
+        delete [] simpleGrid[i];
+    delete [] simpleGrid;
     for(QuGate* ptr: instructions){
         delete ptr;
     }
