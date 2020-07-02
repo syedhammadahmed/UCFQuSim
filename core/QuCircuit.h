@@ -34,7 +34,7 @@ private:
     vector<QuGate*> instructionsV1; // modified qasm program after inserting swap and H instructions/qugates
 
     string fileName; // circuit input file name (absolute path)
-//    QuMapping mapping;
+    QuMapping mapping;
 //    vector<int> swapPath;
 
 public:
