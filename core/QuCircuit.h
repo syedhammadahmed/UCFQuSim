@@ -24,8 +24,8 @@ private:
 //    int physicalToLogicalMapping[16]; // physical to logical mapping of quBits : physical index -> logical elements
 //    int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
 //    int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
-    int* quBitRecentLayer;
-    QuBit* logicalQuBits;
+//    int* quBitRecentLayer;
+//    QuBit* logicalQuBits;
     QuGate*** grid;
 
     vector<QuGate*> instructions; // qasm program instructions/qugates
@@ -34,14 +34,14 @@ private:
     vector<QuGate*> instructionsV1; // modified qasm program after inserting swap and H instructions/qugates
 
     string fileName; // circuit input file name (absolute path)
-    QuMapping mapping;
+//    QuMapping mapping;
 //    vector<int> swapPath;
 
 public:
     QuCircuit();
     QuCircuit(int rows);
     QuCircuit(int rows, int cols);
-    QuCircuit(string fileName, int rows);
+//    QuCircuit(string fileName, int rows);
     QuCircuit(QuArchitecture& architecture);
 
     void add(QuGate* gate, int row, int depth);
@@ -75,6 +75,8 @@ public:
     void setCols(int cols);
     void setGrid(QuGate ***grid);
     void setInstructions(const vector<QuGate*> instructions);
+
+    void setFileName(const string &fileName);
 
     vector<QuGate*>& getInstructionsV1();
     vector<QuGate*> getInstructions() const;

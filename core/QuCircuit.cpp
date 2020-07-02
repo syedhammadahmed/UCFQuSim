@@ -122,7 +122,7 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 QuCircuit::~QuCircuit() {
 //    cout << "~QuCircuit()" << endl;
 //    delete [] physicalToLogicalMapping;
-    delete [] logicalQuBits;
+//    delete [] logicalQuBits;
 //    for(int i=0; i<rows; i++)
 //        delete [] grid[i];
 //    delete [] grid;
@@ -148,7 +148,7 @@ void QuCircuit::run() {
 }
 
 void QuCircuit::addMapping(int logicalQuBit, int physicalQuBit) {
-    mapping.setLogicalMapping(physicalQuBit, logicalQuBit);
+//    mapping.setLogicalMapping(physicalQuBit, logicalQuBit);
 //    logicalToPhysicalMapping[logicalQuBit] = physicalQuBit;
 //    physicalToLogicalMapping[physicalQuBit] = logicalQuBit;
 }
@@ -189,7 +189,7 @@ ostream &operator<<(ostream &os, const QuCircuit &circuit) {
 void QuCircuit::init1() {
 //    logicalToPhysicalMapping = new int[rows];
 //    physicalToLogicalMapping = new int[rows];
-    logicalQuBits = new QuBit[rows];
+//    logicalQuBits = new QuBit[rows];
 }
 
 //// initializes the circuit grid
@@ -319,20 +319,20 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    instructionsV1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
 //    return swaps;
 //}
-
-void QuCircuit::printMappings() {
-    cout << "Printing physical-logical qubit mappings: " << endl;
-    for(int i = 0; i < rows; i++) {
-        cout << "Q" << i << " -> q" << mapping.getLogicalMapping(i) << endl;
-//        cout << "Q" << i << " -> q" << physicalToLogicalMapping[i] << endl;
-    }
-    cout << endl;
-//    cout << "Printing logical-physical qubit mappings: " << endl;
+//
+//void QuCircuit::printMappings() {
+//    cout << "Printing physical-logical qubit mappings: " << endl;
 //    for(int i = 0; i < rows; i++) {
-//        cout << "Q" << logicalToPhysicalMapping[i] << " -> q" << i << endl;
+//        cout << "Q" << i << " -> q" << mapping.getLogicalMapping(i) << endl;
+////        cout << "Q" << i << " -> q" << physicalToLogicalMapping[i] << endl;
 //    }
 //    cout << endl;
-}
+////    cout << "Printing logical-physical qubit mappings: " << endl;
+////    for(int i = 0; i < rows; i++) {
+////        cout << "Q" << logicalToPhysicalMapping[i] << " -> q" << i << endl;
+////    }
+////    cout << endl;
+//}
 
 int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
@@ -385,6 +385,10 @@ vector<QuGate*> QuCircuit::getInstructions() const{
 
 QuMapping& QuCircuit::getMapping() {
     return mapping;
+}
+
+void QuCircuit::setFileName(const string &fileName) {
+    this->fileName = fileName;
 }
 
 //vector<int>& QuCircuit::getSwapPath(){

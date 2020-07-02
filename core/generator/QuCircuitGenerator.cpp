@@ -97,10 +97,53 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     }
     ifs.close();
     circuit.setCols(cols);
-//    circuit.init2();
     circuit.setInstructions(instructions);
+    circuit.setFileName(fileName);
     buildGrid();
+//    QuGate*** grid;
+//    QuMapping mapping;
+
 }
+
+
+//
+//QuGate* QuCircuitGenerator::parseInstruction(string line){
+//    QuGate* newGate = nullptr;
+//    string quGate = "", qubitArgs = "";
+//
+//    if(!line.empty()) {
+//        stringstream lineStream(line);
+//        getline(lineStream, quGate, ' '); // mnemonic for qu-gate e.g. h for Hadamard, x for NOT, cx for C-NOT, etc.
+//        qubitArgs = line.substr(quGate.length()); // operands for the qu-gate - can be 1, 2, or 3 [simulator doesn't supports 4-operand qu-gates]
+//    //        cout << ">>>> " << quGate << " --- " << qubitArgs << endl;
+////        if((quGate.find("[") != string::npos) || (qubitArgs.find("[") != string::npos)) {
+//        int pos1 = qubitArgs.find("[");
+//        int pos2 = qubitArgs.find("]", pos1 + 1);
+//            while (pos1 != string::npos) {
+////                pos2 = qubitArgs.find("[", pos1 + 1);
+//                if ((pos1 != string::npos) && (pos2 != string::npos)) {
+//    //                    cout << ">>>> " << stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1)) << " <<<<" << endl;
+//                    operandIndexes[i++] = stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1));
+//                }
+//            }
+//
+//            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
+//                QuGate *newGate = QuGateFactory::getQuGate(quGate);
+//                for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
+//                    int* arr = newGate->getArgIndex();
+//                    arr[j] = operandIndexes[j];
+//                }
+//    //                layer++;
+//    //                layer = getLayerForNewGate(operandIndexes, newGate -> getCardinality());
+//    //                add(newGate, layer); // adds to grid
+//                instructions.push_back(newGate);
+//                cols++;
+//            }
+//    }
+//
+//    return newGate;
+//}
+
 
 void QuCircuitGenerator::buildGrid() {
     init2(); // make grid
