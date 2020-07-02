@@ -27,10 +27,7 @@ private:
 //    int* quBitRecentLayer;
 //    QuBit* logicalQuBits;
     QuGate*** grid;
-
     vector<QuGate*> instructions; // qasm program instructions/qugates
-
-//    vector<QuGate*> instructionsV0; // original qasm program instructions/qugates
     vector<QuGate*> instructionsV1; // modified qasm program after inserting swap and H instructions/qugates
 
     string fileName; // circuit input file name (absolute path)
