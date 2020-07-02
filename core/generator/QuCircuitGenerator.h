@@ -17,6 +17,7 @@ private:
     vector<QuGate*> instructions; // original qasm program instructions/qugates
 
     QuGate*** grid;
+    int** simpleGrid;
     int rows;
     int cols;
 
@@ -38,6 +39,7 @@ public:
     void buildGrid();
     void init2();
     void add(QuGate *gate, int depth);
+    void addSimple(QuGate *gate, int depth, int instructionNo);
     int getLayerForNewGate(int *gates, int operands);
 
     void makeProgramFile(string outputFileName);

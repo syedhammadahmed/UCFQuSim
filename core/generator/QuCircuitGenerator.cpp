@@ -148,11 +148,15 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
 void QuCircuitGenerator::buildGrid() {
     init2(); // make grid
     try {
+        int currentInstruction = 0;
         for (QuGate *newGate: instructions) {
-            for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
+            int operands = newGate -> getCardinality();
+            int* args = newGate -> getArgIndex();
+            for (int j = 0; j < operands; j++) { // set gate operand qubits
                 layer = getLayerForNewGate(newGate->getArgIndex(), newGate -> getCardinality());
                 add(newGate, layer); // adds to grid
             }
+            currentInstruction++;
         }
         circuit.setGrid(grid);
     } catch (exception& e){
@@ -161,23 +165,23 @@ void QuCircuitGenerator::buildGrid() {
 }
 
 void QuCircuitGenerator::add(QuGate* gate, int depth) {
-    int* quBitIndexes = gate -> getArgIndex();
-    grid[quBitIndexes[0]][depth] = gate;
+    int* quBits = gate -> getArgIndex();
+    grid[quBits[0]][depth] = gate;
     if(gate -> getCardinality() == 2) {
-        grid[quBitIndexes[1]][depth] = gate;
+        grid[quBits[1]][depth] = gate;
     }
 }
 
-int QuCircuitGenerator::getLayerForNewGate(int* gates, int operands) {
+int QuCircuitGenerator::getLayerForNewGate(int* quBits, int operands) {
     int layer = 0;
-    int max = quBitRecentLayer[gates[0]];
+    int max = quBitRecentLayer[quBits[0]];
     for(int i = 1; i < operands; i++){
-        if(quBitRecentLayer[gates[i]] > max)
-            max = quBitRecentLayer[gates[i]];
+        if(quBitRecentLayer[quBits[i]] > max)
+            max = quBitRecentLayer[quBits[i]];
     }
     layer = max + 1;
     for(int i = 0; i < operands; i++) {
-        quBitRecentLayer[gates[i]] = layer;
+        quBitRecentLayer[quBits[i]] = layer;
     }
 
 //    if(operands > 1) {
@@ -244,7 +248,15 @@ void QuCircuitGenerator::init2() {
     for(int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
             grid[i][j] = NULL;
-//    printGrid();
+
+    simpleGrid = new int*[rows];
+    for(int i = 0; i < rows; i++)
+        simpleGrid[i] = new int[cols];
+    for(int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            simpleGrid[i][j] = -1;
+
+        //    printGrid();
 }
 
 void QuCircuitGenerator::setInstructions(const vector<QuGate*> instructions) {
@@ -261,5 +273,24 @@ int QuCircuitGenerator::getLayer() const {
 
 QuCircuit& QuCircuitGenerator::getCircuit() {
     return circuit;
+}
+
+void QuCircuitGenerator::addSimple(QuGate *gate, int depth, int instructionNo) {
+    int* quBits = gate -> getArgIndex();
+    int cardinality = gate -> getCardinality();
+
+    simpleGrid[quBits[0]][depth] = instructionNo;
+    switch (cardinality){
+        case 3:
+            simpleGrid[quBits[2]][depth] = instructionNo;
+        case 2:
+            simpleGrid[quBits[1]][depth] = instructionNo;
+    }
+    if( == 2) {
+        simpleGrid[quBits[1]][depth] = instructionNo;
+    }
+    if(gate -> getCardinality() == 2) {
+        simpleGrid[quBits[1]][depth] = instructionNo;
+    }
 }
 
