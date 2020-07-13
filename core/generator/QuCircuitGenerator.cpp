@@ -152,13 +152,17 @@ void QuCircuitGenerator::buildGrid() {
         for (QuGate *newGate: instructions) {
             int operands = newGate -> getCardinality();
             int* args = newGate -> getArgIndex();
-            for (int j = 0; j < operands; j++) { // set gate operand qubits
-                layer = getLayerForNewGate(newGate->getArgIndex(), newGate -> getCardinality());
+//            for (int j = 0; j < operands; j++) { // set gate operand qubits
+                layer = getLayerForNewGate(args, operands);
                 add(newGate, layer); // adds to grid
-            }
+                addSimple(newGate, layer, currentInstruction);
+//            }
             currentInstruction++;
         }
         circuit.setGrid(grid);
+        circuit.setSimpleGrid(simpleGrid);
+        circuit.printGrid();
+        circuit.printSimpleGrid();
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';
     }
@@ -167,8 +171,12 @@ void QuCircuitGenerator::buildGrid() {
 void QuCircuitGenerator::add(QuGate* gate, int depth) {
     int* quBits = gate -> getArgIndex();
     grid[quBits[0]][depth] = gate;
-    if(gate -> getCardinality() == 2) {
-        grid[quBits[1]][depth] = gate;
+    if(gate -> getCardinality() > 1) {
+        for(int i = 1; i < gate->getCardinality(); i++) {
+            QuGate* temp = QuGateFactory::getQuGate(gate->getMnemonic());
+            temp->setPrintIndex(i);
+            grid[quBits[i]][depth] = temp;
+        }
     }
 }
 
@@ -180,6 +188,8 @@ int QuCircuitGenerator::getLayerForNewGate(int* quBits, int operands) {
             max = quBitRecentLayer[quBits[i]];
     }
     layer = max + 1;
+    while(operands>1 && somethingInBetween(quBits, operands, layer))
+        layer++;
     for(int i = 0; i < operands; i++) {
         quBitRecentLayer[quBits[i]] = layer;
     }
@@ -207,9 +217,18 @@ int QuCircuitGenerator::getLayerForNewGate(int* quBits, int operands) {
     return layer;
 }
 
+//bool QuCircuitGenerator::somethingInBetween(int row1, int row2, int layer) {
+//    for (int i = row1; i <= row2; i++)
+//        if (grid[i][layer] != NULL)
+//            return true;
+//    return false;
+//}
 bool QuCircuitGenerator::somethingInBetween(int row1, int row2, int layer) {
-    for (int i = row1; i <= row2; i++)
-        if (grid[i][layer] != NULL)
+    if (row1 > row2)
+        swap(row1, row2);
+
+    for (int i = row1+1; i < row2; i++)
+        if (simpleGrid[i][layer] != -1)
             return true;
     return false;
 }
@@ -282,19 +301,16 @@ QuCircuit& QuCircuitGenerator::getCircuit() {
 void QuCircuitGenerator::addSimple(QuGate *gate, int depth, int instructionNo) {
     int* quBits = gate -> getArgIndex();
     int cardinality = gate -> getCardinality();
+    for(int i = 0; i < cardinality; i++)
+        simpleGrid[quBits[i]][depth] = instructionNo;
+}
 
-    simpleGrid[quBits[0]][depth] = instructionNo;
-    switch (cardinality){
-        case 3:
-            simpleGrid[quBits[2]][depth] = instructionNo;
-        case 2:
-            simpleGrid[quBits[1]][depth] = instructionNo;
-    }
-    if( == 2) {
-        simpleGrid[quBits[1]][depth] = instructionNo;
-    }
-    if(gate -> getCardinality() == 2) {
-        simpleGrid[quBits[1]][depth] = instructionNo;
-    }
+bool QuCircuitGenerator::somethingInBetween(int *quBits, int operands, int layer) {
+    for(int i = 0; i < operands; i++)
+        for(int j = i + 1; j < operands; j++){
+            if (somethingInBetween(quBits[i], quBits[j], layer))
+                return true;
+        }
+    return false;
 }
 

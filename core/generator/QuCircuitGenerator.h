@@ -44,6 +44,7 @@ public:
 
     void makeProgramFile(string outputFileName);
     bool somethingInBetween(int row1, int row2, int layer);
+    bool somethingInBetween(int* quBits, int operands, int layer);
 
     void setInstructions(const vector<QuGate*> instructions);
     int getLayer() const;

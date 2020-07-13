@@ -18,6 +18,10 @@ QuGate::QuGate(int cardinality, string symbol, string mnemonic) : cardinality(ca
     argIndex = new int[cardinality];
 }
 
+QuGate::QuGate(int cardinality, string symbol, string mnemonic, int printIndex) : cardinality(cardinality), symbol(symbol), printIndex(printIndex), mnemonic(mnemonic) {
+    argIndex = new int[cardinality];
+}
+
 QuBit& QuGate::operator[](int i) {
     return *arg[i];
 }
@@ -43,7 +47,7 @@ int QuGate::getPrintIndex() const {
 }
 
 void QuGate::setPrintIndex(int printIndex) {
-    QuGate::printIndex = printIndex;
+    this -> printIndex = printIndex;
 }
 
 std::string QuGate::getPrintSymbol() {

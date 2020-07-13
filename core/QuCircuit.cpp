@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include "QuCircuit.h"
 #include "QuGateFactory.h"
 #include "../ShortestPathFinder.h"
@@ -208,8 +209,36 @@ void QuCircuit::printGrid(){
     for(int i=0; i<50; i++) cout << "__";   // todo make it generic for any layers
     cout << endl;
     for(int i=0; i<rows; i++) {
-        for (int j = 0; j < cols; j++)
-            cout << grid[i][j] << " ";
+        cout << std::setw(8);
+        cout << "q[" << i << "]";
+        for (int j = 0; j < cols; j++) {
+            string symbol = ".";
+            if (grid[i][j] != NULL) {
+                symbol = grid[i][j]->getPrintSymbol();
+            }
+            cout << std::setw(4);
+            cout << symbol << " ";
+        }
+        cout << endl;
+    }
+    for(int i=0; i<50; i++) cout << "__";
+    cout << endl;
+}
+
+void QuCircuit::printSimpleGrid(){
+    cout << "Printing Circuit Grid (grid of qugates positions): " << endl;
+    for(int i=0; i<50; i++) cout << "__";   // todo make it generic for any layers
+    cout << endl;
+    for(int i=0; i<rows; i++) {
+        cout << std::setw(8);
+        cout << "q[" << i << "]";
+        for (int j = 0; j < cols; j++) {
+            cout << std::setw(4);
+            if(simpleGrid[i][j] == -1)
+                cout << "." << " ";
+            else
+                cout << simpleGrid[i][j] << " ";
+        }
         cout << endl;
     }
     for(int i=0; i<50; i++) cout << "__";
@@ -390,6 +419,11 @@ QuMapping& QuCircuit::getMapping() {
 void QuCircuit::setFileName(const string &fileName) {
     this->fileName = fileName;
 }
+
+void QuCircuit::setSimpleGrid(int** simpleGrid) {
+    this->simpleGrid = simpleGrid;
+}
+
 
 //vector<int>& QuCircuit::getSwapPath(){
 //    return swapPath;

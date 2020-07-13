@@ -32,6 +32,7 @@ public:
 //    QuGate(int depth, bool isElementary, int cardinality);
 
     QuGate(int cardinality, std::string symbol, string mnemonic);
+    QuGate(int cardinality, std::string symbol, string mnemonic, int printIndex);
 
     QuBit& operator[](int);
 

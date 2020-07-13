@@ -27,6 +27,7 @@ private:
 //    int* quBitRecentLayer;
 //    QuBit* logicalQuBits;
     QuGate*** grid;
+    int** simpleGrid;
     vector<QuGate*> instructions; // qasm program instructions/qugates
     vector<QuGate*> instructionsV1; // modified qasm program after inserting swap and H instructions/qugates
 
@@ -81,7 +82,9 @@ public:
     QuMapping& getMapping();
 //
 //    vector<int> &getSwapPath();
+    void setSimpleGrid(int **simpleGrid);
 
+    void printSimpleGrid();
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

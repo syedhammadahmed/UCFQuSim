@@ -9,7 +9,7 @@ void Result::print() {
     cout << gatesOriginal << "\t";
     cout << swaps << "\t";
     cout << gatesProposed << "\t";
-    cout << depthProposed << "\t";
+    cout << depthProposed + 1 << "\t";
     cout << timeProposed << "\t";
     cout << endl;
 }

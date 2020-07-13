@@ -25,11 +25,11 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
     removeUnaryInstructions();
     for(QuGate* currentInstruction: nonUnaryInstructions){
 //        QuGate* currentInstruction = nonUnaryInstructions[i];
-//        cout << "Current Instruction: " << *currentInstruction << endl;  //todo commented to print results
+        cout << "Current Instruction: " << *currentInstruction << endl;  //todo commented to print results
 
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
-        //        cout << "Instruction #: " << programCounter << endl;
+        cout << "Instruction #: " << programCounter << endl;
         perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
         unsigned int min = INT32_MAX;
         vector<vector<int>> paths;  // saves the swap path of each input mapping for current instruction (shortest  path)
@@ -38,9 +38,9 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
             // todo mapping never used
             // find swap count for a particular input mapping
             int swaps = findSwapsFor1Instruction(currentInstruction, quArchitecture.getCouplingMap());
-                cout << "Swap Path: ";  // todo commented for results print
-                printSwapPath(swapPath);
-                cout << "Swaps: " << swaps << endl;
+            cout << "Swap Path: ";  // todo commented for results print
+            printSwapPath(swapPath);
+            cout << "Swaps: " << swaps << endl;
 
             paths.push_back(swapPath);  // add ith path for ith mapping
             if (swaps < min)
@@ -207,10 +207,10 @@ vector<int> QuSmartSwapper::swapAlongPath(int* parent, int source, int destinati
 
 void QuSmartSwapper::insertSwapGates(int source, int destination){
         // insert swap gate in circuit
-        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");    // create a new swap gate
-        int* args = swapGate -> getArgIndex();
-        args[0] = getCurrentMapping().getLogicalMapping(source);       // set swap gate 1st arg
-        args[1] = getCurrentMapping().getLogicalMapping(destination);  // set swap gate 2nd arg
+    QuGate* swapGate = QuGateFactory::getQuGate("SWAP");    // create a new swap gate
+    int* args = swapGate -> getArgIndex();
+    args[0] = getCurrentMapping().getLogicalMapping(source);       // set swap gate 1st arg
+    args[1] = getCurrentMapping().getLogicalMapping(destination);  // set swap gate 2nd arg
     circuit.getInstructionsV1().push_back(swapGate);               // add swap gate to circuit
 }
 

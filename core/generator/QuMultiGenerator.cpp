@@ -60,8 +60,9 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         unsigned int gatesProposed = circuit.getInstructions().size() + totalSwaps; // 7 elementary gates per swap
 
         quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
+//        quCircuitGenerator.buildGrid();
         quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
-        int depthProposed = quCircuitGenerator.getLayer();
+        int depthProposed = quCircuitGenerator.getLayer() + 1;
         results.emplace_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, timeProposed));
     }
     return results;
