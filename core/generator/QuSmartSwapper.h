@@ -14,6 +14,9 @@ private:
     vector<vector<QuMapping>> instructionWiseMappings;  // instructionWiseMappings[0] = mappings for instruction 0 (1st instruction)
     int perInstructionMappingCounter;
     vector<QuGate*> nonUnaryInstructions;
+
+    void printSwapPath(vector<int> swapPath);
+
 public:
     QuSmartSwapper(QuCircuit &circuit);
 
@@ -28,8 +31,6 @@ public:
     vector<QuMapping> getAllMappingsForCurrentInstruction();
 
     vector<QuMapping> findAllMappingsFromPermutations(QuMapping& mapping, vector<int> sequence);
-
-    void printSwapPath(vector<int> swapPath);
 
     void insertSwapGates(int source, int destination);
 

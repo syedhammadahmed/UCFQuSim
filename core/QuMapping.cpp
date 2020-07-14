@@ -94,9 +94,10 @@ void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
 void QuMapping::fixMappings(std::vector<int> swapSeq) {
     if(swapSeq.empty())
         return;
-    for(int i=0; i<signed(swapSeq.size()-2); i++){
+    for(int i=0; i<signed(swapSeq.size()-1); i++){
         quSwap(swapSeq[i], swapSeq[i+1]);
     }
+    cout << "Helloo" << endl;
 }
 
 void QuMapping::print() {
