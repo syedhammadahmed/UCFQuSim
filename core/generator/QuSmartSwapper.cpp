@@ -49,31 +49,31 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
             perInstructionMappingCounter++; // needed in getCurrentMapping()
         }
         total += min;
-//            cout << "Min Mapping Swaps: " << min << endl; //todo commented to print results
+        cout << "Min Mapping Swaps: " << min << endl; //todo commented to print results
         // remove larger swap paths and mappingsD
         vector<QuMapping> filteredInputMappings;
         vector<vector<int>> filteredPaths;
 
-        if(min > 0) {
-            int n = paths.size();
-            // keeping only minimum path mappings; calling them as filtered
-            for (int j = 0; j < n; j++) {
-                if (!paths.empty() && (paths[j].size() - 2 == min)) {
-                    //                    cout << "Adding Mapping Having Swaps: " << paths[j].size() - 2 << endl;  //todo commented to print results
-                    filteredPaths.push_back(paths[j]);
-                    filteredInputMappings.push_back(inputMappings[j]);
-                    cout << "inputMappings[min]: " << endl;
-                    inputMappings[j].print();
-                    //                paths.erase(paths.begin() + j);
-                    //                inputMappings.erase(inputMappings.begin() + j);
-                }
-
+//        if(min > 0) {
+        int n = paths.size();
+        // keeping only minimum path mappings; calling them as filtered
+        for (int j = 0; j < n; j++) {
+            if (!paths.empty() && (paths[j].size() - 2 == min)) {
+                //                    cout << "Adding Mapping Having Swaps: " << paths[j].size() - 2 << endl;  //todo commented to print results
+                filteredPaths.push_back(paths[j]);
+                filteredInputMappings.push_back(inputMappings[j]);
+                cout << "inputMappings[min]: " << endl;
+                inputMappings[j].print();
+                //                paths.erase(paths.begin() + j);
+                //                inputMappings.erase(inputMappings.begin() + j);
             }
+
+        }
 //            // find permutations of each mapping and generate mappings for next instruction
 //            inputMappings = filteredInputMappings;  // todo: save these to backtrack and generate o/p file
 //            paths = filteredPaths;                  // todo: save these to backtrack and generate o/p file
-        }
-        else{
+//        }
+        if(programCounter == 0){
             filteredInputMappings = inputMappings;
             filteredPaths = paths;
         }
