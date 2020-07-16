@@ -9,7 +9,7 @@
 using namespace std;
 
 // Prints all paths from 's' to 'd'
-void AllShortestPathsFinder::printAllPaths(int s, int d)
+void AllShortestPathsFinder::printAllPaths(int s, int d, int swaps)
 {
     // Mark all the vertices as not visited
     bool *visited = new bool[n];
