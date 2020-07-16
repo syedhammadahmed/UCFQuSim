@@ -11,8 +11,6 @@ private:
     int** graph;
     int** dist;
     int* dist1D;
-    int* lToP;
-    int* pToL;
     int n;
     // Parent array to store shortest path tree
     int* parent;

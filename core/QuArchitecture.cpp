@@ -11,7 +11,7 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
     for(int i = 0; i < n; i++)
         for(int j = 0; j < n; j++)
             couplingMap[i][j] = 0;
-    addConstraintsQX3();
+    addConstraintsQX5();
 }
 
 void QuArchitecture::addConstraint(int src, int dest) {
@@ -67,4 +67,35 @@ void QuArchitecture::addConstraintsQX3() {
     architectureQX3.addConstraint(9,10);
     architectureQX3.addConstraint(7,10);
     architectureQX3.addConstraint(11,10);
+}
+
+
+void QuArchitecture::addConstraintsQX5() {
+    QuArchitecture& architectureQX5 = *this;
+    architectureQX5.addConstraint(1,2);
+    architectureQX5.addConstraint(1,0);
+    architectureQX5.addConstraint(2,3);
+    architectureQX5.addConstraint(3,4);
+    architectureQX5.addConstraint(3,14);
+    architectureQX5.addConstraint(5,4);
+    architectureQX5.addConstraint(6,5);
+    architectureQX5.addConstraint(6,7);
+    architectureQX5.addConstraint(6,11);
+
+    architectureQX5.addConstraint(7,10);
+    architectureQX5.addConstraint(8,7);
+
+    architectureQX5.addConstraint(9,8);
+    architectureQX5.addConstraint(9,10);
+
+    architectureQX5.addConstraint(12,5);
+    architectureQX5.addConstraint(12,11);
+    architectureQX5.addConstraint(12,13);
+
+    architectureQX5.addConstraint(13,4);
+    architectureQX5.addConstraint(13,14);
+
+    architectureQX5.addConstraint(15,0);
+    architectureQX5.addConstraint(15,2);
+    architectureQX5.addConstraint(15,14);
 }

@@ -33,10 +33,11 @@ int main() {
 //    inputDirectory += "/home/hammad/input/";
     cout << "Input File Directory: " << inputDirectory << endl;
 
-    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
+//    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
 //    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
 
-    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX3);
+    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
     vector<Result> results = quMultiGenerator.generateAllCircuits();
     Result::printHeader();
     for(Result result: results){

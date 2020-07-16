@@ -26,6 +26,8 @@ public:
     int **getCouplingMap() const;
 
     virtual ~QuArchitecture();
+
+    void addConstraintsQX5();
 };
 
 

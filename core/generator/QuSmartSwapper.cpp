@@ -7,6 +7,7 @@
 #include "QuSmartSwapper.h"
 #include "QuGateFactory.h"
 #include <bits/stdc++.h>
+#include <AllShortestPathsFinder.h>
 
 vector<QuGate*> QuSmartSwapper::removeUnaryInstructions(){
     vector<QuGate*> instructions = circuit.getInstructions();
@@ -191,6 +192,12 @@ int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **c
     parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
     if(cardinality == 2){
         int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
+        //
+        cout << "ALL SPF PRINT START --- " << endl << endl;
+        AllShortestPathsFinder allSPF(couplingMap, circuit.getRows());
+        allSPF.printAllPaths(physicalIndex1, physicalIndex2);
+        cout << "ALL SPF PRINT END --- " << endl << endl;
+        //
         swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
         int src = physicalIndex1;
         int dest = physicalIndex2;
