@@ -7,3 +7,7 @@
 void Rz::apply(QuBit *bit, int i) {
 
 }
+
+Rz::Rz() : QuGate(1, "rz", "rz") {
+}
+

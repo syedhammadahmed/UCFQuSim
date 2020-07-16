@@ -19,11 +19,11 @@ private:
     int gatesOriginal;
     int gatesProposed;
     int depthProposed;
-    int timeProposed;
+    double timeProposed;
 
 public:
     Result(const string &file, int swaps, int gatesOriginal, int gatesProposed, int depthProposed,
-           int timeProposed);
+           double timeProposed);
 
     void print();
     static void printHeader();

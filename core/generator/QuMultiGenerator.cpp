@@ -52,10 +52,10 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         QuCircuit& circuit = quCircuitGenerator.getCircuit();
         cout << endl << file << " : " << endl;
         Util::timeIt(false);
-        int totalSwaps = circuit.findTotalSwaps(quArchitecture);
-        int timeProposed = (int)Util::timeIt(true); // todo loss due to cast
-
         int gatesOriginal = circuit.getInstructions().size();
+        int totalSwaps = circuit.findTotalSwaps(quArchitecture) * 7;
+        double timeProposed = Util::timeIt(true); // todo loss due to cast
+
         int swaps = totalSwaps;
         unsigned int gatesProposed = circuit.getInstructions().size() + totalSwaps; // 7 elementary gates per swap
 

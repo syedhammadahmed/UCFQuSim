@@ -25,7 +25,7 @@ void Result::printHeader() {
 }
 
 Result::Result(const string &file, int swaps, int gatesOriginal, int gatesProposed,
-               int depthProposed, int timeProposed) : file(file), swaps(swaps), gatesOriginal(gatesOriginal), gatesProposed(gatesProposed),
+               int depthProposed, double timeProposed) : file(file), swaps(swaps), gatesOriginal(gatesOriginal), gatesProposed(gatesProposed),
                                                       depthProposed(depthProposed), timeProposed(timeProposed) {}
 
 

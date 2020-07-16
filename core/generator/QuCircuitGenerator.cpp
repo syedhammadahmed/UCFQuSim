@@ -81,7 +81,10 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
                 }
             }
 
-            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
+//            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
+            if(quGate != "qreg" && quGate != "creg" && quGate != "measure") {
+                if(quGate.substr(0,2) == "rz")
+                    quGate = "rz";
                 QuGate *newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     int* arr = newGate->getArgIndex();

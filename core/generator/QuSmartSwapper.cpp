@@ -30,7 +30,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
-        cout << "Instruction #: " << programCounter << endl;
+        cout << "Program Counter: " << programCounter << endl;
         perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
         unsigned int min = INT32_MAX;
         vector<vector<int>> paths;  // saves the swap path of each input mapping for current instruction (shortest  path)
@@ -40,7 +40,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
             // find swap count for a particular input mapping
             unsigned int swaps = findSwapsFor1Instruction(currentInstruction, quArchitecture.getCouplingMap());
             cout << "Swap Path: ";  // todo commented for results print
-            printSwapPath(swapPath);
+            printSwapPath(swapPath); // physical path
             cout << "Swaps: " << swaps << endl;
 
             paths.push_back(swapPath);  // add ith path for ith mapping
@@ -106,7 +106,7 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
     int srcMoves = 0;
     int destMoves = 0;
 
-    for(unsigned int i=0; i<totalMoves; i++){
+    for(unsigned int i=0; i<=totalMoves; i++){
         QuMapping mapping = inputMapping;
         vector<int> srcSeq, destSeq, tempSeq;
         cout << "Instruction #: " << programCounter+1 << endl; // todo commented for results print.
@@ -118,6 +118,7 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
         for(int j=0; j<srcMoves; j++) {
             int val = swapSequence.at(j+1);
             cout << "Swap: <" << src << ", " << val << ">" << endl;  // todo commented for results print.
+//            cout << "Swap: <" << mapping.getLogicalMapping(src) << ", " << mapping.getLogicalMapping(val) << ">" << endl;  // todo commented for results print.
             srcSeq.push_back(val);
 //            destSeq.push_back(swapSequence[j + 1]);
             tempSeq.push_back(val);
@@ -125,6 +126,7 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
         destSeq.push_back(dest);
         for(int j=0; j<destMoves; j++){
 //        for(int j=destMoves-1; j>=0; j--){
+//            cout << "Swap: <" << mapping.getLogicalMapping(swapSequence[totalMoves-j]) << ", " << mapping.getLogicalMapping(dest) << ">" << endl; // todo commented for results print.
             cout << "Swap: <" << swapSequence[totalMoves-j] << ", " << dest << ">" << endl; // todo commented for results print.
 //            srcSeq.push_back(swapSequence[totalMoves-j]);
 //            destSeq.push_back(dest);
