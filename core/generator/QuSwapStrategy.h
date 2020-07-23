@@ -14,6 +14,7 @@ protected:
     QuCircuit& circuit;
     int programCounter;
     vector<int> swapPath;
+    vector<vector<int>> allSPFSwapPaths;
 public:
     virtual int findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) = 0;
     virtual int findTotalSwaps(QuArchitecture& quArchitecture) = 0;

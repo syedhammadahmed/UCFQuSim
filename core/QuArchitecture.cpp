@@ -74,6 +74,7 @@ void QuArchitecture::addConstraintsQX5() {
     QuArchitecture& architectureQX5 = *this;
     architectureQX5.addConstraint(1,2);
     architectureQX5.addConstraint(1,0);
+
     architectureQX5.addConstraint(2,3);
     architectureQX5.addConstraint(3,4);
     architectureQX5.addConstraint(3,14);
@@ -87,6 +88,8 @@ void QuArchitecture::addConstraintsQX5() {
 
     architectureQX5.addConstraint(9,8);
     architectureQX5.addConstraint(9,10);
+
+    architectureQX5.addConstraint(11,10);
 
     architectureQX5.addConstraint(12,5);
     architectureQX5.addConstraint(12,11);

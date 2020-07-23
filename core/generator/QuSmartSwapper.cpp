@@ -28,6 +28,10 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
     for(QuGate* currentInstruction: nonUnaryInstructions){
 //        QuGate* currentInstruction = nonUnaryInstructions[i];
         cout << "Current Instruction: " << *currentInstruction << endl;  //todo commented to print results
+//        if(currentInstruction->getArgIndex()[0] == 1 && currentInstruction->getArgIndex()[1] == 5)
+//            cout << "temp: >>>>>>>" << endl;
+        if(programCounter == 10)
+            cout << "temp: >>>>>>>" << endl;
 
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
@@ -35,63 +39,65 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
         unsigned int min = INT32_MAX;
         vector<vector<int>> paths;  // saves the swap path of each input mapping for current instruction (shortest  path)
+        int mappingCount = 0;
+        vector<vector<vector<int>>> mappingWiseSwapPaths;
+        vector<vector<vector<int>>> filteredMappingWiseSwapPaths;
         for (QuMapping mapping: inputMappings) {   // input mappings for an instruction
             swapPath.clear();
+            allSPFSwapPaths.clear();
             // todo mapping never used
             // find swap count for a particular input mapping
             unsigned int swaps = findSwapsFor1Instruction(currentInstruction, quArchitecture.getCouplingMap());
-            cout << "Swap Path: ";  // todo commented for results print
-            printSwapPath(swapPath); // physical path
-            cout << "Swaps: " << swaps << endl;
+            // allSPF modification start TODO
 
-            paths.push_back(swapPath);  // add ith path for ith mapping
+            mappingWiseSwapPaths.push_back(allSPFSwapPaths);
+//            for(vector<int> spfPath: allSPFSwapPaths) {
+//                cout << "Swap Path: ";  // todo commented for results print
+//                printSwapPath(spfPath); // physical path
+//                cout << "Swaps: " << swaps << endl;
+//                mappingWiseSwapPaths[mappingCount].push_back(spfPath);  // add ith all SPF paths for ith mapping
+////                paths.push_back(spfPath);  // add ith path for ith mapping
+//            }
+//            paths.push_back(swapPath);  // add ith path for ith mapping
+            // allSPF modification end
+            //
             if (swaps < min)
                 min = swaps;
             perInstructionMappingCounter++; // needed in getCurrentMapping()
         }
         total += min;
         cout << "Min Mapping Swaps: " << min << endl; //todo commented to print results
-        // remove larger swap paths and mappingsD
+        // remove larger swap paths and mappings
         vector<QuMapping> filteredInputMappings;
         vector<vector<int>> filteredPaths;
 
 //        if(min > 0) {
-        int n = paths.size();
-        // keeping only minimum path mappings; calling them as filtered
-        for (int j = 0; j < n; j++) {
-            if (!paths.empty() && (paths[j].size() - 2 == min)) {
-                //                    cout << "Adding Mapping Having Swaps: " << paths[j].size() - 2 << endl;  //todo commented to print results
-                filteredPaths.push_back(paths[j]);
-                filteredInputMappings.push_back(inputMappings[j]);
-                cout << "inputMappings[min]: " << endl;
-                inputMappings[j].print();
-                //                paths.erase(paths.begin() + j);
-                //                inputMappings.erase(inputMappings.begin() + j);
+//        if(programCounter > 0) {
+        mappingCount = 0;
+        for (QuMapping mapping: inputMappings) {   // input mappings for an instruction
+            if (!mappingWiseSwapPaths[mappingCount].empty() &&
+                (mappingWiseSwapPaths[mappingCount][0].size() - 2 == min)) {
+                filteredInputMappings.push_back(mapping);
+                filteredMappingWiseSwapPaths.push_back(mappingWiseSwapPaths[mappingCount]);
+//                for (vector<int> mpath: mappingWiseSwapPaths[mappingCount]) {
+//                    filteredPaths.push_back(mpath);
+//                }
             }
-
+            mappingCount++;
         }
-//            // find permutations of each mapping and generate mappings for next instruction
-//            inputMappings = filteredInputMappings;  // todo: save these to backtrack and generate o/p file
-//            paths = filteredPaths;                  // todo: save these to backtrack and generate o/p file
-//        }
-        if(programCounter == 0){
-            filteredInputMappings = inputMappings;
-            filteredPaths = paths;
-        }
-
-        //        for() {
-        //            insertSwapGates(source, destination);
-        //        }
-
 
         for (unsigned int j = 0; j < filteredInputMappings.size(); j++) {
-            vector<QuMapping> currentInstructionMappings =
-                                                   findAllMappingsFromPermutations(filteredInputMappings[j], filteredPaths[j]);
+            vector<QuMapping> currentInstructionMappings;
+            for (unsigned int k = 0; k < filteredMappingWiseSwapPaths[j].size(); k++) {
+                vector<QuMapping> temp = findAllMappingsFromPermutations(filteredInputMappings[j], filteredMappingWiseSwapPaths[j][k]);
+                currentInstructionMappings.insert(currentInstructionMappings.end(), temp.begin(), temp.end());
+                cout << "currentInstructionMappings.size(): " << currentInstructionMappings.size() << endl;
+            }
             instructionWiseMappings.push_back(currentInstructionMappings);
-            //            cout << "FilteredprintSwapPath(paths[j]);
         }
         programCounter++;
         circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
+//        delete [] mappingWiseSwapPaths;
     }
     return total;
 }
@@ -99,63 +105,68 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 // find all mappings for current instruction
 vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inputMapping, vector<int> swapSequence) {
     vector<QuMapping> mappings;
-    unsigned int totalMoves = swapSequence.size()-2;
+    unsigned int totalMoves = swapSequence.size() - 2;
 //    int* quBitIndexes = circuit.getInstructions()[programCounter] -> getArgIndex(); // logical qubit index values
-    int* quBitIndexes = nonUnaryInstructions[programCounter] -> getArgIndex(); // logical qubit index values
+    int *quBitIndexes = nonUnaryInstructions[programCounter]->getArgIndex(); // logical qubit index values
     int src = quBitIndexes[0];
     int dest = quBitIndexes[1];
     int srcMoves = 0;
     int destMoves = 0;
-
-    for(unsigned int i=0; i<=totalMoves; i++){
-        QuMapping mapping = inputMapping;
-        vector<int> srcSeq, destSeq, tempSeq;
-        cout << "Instruction #: " << programCounter+1 << endl; // todo commented for results print.
-        cout << "Permutation #: " << i+1 << endl;
-        srcMoves = totalMoves - i;
-        destMoves = i;
-        tempSeq.push_back(src);
-        srcSeq.push_back(src);
-        for(int j=0; j<srcMoves; j++) {
-            int val = swapSequence.at(j+1);
-            cout << "Swap: <" << src << ", " << val << ">" << endl;  // todo commented for results print.
-//            cout << "Swap: <" << mapping.getLogicalMapping(src) << ", " << mapping.getLogicalMapping(val) << ">" << endl;  // todo commented for results print.
-            srcSeq.push_back(val);
-//            destSeq.push_back(swapSequence[j + 1]);
-            tempSeq.push_back(val);
-        }
-        destSeq.push_back(dest);
-        for(int j=0; j<destMoves; j++){
-//        for(int j=destMoves-1; j>=0; j--){
-//            cout << "Swap: <" << mapping.getLogicalMapping(swapSequence[totalMoves-j]) << ", " << mapping.getLogicalMapping(dest) << ">" << endl; // todo commented for results print.
-            cout << "Swap: <" << swapSequence[totalMoves-j] << ", " << dest << ">" << endl; // todo commented for results print.
-//            srcSeq.push_back(swapSequence[totalMoves-j]);
-//            destSeq.push_back(dest);
-            destSeq.push_back(swapSequence[totalMoves-j]);
-            tempSeq.push_back(swapSequence[totalMoves-j]);
+    if(totalMoves > 0){
+        for (unsigned int i = 0; i <= totalMoves; i++) {
+            QuMapping mapping = inputMapping;
+            vector<int> srcSeq, destSeq, tempSeq;
+            cout << "Instruction #: " << programCounter + 1 << endl; // todo commented for results print.
+            cout << "Permutation #: " << i + 1 << endl;
+            srcMoves = totalMoves - i;
+            destMoves = i;
+            tempSeq.push_back(mapping.getPhysicalBit(src));
+            srcSeq.push_back(mapping.getPhysicalBit(src));
+            for (int j = 0; j < srcMoves; j++) {
+                int val = swapSequence.at(j + 1);
+                cout << "Swap: <" << mapping.getPhysicalBit(src) << ", " << val << ">" << endl;  // todo commented for results print.
+                if(src == val)
+                    cout << "hello !!!!!!!!!!!!!!!!" << endl;
+    //            cout << "Swap: <" << mapping.getLogicalMapping(src) << ", " << mapping.getLogicalMapping(val) << ">" << endl;  // todo commented for results print.
+                srcSeq.push_back(val);
+    //            destSeq.push_back(swapSequence[j + 1]);
+                tempSeq.push_back(val);
+            }
+            destSeq.push_back(mapping.getPhysicalBit(dest));
+            for (int j = 0; j < destMoves; j++) {
+    //        for(int j=destMoves-1; j>=0; j--){
+    //            cout << "Swap: <" << mapping.getLogicalMapping(swapSequence[totalMoves-j]) << ", " << mapping.getLogicalMapping(dest) << ">" << endl; // todo commented for results print.
+                cout << "Swap: <" << swapSequence[totalMoves - j] << ", " << mapping.getPhysicalBit(dest) << ">"
+                     << endl; // todo commented for results print.
+    //            srcSeq.push_back(swapSequence[totalMoves-j]);
+    //            destSeq.push_back(dest);
+                destSeq.push_back(swapSequence[totalMoves - j]);
+                tempSeq.push_back(swapSequence[totalMoves - j]);
+    //            tempSeq.push_back(dest);
+            }
 //            tempSeq.push_back(dest);
+            tempSeq.push_back(mapping.getPhysicalBit(dest));
+            cout << "tempSeq: ";
+            printSwapPath(tempSeq);
+            cout << "Before: " << endl; // todo commented for results print.
+            mapping.print();
+    //        mapping.fixMappings()
+            //        int n = srcSeq.size();
+    //        for(int i=0; i<n; i++){
+    //            cout << "Swapping now ... >>> " << srcSeq[i] << " , " << destSeq[i] << endl;
+    //            mapping.quSwapLogical(srcSeq[i], destSeq[i]);
+    //        }
+            // todo commented for results print.
+            cout << "After: " << endl;
+            mapping.fixMappings(srcSeq);
+    //        for(int i=0;)
+    //        reverse(destSeq.begin(), destSeq.end());
+    //        cout << "reversed : " << endl;
+//            printSwapPath(destSeq);
+            mapping.fixMappings(destSeq);
+            mapping.print();
+            mappings.push_back(mapping);
         }
-        tempSeq.push_back(dest);
-        cout << "tempSeq: ";
-        printSwapPath(tempSeq);
-        cout << "Before: " << endl; // todo commented for results print.
-        mapping.print();
-//        mapping.fixMappings()
-        //        int n = srcSeq.size();
-//        for(int i=0; i<n; i++){
-//            cout << "Swapping now ... >>> " << srcSeq[i] << " , " << destSeq[i] << endl;
-//            mapping.quSwapLogical(srcSeq[i], destSeq[i]);
-//        }
-        // todo commented for results print.
-        cout << "After: " << endl;
-        mapping.fixMappings(srcSeq);
-//        for(int i=0;)
-//        reverse(destSeq.begin(), destSeq.end());
-//        cout << "reversed : " << endl;
-        printSwapPath(destSeq);
-        mapping.fixMappings(destSeq);
-        mapping.print();
-        mappings.push_back(mapping);
     }
     if(mappings.empty())
         mappings.push_back(inputMapping);
@@ -204,7 +215,12 @@ int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **c
         //
         cout << "ALL SPF PRINT START --- " << endl << endl;
         AllShortestPathsFinder allSPF(couplingMap, circuit.getRows());
-        allSPF.printAllPaths(physicalIndex1, physicalIndex2, swaps);
+        allSPFSwapPaths = allSPF.findSingleSourceAllShortestPaths(physicalIndex1, physicalIndex2, swaps);
+//        int k=0;
+//        for (vector<int> swapPath: allSPFSwapPaths){
+//            cout << "Swap Path #: " << k++ << endl;
+//            printSwapPath(swapPath);
+//        }
         cout << "ALL SPF PRINT END --- " << endl << endl;
         //
 

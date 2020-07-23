@@ -6,6 +6,8 @@
 #define UCFQUSIM_ALLSHORTESTPATHSFINDER_H
 
 #include <list>
+#include <vector>
+
 using namespace std;
 
 class AllShortestPathsFinder {
@@ -14,6 +16,8 @@ private:
     int **graph;
     int n;
     list<int> *adj;
+    vector<vector<int>> allSwapPaths;
+    int swapPathCounter;
 
     void convertAdjMatrixToAdjList();
 
@@ -27,12 +31,11 @@ public:
     // visited[] keeps track of vertices in current path.
     // path[] stores actual vertices
     // path_index is current index in path[]
-    void printAllPathsUtil(int src, int dest, bool visited[], int path[], int &path_index);
+    void printAllPathsUtil(int src, int dest, bool visited[], int path[], int &path_index, int swaps);
 
-    int* findSingleSourceAllShortestPaths(int src, int dest);
+    vector<vector<int>> findSingleSourceAllShortestPaths(int src, int dest, int swaps);
 
-
-
+    const vector<vector<int>> &getAllSwapPaths() const;
 };
 
 

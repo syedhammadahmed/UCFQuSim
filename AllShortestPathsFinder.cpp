@@ -5,11 +5,12 @@
 #include "AllShortestPathsFinder.h"
 #include <iostream>
 #include <list>
+#include <vector>
 
 using namespace std;
 
 // Prints all paths from 's' to 'd'
-void AllShortestPathsFinder::printAllPaths(int s, int d, int swaps)
+void AllShortestPathsFinder::printAllPaths(int src, int dest, int swaps)
 {
     // Mark all the vertices as not visited
     bool *visited = new bool[n];
@@ -23,52 +24,58 @@ void AllShortestPathsFinder::printAllPaths(int s, int d, int swaps)
         visited[i] = false;
 
     // Call the recursive helper function to print all paths
-    printAllPathsUtil(s, d, visited, path, path_index);
+    printAllPathsUtil(src, dest, visited, path, path_index, swaps);
 }
 
 // A recursive function to print all paths from 'u' to 'd'.
 // visited[] keeps track of vertices in current path.
-// path[] stores actual vertices and path_index is current
-// index in path[]
-void AllShortestPathsFinder::printAllPathsUtil(int u, int d, bool visited[],
-                              int path[], int &path_index)
+// path[] stores actual vertices
+// path_index is current index in path[]
+void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[],
+                              int path[], int &path_index, int swaps)
 {
     // Mark the current node and store it in path[]
-    visited[u] = true;
-    path[path_index] = u;
+    visited[src] = true;
+    path[path_index] = src;
     path_index++;
 
     // If current vertex is same as destination, then print
     // current path[]
-    if (u == d)
+    if (src == dest)
     {
-        for (int i = 0; i<path_index; i++)
-            cout << path[i] << " ";
-        cout << endl;
-
+        if(swaps == path_index-2) { // only shortest path
+            vector<int> temp;
+            for (int i = 0; i < path_index; i++){
+                cout << path[i] << " ";
+                temp.push_back(path[i]);
+            }
+            allSwapPaths.push_back(temp);
+            cout << endl;
+            swapPathCounter++;
+        }
     }
     else // If current vertex is not destination
     {
         // Recur for all the vertices adjacent to current vertex
         list<int>::iterator i;
-        for (i = adj[u].begin(); i != adj[u].end(); ++i)
+        for (i = adj[src].begin(); i != adj[src].end(); ++i)
             if (!visited[*i])
-                printAllPathsUtil(*i, d, visited, path, path_index);
+                printAllPathsUtil(*i, dest, visited, path, path_index, swaps);
     }
 
     // Remove current vertex from path[] and mark it as unvisited
     path_index--;
-    visited[u] = false;
+    visited[src] = false;
 }
 
 
-int *AllShortestPathsFinder::findSingleSourceAllShortestPaths(int src, int dest) {
-    printAllPaths(src, dest);
-    return nullptr;
+vector<vector<int>> AllShortestPathsFinder::findSingleSourceAllShortestPaths(int src, int dest, int swaps) {
+    printAllPaths(src, dest, swaps);
+    return allSwapPaths;
 }
 
 
-AllShortestPathsFinder::AllShortestPathsFinder(int **graph, int n) : graph(graph), n(n) {
+AllShortestPathsFinder::AllShortestPathsFinder(int **graph, int n) : graph(graph), n(n), swapPathCounter(0) {
     adj = new list<int>[n];
     convertAdjMatrixToAdjList();
 }
@@ -76,8 +83,16 @@ AllShortestPathsFinder::AllShortestPathsFinder(int **graph, int n) : graph(graph
 void AllShortestPathsFinder::convertAdjMatrixToAdjList() {
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++) {
-            if(graph[i][j] != 0)
+            if(graph[i][j] != 0 || graph[j][i] != 0){
                 adj[i].push_back(j);
+//                adj[j].push_back(i);
+            }
         }
     }
+    for(int i=0; i<n; i++)
+        adj[i].unique();
+}
+
+const vector<vector<int>> &AllShortestPathsFinder::getAllSwapPaths() const {
+    return allSwapPaths;
 }

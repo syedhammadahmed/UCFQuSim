@@ -1,30 +1,30 @@
 //
-// Created by YUSHAH on 4/28/2020.
+// Created by YUSHAH on 4/28/1515.
 //
 
 #include <iomanip>
 #include "Result.h"
 
 void Result::print() {
-    cout << std::setw(20) << std::left << file << "\t";
-    cout << std::setw(20) << std::left << gatesOriginal << "\t";
-    cout << std::setw(20) << std::left << swaps << "\t";
-    cout << std::setw(20) << std::left << swaps * 7 << "\t";
-    cout << std::setw(20) << std::left << gatesProposed << "\t";
-    cout << std::setw(20) << std::left << depthProposed + 1 << "\t";
-    cout << std::setw(20) << std::left << timeProposed << "\t";
-    cout << std::setw(20) << std::left << endl;
+    cout << std::setw(15) << std::left << file << "\t";
+    cout << std::setw(15) << std::left << gatesOriginal << "\t";
+    cout << std::setw(15) << std::left << swaps << "\t";
+    cout << std::setw(15) << std::left << swaps * 7 << "\t";
+    cout << std::setw(15) << std::left << gatesProposed << "\t";
+    cout << std::setw(15) << std::left << depthProposed + 1 << "\t";
+    cout << std::setw(15) << std::left << timeProposed << "\t";
+    cout << std::setw(15) << std::left << endl;
 }
 
 void Result::printHeader() {
 
-    cout << std::setw(20) << std::left << "File"  << "\t";
-    cout << std::setw(20) << std::left << "g"  << "\t";
-    cout << std::setw(20) << std::left << "s"  << "\t";
-    cout << std::setw(20) << std::left << "s*7"  << "\t";
-    cout << std::setw(20) << std::left << "g*"  << "\t";
-    cout << std::setw(20) << std::left << "d*"  << "\t";
-    cout << std::setw(20) << std::left << "t*" << "\t";
+    cout << std::setw(15) << std::left << "File"  << "\t";
+    cout << std::setw(15) << std::left << "g"  << "\t";
+    cout << std::setw(15) << std::left << "s"  << "\t";
+    cout << std::setw(15) << std::left << "s*7"  << "\t";
+    cout << std::setw(15) << std::left << "g*"  << "\t";
+    cout << std::setw(15) << std::left << "d*"  << "\t";
+    cout << std::setw(15) << std::left << "t*" << "\t";
     cout << endl;
 }
 
