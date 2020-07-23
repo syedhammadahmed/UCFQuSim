@@ -192,12 +192,7 @@ int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **c
     parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
     if(cardinality == 2){
         int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
-        //
-        cout << "ALL SPF PRINT START --- " << endl << endl;
-        AllShortestPathsFinder allSPF(couplingMap, circuit.getRows());
-        allSPF.printAllPaths(physicalIndex1, physicalIndex2);
-        cout << "ALL SPF PRINT END --- " << endl << endl;
-        //
+
         swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
         int src = physicalIndex1;
         int dest = physicalIndex2;
@@ -205,6 +200,14 @@ int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **c
         swapPath.push_back(dest); // add dest to sequence
 //        mapping.print(); // todo commented for results print.
         swaps = swapPath.size() - 2;
+
+        //
+        cout << "ALL SPF PRINT START --- " << endl << endl;
+        AllShortestPathsFinder allSPF(couplingMap, circuit.getRows());
+        allSPF.printAllPaths(physicalIndex1, physicalIndex2, swaps);
+        cout << "ALL SPF PRINT END --- " << endl << endl;
+        //
+
     }
 //    circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
     return swaps;

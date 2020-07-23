@@ -21,7 +21,7 @@ public:
     AllShortestPathsFinder(int **graph, int n);
 
     // Prints all paths from 'src' to 'dest'
-    void printAllPaths(int src, int dest);
+    void printAllPaths(int src, int dest, int swaps);
 
     // A recursive function to print all paths from src to dest.
     // visited[] keeps track of vertices in current path.
