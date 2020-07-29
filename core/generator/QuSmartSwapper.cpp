@@ -23,25 +23,23 @@ vector<QuGate*> QuSmartSwapper::removeUnaryInstructions(){
 
 int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
     unsigned int total = 0;
-//    vector<QuGate*> instructions = circuit.getInstructions();
+
     removeUnaryInstructions();
     for(QuGate* currentInstruction: nonUnaryInstructions){
-//        QuGate* currentInstruction = nonUnaryInstructions[i];
+        unsigned int min = INT32_MAX;
+        int mappingCount = 0;
+        perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
+
         cout << "Current Instruction: " << *currentInstruction << endl;  //todo commented to print results
-//        if(currentInstruction->getArgIndex()[0] == 1 && currentInstruction->getArgIndex()[1] == 5)
-//            cout << "temp: >>>>>>>" << endl;
-        if(programCounter == 10)
-            cout << "temp: >>>>>>>" << endl;
+        cout << "Program Counter: " << programCounter << endl;
 
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
-        cout << "Program Counter: " << programCounter << endl;
-        perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
-        unsigned int min = INT32_MAX;
         vector<vector<int>> paths;  // saves the swap path of each input mapping for current instruction (shortest  path)
-        int mappingCount = 0;
+
         vector<vector<vector<int>>> mappingWiseSwapPaths;
         vector<vector<vector<int>>> filteredMappingWiseSwapPaths;
+
         for (QuMapping mapping: inputMappings) {   // input mappings for an instruction
             swapPath.clear();
             allSPFSwapPaths.clear();
@@ -120,7 +118,7 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
             cout << "Permutation #: " << i + 1 << endl;
             srcMoves = totalMoves - i;
             destMoves = i;
-            tempSeq.push_back(mapping.getPhysicalBit(src));
+//            tempSeq.push_back(mapping.getPhysicalBit(src));
             srcSeq.push_back(mapping.getPhysicalBit(src));
             for (int j = 0; j < srcMoves; j++) {
                 int val = swapSequence.at(j + 1);
@@ -130,7 +128,7 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
     //            cout << "Swap: <" << mapping.getLogicalMapping(src) << ", " << mapping.getLogicalMapping(val) << ">" << endl;  // todo commented for results print.
                 srcSeq.push_back(val);
     //            destSeq.push_back(swapSequence[j + 1]);
-                tempSeq.push_back(val);
+//                tempSeq.push_back(val);
             }
             destSeq.push_back(mapping.getPhysicalBit(dest));
             for (int j = 0; j < destMoves; j++) {
@@ -141,13 +139,13 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
     //            srcSeq.push_back(swapSequence[totalMoves-j]);
     //            destSeq.push_back(dest);
                 destSeq.push_back(swapSequence[totalMoves - j]);
-                tempSeq.push_back(swapSequence[totalMoves - j]);
+//                tempSeq.push_back(swapSequence[totalMoves - j]);
     //            tempSeq.push_back(dest);
             }
 //            tempSeq.push_back(dest);
-            tempSeq.push_back(mapping.getPhysicalBit(dest));
-            cout << "tempSeq: ";
-            printSwapPath(tempSeq);
+//            tempSeq.push_back(mapping.getPhysicalBit(dest));
+//            cout << "tempSeq: ";
+//            printSwapPath(tempSeq);
             cout << "Before: " << endl; // todo commented for results print.
             mapping.print();
     //        mapping.fixMappings()
@@ -178,7 +176,7 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     if (!programCounter || instructionWiseMappings.empty())  // 1st instruction
         mappings.push_back(initialMapping);  // 1st instruction has 1 default input mapping
     else {
-        mappings = instructionWiseMappings[programCounter-1];  // todo replicate mappings for 1-card instr
+        mappings = instructionWiseMappings[programCounter-1];
     }
     return mappings;
 }

@@ -19,6 +19,7 @@ private:
 
 public:
     QuSmartSwapper(QuCircuit &circuit);
+    QuSmartSwapper(QuCircuit &circuit, int initMappingPermId);
 
     int findTotalSwaps(QuArchitecture& quArchitecture) override;
     int findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) override;
