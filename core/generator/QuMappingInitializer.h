@@ -6,8 +6,11 @@
 #define UCFQUSIM_QUMAPPINGINITIALIZER_H
 
 
-class QuMappingInitializer {
+#include <core/QuMapping.h>
 
+class QuMappingInitializer {
+    private:
+        QuMapping initialMapping;
 };
 
 
