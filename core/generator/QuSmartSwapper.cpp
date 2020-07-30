@@ -26,6 +26,9 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
     allSPF = new AllShortestPathsFinder(quArchitecture.getCouplingMap(), quArchitecture.getN());
 
     removeUnaryInstructions();
+    int t = 0;
+    int lastDecreased = 0;
+
     for(QuGate* currentInstruction: nonUnaryInstructions){
         unsigned int min = INT32_MAX;
         int mappingCount = 0;
@@ -69,6 +72,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         }
 
         vector<QuMapping> nextInstructionMappings;
+
         for (unsigned int j = 0; j < filteredInputMappings.size(); j++) {
             vector<QuMapping> temp;
             for (unsigned int k = 0; k < filteredMappingWiseShortestPaths[j].size(); k++) {
@@ -76,11 +80,17 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
             }
             nextInstructionMappings.insert(nextInstructionMappings.end(), temp.begin(), temp.end());
         }
+        if(nextInstructionMappings.size() < t) {
+//            Util::println("DECREASED!!!");
+            lastDecreased = programCounter;
+        }
+        t = nextInstructionMappings.size();
         Util::println("nextInstructionMappings.size(): " + to_string(nextInstructionMappings.size()));
         instructionWiseMappings.push_back(nextInstructionMappings);
         programCounter++;
         circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
     }
+    Util::println("LAST DECREASED: " + to_string(lastDecreased));
     delete allSPF;
     return total;
 }
@@ -95,24 +105,24 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
     int srcMoves = 0;
     int destMoves = 0;
     if(totalMoves > 0){
+        Util::println("Instruction #: " + to_string(programCounter + 1));
         for (unsigned int i = 0; i <= totalMoves; i++) {
+            Util::println("Permutation #: " + to_string(i + 1));
             QuMapping mapping = inputMapping;
             vector<int> srcSeq, destSeq, tempSeq;
-            Util::println("Instruction #: " + to_string(programCounter + 1));
-            Util::println("Permutation #: " + to_string(i + 1));
             srcMoves = totalMoves - i;
             destMoves = i;
             srcSeq.push_back(mapping.getPhysicalBit(src));
             for (int j = 0; j < srcMoves; j++) {
                 int val = swapSequence.at(j + 1);
-                Util::println("Logical Swap: <" + to_string(src) + ", " + to_string(mapping.getLogicalMapping(val)) + ">");  // todo commented for results print.
-                Util::println("Physical Swap: <" + to_string(mapping.getPhysicalBit(src)) + ", " + to_string(val) + ">");  // todo commented for results print.
+//                Util::println("Logical Swap: <" + to_string(src) + ", " + to_string(mapping.getLogicalMapping(val)) + ">");  // todo commented for results print.
+//                Util::println("Physical Swap: <" + to_string(mapping.getPhysicalBit(src)) + ", " + to_string(val) + ">");  // todo commented for results print.
                 srcSeq.push_back(val);
             }
             destSeq.push_back(mapping.getPhysicalBit(dest));
             for (int j = 0; j < destMoves; j++) {
-                Util::println("Logical Swap: <" + to_string(mapping.getLogicalMapping(swapSequence[totalMoves - j])) + ", " + to_string(dest) + ">"); // todo commented for results print.
-                Util::println("Physical Swap: <" + to_string(swapSequence[totalMoves - j]) + ", " + to_string(mapping.getPhysicalBit(dest)) + ">"); // todo commented for results print.
+//                Util::println("Logical Swap: <" + to_string(mapping.getLogicalMapping(swapSequence[totalMoves - j])) + ", " + to_string(dest) + ">"); // todo commented for results print.
+//                Util::println("Physical Swap: <" + to_string(swapSequence[totalMoves - j]) + ", " + to_string(mapping.getPhysicalBit(dest)) + ">"); // todo commented for results print.
                 destSeq.push_back(swapSequence[totalMoves - j]);
             }
 //            Util::println("Before: "); // todo commented for results print.
@@ -166,10 +176,10 @@ int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **c
     //
     string temp = to_string(src) + "," + to_string(dest);
     shortestPath = preCalShortestPaths[temp];
-    if(!shortestPath.empty()) {
-        Util::println("Getting precalculated single SP...");
-    }
-    else {
+    if(shortestPath.empty()) {
+//        Util::println("Getting precalculated single SP...");
+//    }
+//    else {
         parent = spf.findSingleSourceShortestPaths(couplingMap, src);
         shortestPath = swapAlongPath(parent, src, parent[dest]);
         shortestPath.insert(shortestPath.begin(), src); // add src to sequence

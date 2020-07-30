@@ -78,10 +78,10 @@ vector<vector<int>> AllShortestPathsFinder::findSingleSourceAllShortestPaths(int
 //        cout << "hello";
 //    }
     allSwapPaths = preCalPaths[temp];
-    if(!allSwapPaths.empty()) {
-        Util::println("Getting precalculated SPs...");
-    }
-    else {
+    if(allSwapPaths.empty()) {
+//        Util::println("Getting precalculated SPs...");
+//    }
+//    else {
         printAllPaths(src, dest, swaps);
         preCalPaths[temp] = allSwapPaths;
     }

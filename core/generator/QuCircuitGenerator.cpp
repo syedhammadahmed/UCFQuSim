@@ -164,8 +164,8 @@ void QuCircuitGenerator::buildGrid() {
         }
         circuit.setGrid(grid);
         circuit.setSimpleGrid(simpleGrid);
-        circuit.printGrid();
-        circuit.printSimpleGrid();
+//        circuit.printGrid();
+//        circuit.printSimpleGrid();
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';
     }
