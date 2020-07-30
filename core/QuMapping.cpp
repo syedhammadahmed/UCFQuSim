@@ -122,8 +122,10 @@ void QuMapping::fixMappings(std::vector<int> swapSeq) {
 }
 
 void QuMapping::print() {
-    for(int i = 0; i < n; i++) {
-        cout << "Q" << i << " -> q" << physicalToLogical[i] << endl;
+    if(Util::verbose) {
+        for (int i = 0; i < n; i++) {
+            cout << "Q" << i << " -> q" << physicalToLogical[i] << endl;
+        }
     }
 }
 

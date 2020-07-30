@@ -12,6 +12,7 @@ using namespace std;
 
 class Util {
 public:
+    static bool verbose;
     static string FILE_EXTENSION;
     static string toLower(string str);
     static double timeIt(bool isEnd);
@@ -20,6 +21,8 @@ public:
     static void permute(string a, int l, int r, vector<string> &perms);
 
     static long long factorial(int n);
+    static void print(string str);
+    static void println(string str);
 };
 
 

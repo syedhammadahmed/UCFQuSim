@@ -6,6 +6,7 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <util/Util.h>
 
 using namespace std;
 
@@ -72,7 +73,18 @@ void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[]
 
 vector<vector<int>> AllShortestPathsFinder::findSingleSourceAllShortestPaths(int src, int dest, int swaps) {
     allSwapPaths.clear();
-    printAllPaths(src, dest, swaps);
+    string temp = to_string(src) + "," + to_string(dest);
+//    if(preCalPaths.count(temp) > 0) {
+//        cout << "hello";
+//    }
+    allSwapPaths = preCalPaths[temp];
+    if(!allSwapPaths.empty()) {
+        Util::println("Getting precalculated SPs...");
+    }
+    else {
+        printAllPaths(src, dest, swaps);
+        preCalPaths[temp] = allSwapPaths;
+    }
     return allSwapPaths;
 }
 
@@ -95,14 +107,15 @@ void AllShortestPathsFinder::convertAdjMatrixToAdjList() {
     }
 //    for(int i=0; i<n; i++)
 //        adj[i].unique();
-
-    for(int i=0; i<n; i++){
-        cout << i << ": ";
-        for(int j: adj[i]) {
-            cout << j << " ";
-        }
-        cout << endl;
-    }
+//    if(Util::verbose) {
+//        for (int i = 0; i < n; i++) {
+//            cout << i << ": ";
+//            for (int j: adj[i]) {
+//                cout << j << " ";
+//            }
+//            cout << endl;
+//        }
+//    }
 }
 
 const vector<vector<int>> &AllShortestPathsFinder::getAllSwapPaths() const {

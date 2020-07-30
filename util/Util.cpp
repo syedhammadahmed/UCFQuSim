@@ -10,6 +10,7 @@ using namespace std;
 
 
 string Util::FILE_EXTENSION = ".qasm";
+bool Util::verbose = true;
 
 string Util::toLower(string str) {
     for(int i=0; i<str.length(); i++)
@@ -31,11 +32,13 @@ double Util::timeIt(bool isEnd) {
 }
 
 void Util::printPath(vector<int> path) {
-    for(int i=0; i<path.size(); i++) {
-        cout << path[i];
-        if(i < path.size()-1) cout << ", ";
+    if(verbose) {
+        for (int i = 0; i < path.size(); i++) {
+            cout << path[i];
+            if (i < path.size() - 1) cout << ", ";
+        }
+        cout << endl;
     }
-    cout << endl;
 }
 
 void Util::permute(string a, int l, int r, vector<string> &perms)
@@ -78,4 +81,14 @@ void Util::permute(string a, int l, int r, vector<string> &perms)
 
 long long Util::factorial(int n){
     return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
+}
+
+void Util::print(string str) {
+    if(verbose)
+        cout << str << " ";
+}
+
+void Util::println(string str) {
+    if(verbose)
+        cout << str << endl;
 }

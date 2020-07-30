@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <util/Util.h>
 #include "QuArchitecture.h"
 
 QuArchitecture::QuArchitecture(int n) : n(n) {
@@ -31,11 +32,13 @@ std::ostream &operator<<(std::ostream &os, const QuArchitecture &architecture) {
 }
 
 void QuArchitecture::printCouplingMatrix() {
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++) {
-            std::cout << couplingMap[i][j] << " ";
+    if(Util::verbose) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                std::cout << couplingMap[i][j] << " ";
+            }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
     }
 }
 

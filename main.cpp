@@ -23,7 +23,9 @@ using namespace std;
 int main() {
     const int quBits = 16;
     const int MAX_DEPTH = 10;
-// hello
+    Util::verbose = true;
+    cout << "Processing files... this may take a while..." << endl;
+    // hello
 //    string inputFileName = "sample.qasm";
 //    getenv("HOME")
 //    getenv("HOMEPATH")
@@ -32,7 +34,8 @@ int main() {
     string inputDirectory = "../input/";
     string outputDirectory = "../output/";
 //    inputDirectory += "/home/hammad/input/";
-    cout << "Input File Directory: " << inputDirectory << endl;
+    if(Util::verbose)
+        cout << "Input File Directory: " << inputDirectory << endl;
 
     QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
 //    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
