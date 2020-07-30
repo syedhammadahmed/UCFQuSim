@@ -123,6 +123,13 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 
 
 QuCircuit::~QuCircuit() {
+    for(QuGate* ptr: instructions){
+        delete ptr;
+    }
+    for(QuGate* ptr: instructionsV1){
+        delete ptr;
+    }
+
 //    cout << "~QuCircuit()" << endl;
 //    delete [] physicalToLogicalMapping;
 //    delete [] logicalQuBits;
@@ -308,7 +315,9 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
     QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-    return strategy->findSwapsFor1Instruction(quGate, couplingMap);
+    int swaps = strategy->findSwapsFor1Instruction(quGate, couplingMap);
+    delete strategy;
+    return swaps;
 }
 
 

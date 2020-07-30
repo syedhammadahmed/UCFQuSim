@@ -31,6 +31,15 @@ double Util::timeIt(bool isEnd) {
     return 0.0;
 }
 
+string Util::pathToString(vector<int> path) {
+    string str;
+    for (int i = 0; i < path.size(); i++) {
+        str += to_string(path[i]);
+        if (i < path.size() - 1) str += ", ";
+    }
+    return str;
+}
+
 void Util::printPath(vector<int> path) {
     if(verbose) {
         for (int i = 0; i < path.size(); i++) {

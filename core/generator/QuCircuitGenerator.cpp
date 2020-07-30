@@ -254,6 +254,12 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
 
 QuCircuitGenerator::~QuCircuitGenerator() {
     delete [] quBitRecentLayer;
+
+    for(int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            if(grid[i][j] != NULL)
+                delete grid[i][j];  // deleting the gate made by QuGateFactory
+
     for(int i = 0; i < rows; i++)
         delete [] grid[i];
     delete [] grid;
@@ -261,9 +267,10 @@ QuCircuitGenerator::~QuCircuitGenerator() {
         delete [] simpleGrid[i];
 
     delete [] simpleGrid;
-    for(QuGate* ptr: instructions){
-        delete ptr;
-    }
+//    for(QuGate* ptr: instructions){
+//        if(ptr != nullptr)
+//            delete ptr;
+//    }
 }
 
 // initializes the circuit grid

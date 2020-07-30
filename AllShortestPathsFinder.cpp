@@ -26,6 +26,9 @@ void AllShortestPathsFinder::printAllPaths(int src, int dest, int swaps)
 
     // Call the recursive helper function to print all paths
     printAllPathsUtil(src, dest, visited, path, path_index, swaps);
+
+    delete [] visited;
+    delete [] path;
 }
 
 // A recursive function to print all paths from 'u' to 'd'.
@@ -92,6 +95,10 @@ vector<vector<int>> AllShortestPathsFinder::findSingleSourceAllShortestPaths(int
 AllShortestPathsFinder::AllShortestPathsFinder(int **graph, int n) : graph(graph), n(n), swapPathCounter(0) {
     adj = new list<int>[n];
     convertAdjMatrixToAdjList();
+}
+
+AllShortestPathsFinder::~AllShortestPathsFinder() {
+    delete [] adj;
 }
 
 void AllShortestPathsFinder::convertAdjMatrixToAdjList() {
