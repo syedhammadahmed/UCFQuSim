@@ -19,7 +19,9 @@
 using namespace std;
 
 QuCircuit::QuCircuit() {
-    cout << "QuCircuit default" << endl;
+    if(Util::verbose) {
+        cout << "QuCircuit default" << endl;
+    }
 }
 
 QuCircuit::QuCircuit(QuArchitecture& architecture): rows(architecture.getN()), grid(NULL) {
@@ -143,9 +145,11 @@ QuCircuit::~QuCircuit() {
 //}
 
 void QuCircuit::run() {
-    cout << "Circuit execution start..." << endl;
+    if(Util::verbose)
+        cout << "Circuit execution start..." << endl;
     // todo: apply each gate depth-wise
-    cout << "Circuit execution end..." << endl;
+    if(Util::verbose)
+        cout << "Circuit execution end..." << endl;
 }
 
 void QuCircuit::addMapping(int logicalQuBit, int physicalQuBit) {
@@ -205,44 +209,48 @@ void QuCircuit::init1() {
 //}
 
 void QuCircuit::printGrid(){
-    cout << "Printing Circuit Grid (grid of pointers to qugates): " << endl;
-    for(int i=0; i<50; i++) cout << "__";   // todo make it generic for any layers
-    cout << endl;
-    for(int i=0; i<rows; i++) {
-        cout << std::setw(8);
-        cout << "q[" << i << "]";
-        for (int j = 0; j < cols; j++) {
-            string symbol = ".";
-            if (grid[i][j] != NULL) {
-                symbol = grid[i][j]->getPrintSymbol();
+    if(Util::verbose) {
+        cout << "Printing Circuit Grid (grid of pointers to qugates): " << endl;
+        for (int i = 0; i < 50; i++) cout << "__";   // todo make it generic for any layers
+        cout << endl;
+        for (int i = 0; i < rows; i++) {
+            cout << std::setw(8);
+            cout << "q[" << i << "]";
+            for (int j = 0; j < cols; j++) {
+                string symbol = ".";
+                if (grid[i][j] != NULL) {
+                    symbol = grid[i][j]->getPrintSymbol();
+                }
+                cout << std::setw(4);
+                cout << symbol << " ";
             }
-            cout << std::setw(4);
-            cout << symbol << " ";
+            cout << endl;
         }
+        for (int i = 0; i < 50; i++) cout << "__";
         cout << endl;
     }
-    for(int i=0; i<50; i++) cout << "__";
-    cout << endl;
 }
 
 void QuCircuit::printSimpleGrid(){
-    cout << "Printing Circuit Grid (grid of qugates positions): " << endl;
-    for(int i=0; i<50; i++) cout << "__";   // todo make it generic for any layers
-    cout << endl;
-    for(int i=0; i<rows; i++) {
-        cout << std::setw(8);
-        cout << "q[" << i << "]";
-        for (int j = 0; j < cols; j++) {
-            cout << std::setw(4);
-            if(simpleGrid[i][j] == -1)
-                cout << "." << " ";
-            else
-                cout << simpleGrid[i][j] << " ";
+    if(Util::verbose) {
+        cout << "Printing Circuit Grid (grid of qugates positions): " << endl;
+        for (int i = 0; i < 50; i++) cout << "__";   // todo make it generic for any layers
+        cout << endl;
+        for (int i = 0; i < rows; i++) {
+            cout << std::setw(8);
+            cout << "q[" << i << "]";
+            for (int j = 0; j < cols; j++) {
+                cout << std::setw(4);
+                if (simpleGrid[i][j] == -1)
+                    cout << "." << " ";
+                else
+                    cout << simpleGrid[i][j] << " ";
+            }
+            cout << endl;
         }
+        for (int i = 0; i < 50; i++) cout << "__";
         cout << endl;
     }
-    for(int i=0; i<50; i++) cout << "__";
-    cout << endl;
 }
 
 void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
@@ -379,12 +387,14 @@ int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 }
 
 void QuCircuit::printInstructions() {
-    try {
-        for (QuGate *quGate: instructionsV1) {
-            cout << *quGate << endl;
+    if(Util::verbose) {
+        try {
+            for (QuGate *quGate: instructionsV1) {
+                cout << *quGate << endl;
+            }
+        } catch (exception &e) {
+            cout << "Exception : " << e.what() << '\n';
         }
-    } catch (exception& e){
-        cout << "Exception : " << e.what() << '\n';
     }
 }
 

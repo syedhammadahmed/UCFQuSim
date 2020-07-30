@@ -24,6 +24,7 @@ private:
 public:
     static const int DEFAULT;
     explicit QuMapping(int n);
+    explicit QuMapping(int n, int permId);
 
     QuMapping();
 

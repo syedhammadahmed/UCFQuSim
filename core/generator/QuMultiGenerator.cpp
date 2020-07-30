@@ -50,7 +50,7 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         // reads the qasm file and makes a default circuit
         QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
         QuCircuit& circuit = quCircuitGenerator.getCircuit();
-        cout << endl << file << " : " << endl;
+        Util::println(file + " : ");
         Util::timeIt(false);
         int gatesOriginal = circuit.getInstructions().size();
         int totalSwaps = circuit.findTotalSwaps(quArchitecture);

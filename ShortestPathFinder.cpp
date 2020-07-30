@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <util/Util.h>
 #include "ShortestPathFinder.h"
 using namespace std;
 
@@ -61,10 +62,12 @@ void ShortestPathFinder::swap(int& num1, int& num2){
 }
 
 void ShortestPathFinder::printSPGrid(){
-    for(int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++)
-            std::cout << dist[i][j] << " ";
-        std::cout << std::endl;
+    if(Util::verbose) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++)
+                std::cout << dist[i][j] << " ";
+            std::cout << std::endl;
+        }
     }
 }
 

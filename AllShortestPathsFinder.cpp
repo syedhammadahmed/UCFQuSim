@@ -6,6 +6,7 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <util/Util.h>
 
 using namespace std;
 
@@ -43,14 +44,15 @@ void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[]
     // current path[]
     if (src == dest)
     {
+//        if(swaps == path_index-2 && path[path_index-1] == dest) { // only shortest path
         if(swaps == path_index-2) { // only shortest path
             vector<int> temp;
             for (int i = 0; i < path_index; i++){
-                cout << path[i] << " ";
+//                cout << path[i] << " ";
                 temp.push_back(path[i]);
             }
             allSwapPaths.push_back(temp);
-            cout << endl;
+//            cout << endl;
             swapPathCounter++;
         }
     }
@@ -70,7 +72,19 @@ void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[]
 
 
 vector<vector<int>> AllShortestPathsFinder::findSingleSourceAllShortestPaths(int src, int dest, int swaps) {
-    printAllPaths(src, dest, swaps);
+    allSwapPaths.clear();
+    string temp = to_string(src) + "," + to_string(dest);
+//    if(preCalPaths.count(temp) > 0) {
+//        cout << "hello";
+//    }
+    allSwapPaths = preCalPaths[temp];
+    if(!allSwapPaths.empty()) {
+        Util::println("Getting precalculated SPs...");
+    }
+    else {
+        printAllPaths(src, dest, swaps);
+        preCalPaths[temp] = allSwapPaths;
+    }
     return allSwapPaths;
 }
 
@@ -82,15 +96,26 @@ AllShortestPathsFinder::AllShortestPathsFinder(int **graph, int n) : graph(graph
 
 void AllShortestPathsFinder::convertAdjMatrixToAdjList() {
     for(int i=0; i<n; i++){
+        adj[i].clear();
         for(int j=0; j<n; j++) {
+//            if(graph[i][j] != 0 || graph[j][i] != 0){
             if(graph[i][j] != 0 || graph[j][i] != 0){
                 adj[i].push_back(j);
 //                adj[j].push_back(i);
             }
         }
     }
-    for(int i=0; i<n; i++)
-        adj[i].unique();
+//    for(int i=0; i<n; i++)
+//        adj[i].unique();
+//    if(Util::verbose) {
+//        for (int i = 0; i < n; i++) {
+//            cout << i << ": ";
+//            for (int j: adj[i]) {
+//                cout << j << " ";
+//            }
+//            cout << endl;
+//        }
+//    }
 }
 
 const vector<vector<int>> &AllShortestPathsFinder::getAllSwapPaths() const {

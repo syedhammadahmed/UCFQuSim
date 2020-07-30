@@ -114,11 +114,4 @@ void QuMapping::quSwapLogical(int i, int j) {
     physicalToLogical[pj] = temp;
 }
 
-void QuMapping::setMapping(const QuMapping &arg) {
-    n = arg.n;
-    for(int i = 0; i < n; i++) {
-        physicalToLogical[i] = arg.physicalToLogical[i];
-    }
-}
-
 QuMapping::QuMapping() = default;

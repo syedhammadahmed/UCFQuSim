@@ -41,6 +41,8 @@ public:
     QuCircuit(int rows, int cols);
 //    QuCircuit(string fileName, int rows);
     QuCircuit(QuArchitecture& architecture);
+    QuCircuit(const QuCircuit& arg);
+
 
     void add(QuGate* gate, int row, int depth);
     void add(QuGate* gate, int depth);

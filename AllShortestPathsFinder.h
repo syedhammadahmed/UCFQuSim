@@ -7,6 +7,7 @@
 
 #include <list>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -19,6 +20,7 @@ private:
     vector<vector<int>> allSwapPaths;
     int swapPathCounter;
 
+    map<string, vector<vector<int>>> preCalPaths;
     void convertAdjMatrixToAdjList();
 
 public:

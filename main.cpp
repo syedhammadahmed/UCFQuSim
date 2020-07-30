@@ -16,13 +16,16 @@
 #include "core/gates/Not.h"
 #include "ShortestPathFinder.h"
 #include "core/generator/QuCircuitGenerator.h"
+#include "AllShortestPathsFinder.h"
 
 using namespace std;
 
 int main() {
     const int quBits = 16;
     const int MAX_DEPTH = 10;
-// hello
+    Util::verbose = true;
+    cout << "Processing files... this may take a while..." << endl;
+    // hello
 //    string inputFileName = "sample.qasm";
 //    getenv("HOME")
 //    getenv("HOMEPATH")
@@ -31,7 +34,8 @@ int main() {
     string inputDirectory = "../input/";
     string outputDirectory = "../output/";
 //    inputDirectory += "/home/hammad/input/";
-    cout << "Input File Directory: " << inputDirectory << endl;
+    if(Util::verbose)
+        cout << "Input File Directory: " << inputDirectory << endl;
 
     QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
 //    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
@@ -63,9 +67,50 @@ int main() {
     return 0;
 }
 
-//int main(){
-//    int i = 1;
-//    Util::timeIt(false);
-//    while(i++ <1000000000);
-//    cout << Util::timeIt(true);
-//}
+ /*
+int main() {
+    QuArchitecture architectureQX5(16); // includes the coupling map having CNOT constraints
+    architectureQX5.printCouplingMatrix();
+    AllShortestPathsFinder allSPF(architectureQX5.getCouplingMap(), architectureQX5.getN());
+
+    for(int k=1; k<=8; k++) {
+        for (int i = 0; i < architectureQX5.getN(); i++) {
+            for (int j = 0; j < architectureQX5.getN(); j++) {
+                if (i != j) {
+                    vector<vector<int>> paths = allSPF.findSingleSourceAllShortestPaths(i, j, k);
+                    cout << "(" << i << "," << j << "): [length = " << k << "]" << endl;
+                    for (vector<int> path: paths) {
+                        Util::printPath(path);
+                    }
+                    cout << endl;
+                }
+            }
+        }
+    }
+//    int i = 0, j = 3, k = 1;
+//    vector<vector<int>> paths = allSPF.findSingleSourceAllShortestPaths(i, j, k);
+//    cout << "(" << i << "," << j << "): [length = " << k << "]" << endl;
+//    for (vector<int> path: paths) {
+//        Util::printPath(path);
+//    }
+//    cout << endl;
+}
+ */
+
+// int main()
+// {
+////     string str = "012";
+//     string str = "0123456789";
+//     int n = str.size();
+//     vector<string> perms;
+//     Util::permute(str, 0, n-1, perms);
+//     cout << perms.size();
+////     for (string perm: perms) {
+////         for(int i=0; i<perm.length(); i++){
+////            int val = perm[i] - 48;
+////            cout << val << " ";
+////         }
+////         cout << endl;
+////     }
+//     return 0;
+// }

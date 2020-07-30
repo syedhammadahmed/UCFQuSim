@@ -6,6 +6,7 @@
 #define UCFQUSIM_QUSMARTSWAPPER_H
 
 
+#include <AllShortestPathsFinder.h>
 #include "QuSwapStrategy.h"
 
 class QuSmartSwapper: public QuSwapStrategy {
@@ -14,11 +15,14 @@ private:
     vector<vector<QuMapping>> instructionWiseMappings;  // instructionWiseMappings[0] = mappings for instruction 0 (1st instruction)
     int perInstructionMappingCounter;
     vector<QuGate*> nonUnaryInstructions;
+    AllShortestPathsFinder* allSPF;
+    map<string, vector<int>> preCalShortestPaths;
 
     void printSwapPath(vector<int> swapPath);
 
 public:
     QuSmartSwapper(QuCircuit &circuit);
+    QuSmartSwapper(QuCircuit &circuit, int initMappingPermId);
 
     int findTotalSwaps(QuArchitecture& quArchitecture) override;
     int findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) override;

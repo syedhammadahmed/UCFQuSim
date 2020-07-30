@@ -28,6 +28,8 @@ public:
     virtual ~QuArchitecture();
 
     void addConstraintsQX5();
+
+    void printCouplingMatrix();
 };
 
 

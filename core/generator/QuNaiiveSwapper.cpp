@@ -3,6 +3,7 @@
 //
 
 #include <ShortestPathFinder.h>
+#include <util/Util.h>
 #include "QuNaiiveSwapper.h"
 #include "QuGateFactory.h"
 
@@ -29,7 +30,9 @@ int QuNaiiveSwapper::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap)
         swaps = swapSequence.size();
 //        if(swaps == 0)
 //            cout << "No swap required!" << endl;
-        mapping.print();
+//        Util::verbose = false;
+//        mapping.print();
+//        Util::verbose = true;
     }
     circuit.getInstructionsV1().push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
     return swaps;
