@@ -39,6 +39,8 @@ public:
     void insertSwapGates(int source, int destination);
 
     vector<QuGate*> removeUnaryInstructions();
+
+    unsigned int constraintNotSatisfied(QuGate *gate, int **couplingMap);
 };
 
 

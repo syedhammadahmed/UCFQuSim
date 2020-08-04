@@ -28,6 +28,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
     removeUnaryInstructions();
     unsigned long long t = 0;
     int lastDecreased = 0;
+    unsigned int constraintIssues = 0;
 
     Util::println("nonUnaryInstructions size: " + to_string(nonUnaryInstructions.size()));
     for(QuGate* currentInstruction: nonUnaryInstructions){
@@ -35,6 +36,9 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         int mappingCount = 0;
         vector<vector<vector<int>>> mappingWiseShortestPaths;
         vector<vector<vector<int>>> filteredMappingWiseShortestPaths;
+
+        constraintIssues += constraintNotSatisfied(currentInstruction, quArchitecture.getCouplingMap());
+
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
 
@@ -53,6 +57,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
             // todo mapping never used
             // find swap count for a particular input mapping
             unsigned int swaps = findSwapsFor1Instruction(currentInstruction, quArchitecture.getCouplingMap());
+//            cout << "SWAPS:  " << swaps << endl;
             mappingWiseShortestPaths.push_back(allSPFSwapPaths);    // all SPFs for current instruction & current mapping
             if (swaps < min)
                 min = swaps;
@@ -77,21 +82,37 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 
         for (unsigned int j = 0; j < filteredInputMappings.size(); j++) {
             vector<QuMapping> temp;
+
+            Util::println("Mapping #: " + to_string(j));
             generatedSwapPathsMap.clear();
 
             for (unsigned int k = 0; k < filteredMappingWiseShortestPaths[j].size(); k++) {
-                string pathString = Util::pathToString(filteredMappingWiseShortestPaths[j][k]);
-                int val = generatedSwapPathsMap[pathString];
-                if(val == 0) {
-                    temp = findAllMappingsFromPermutations(filteredInputMappings[j],
-                                                           filteredMappingWiseShortestPaths[j][k]);
-                    generatedSwapPathsMap[pathString]++;
-                }
-                else{
-                    Util::println("Swap Path already generated earlier...");
-                }
+//                if(filteredMappingWiseShortestPaths[j][k].size() > 2) { // non-trivial path only
+//                    Util::println("LEGIT");
+//                }
+//                else {
+//                    Util::println("NOT LEGIT");
+//                }
+//                if(filteredMappingWiseShortestPaths[j][k].size() > 2) { // non-trivial path only
+                    Util::println("LEGIT");
+                    string pathString = Util::pathToString(filteredMappingWiseShortestPaths[j][k]);
+                    int val = generatedSwapPathsMap[pathString];
+                    if (val == 0) {
+                        temp = findAllMappingsFromPermutations(filteredInputMappings[j],
+                                                               filteredMappingWiseShortestPaths[j][k]);
+                        generatedSwapPathsMap[pathString]++;
+                        Util::println("generatedSwapPathsMap[" + pathString + "] : " +
+                                      to_string(generatedSwapPathsMap[pathString]));
+                    } else {
+                        Util::println("Swap Path already generated earlier...");
+                    }
+//                }
+//                else {
+//                    Util::println("NOT LEGIT");
+//                }
             }
-            nextInstructionMappings.insert(nextInstructionMappings.end(), temp.begin(), temp.end());
+            if(!temp.empty())
+                nextInstructionMappings.insert(nextInstructionMappings.end(), temp.begin(), temp.end());
         }
         if(nextInstructionMappings.size() < t) {
 //            Util::println("DECREASED!!!");
@@ -99,13 +120,16 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         }
         t = nextInstructionMappings.size();
         Util::println("nextInstructionMappings.size(): " + to_string(nextInstructionMappings.size()));
-//        if(nextInstructionMappings.size()>5000) {
-//            nextInstructionMappings.erase(nextInstructionMappings.begin() + 5000, nextInstructionMappings.end());
-//        }
+        int threshold = 50000;
+        if(nextInstructionMappings.size()>threshold) {
+            nextInstructionMappings.erase(nextInstructionMappings.begin() + threshold, nextInstructionMappings.end());
+        }
+        Util::println("nextInstructionMappings: " + to_string(nextInstructionMappings.size()));
         instructionWiseMappings.push_back(nextInstructionMappings);
         programCounter++;
         circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
     }
+    Util::println("Hadamard Required: " + to_string(constraintIssues));
     Util::println("LAST DECREASED: " + to_string(lastDecreased));
     delete allSPF;
     return total;
@@ -256,5 +280,15 @@ void QuSmartSwapper::printSwapPath(vector<int> swapPath) {
     }
     Util::println("");
 
+}
+
+unsigned int QuSmartSwapper::constraintNotSatisfied(QuGate *gate, int **couplingMap) {
+    int* args = gate -> getArgIndex();
+//    Util::println("args[0]: " + to_string(args[0]));
+//    Util::println("args[1]: " + to_string(args[1]));
+//    Util::println("couplingMap[args[0]][args[1]]: " + to_string(couplingMap[args[0]][args[1]]));
+    if(couplingMap[args[0]][args[1]] == -1)
+        return 1;
+    return 0;
 }
 

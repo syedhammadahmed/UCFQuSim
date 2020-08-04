@@ -123,12 +123,14 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 
 
 QuCircuit::~QuCircuit() {
-    for(QuGate* ptr: instructions){
-        delete ptr;
-    }
-    for(QuGate* ptr: instructionsV1){
-        delete ptr;
-    }
+//    for(QuGate* ptr: instructions){
+//        if(ptr != nullptr)
+//            delete ptr;
+//    }
+//    for(QuGate* ptr: instructionsV1){
+//        if(ptr != nullptr)
+//            delete ptr;
+//    }
 
 //    cout << "~QuCircuit()" << endl;
 //    delete [] physicalToLogicalMapping;
