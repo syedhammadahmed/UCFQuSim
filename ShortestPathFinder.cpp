@@ -9,7 +9,7 @@
 using namespace std;
 
 
-ShortestPathFinder::ShortestPathFinder(int **graph, int n): graph(graph), dist(NULL), dist1D(NULL), n(n), parent(NULL) {
+ShortestPathFinder::ShortestPathFinder(int **graph, int n): graph(NULL), dist(NULL), dist1D(NULL), n(n), parent(NULL) {
     if(dist == NULL) {
         dist = new int*[n];
         for (int i = 0; i < n; i++)
@@ -19,6 +19,13 @@ ShortestPathFinder::ShortestPathFinder(int **graph, int n): graph(graph), dist(N
             for (int j = 0; j < n; j++)
                 dist[i][j] = graph[i][j];
     }
+    this->graph = new int*[n];
+    for (int i = 0; i < n; i++)
+        this->graph[i] = new int[n];
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            this->graph[i][j] = graph[i][j];
     if(dist1D == NULL)
         dist1D = new int[n];
     if(parent == NULL)
@@ -74,7 +81,7 @@ void ShortestPathFinder::printSPGrid(){
 int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
     for(int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            graph[i][j] = abs(graph[i][j]);
+            this->graph[i][j] = abs(this->graph[i][j]);
         }
     }
 
@@ -155,4 +162,8 @@ ShortestPathFinder::~ShortestPathFinder() {
 
     delete[] dist1D;
     delete[] parent;
+}
+
+void ShortestPathFinder::setGraph(int **graph) {
+    ShortestPathFinder::graph = graph;
 }

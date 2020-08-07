@@ -19,15 +19,17 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
 void QuArchitecture::addConstraint(int src, int dest) {
     couplingMap[src][dest] = 1;
     couplingMap[dest][src] = -1;
+//    cout << src << " " << dest << " SSS " << endl;
+//    cout << couplingMap[dest][src] << " SSS " << endl;
 }
 
 std::ostream &operator<<(std::ostream &os, const QuArchitecture &architecture) {
     for(int i = 0; i < architecture.n; i++)
-        for(int j = i + 1; j < architecture.n; j++)
-            if(architecture.couplingMap[i][j] == 1)
+        for(int j = 0; j < architecture.n; j++)
+            if((i!=j) && (architecture.couplingMap[i][j] > 0))
                 os << "Q" << i << " => Q" << j << std::endl;
-            else if(architecture.couplingMap[i][j] == -1)
-                os << "Q" << i << " <= Q" << j << std::endl;
+//            else if(architecture.couplingMap[i][j] == -1)
+//                os << "Q" << i << " <= Q" << j << std::endl;
     return os;
 }
 

@@ -40,7 +40,9 @@ public:
 
     vector<QuGate*> removeUnaryInstructions();
 
-    unsigned int constraintNotSatisfied(QuGate *gate, int **couplingMap);
+    unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
+
+    unsigned int hadamards;
 };
 
 
