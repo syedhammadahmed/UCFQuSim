@@ -17,6 +17,7 @@ private:
 //    int* physicalToLogical;  // todo revert to dynamic logic
     int physicalToLogical[16];
     int n;
+    string mappingId;
 
 public:
     static const int DEFAULT;
@@ -42,6 +43,10 @@ public:
     void fixMappings(int src, std::vector<int> swapSeq);
     void fixMappings(std::vector<int> swapSeq);
     void print();
+
+    const string &getMappingId() const;
+
+    void setMappingId(const string &mappingId);
 };
 
 
