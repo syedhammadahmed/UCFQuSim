@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <iostream>
+#include <core/gates/QuGate.h>
 #include "QuArchitecture.h"
 
 using namespace std;
@@ -18,6 +19,8 @@ private:
     int physicalToLogical[16];
     int n;
     string mappingId;
+    string parentMappingId;
+    vector<QuGate*> swapInstructions;
 
 public:
     static const int DEFAULT;
@@ -27,6 +30,8 @@ public:
     QuMapping();
 
     QuMapping(const QuMapping& arg);
+    void operator=(const QuMapping& arg);
+
 
 //    virtual ~QuMapping();
 
@@ -41,12 +46,21 @@ public:
     void quSwapLogical(int i, int j);
 
     void fixMappings(int src, std::vector<int> swapSeq);
-    void fixMappings(std::vector<int> swapSeq);
+    vector<QuGate*> fixMappings(std::vector<int> swapSeq);
     void print();
 
     const string &getMappingId() const;
 
     void setMappingId(const string &mappingId);
+
+    const string &getParentMappingId() const;
+
+    void setParentMappingId(const string &parentMappingId);
+
+    const vector<QuGate*>& getSwapInstructions() const;
+
+    void setSwapInstructions(const vector<QuGate*> swapInstructions);
+
 };
 
 

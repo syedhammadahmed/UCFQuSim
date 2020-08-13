@@ -429,6 +429,10 @@ vector<QuGate*>& QuCircuit::getInstructionsV1(){
     return instructionsV1;
 }
 
+void QuCircuit::setInstructionsV1(const vector<QuGate*>& instructionsV1) {
+    QuCircuit::instructionsV1 = instructionsV1;
+}
+
 vector<QuGate*> QuCircuit::getInstructions() const{
     return instructions;
 }

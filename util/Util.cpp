@@ -101,3 +101,13 @@ void Util::println(string str) {
     if(verbose)
         cout << str << endl;
 }
+
+void Util::parseMappingId(string mappingId, int& parentProgramCounter, int& parentMappingCounter) {
+    string delimiter = ".";
+    parentProgramCounter = -1;
+    parentMappingCounter = -1;
+    if(!mappingId.empty()){
+        parentProgramCounter = stoi(mappingId.substr(0, mappingId.find(delimiter)));
+        parentMappingCounter = stoi(mappingId.substr(mappingId.find(delimiter), mappingId.length()-1));
+    }
+}

@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <util/Util.h>
+#include <core/gates/QuGateFactory.h>
 #include "QuMapping.h"
 #include "QuArchitecture.h"
 
@@ -35,6 +36,9 @@ QuMapping::QuMapping(int n) : n(n) {
 }
 
 QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
+    mappingId = arg.mappingId;
+    parentMappingId = arg.parentMappingId;
+    swapInstructions = arg.swapInstructions;
     for(int i=0; i<n; i++){
         physicalToLogical[i] = arg.physicalToLogical[i];
     }
@@ -107,18 +111,27 @@ void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
     if(swapSeq.empty())
         return;
 //    quSwap(src, swapSeq[0]);
+    Util::println("SWAPPING: START");
     for(int i=0; i<signed(swapSeq.size()-2); i++){
         quSwap(swapSeq[i], swapSeq[i+1]);
     }
+    Util::println("SWAPPING: END");
 }
 
-void QuMapping::fixMappings(std::vector<int> swapSeq) {
-    if(swapSeq.empty())
-        return;
+vector<QuGate*> QuMapping::fixMappings(std::vector<int> swapSeq) {
+    vector<QuGate*> swapGates;
+//    if(swapSeq.empty())
+//        return ;
     for(int i=0; i<signed(swapSeq.size()-1); i++){
         quSwap(swapSeq[i], swapSeq[i+1]);
+        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
+        swapGate->getArgIndex()[0] = physicalToLogical[swapSeq[i]];
+        swapGate->getArgIndex()[1] = physicalToLogical[swapSeq[i+1]];
+        swapGates.push_back(swapGate);
+        Util::println("SWAP " + to_string(physicalToLogical[swapSeq[i]]) + ", " + to_string(physicalToLogical[swapSeq[i+1]]));
     }
 //    cout << "Helloo" << endl;
+    return swapGates;
 }
 
 void QuMapping::print() {
@@ -141,5 +154,40 @@ QuMapping::QuMapping(int n, int permId) : n(n) {
     init(permId);
 //    cout << "QuMapping Constructor OK!" << endl;
 }
+
+const string &QuMapping::getMappingId() const {
+    return mappingId;
+}
+
+void QuMapping::setMappingId(const string &mappingId) {
+    this->mappingId = mappingId;
+}
+
+const string &QuMapping::getParentMappingId() const {
+    return parentMappingId;
+}
+
+void QuMapping::setParentMappingId(const string &parentMappingId) {
+    this->parentMappingId = parentMappingId;
+}
+
+const vector<QuGate*>& QuMapping::getSwapInstructions() const{
+return swapInstructions;
+}
+
+void QuMapping::setSwapInstructions(const vector<QuGate*> swapInstructions) {
+    this->swapInstructions = swapInstructions;
+}
+
+void QuMapping::operator=(const QuMapping &arg) {
+    n = arg.n;
+    mappingId = arg.mappingId;
+    parentMappingId = arg.parentMappingId;
+    swapInstructions = arg.swapInstructions;
+    for(int i=0; i<n; i++){
+        physicalToLogical[i] = arg.physicalToLogical[i];
+    }
+}
+
 
 QuMapping::QuMapping() = default;

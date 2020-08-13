@@ -53,7 +53,7 @@ int QuNaiiveSwapper::findTotalSwaps(QuArchitecture& quArchitecture)  {
 
 
 QuMapping QuNaiiveSwapper::getCurrentMapping() {
-    return circuit.getMapping();
+    return circuit.getMapping();//*(new QuMapping);
 }
 
 vector<int> QuNaiiveSwapper::swapAlongPath(int* parent, int source, int destination) {

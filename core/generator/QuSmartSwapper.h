@@ -43,6 +43,8 @@ public:
     unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
 
     unsigned int hadamards;
+
+    void generateOptimalInstructions();
 };
 
 
