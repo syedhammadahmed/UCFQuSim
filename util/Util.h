@@ -23,6 +23,10 @@ public:
     static long long factorial(int n);
     static void print(string str);
     static void println(string str);
+
+    static string pathToString(vector<int> path);
+
+    static void parseMappingId(string mappingId, int &parentProgramCounter, int &parentMappingCounter);
 };
 
 

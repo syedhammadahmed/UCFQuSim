@@ -39,6 +39,12 @@ public:
     void insertSwapGates(int source, int destination);
 
     vector<QuGate*> removeUnaryInstructions();
+
+    unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
+
+    unsigned int hadamards;
+
+    void generateOptimalInstructions();
 };
 
 

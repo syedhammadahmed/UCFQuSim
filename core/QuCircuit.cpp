@@ -123,6 +123,15 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 
 
 QuCircuit::~QuCircuit() {
+//    for(QuGate* ptr: instructions){
+//        if(ptr != nullptr)
+//            delete ptr;
+//    }
+//    for(QuGate* ptr: instructionsV1){
+//        if(ptr != nullptr)
+//            delete ptr;
+//    }
+
 //    cout << "~QuCircuit()" << endl;
 //    delete [] physicalToLogicalMapping;
 //    delete [] logicalQuBits;
@@ -308,7 +317,9 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
     QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-    return strategy->findSwapsFor1Instruction(quGate, couplingMap);
+    int swaps = strategy->findSwapsFor1Instruction(quGate, couplingMap);
+    delete strategy;
+    return swaps;
 }
 
 
@@ -416,6 +427,10 @@ void QuCircuit::setInstructions(const vector<QuGate*> instructions) {
 
 vector<QuGate*>& QuCircuit::getInstructionsV1(){
     return instructionsV1;
+}
+
+void QuCircuit::setInstructionsV1(const vector<QuGate*>& instructionsV1) {
+    QuCircuit::instructionsV1 = instructionsV1;
 }
 
 vector<QuGate*> QuCircuit::getInstructions() const{

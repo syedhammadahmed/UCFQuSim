@@ -87,6 +87,8 @@ public:
     void setSimpleGrid(int **simpleGrid);
 
     void printSimpleGrid();
+
+    void setInstructionsV1(const vector<QuGate*> & instructionsV1);
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

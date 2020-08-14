@@ -38,6 +38,8 @@ public:
     vector<vector<int>> findSingleSourceAllShortestPaths(int src, int dest, int swaps);
 
     const vector<vector<int>> &getAllSwapPaths() const;
+
+    virtual ~AllShortestPathsFinder();
 };
 
 

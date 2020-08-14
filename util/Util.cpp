@@ -31,6 +31,15 @@ double Util::timeIt(bool isEnd) {
     return 0.0;
 }
 
+string Util::pathToString(vector<int> path) {
+    string str;
+    for (int i = 0; i < path.size(); i++) {
+        str += to_string(path[i]);
+        if (i < path.size() - 1) str += ", ";
+    }
+    return str;
+}
+
 void Util::printPath(vector<int> path) {
     if(verbose) {
         for (int i = 0; i < path.size(); i++) {
@@ -91,4 +100,14 @@ void Util::print(string str) {
 void Util::println(string str) {
     if(verbose)
         cout << str << endl;
+}
+
+void Util::parseMappingId(string mappingId, int& parentProgramCounter, int& parentMappingCounter) {
+    string delimiter = ".";
+    parentProgramCounter = -1;
+    parentMappingCounter = -1;
+    if(!mappingId.empty()){
+        parentProgramCounter = stoi(mappingId.substr(0, mappingId.find(delimiter)));
+        parentMappingCounter = stoi(mappingId.substr(mappingId.find(delimiter), mappingId.length()-1));
+    }
 }

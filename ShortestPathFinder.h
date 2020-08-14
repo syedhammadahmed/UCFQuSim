@@ -28,6 +28,8 @@ public:
 
     void swap(int &num1, int &num2);
 
+    void setGraph(int **graph);
+
     virtual ~ShortestPathFinder();
 };
 

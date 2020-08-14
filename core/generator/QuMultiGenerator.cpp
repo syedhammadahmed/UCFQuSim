@@ -49,6 +49,7 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         string file = inputFiles[i].substr(0, inputFiles[i].length() - 5); //removing .qasm extension
         // reads the qasm file and makes a default circuit
         QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
+        cout << quArchitecture;
         QuCircuit& circuit = quCircuitGenerator.getCircuit();
         Util::println(file + " : ");
         Util::timeIt(false);
