@@ -85,9 +85,7 @@ add_executable(UCFQuSim
     core/QuBit.h
     core/QuCircuit.cpp
     core/QuCircuit.h
-    core/QuInstruction.cpp
-    core/QuInstruction.h
-    core/QuMapping.cpp
+        core/QuMapping.cpp
     core/QuMapping.h
     core/QuRegister.cpp
     core/QuRegister.h

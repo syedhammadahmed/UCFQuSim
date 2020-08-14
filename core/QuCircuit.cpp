@@ -9,7 +9,6 @@
 #include "QuCircuit.h"
 #include "QuGateFactory.h"
 #include "../ShortestPathFinder.h"
-#include "QuInstruction.h"
 #include "util/Util.h"
 #include "core/generator/QuSwapStrategy.h"
 #include "core/generator/QuNaiiveSwapper.h"

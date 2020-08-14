@@ -4,6 +4,7 @@
 
 #include <time.h>
 #include <iostream>
+#include <cstring>
 #include "Util.h"
 
 using namespace std;
@@ -106,8 +107,8 @@ void Util::parseMappingId(string mappingId, int& parentProgramCounter, int& pare
     string delimiter = ".";
     parentProgramCounter = -1;
     parentMappingCounter = -1;
-    if(!mappingId.empty()){
+    if(!mappingId.empty() && mappingId != "*"){
         parentProgramCounter = stoi(mappingId.substr(0, mappingId.find(delimiter)));
-        parentMappingCounter = stoi(mappingId.substr(mappingId.find(delimiter), mappingId.length()-1));
+        parentMappingCounter = stoi(mappingId.substr(mappingId.find(delimiter) + 1, mappingId.length()-mappingId.find(delimiter) + 1));
     }
 }

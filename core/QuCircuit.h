@@ -9,7 +9,6 @@
 #include <ostream>
 #include <string>
 #include "gates/QuGate.h"
-#include "QuInstruction.h"
 #include "QuMapping.h"
 #include "QuArchitecture.h"
 

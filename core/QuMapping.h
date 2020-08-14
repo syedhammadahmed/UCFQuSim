@@ -27,11 +27,13 @@ public:
     explicit QuMapping(int n);
     explicit QuMapping(int n, int permId);
 
-    QuMapping();
+    explicit QuMapping();
 
     QuMapping(const QuMapping& arg);
     void operator=(const QuMapping& arg);
+    bool operator==(const QuMapping& arg);
 
+    virtual ~QuMapping();
 
 //    virtual ~QuMapping();
 

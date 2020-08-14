@@ -35,6 +35,7 @@ QuMapping::QuMapping(int n) : n(n) {
 //    cout << "QuMapping Constructor OK!" << endl;
 }
 
+
 QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
     mappingId = arg.mappingId;
     parentMappingId = arg.parentMappingId;
@@ -187,6 +188,20 @@ void QuMapping::operator=(const QuMapping &arg) {
     for(int i=0; i<n; i++){
         physicalToLogical[i] = arg.physicalToLogical[i];
     }
+}
+
+bool QuMapping::operator==(const QuMapping &arg) {
+    for(int i=0; i<n; i++) {
+        if(physicalToLogical[i] != arg.physicalToLogical[i])
+            return false;
+    }
+    return true;
+}
+
+QuMapping::~QuMapping() {
+//    for(int i=0; i<swapInstructions.size(); i++) {
+//           delete swapInstructions[i];
+//    }
 }
 
 
