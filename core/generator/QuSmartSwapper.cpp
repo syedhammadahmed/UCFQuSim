@@ -135,14 +135,12 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
                             cout << "filteredMappingWiseShortestPaths[j][k].size == 2" << endl;
                             Util::printPath(filteredMappingWiseShortestPaths[j][k]);
                         }
-                        else {
-                            temp = findAllMappingsFromPermutations(filteredInputMappings[j],
-                                                                   filteredMappingWiseShortestPaths[j][k],
-                                                                   quArchitecture);
-                            generatedSwapPathsMap[pathString]++;
-                            Util::println("generatedSwapPathsMap[" + pathString + "] : " +
-                                          to_string(generatedSwapPathsMap[pathString]));
-                        }
+                        temp = findAllMappingsFromPermutations(filteredInputMappings[j],
+                                                               filteredMappingWiseShortestPaths[j][k],
+                                                               quArchitecture);
+                        generatedSwapPathsMap[pathString]++;
+                        Util::println("generatedSwapPathsMap[" + pathString + "] : " +
+                                      to_string(generatedSwapPathsMap[pathString]));
                     } else {
                         Util::println("Swap Path already generated earlier...");
                     }
