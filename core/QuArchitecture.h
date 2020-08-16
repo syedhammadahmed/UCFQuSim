@@ -30,6 +30,7 @@ public:
     void addConstraintsQX5();
 
     void printCouplingMatrix();
+    bool isAdjacent(int src, int dest);
 };
 
 

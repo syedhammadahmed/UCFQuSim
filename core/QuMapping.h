@@ -59,7 +59,7 @@ public:
 
     void setParentMappingId(const string &parentMappingId);
 
-    const vector<QuGate*>& getSwapInstructions() const;
+    vector<QuGate*>& getSwapInstructions();
 
     void setSwapInstructions(const vector<QuGate*> swapInstructions);
 

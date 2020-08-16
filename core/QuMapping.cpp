@@ -121,9 +121,8 @@ void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
 
 vector<QuGate*> QuMapping::fixMappings(std::vector<int> swapSeq) {
     vector<QuGate*> swapGates;
-//    if(swapSeq.empty())
-//        return ;
-    for(int i=0; i<signed(swapSeq.size()-1); i++){
+    int swapSeqSize = swapSeq.size();
+    for(int i=0; i<signed(swapSeqSize-1); i++){
         quSwap(swapSeq[i], swapSeq[i+1]);
         QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
         swapGate->getArgIndex()[0] = physicalToLogical[swapSeq[i]];
@@ -131,7 +130,6 @@ vector<QuGate*> QuMapping::fixMappings(std::vector<int> swapSeq) {
         swapGates.push_back(swapGate);
         Util::println("SWAP " + to_string(physicalToLogical[swapSeq[i]]) + ", " + to_string(physicalToLogical[swapSeq[i+1]]));
     }
-//    cout << "Helloo" << endl;
     return swapGates;
 }
 
@@ -172,7 +170,7 @@ void QuMapping::setParentMappingId(const string &parentMappingId) {
     this->parentMappingId = parentMappingId;
 }
 
-const vector<QuGate*>& QuMapping::getSwapInstructions() const{
+vector<QuGate*>& QuMapping::getSwapInstructions(){
 return swapInstructions;
 }
 

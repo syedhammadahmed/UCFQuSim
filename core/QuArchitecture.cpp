@@ -117,3 +117,9 @@ void QuArchitecture::addConstraintsQX5() {
     architectureQX5.addConstraint(15,2);
     architectureQX5.addConstraint(15,14);
 }
+
+bool QuArchitecture::isAdjacent(int src, int dest) {
+    if(couplingMap[src][dest] != 0)
+        return true;
+    return false;
+}
