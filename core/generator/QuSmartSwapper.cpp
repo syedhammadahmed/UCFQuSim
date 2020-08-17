@@ -75,7 +75,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 
 
 //        for (QuMapping& mapping: inputMappings) {   // input mappings for an instruction
-        if(programCounter == 1)
+        if(programCounter == 3)
             cout << "ho";
         for(int i=0; i<inputMappings.size(); i++){
 //            QuMapping& mapping = inputMappings[i];
@@ -257,8 +257,10 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
 
         }
     }
-    if(mappings.empty()) { //
-        mappings.push_back(inputMapping);
+    if(mappings.empty()) { // no swap happened so copy it after removing swaps
+        QuMapping mapping = inputMapping;
+        mapping.clearSwapInstructions();
+        mappings.push_back(mapping);
     }
     cout << endl << endl;
     return mappings;
@@ -419,10 +421,12 @@ void QuSmartSwapper::generateOptimalInstructions() {
 //    cout << *nonUnaryInstructions[i+1] << endl;
 //    cout << endl;
 
-    cout << "selectedMappings.size() :" << selectedMappings.size() << endl;
-    cout << "nonUnaryInstructions.size() :" << nonUnaryInstructions.size() << endl;
+//    cout << "selectedMappings.size() :" << selectedMappings.size() << endl;
+//    cout << "nonUnaryInstructions.size() :" << nonUnaryInstructions.size() << endl;
     for(i=0; i<selectedMappings.size(); i++) {
         selectedMappings[i].print();
+        Util::println("selectedMappings[i].getMappingId(): " + selectedMappings[i].getMappingId());
+        Util::println("selectedMappings[i].getParentMappingId(): " + selectedMappings[i].getParentMappingId());
         vector<QuGate*> swapInstructions = selectedMappings[i].getSwapInstructions();
         for(int i=0; i<swapInstructions.size(); i++) {
             cout << *swapInstructions[i] << endl;

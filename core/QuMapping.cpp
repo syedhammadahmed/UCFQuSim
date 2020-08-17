@@ -202,5 +202,9 @@ QuMapping::~QuMapping() {
 //    }
 }
 
+void QuMapping::clearSwapInstructions() {
+    this->swapInstructions.clear();
+}
+
 
 QuMapping::QuMapping() = default;

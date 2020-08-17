@@ -62,6 +62,7 @@ public:
     vector<QuGate*>& getSwapInstructions();
 
     void setSwapInstructions(const vector<QuGate*> swapInstructions);
+    void clearSwapInstructions();
 
 };
 
