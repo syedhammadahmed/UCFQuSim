@@ -46,14 +46,6 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
 
-//        for(QuMapping m: inputMappings){
-//            if(quArchitecture.isAdjacent(m.getPhysicalBit(currentInstruction->getArgIndex()[0]),
-//                    m.getPhysicalBit(currentInstruction->getArgIndex()[1])))
-//                cout << "YES" << endl;
-//            else
-//                cout << "NO" << endl;
-//        }
-
         map<string, int> generatedSwapPathsMap;
 
         perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
@@ -113,6 +105,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 //        }
 
         for (unsigned int j = 0; j < filteredInputMappings.size(); j++) {
+            vector<QuMapping> allPermutationMappings;
             vector<QuMapping> temp;
 
             Util::println("Mapping #: " + to_string(j));
@@ -131,13 +124,14 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
                     string pathString = Util::pathToString(filteredMappingWiseShortestPaths[j][k]);
                     int val = generatedSwapPathsMap[pathString];
                     if (val == 0) {
-                        if(filteredMappingWiseShortestPaths[j][k].size() == 2) {
+                        if(filteredMappingWiseShortestPaths[j][k].size() == 2) { // no swap required
                             cout << "filteredMappingWiseShortestPaths[j][k].size == 2" << endl;
                             Util::printPath(filteredMappingWiseShortestPaths[j][k]);
                         }
-                        temp = findAllMappingsFromPermutations(filteredInputMappings[j],
+                        allPermutationMappings = findAllMappingsFromPermutations(filteredInputMappings[j],
                                                                filteredMappingWiseShortestPaths[j][k],
                                                                quArchitecture);
+                        temp.insert(temp.end(), allPermutationMappings.begin(), allPermutationMappings.end());
                         generatedSwapPathsMap[pathString]++;
                         Util::println("generatedSwapPathsMap[" + pathString + "] : " +
                                       to_string(generatedSwapPathsMap[pathString]));
@@ -148,6 +142,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 //                else {
 //                    Util::println("NOT LEGIT");
 //                } x
+
             }
             for(int i=0; i<temp.size(); i++){
 //                            QuMapping& m = temp[i];
