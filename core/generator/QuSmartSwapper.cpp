@@ -104,9 +104,9 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 //            Util::println("mapping.getMappingId(): " + mapping.getMappingId());
 //        }
 
+        vector<QuMapping> temp;
         for (unsigned int j = 0; j < filteredInputMappings.size(); j++) {
             vector<QuMapping> allPermutationMappings;
-            vector<QuMapping> temp;
 
             Util::println("Mapping #: " + to_string(j));
             generatedSwapPathsMap.clear();
@@ -144,20 +144,20 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 //                } x
 
             }
-            for(int i=0; i<temp.size(); i++){
-//                            QuMapping& m = temp[i];
-                temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
-                temp[i].setParentMappingId(filteredInputMappings[j].getMappingId());
-                if(programCounter == 0)
-                    temp[i].setParentMappingId("*");
-                Util::println("m.getMappingId() :" + temp[i].getMappingId());
-                Util::println("m.getParentMappingId() :" + temp[i].getParentMappingId());
-            }
-
-            if(!temp.empty())
-                nextInstructionMappings.insert(nextInstructionMappings.end(), temp.begin(), temp.end());
-
         }
+        for(int i=0; i<temp.size(); i++){
+//                            QuMapping& m = temp[i];
+            Util::println("# of mappings from permutations: "  + to_string(temp.size()));
+            temp[i].setParentMappingId(temp[i].getMappingId());
+            temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
+            if(programCounter == 0)
+                temp[i].setParentMappingId("*");
+            Util::println("m.getMappingId() :" + temp[i].getMappingId());
+            Util::println("m.getParentMappingId() :" + temp[i].getParentMappingId());
+        }
+
+        if(!temp.empty())
+            nextInstructionMappings.insert(nextInstructionMappings.end(), temp.begin(), temp.end());
 
         // todo generate final swap instructions to add to final program
         if(nextInstructionMappings.size() < t) {
@@ -418,20 +418,48 @@ void QuSmartSwapper::generateOptimalInstructions() {
 
 //    cout << "selectedMappings.size() :" << selectedMappings.size() << endl;
 //    cout << "nonUnaryInstructions.size() :" << nonUnaryInstructions.size() << endl;
+    vector<QuGate*> finalProgram;
+    int x = 0; // x : index of next non-Unary instruction
     for(i=0; i<selectedMappings.size(); i++) {
         selectedMappings[i].print();
         Util::println("selectedMappings[i].getMappingId(): " + selectedMappings[i].getMappingId());
         Util::println("selectedMappings[i].getParentMappingId(): " + selectedMappings[i].getParentMappingId());
         vector<QuGate*> swapInstructions = selectedMappings[i].getSwapInstructions();
+        x = insertRemovedUnaryInstructions(finalProgram, x);
         for(int i=0; i<swapInstructions.size(); i++) {
             cout << *swapInstructions[i] << endl;
+            finalProgram.push_back(swapInstructions[i]);
         }
         cout << *nonUnaryInstructions[i] << endl;
+        finalProgram.push_back(nonUnaryInstructions[i]);
         cout << endl;
-
     }
+    insertEndingUnaryInstructions(finalProgram);
+
+    circuit.setInstructionsV1(finalProgram);
 //    cout << *nonUnaryInstructions[i] << endl;
 
 //    circuit.getInstructionsV1().push_back(currentInstruction);
+
+}
+
+void QuSmartSwapper::insertEndingUnaryInstructions(vector<QuGate*>& finalProgram) {
+    vector<QuGate*> originalProgram = circuit.getInstructions();
+    int i=originalProgram.size()-1;
+    while(originalProgram[i--]->isUnary());
+    finalProgram.insert(finalProgram.end(), originalProgram.begin()+i+2, originalProgram.end());
+}
+
+int QuSmartSwapper::insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex) {
+    vector<QuGate*> originalProgram = circuit.getInstructions();
+    int i = 0;
+    int nonUnaryCounter = 0;
+    originalProgram.erase(originalProgram.begin(), originalProgram.begin() + nextNonUnaryIndex);
+    while(originalProgram[i]->isUnary()){
+        finalProgram.push_back(originalProgram[i]);
+        i++;
+    }
+    Util::println("nextNonUnaryIndex + i + 1: " + to_string(nextNonUnaryIndex + i + 1));
+    return nextNonUnaryIndex + i + 1;
 
 }

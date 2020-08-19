@@ -72,3 +72,7 @@ std::ostream &operator<<(std::ostream &os, const QuGate& quGate) {
     os << instruction;
     return os;
 }
+
+bool QuGate::isUnary() {
+    return (cardinality == 1);
+}

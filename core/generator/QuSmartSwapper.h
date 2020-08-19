@@ -45,6 +45,10 @@ public:
     unsigned int hadamards;
 
     void generateOptimalInstructions();
+
+    int insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex);
+
+    void insertEndingUnaryInstructions(vector<QuGate *> &finalProgram);
 };
 
 

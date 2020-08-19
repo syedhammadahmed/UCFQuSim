@@ -56,6 +56,7 @@ public:
     const string &getMnemonic() const;
 
     void setMnemonic(const string &mnemonic);
+    bool isUnary();
 };
 
 
