@@ -197,9 +197,14 @@ bool QuMapping::operator==(const QuMapping &arg) {
 }
 
 QuMapping::~QuMapping() {
-//    for(int i=0; i<swapInstructions.size(); i++) {
-//           delete swapInstructions[i];
-//    }
+    Util::println("~QuMapping() begin");
+    if(!destructorCalled) {
+        for (int i = 0; i < swapInstructions.size(); i++) {
+            delete swapInstructions[i];
+        }
+    }
+    destructorCalled = true;
+    Util::println("~QuMapping() end");
 }
 
 void QuMapping::clearSwapInstructions() {

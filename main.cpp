@@ -37,8 +37,12 @@ int main() {
     if(Util::verbose)
         cout << "Input File Directory: " << inputDirectory << endl;
 
+
     QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
-//    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
+    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX5);
+
+
+    //    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
 //    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
 
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
@@ -48,8 +52,8 @@ int main() {
         result.print();
     }
 
-//    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX3);
-//    quMultiEvaluator.evaluateAllCircuits();
+    quMultiEvaluator.loadFiles();
+    quMultiEvaluator.evaluateAllCircuits();
 
 //    QuCircuit testCircuit(architectureQX3.getN());
 //    QuCircuitGenerator testQuCircuitBuilder(testCircuit);

@@ -19,12 +19,14 @@ private:
     QuArchitecture& quArchitecture;  // physical architecture
     vector<string> files;
 
-    void loadFiles();
 
 public:
+    const bool DELETE_PREVIOUS_FILES = true;
     QuMultiEvaluator(const string directory, QuArchitecture& quArchitecture);
     void evaluateAllCircuits();
+    void loadFiles();
 
+    void deletePreviousFiles();
 };
 
 

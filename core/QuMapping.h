@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <core/gates/QuGate.h>
+#include <memory>
 #include "QuArchitecture.h"
 
 using namespace std;
@@ -21,6 +22,8 @@ private:
     string mappingId;
     string parentMappingId;
     vector<QuGate*> swapInstructions;
+//    vector<unique_ptr<QuGate>> swapInstructions;
+    bool destructorCalled;
 
 public:
     static const int DEFAULT;

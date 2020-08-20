@@ -166,7 +166,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         }
         t = nextInstructionMappings.size();
 //        Util::println("nextInstructionMappings.size(): " + to_string(nextInstructionMappings.size()));
-        int threshold = 50000;
+        int threshold = 10000;
         if(nextInstructionMappings.size()>threshold) {
             nextInstructionMappings.erase(nextInstructionMappings.begin() + threshold, nextInstructionMappings.end());
         }
@@ -372,7 +372,7 @@ void QuSmartSwapper::generateOptimalInstructions() {
     string parentMappingId;
     int parentProgramCounter, parentMappingCounter;
 
-    circuit.setInstructionsV1(circuit.getInstructions());
+//    circuit.setInstructionsV1(circuit.getInstructions());
 //    Util::println("circuit.getInstructions().size() : " + to_string(circuit.getInstructions().size()));
 //    Util::println("circuit.getInstructionsV1().size() : " + to_string(circuit.getInstructionsV1().size()));
 
@@ -383,7 +383,7 @@ void QuSmartSwapper::generateOptimalInstructions() {
 //            cout << (*g) << endl;
 //        }
 //    }
-    QuMapping& theMapping = mappings[1]; // get any last mapping to start backtracking
+    QuMapping& theMapping = mappings[0]; // get any last mapping to start backtracking
     vector<QuMapping> selectedMappings;
     int i;
     for(i = nonUnarySize-1; i>=0; i--){
