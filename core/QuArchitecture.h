@@ -31,6 +31,8 @@ public:
 
     void printCouplingMatrix();
     bool isAdjacent(int src, int dest);
+
+    bool isCompatable(int src, int dest);
 };
 
 

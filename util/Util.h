@@ -27,6 +27,8 @@ public:
     static string pathToString(vector<int> path);
 
     static void parseMappingId(string mappingId, int &parentProgramCounter, int &parentMappingCounter);
+
+    void permute(vector<int> a, int l, int r, vector<vector<int>> &perms);
 };
 
 

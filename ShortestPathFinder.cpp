@@ -26,6 +26,7 @@ ShortestPathFinder::ShortestPathFinder(int **graph, int n): graph(NULL), dist(NU
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
             this->graph[i][j] = graph[i][j];
+
     if(dist1D == NULL)
         dist1D = new int[n];
     if(parent == NULL)
@@ -82,7 +83,7 @@ int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
     cout << "coupling graph for SSSPF: " << endl;
     for(int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            graph[i][j] = abs(graph[i][j]);
+            this->graph[i][j] = abs(graph[i][j]);
 //            cout << graph[i][j] << " ";
         }
 //        cout << endl;
@@ -127,10 +128,10 @@ int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
             // than current value of
             // dist[v]
             if (!shortestPathSet[v] && graph[u][v] &&
-                    dist1D[u] + graph[u][v] < dist1D[v])
+                    dist1D[u] + this->graph[u][v] < dist1D[v])
             {
                 parent[v] = u;
-                dist1D[v] = dist1D[u] + graph[u][v];
+                dist1D[v] = dist1D[u] + this->graph[u][v];
             }
 
 
@@ -162,6 +163,10 @@ ShortestPathFinder::~ShortestPathFinder() {
     for (int i = 0; i < n; i++)
         delete[] dist[i];
     delete[] dist;
+
+    for (int i = 0; i < n; i++)
+        delete[] graph[i];
+    delete[] graph;
 
     delete[] dist1D;
     delete[] parent;

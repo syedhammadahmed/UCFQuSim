@@ -40,11 +40,11 @@ public:
     void init2();
     void add(QuGate *gate, int depth);
     void addSimple(QuGate *gate, int depth, int instructionNo);
-    int getLayerForNewGate(int *gates, int operands);
+    int getLayerForNewGate(vector<int> quBits, int operands);
 
     void makeProgramFile(string outputFileName);
     bool somethingInBetween(int row1, int row2, int layer);
-    bool somethingInBetween(int* quBits, int operands, int layer);
+    bool somethingInBetween(vector<int> quBits, int operands, int layer);
 
     void setInstructions(const vector<QuGate*> instructions);
     int getLayer() const;

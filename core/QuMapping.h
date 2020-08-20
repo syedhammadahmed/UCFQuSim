@@ -10,6 +10,7 @@
 #include <iostream>
 #include <core/gates/QuGate.h>
 #include <memory>
+#include <core/gates/Swap.h>
 #include "QuArchitecture.h"
 
 using namespace std;
@@ -21,7 +22,7 @@ private:
     int n;
     string mappingId;
     string parentMappingId;
-    vector<QuGate*> swapInstructions;
+    vector<Swap> swapInstructions;
 //    vector<unique_ptr<QuGate>> swapInstructions;
     bool destructorCalled;
 
@@ -51,7 +52,7 @@ public:
     void quSwapLogical(int i, int j);
 
     void fixMappings(int src, std::vector<int> swapSeq);
-    vector<QuGate*> fixMappings(std::vector<int> swapSeq);
+    vector<Swap> fixMappings(std::vector<int> swapSeq);
     void print();
 
     const string &getMappingId() const;
@@ -62,11 +63,14 @@ public:
 
     void setParentMappingId(const string &parentMappingId);
 
-    vector<QuGate*>& getSwapInstructions();
-
-    void setSwapInstructions(const vector<QuGate*> swapInstructions);
+//    vector<Swap> getSwapInstructions();
+//
+//    void setSwapInstructions(const vector<Swap>& swapInstructions);
     void clearSwapInstructions();
 
+    const vector<Swap> &getSwapInstructions() const;
+
+    void setSwapInstructions(const vector<Swap> &swapInstructions);
 };
 
 

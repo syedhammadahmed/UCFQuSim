@@ -126,9 +126,8 @@ QuCircuit::~QuCircuit() {
 //        if(ptr != nullptr)
 //            delete ptr;
 //    }
-//    for(QuGate* ptr: instructionsV1){
-//        if(ptr != nullptr)
-//            delete ptr;
+//    for(int i=0; i<instructionsV1.size(); i++){
+//            delete instructionsV1[i];
 //    }
 
 //    cout << "~QuCircuit()" << endl;
@@ -178,9 +177,9 @@ ostream &operator<<(ostream &os, const QuCircuit &circuit) {
 //                    os << "-";
 //                }
                 if(gate -> getCardinality() > 1) {
-                    int *arr = gate->getArgIndex();
-                    int s = arr[0];
-                    int t = arr[1];
+
+                    int s = gate->getArgAtIndex(0);
+                    int t = gate->getArgAtIndex(1);
                     if (i == t)
                         circuit.grid[i][j]->setPrintIndex(1);
                     else
@@ -429,7 +428,7 @@ vector<QuGate*>& QuCircuit::getInstructionsV1(){
 }
 
 void QuCircuit::setInstructionsV1(const vector<QuGate*>& instructionsV1) {
-    QuCircuit::instructionsV1 = instructionsV1;
+    this->instructionsV1 = instructionsV1;
 }
 
 vector<QuGate*> QuCircuit::getInstructions() const{

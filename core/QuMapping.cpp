@@ -39,7 +39,7 @@ QuMapping::QuMapping(int n) : n(n) {
 QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
     mappingId = arg.mappingId;
     parentMappingId = arg.parentMappingId;
-    swapInstructions = arg.swapInstructions;
+    setSwapInstructions(arg.swapInstructions);
     for(int i=0; i<n; i++){
         physicalToLogical[i] = arg.physicalToLogical[i];
     }
@@ -119,14 +119,14 @@ void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
     Util::println("SWAPPING: END");
 }
 
-vector<QuGate*> QuMapping::fixMappings(std::vector<int> swapSeq) {
-    vector<QuGate*> swapGates;
+vector<Swap> QuMapping::fixMappings(std::vector<int> swapSeq) {
+    vector<Swap> swapGates;
     int swapSeqSize = swapSeq.size();
     for(int i=0; i<signed(swapSeqSize-1); i++){
         quSwap(swapSeq[i], swapSeq[i+1]);
-        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
-        swapGate->getArgIndex()[0] = physicalToLogical[swapSeq[i]];
-        swapGate->getArgIndex()[1] = physicalToLogical[swapSeq[i+1]];
+        Swap swapGate;
+        swapGate.setArgAtIndex(0, physicalToLogical[swapSeq[i]]);
+        swapGate.setArgAtIndex(1, physicalToLogical[swapSeq[i+1]]);
         swapGates.push_back(swapGate);
         Util::println("SWAP " + to_string(physicalToLogical[swapSeq[i]]) + ", " + to_string(physicalToLogical[swapSeq[i+1]]));
     }
@@ -170,19 +170,25 @@ void QuMapping::setParentMappingId(const string &parentMappingId) {
     this->parentMappingId = parentMappingId;
 }
 
-vector<QuGate*>& QuMapping::getSwapInstructions(){
-return swapInstructions;
-}
 
-void QuMapping::setSwapInstructions(const vector<QuGate*> swapInstructions) {
-    this->swapInstructions = swapInstructions;
-}
+//vector<QuGate*> QuMapping::getSwapInstructions(){
+//return swapInstructions;
+//}
+//
+//void QuMapping::setSwapInstructions(const vector<QuGate*>& swapInstructions) {
+//    for(QuGate* gate: swapInstructions) {
+//        QuGate *swapGate = QuGateFactory::getQuGate("SWAP");
+//        swapGate->getArgIndex()[0] = gate->getArgIndex()[0];
+//        swapGate->getArgIndex()[1] = gate->getArgIndex()[1];
+//        this->swapInstructions.push_back(swapGate);
+//    }
+//}
 
 void QuMapping::operator=(const QuMapping &arg) {
     n = arg.n;
     mappingId = arg.mappingId;
     parentMappingId = arg.parentMappingId;
-    swapInstructions = arg.swapInstructions;
+    setSwapInstructions(arg.swapInstructions);
     for(int i=0; i<n; i++){
         physicalToLogical[i] = arg.physicalToLogical[i];
     }
@@ -197,18 +203,22 @@ bool QuMapping::operator==(const QuMapping &arg) {
 }
 
 QuMapping::~QuMapping() {
-    Util::println("~QuMapping() begin");
-    if(!destructorCalled) {
-        for (int i = 0; i < swapInstructions.size(); i++) {
-            delete swapInstructions[i];
-        }
-    }
-    destructorCalled = true;
-    Util::println("~QuMapping() end");
+//    for(int i=0; i<swapInstructions.size(); i++) {
+//        delete swapInstructions[i];
+//    }
+
 }
 
 void QuMapping::clearSwapInstructions() {
-    this->swapInstructions.clear();
+    swapInstructions.clear();
+}
+
+const vector<Swap> &QuMapping::getSwapInstructions() const {
+    return swapInstructions;
+}
+
+void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
+    QuMapping::swapInstructions = swapInstructions;
 }
 
 

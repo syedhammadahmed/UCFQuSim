@@ -123,3 +123,9 @@ bool QuArchitecture::isAdjacent(int src, int dest) {
         return true;
     return false;
 }
+
+bool QuArchitecture::isCompatable(int src, int dest) {
+    if(couplingMap[src][dest] == 1)
+        return true;
+    return false;
+}

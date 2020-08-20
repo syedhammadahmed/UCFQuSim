@@ -58,7 +58,7 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         double timeProposed = Util::timeIt(true); // todo loss due to cast
 
         int swaps = totalSwaps;
-        unsigned int gatesProposed = circuit.getInstructions().size() + totalSwaps * 7; // 7 elementary gates per swap
+        unsigned int gatesProposed = circuit.getInstructionsV1().size() + totalSwaps * 6; // 7 elementary gates per swap
 
         quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
 //        quCircuitGenerator.buildGrid();

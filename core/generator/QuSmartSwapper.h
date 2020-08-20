@@ -49,6 +49,12 @@ public:
     int insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex);
 
     void insertEndingUnaryInstructions(vector<QuGate *> &finalProgram);
+
+    void hadamardCheck(vector<QuGate*>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
+
+    void generateOptimalInstructions(vector<QuGate *> &finalProgram);
+
+    void generateOptimalInstructions(vector<QuGate *> &finalProgram, QuArchitecture &quArchitecture);
 };
 
 
