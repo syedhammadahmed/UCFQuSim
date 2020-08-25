@@ -21,6 +21,7 @@ public:
     QuSwapStrategy(QuCircuit& circuit);
     virtual vector<int> swapAlongPath(int* parent, int source, int destination) = 0;
     virtual QuMapping getCurrentMapping() = 0;
+    virtual void setInitialMapping() = 0;
 };
 
 

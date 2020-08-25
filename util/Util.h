@@ -28,7 +28,7 @@ public:
 
     static void parseMappingId(string mappingId, int &parentProgramCounter, int &parentMappingCounter);
 
-    void permute(vector<int> a, int l, int r, vector<vector<int>> &perms);
+    static void permute(vector<int> a, int l, int r, vector<vector<int>> &perms);
 };
 
 

@@ -24,6 +24,7 @@ protected:
     std::string printSymbol[3];
     int printIndex;
     string mnemonic;
+    string theta;
 
 public:
     static const int MAX_OPERANDS = 3;
@@ -65,6 +66,10 @@ public:
     const vector<int> &getArgIndex() const;
 
     void setArgIndex(const vector<int> &argIndex);
+
+    string getTheta() const;
+
+    void setTheta(string theta);
 };
 
 

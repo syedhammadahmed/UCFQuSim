@@ -96,3 +96,11 @@ const vector<int> &QuGate::getArgIndex() const {
 void QuGate::setArgIndex(const vector<int> &argIndex) {
     QuGate::argIndex = argIndex;
 }
+
+string QuGate::getTheta() const {
+    return theta;
+}
+
+void QuGate::setTheta(string theta) {
+    this->theta = theta;
+}

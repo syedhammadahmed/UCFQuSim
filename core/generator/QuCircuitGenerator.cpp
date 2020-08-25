@@ -83,11 +83,18 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
 
 //            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
             if(quGate != "qreg" && quGate != "creg" && quGate != "measure") {
-                if(quGate.substr(0,2) == "rz")
+                string theta = "";
+                if(quGate.substr(0,2) == "rz") {
+                    pos1 = quGate.find("(");
+                    pos2 = quGate.find(")");
+                    theta = quGate.substr(pos1 + 1, pos2 - pos1 - 1);
+//                    theta = stof(quGate.substr(pos1 + 1, pos2 - pos1 - 1));
                     quGate = "rz";
+                }
                 QuGate *newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     newGate->setArgAtIndex(j, operandIndexes[j]);
+                    newGate->setTheta(theta);
                 }
 //                layer++;
 //                layer = getLayerForNewGate(operandIndexes, newGate -> getCardinality());
@@ -239,10 +246,18 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     ofstream ofs;
     ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
+        // todo write program header in output file:
+        //  OPENQASM 2.0;
+        //include "qelib1.inc";
+        //qreg q[16];
+        //creg c[16];
         for (QuGate *quGate: instructions) {
-            string instruction = Util::toLower(quGate->getMnemonic()) + " q[" + to_string(quGate->getArgIndex()[0]) + "]";
+            string mnemonic = Util::toLower(quGate->getMnemonic());
+            if(mnemonic == "rz")
+                mnemonic += "(" + quGate->getTheta() + ")";
+            string instruction = mnemonic + " q[" + to_string(quGate->getArgIndex()[0]) + "]";
             if (quGate->getCardinality() > 1)
-                instruction += ", q[" + to_string(quGate->getArgIndex()[1]) + "]";
+                instruction += ",q[" + to_string(quGate->getArgIndex()[1]) + "]";
             instruction += ";";
             ofs << instruction << endl;
         }

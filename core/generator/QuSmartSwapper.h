@@ -55,6 +55,8 @@ public:
     void generateOptimalInstructions(vector<QuGate *> &finalProgram);
 
     void generateOptimalInstructions(vector<QuGate *> &finalProgram, QuArchitecture &quArchitecture);
+
+    void setInitialMapping();
 };
 
 

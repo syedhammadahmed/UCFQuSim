@@ -30,7 +30,7 @@ void QuMultiEvaluator::evaluateAllCircuits(){
         QuCircuit& testCircuit = testQuCircuitBuilder.getCircuit();
         QuCircuitEvaluator quCircuitEvaluator(testCircuit);
         bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(quArchitecture.getCouplingMap());
-        cout << endl;
+//        cout << endl;
     }
 }
 

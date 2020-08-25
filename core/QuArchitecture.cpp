@@ -34,14 +34,14 @@ std::ostream &operator<<(std::ostream &os, const QuArchitecture &architecture) {
 }
 
 void QuArchitecture::printCouplingMatrix() {
-    if(Util::verbose) {
+//    if(Util::verbose) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 std::cout << couplingMap[i][j] << " ";
             }
             std::cout << std::endl;
         }
-    }
+//    }
 }
 
 QuArchitecture::~QuArchitecture() {

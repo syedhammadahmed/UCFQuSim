@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <util/Result.h>
 #include <util/Util.h>
+#include <core/generator/QuMappingInitializer.h>
 
 #include "core/gates/CNot.h"
 #include "core/gates/QuGate.h"
@@ -20,11 +21,10 @@
 
 using namespace std;
 
-
 int main() {
     const int quBits = 16;
     const int MAX_DEPTH = 10;
-    Util::verbose = true;
+    Util::verbose = false;
     cout << "Processing files... this may take a while..." << endl;
     // hello
 //    string inputFileName = "sample.qasm";
@@ -45,6 +45,9 @@ int main() {
 
     //    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
 //    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
+    QuMappingInitializer::initGenerator(quBits);
+    QuMappingInitializer::generateMappings();
+
 
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
     vector<Result> results = quMultiGenerator.generateAllCircuits();
@@ -119,3 +122,22 @@ int main() {
 ////     }
 //     return 0;
 // }
+/*
+int main(){
+    vector<vector<int>> perms;
+//    vector<int> a = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    vector<int> a = {0,1,2,3,4,5,6,7,8};
+    for(int i=9; i<16; i++){
+        a.push_back(i);
+        Util::permute(a, 0, a.size()-1, perms);
+        Util::println("total perms: " + to_string(perms.size()));
+    }
+//    Util::permute(a, 0, a.size()-1, perms);
+//    for(vector<int> v: perms) {
+//        for (int &i: v)
+//            Util::print(to_string(i) + ", ");
+//        Util::println("");
+//    }
+    return 0;
+}
+ */

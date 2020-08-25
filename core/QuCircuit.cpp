@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <core/generator/QuMappingInitializer.h>
 #include "QuCircuit.h"
 #include "QuGateFactory.h"
 #include "../ShortestPathFinder.h"
@@ -383,15 +384,36 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
     int n = 0;
+    int min = INT32_MAX;
+    int max = INT32_MIN;
+    vector<QuGate*> minFinalProgram;
     try {
-        QuSwapStrategy *strategy = new QuSmartSwapper(*this);
-        n = strategy->findTotalSwaps(quArchitecture);
-        delete strategy;
+        QuMappingInitializer::initGenerator(quArchitecture.getN());
+        for(int i=0; i<QuMappingInitializer::TOTAL_PERM; i++){
+            cout << fileName + ": Initial Mapping Permutation # " + to_string(i) << endl;
+            Util::println(fileName + ": Initial Mapping Permutation # " + to_string(i));
+            QuSwapStrategy *strategy = new QuSmartSwapper(*this);
+            strategy->setInitialMapping();
+            n = strategy->findTotalSwaps(quArchitecture);
+            if(n < min) {
+                min = n;
+                minFinalProgram = instructionsV1;
+            }
+            if(n > max)
+                max = n;
+            cout << "Init. Mapping Permutation # " + to_string(i) << endl;
+            cout << "Min Total Gates: " + to_string(instructionsV1.size()) << endl;
+            cout << "Min Total Swaps: " + to_string(min) << endl;
+            cout << "Max Total Swaps: " + to_string(max) << endl;
+            delete strategy;
+        }
+        instructionsV1 = minFinalProgram;
     }
     catch (exception& e)
     {
         cout << e.what() << endl;
     }
+    n = min;
     return n;
 }
 

@@ -80,7 +80,6 @@ void ShortestPathFinder::printSPGrid(){
 }
 
 int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
-    cout << "coupling graph for SSSPF: " << endl;
     for(int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             this->graph[i][j] = abs(graph[i][j]);
