@@ -8,6 +8,7 @@
 
 #include <AllShortestPathsFinder.h>
 #include "QuSwapStrategy.h"
+#include "QuMappingInitializer.h"
 
 class QuSmartSwapper: public QuSwapStrategy {
 private:
@@ -17,11 +18,13 @@ private:
     vector<QuGate*> nonUnaryInstructions;
     AllShortestPathsFinder* allSPF;
     map<string, vector<int>> preCalShortestPaths;
+    QuMappingInitializer mappingInitializer;
 
     void printSwapPath(vector<int> swapPath);
 
 public:
     QuSmartSwapper(QuCircuit &circuit);
+    QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);
     QuSmartSwapper(QuCircuit &circuit, int initMappingPermId);
 
     int findTotalSwaps(QuArchitecture& quArchitecture) override;
@@ -56,7 +59,13 @@ public:
 
     void generateOptimalInstructions(vector<QuGate *> &finalProgram, QuArchitecture &quArchitecture);
 
-    void setInitialMapping();
+//    void setInitialMapping();
+
+    vector<QuMapping> generateInitialMappings();
+
+    vector<int> makeRestrictionPairList();
+
+    vector<pair<int, int>> makeRestrictionPairList(int k);
 };
 
 

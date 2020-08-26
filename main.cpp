@@ -45,8 +45,8 @@ int main() {
 
     //    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
 //    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
-    QuMappingInitializer::initGenerator(quBits);
-    QuMappingInitializer::generateMappings();
+//    QuMappingInitializer::initGenerator(quBits);
+//    QuMappingInitializer::generateSmartMappings();
 
 
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);

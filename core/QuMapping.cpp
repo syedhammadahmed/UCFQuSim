@@ -202,8 +202,11 @@ void QuMapping::setValueAt(int index, int value) {
         physicalToLogical[index] = value;
 }
 
-QuMapping::QuMapping() {
-    defaultInit();
+QuMapping::QuMapping(bool doStrongInit) {
+    if (doStrongInit)
+        strongInit();
+    else
+        defaultInit();
 }
 
 void QuMapping::defaultInit() {
@@ -211,6 +214,32 @@ void QuMapping::defaultInit() {
     for(int i=0; i<n; i++) {
         physicalToLogical[i] = (i) % n; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
     }
+}
 
+void QuMapping::strongInit() {
+    // default initial mapping
+    for(int i=0; i<n; i++) {
+        physicalToLogical[i] = -1;
+    }
+}
+
+void QuMapping::init(vector<int> initSequence) {
+    defaultInit();
+    for(int i=0; i<initSequence.size(); i++) {
+        physicalToLogical[i] = initSequence[i]; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
+    }
+}
+
+void QuMapping::setValueAtNextFree(int i) {
+    for (int j = 0; j < n; ++j) {
+        if(physicalToLogical[j] == -1) {
+            physicalToLogical[j] = i;
+            break;
+        }
+    }
+}
+
+int QuMapping::getValueAt(int i) {
+    return physicalToLogical[i];
 }
 

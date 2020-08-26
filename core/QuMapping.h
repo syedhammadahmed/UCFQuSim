@@ -31,7 +31,7 @@ public:
     explicit QuMapping(int n);
     explicit QuMapping(int n, int permId);
 
-    QuMapping();
+    QuMapping(bool strongInit = false);
 
     QuMapping(const QuMapping& arg);
     void operator=(const QuMapping& arg);
@@ -74,8 +74,15 @@ public:
 
     const int *getPhysicalToLogical() const;
     void setValueAt(int index, int value);
+    int getValueAt(int index);
 
     void defaultInit();
+
+    void init(vector<int> initSequence);
+
+    void strongInit();
+
+    void setValueAtNextFree(int i);
 };
 
 

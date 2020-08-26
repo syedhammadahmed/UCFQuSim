@@ -25,7 +25,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
     unsigned int total = 0;
     unsigned int totalHadamards = 0;
 
-//    cout << quArchitecture;
+    cout << quArchitecture;
 
     allSPF = new AllShortestPathsFinder(quArchitecture.getCouplingMap(), quArchitecture.getN());
 
@@ -175,8 +175,8 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         }
 //        Util::println("nextInstructionMappings: " + to_string(nextInstructionMappings.size()));
         if(!nextInstructionMappings.empty()) {
-            cout << "nextInstructionMappings.size(): " << nextInstructionMappings.size() << endl;
-            cout << "Program Counter: " << programCounter << " - " << "nextInstructionMappings.empty()" << endl;
+//            cout << "nextInstructionMappings.size(): " << nextInstructionMappings.size() << endl;
+//            cout << "Program Counter: " << programCounter << " - " << "nextInstructionMappings.empty()" << endl;
             instructionWiseMappings.push_back(nextInstructionMappings);
         }
 //        circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
@@ -272,11 +272,31 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
     return mappings;
 }
 
+vector<pair<int, int>> QuSmartSwapper::makeRestrictionPairList(int k){ // top k instructions
+    vector<pair<int, int>> restrictedPairs;
+    int j = 0;
+    for (int i = 0; i < k; ++i) {
+        QuGate* gate = nonUnaryInstructions[j];
+        restrictedPairs.push_back(make_pair(gate->getArgAtIndex(0), gate->getArgAtIndex(1)));
+    }
+    return restrictedPairs;
+}
+
+vector<QuMapping> QuSmartSwapper::generateInitialMappings() { // todo add 100 mappings for instr 0
+    vector<QuMapping> initMappings;
+    mappingInitializer.initGenerator(architecture.getN());
+    vector<pair<int, int>> restrictionList = makeRestrictionPairList(3);
+    initMappings = mappingInitializer.generateSmartMappings(restrictionList, architecture);
+
+    return initMappings;
+}
+
 vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     vector<QuMapping> mappings;
     if (!programCounter || instructionWiseMappings.empty()) {  // 1st instruction
-        initialMapping.setParentMappingId("*");
-        mappings.push_back(initialMapping);  // 1st instruction has 1 default input mapping
+        mappings = generateInitialMappings();
+//        initialMapping.setParentMappingId("*");
+//        mappings.push_back(initialMapping);  // 1st instruction has 1 default input mapping
     } else {
         mappings = instructionWiseMappings[programCounter-1];
     }
@@ -285,7 +305,7 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
 
 QuMapping QuSmartSwapper::getCurrentMapping() {
     QuMapping currentMapping = initialMapping;
-    if(programCounter > 0 && !instructionWiseMappings.empty()) {
+    if(!programCounter && !instructionWiseMappings.empty()) {
         currentMapping = instructionWiseMappings[programCounter-1][perInstructionMappingCounter];
 //        currentMapping.setMappingId(to_string(programCounter) + "." + to_string(perInstructionMappingCounter));
     }
@@ -356,12 +376,12 @@ void QuSmartSwapper::insertSwapGates(int source, int destination){
     circuit.getInstructionsV1().push_back(swapGate);               // add swap gate to circuit
 }
 
-QuSmartSwapper::QuSmartSwapper(QuCircuit &circuit)
-        : QuSwapStrategy(circuit), initialMapping(circuit.getRows()), perInstructionMappingCounter(0) {}
+QuSmartSwapper::QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture)
+        : QuSwapStrategy(circuit, architecture), initialMapping(circuit.getRows()), perInstructionMappingCounter(0), mappingInitializer(architecture.getN()) {}
 
-void QuSmartSwapper::setInitialMapping(){
-    initialMapping = QuMappingInitializer::getNextMapping();
-}
+//void QuSmartSwapper::setInitialMapping(){
+//    initialMapping = mappingInitializer.getNextMapping();
+//}
 
 void QuSmartSwapper::printSwapPath(vector<int> swapPath) {
     for(int i=0; i<swapPath.size(); i++) {

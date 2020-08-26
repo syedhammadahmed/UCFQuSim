@@ -38,7 +38,7 @@ int QuNaiiveSwapper::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap)
     return swaps;
 }
 
-QuNaiiveSwapper::QuNaiiveSwapper(QuCircuit &circuit) : QuSwapStrategy(circuit) {}
+//QuNaiiveSwapper::QuNaiiveSwapper(QuCircuit &circuit) : QuSwapStrategy(circuit) {}
 
 int QuNaiiveSwapper::findTotalSwaps(QuArchitecture& quArchitecture)  {
     int total = 0;

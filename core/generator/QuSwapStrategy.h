@@ -12,16 +12,17 @@
 class QuSwapStrategy {
 protected:
     QuCircuit& circuit;
+    QuArchitecture& architecture;
     int programCounter;
     vector<int> swapPath;
     vector<vector<int>> allSPFSwapPaths;
 public:
     virtual int findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) = 0;
     virtual int findTotalSwaps(QuArchitecture& quArchitecture) = 0;
-    QuSwapStrategy(QuCircuit& circuit);
+    QuSwapStrategy(QuCircuit& circuit, QuArchitecture& architecture);
     virtual vector<int> swapAlongPath(int* parent, int source, int destination) = 0;
     virtual QuMapping getCurrentMapping() = 0;
-    virtual void setInitialMapping() = 0;
+//    virtual void setInitialMapping();
 };
 
 
