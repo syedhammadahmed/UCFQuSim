@@ -27,6 +27,8 @@ private:
     bool destructorCalled;
 
 public:
+    int getN() const;
+
     static const int DEFAULT;
     explicit QuMapping(int n);
     explicit QuMapping(int n, int permId);
@@ -83,6 +85,11 @@ public:
     void strongInit();
 
     void setValueAtNextFree(int i);
+
+    void setUnallocatedQuBits();
+
+    void setN(int n);
+    bool isLegit();
 };
 
 

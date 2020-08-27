@@ -11,6 +11,7 @@
 class Swap : public QuGate {
 public:
     Swap();
+    explicit Swap(const Swap& arg);
 
 private:
     void apply(QuBit *bit, int i) override;

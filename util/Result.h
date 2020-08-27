@@ -19,10 +19,11 @@ private:
     int gatesOriginal;
     int gatesProposed;
     int depthProposed;
+    int hadamards;
     double timeProposed;
 
 public:
-    Result(const string &file, int swaps, int gatesOriginal, int gatesProposed, int depthProposed,
+    Result(const string &file, int swaps, int gatesOriginal, int gatesProposed, int depthProposed, int hadamards,
            double timeProposed);
 
     void print();

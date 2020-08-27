@@ -32,6 +32,7 @@ private:
 
     string fileName; // circuit input file name (absolute path)
     QuMapping mapping;
+    int hadamards;
 //    vector<int> swapPath;
 
 public:
@@ -87,7 +88,13 @@ public:
 
     void printSimpleGrid();
 
+    const string &getFileName() const;
+
     void setInstructionsV1(const vector<QuGate*> & instructionsV1);
+
+    int getHadamards() const;
+
+    void setHadamards(int hadamards);
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

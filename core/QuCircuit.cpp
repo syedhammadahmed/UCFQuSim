@@ -414,7 +414,7 @@ int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
     {
         cout << e.what() << endl;
     }
-    n = min;
+//    n = min;
     return n;
 }
 
@@ -468,6 +468,18 @@ void QuCircuit::setFileName(const string &fileName) {
 
 void QuCircuit::setSimpleGrid(int** simpleGrid) {
     this->simpleGrid = simpleGrid;
+}
+
+const string &QuCircuit::getFileName() const {
+    return fileName;
+}
+
+int QuCircuit::getHadamards() const {
+    return hadamards;
+}
+
+void QuCircuit::setHadamards(int hadamards) {
+    QuCircuit::hadamards = hadamards;
 }
 
 

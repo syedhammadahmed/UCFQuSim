@@ -13,35 +13,34 @@ private:
     int n; // # of qubits
     int count; // permutation count
     QuMapping defaultMapping;
-    vector<string> perms;
+//    vector<string> perms;
+    vector<vector<int>> perms;
     vector<bool> allocated;
     vector<pair<int, int>> couples;
     vector<vector<int>> couplingMapAdjList;
+    QuMapping restrictedMapping;
+
 
 public:
-    QuMappingInitializer(int n);
+    static int TOTAL_PERM;
 
+    QuMappingInitializer(int n);
     QuMappingInitializer();
 
     void initGenerator();
     void generateMappings();
     QuMapping getNextMapping();
-
     const vector<string> &getPerms();
 
     void initGenerator(int n);
 
     const int getPermCount();
 
-    static const int TOTAL_PERM;
-
     vector<QuMapping> generateSmartMappings(vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture);
-
-    QuMapping getNextMapping(vector<int> restrictionPairs);
 
     QuMapping getNextMapping(vector<pair<int, int>> restrictionPairs);
 
-    void restrict(QuMapping &mapping, int first, int second);
+    void restrict(int first, int second);
 
     bool isAllocated(int logicalQuBit);
 
@@ -51,7 +50,9 @@ public:
 
     void removeAdjacents(int physicalQuBit);
 
-    int findNearest(QuMapping &mapping, int logicalQuBit);
+    int findNearest(int logicalQuBit);
+
+    bool pred(QuMapping &a, QuMapping &b);
 };
 
 

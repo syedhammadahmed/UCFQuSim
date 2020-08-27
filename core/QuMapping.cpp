@@ -6,8 +6,12 @@
 #include <util/Util.h>
 #include <core/gates/QuGateFactory.h>
 #include <core/generator/QuMappingInitializer.h>
+#include <algorithm>
+
 #include "QuMapping.h"
 #include "QuArchitecture.h"
+using namespace std;
+
 
 const int QuMapping::DEFAULT = 0;
 
@@ -40,11 +44,13 @@ QuMapping::QuMapping(int n) : n(n) {
 QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
     mappingId = arg.mappingId;
     parentMappingId = arg.parentMappingId;
+    clearSwapInstructions();
     setSwapInstructions(arg.swapInstructions);
     for(int i=0; i<n; i++){
         physicalToLogical[i] = arg.physicalToLogical[i];
     }
 }
+
 
 void QuMapping::init(int initializingPolicy) {  // 0 = default
     defaultInit();
@@ -147,6 +153,18 @@ void QuMapping::setParentMappingId(const string &parentMappingId) {
 //return swapInstructions;
 //}
 //
+void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
+    cout << "this->swapInstructions.size(): " << this->swapInstructions.size() << endl;
+    for (int i = 0; i < swapInstructions.size(); ++i) {
+        Swap swapGate;
+        swapGate.setArgAtIndex(0, swapInstructions[i].getArgAtIndex(0));
+        swapGate.setArgAtIndex(1, swapInstructions[i].getArgAtIndex(1));
+        this->swapInstructions.push_back(swapGate);
+
+    }
+}
+
+
 //void QuMapping::setSwapInstructions(const vector<QuGate*>& swapInstructions) {
 //    for(QuGate* gate: swapInstructions) {
 //        QuGate *swapGate = QuGateFactory::getQuGate("SWAP");
@@ -160,6 +178,7 @@ void QuMapping::operator=(const QuMapping &arg) {
     n = arg.n;
     mappingId = arg.mappingId;
     parentMappingId = arg.parentMappingId;
+    clearSwapInstructions();
     setSwapInstructions(arg.swapInstructions);
     for(int i=0; i<n; i++){
         physicalToLogical[i] = arg.physicalToLogical[i];
@@ -189,9 +208,11 @@ const vector<Swap> &QuMapping::getSwapInstructions() const {
     return swapInstructions;
 }
 
-void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
-    QuMapping::swapInstructions = swapInstructions;
-}
+//void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
+//    for (int i = 0; i < swapInstructions.size(); ++i) {
+//        this->swapInstructions.push_back(swapInstructions[i]);
+//    }
+//}
 
 const int *QuMapping::getPhysicalToLogical() const {
     return physicalToLogical;
@@ -243,3 +264,35 @@ int QuMapping::getValueAt(int i) {
     return physicalToLogical[i];
 }
 
+void QuMapping::setUnallocatedQuBits() {
+    vector<int> remaining;
+    for (int j = 0; j < n; ++j) {
+        remaining.push_back(j);
+    }
+    for (int j = 0; j < n; ++j) {
+        if (physicalToLogical[j] != -1)
+            remaining.erase(remove(remaining.begin(), remaining.end(), physicalToLogical[j]), remaining.end());
+    }
+
+    for (int j = 0; j < n; ++j) {
+        if (physicalToLogical[j] == -1) {
+            physicalToLogical[j] = remaining[0];
+            remaining.erase(remaining.begin());
+        }
+    }
+}
+
+void QuMapping::setN(int n) {
+    this->n = n;
+}
+
+bool QuMapping::isLegit() {
+    for (int j = 0; j < n; ++j)
+        if (physicalToLogical[j] == -1)
+            return false;
+    return true;
+}
+
+int QuMapping::getN() const {
+    return n;
+}

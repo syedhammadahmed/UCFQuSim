@@ -19,6 +19,8 @@ private:
     AllShortestPathsFinder* allSPF;
     map<string, vector<int>> preCalShortestPaths;
     QuMappingInitializer mappingInitializer;
+    vector<QuMapping> initialMappings;
+    unsigned int hadamards;
 
     void printSwapPath(vector<int> swapPath);
 
@@ -45,7 +47,6 @@ public:
 
     unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
 
-    unsigned int hadamards;
 
     void generateOptimalInstructions();
 
@@ -63,9 +64,9 @@ public:
 
     vector<QuMapping> generateInitialMappings();
 
-    vector<int> makeRestrictionPairList();
-
     vector<pair<int, int>> makeRestrictionPairList(int k);
+
+    unsigned int getHadamards() const;
 };
 
 

@@ -60,13 +60,14 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         double timeProposed = Util::timeIt(true); // todo loss due to cast
 
         int swaps = totalSwaps;
+        int hadamards = circuit.getHadamards();
         unsigned int gatesProposed = circuit.getInstructionsV1().size() + totalSwaps * 6; // 7 elementary gates per swap, 1 already counted as swap itself
 
         quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
 //        quCircuitGenerator.buildGrid();
         quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
         int depthProposed = quCircuitGenerator.getLayer() + 1;
-        results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, timeProposed));
+        results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
     }
     return results;
 }
