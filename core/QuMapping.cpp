@@ -154,7 +154,6 @@ void QuMapping::setParentMappingId(const string &parentMappingId) {
 //}
 //
 void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
-    cout << "this->swapInstructions.size(): " << this->swapInstructions.size() << endl;
     for (int i = 0; i < swapInstructions.size(); ++i) {
         Swap swapGate;
         swapGate.setArgAtIndex(0, swapInstructions[i].getArgAtIndex(0));

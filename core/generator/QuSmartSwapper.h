@@ -21,6 +21,7 @@ private:
     QuMappingInitializer mappingInitializer;
     vector<QuMapping> initialMappings;
     unsigned int hadamards;
+    unsigned int swaps;
 
     void printSwapPath(vector<int> swapPath);
 
@@ -67,6 +68,8 @@ public:
     vector<pair<int, int>> makeRestrictionPairList(int k);
 
     unsigned int getHadamards() const;
+
+    void mappingSanityCheck();
 };
 
 

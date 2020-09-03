@@ -24,6 +24,7 @@ using namespace std;
 int main() {
     const int quBits = 16;
     const int MAX_DEPTH = 10;
+//    Util::verbose = false;
     Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
     // hello

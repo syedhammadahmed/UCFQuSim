@@ -59,7 +59,7 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         int totalSwaps = circuit.findTotalSwaps(quArchitecture);
         double timeProposed = Util::timeIt(true); // todo loss due to cast
 
-        int swaps = totalSwaps;
+        int swaps = circuit.getSwaps();
         int hadamards = circuit.getHadamards();
         unsigned int gatesProposed = circuit.getInstructionsV1().size() + totalSwaps * 6; // 7 elementary gates per swap, 1 already counted as swap itself
 

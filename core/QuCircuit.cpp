@@ -395,7 +395,7 @@ int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 //            Util::println(fileName + ": Initial Mapping Permutation # " + to_string(i));
         QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
 //        strategy->setInitialMapping();
-        n = strategy->findTotalSwaps(quArchitecture);
+        swaps = strategy->findTotalSwaps(quArchitecture);
 //        if(n < min) {
 //            min = n;
 //            minFinalProgram = instructionsV1;
@@ -415,7 +415,7 @@ int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
         cout << e.what() << endl;
     }
 //    n = min;
-    return n;
+    return swaps;
 }
 
 void QuCircuit::printInstructions() {
@@ -480,6 +480,14 @@ int QuCircuit::getHadamards() const {
 
 void QuCircuit::setHadamards(int hadamards) {
     QuCircuit::hadamards = hadamards;
+}
+
+int QuCircuit::getSwaps() const {
+    return swaps;
+}
+
+void QuCircuit::setSwaps(int swaps) {
+    QuCircuit::swaps = swaps;
 }
 
 

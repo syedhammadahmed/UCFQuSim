@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int QuMappingInitializer::TOTAL_PERM = 100; // # of qubits
+int QuMappingInitializer::TOTAL_PERM = 3; // # of qubits
 //int QuMappingInitializer::n = 0; // # of qubits
 //int QuMappingInitializer::count = 0; // permutation count
 //QuMapping QuMappingInitializer::defaultMapping;
@@ -31,14 +31,16 @@ void QuMappingInitializer::generateMappings() {
 //}
 
 void QuMappingInitializer::makeCouples(QuArchitecture& quArchitecture){
+//    vector<pair<int , int>> counts;
     for(int i = 0; i < quArchitecture.getN(); i++) {
         vector<int> list;
         couplingMapAdjList.push_back(list);
+//        counts.push_back(make_pair(i,0));
     }
-
     for(int i = 0; i < quArchitecture.getN(); i++) {
         for (int j = 0; j < quArchitecture.getN(); j++){
             if ((i != j) && (quArchitecture.getCouplingMap()[i][j] > 0)){
+//                counts[i].second++;
                 couples.push_back(make_pair(i, j));
                 couplingMapAdjList[i].push_back(j);
                 couplingMapAdjList[j].push_back(i);
@@ -59,7 +61,7 @@ struct MappingEqualityComparator {
 
 vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture) {
     vector<QuMapping> initMappings;
-    makeCouples(quArchitecture);
+    makeCouples(quArchitecture);  // makes an adj list of coupling map for restriction mappings
 
 // remove restricted qubits from perm input string
 //    string str = "0123456789";
@@ -105,7 +107,7 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
     initialMapping.defaultInit();
     initialMapping.setParentMappingId("*");
     initialMapping.setMappingId("0." + to_string(count)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
-    initMappings.push_back(initialMapping);
+    initMappings.insert(initMappings.begin(), initialMapping);
 
     return initMappings;
 }
