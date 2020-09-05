@@ -103,10 +103,11 @@ vector<Swap> QuMapping::fixMappings(std::vector<int> swapSeq) {
     for(int i=0; i<signed(swapSeqSize-1); i++){
         quSwap(swapSeq[i], swapSeq[i+1]);
         Swap swapGate;
-        swapGate.setArgAtIndex(0, physicalToLogical[swapSeq[i]]);
+        swapGate.setArgAtIndex(0, physicalToLogical[swapSeq[i]]); // todo src and target check acc. to arch.
         swapGate.setArgAtIndex(1, physicalToLogical[swapSeq[i+1]]);
         swapGates.push_back(swapGate);
         Util::println("SWAP " + to_string(physicalToLogical[swapSeq[i]]) + ", " + to_string(physicalToLogical[swapSeq[i+1]]));
+
     }
     return swapGates;
 }

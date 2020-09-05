@@ -31,7 +31,7 @@ void AllShortestPathsFinder::printAllPaths(int src, int dest, int swaps)
     delete [] path;
 }
 
-// A recursive function to print all paths from 'u' to 'd'.
+// A recursive function to print all paths from 'u'  to 'd'.
 // visited[] keeps track of vertices in current path.
 // path[] stores actual vertices
 // path_index is current index in path[]
@@ -76,18 +76,7 @@ void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[]
 
 vector<vector<int>> AllShortestPathsFinder::findSingleSourceAllShortestPaths(int src, int dest, int swaps) {
     allSwapPaths.clear();
-    string temp = to_string(src) + "," + to_string(dest);
-//    if(preCalPaths.count(temp) > 0) {
-//        cout << "hello";
-//    }
-    allSwapPaths = preCalPaths[temp];
-    if(allSwapPaths.empty()) {
-//        Util::println("Getting precalculated SPs...");
-//    }
-//    else {
-        printAllPaths(src, dest, swaps);
-        preCalPaths[temp] = allSwapPaths;
-    }
+    printAllPaths(src, dest, swaps);
     return allSwapPaths;
 }
 

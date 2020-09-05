@@ -105,4 +105,4 @@ add_executable(UCFQuSim
         AllShortestPathsFinder.h
         main.cpp
         ShortestPathFinder.cpp
-        ShortestPathFinder.h)
+        ShortestPathFinder.h AllPairShortestPathFinder.cpp AllPairShortestPathFinder.h)

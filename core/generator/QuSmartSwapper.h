@@ -7,8 +7,11 @@
 
 
 #include <AllShortestPathsFinder.h>
+#include <AllPairShortestPathFinder.h>
 #include "QuSwapStrategy.h"
 #include "QuMappingInitializer.h"
+
+class AllPairShortestPathsFinder;
 
 class QuSmartSwapper: public QuSwapStrategy {
 private:
@@ -17,6 +20,7 @@ private:
     int perInstructionMappingCounter;
     vector<QuGate*> nonUnaryInstructions;
     AllShortestPathsFinder* allSPF;
+    AllPairShortestPathFinder* allPairShortestPathFinder;
     map<string, vector<int>> preCalShortestPaths;
     QuMappingInitializer mappingInitializer;
     vector<QuMapping> initialMappings;
@@ -70,6 +74,10 @@ public:
     unsigned int getHadamards() const;
 
     void mappingSanityCheck();
+
+    int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
+
+    int caterHadamardCostAndFilterPaths();
 };
 
 

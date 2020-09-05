@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int QuMappingInitializer::TOTAL_PERM = 3; // # of qubits
+int QuMappingInitializer::TOTAL_PERM = 100; // # of qubits
 //int QuMappingInitializer::n = 0; // # of qubits
 //int QuMappingInitializer::count = 0; // permutation count
 //QuMapping QuMappingInitializer::defaultMapping;
@@ -105,9 +105,13 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 
     QuMapping initialMapping;
     initialMapping.defaultInit();
-    initialMapping.setParentMappingId("*");
-    initialMapping.setMappingId("0." + to_string(count)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
+//    initialMapping.setParentMappingId("*");
+//    initialMapping.setMappingId("0." + to_string(count)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
     initMappings.insert(initMappings.begin(), initialMapping);
+
+    // remove duplicate initial mappings
+    auto it = std::unique (initMappings.begin(), initMappings.end());   // (no changes)
+    initMappings.resize( std::distance(initMappings.begin(),it) );
 
     return initMappings;
 }
@@ -150,8 +154,8 @@ QuMapping QuMappingInitializer::getNextMapping(vector<pair<int, int>> restrictio
         nextMapping.setValueAtNextFree(val);
     }
     nextMapping.setUnallocatedQuBits();
-    nextMapping.setParentMappingId("*");
-    nextMapping.setMappingId("0." + to_string(count)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
+//    nextMapping.setParentMappingId("*");
+//    nextMapping.setMappingId("0." + to_string(count)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
     count++;
     return nextMapping;
 }

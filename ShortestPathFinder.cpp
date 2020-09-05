@@ -82,6 +82,10 @@ void ShortestPathFinder::printSPGrid(){
 int* ShortestPathFinder::findSingleSourceShortestPaths(int **graph, int source){
     for(int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
+//            if(this->graph[i][j] == 1)
+//                this->graph[i][j] = 7;
+//            else if (this->graph[i][j] == -1)
+//                this->graph[i][j] = 11;
             this->graph[i][j] = abs(graph[i][j]);
 //            cout << graph[i][j] << " ";
         }

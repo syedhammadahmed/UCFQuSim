@@ -53,6 +53,8 @@ public:
     int findNearest(int logicalQuBit);
 
     bool pred(QuMapping &a, QuMapping &b);
+
+    bool myfunction(int i, int j);
 };
 
 
