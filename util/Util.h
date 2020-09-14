@@ -29,6 +29,14 @@ public:
     static void parseMappingId(string mappingId, int &parentProgramCounter, int &parentMappingCounter);
 
     static void permute(vector<int> a, int l, int r, vector<vector<int>> &perms);
+    static bool sortBySecDesc(const pair<int,int> &a, const pair<int,int> &b);
+
+    static bool sortByFirstAsc(const pair<int,int> &a, const pair<int,int> &b);
+    static bool intersectionCompare(pair<int, int> &a, pair<int, int> &b);
+
+    static vector<vector<int>> getNRandomPermutations(int n, vector<int> result);
+
+    static vector<int> getMappingIndexSamples(int threshold, unsigned long size);
 };
 
 

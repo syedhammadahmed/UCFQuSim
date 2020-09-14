@@ -22,12 +22,27 @@
 
 using namespace std;
 
-
+//int main(){
+//    vector<int> nums = {0,1,2,3,4,5,6,7,8,9};
+//    auto it=nums.begin();
+//    int index1 = 8, index2 = 9;
+//    Util::printPath(nums);
+//    nums.erase(nums.begin() + index1);
+//    nums.erase(nums.begin() + index2 - 1);
+//    Util::printPath(nums);
+////    while(it!=nums.end()){
+////        if(*it == physicalQuBit || it->second == physicalQuBit)
+////            it = couples.erase(it);
+////        else
+////            ++it;
+////    }
+//
+//}
 
 int main() {
     const int quBits = 16;
     const int MAX_DEPTH = 10;
-//    Util::verbose = false;
+//    Util::mappingInitializer.se = false;
     Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
     // hello
@@ -45,7 +60,6 @@ int main() {
 
     QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
     QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX5);
-
 
     //    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
 //    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;

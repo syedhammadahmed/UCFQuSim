@@ -15,6 +15,7 @@ class AllPairShortestPathsFinder;
 
 class QuSmartSwapper: public QuSwapStrategy {
 private:
+    static int MAPPING_THRESHOLD;
     QuMapping initialMapping;
     vector<vector<QuMapping>> instructionWiseMappings;  // instructionWiseMappings[0] = mappings for instruction 0 (1st instruction)
     int perInstructionMappingCounter;
@@ -26,6 +27,11 @@ private:
     vector<QuMapping> initialMappings;
     unsigned int hadamards;
     unsigned int swaps;
+    unsigned int totalSwaps;
+    unsigned int totalHadamards;
+    vector<vector<int>> mappingWiseShortestPathCosts;
+    vector<vector<int>> theMappingWiseShortestPathCosts;
+    vector<int> selectedNonUnaryInstructionIds;
 
     void printSwapPath(vector<int> swapPath);
 
@@ -53,7 +59,6 @@ public:
     unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
 
 
-    void generateOptimalInstructions();
 
     int insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex);
 
@@ -61,15 +66,13 @@ public:
 
     void hadamardCheck(vector<QuGate*>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
 
-    void generateOptimalInstructions(vector<QuGate *> &finalProgram);
-
-    void generateOptimalInstructions(vector<QuGate *> &finalProgram, QuArchitecture &quArchitecture);
+    void generateOptimalInstructions(QuArchitecture &quArchitecture);
 
 //    void setInitialMapping();
 
     vector<QuMapping> generateInitialMappings();
 
-    vector<pair<int, int>> makeRestrictionPairList(int k);
+    pair<vector<pair<int, int>>, vector<pair<int, int>>> makeRestrictionPairList(int k);
 
     unsigned int getHadamards() const;
 
@@ -78,6 +81,18 @@ public:
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
 
     int caterHadamardCostAndFilterPaths();
+
+    void prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths, unsigned int min, QuArchitecture& quArchitecture);
+
+    void optimize(vector<QuGate*>& finalProgram);
+
+    int performCNOTCancellations(vector<QuGate *> &vector);
+
+    int performUnaryCancellations(vector<QuGate *> &finalProgram);
+
+    vector<QuGate *>::iterator findMergingPartner(vector<QuGate *>::iterator it1, vector<QuGate *>::iterator end);
+
+    vector<int> getCurrentInstructionIds();
 };
 
 

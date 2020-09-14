@@ -104,3 +104,11 @@ string QuGate::getTheta() const {
 void QuGate::setTheta(string theta) {
     this->theta = theta;
 }
+
+int QuGate::getGateId() const {
+    return gateId;
+}
+
+void QuGate::setGateId(int gateId) {
+    QuGate::gateId = gateId;
+}

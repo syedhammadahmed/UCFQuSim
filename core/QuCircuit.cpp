@@ -387,35 +387,14 @@ int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
     int n = 0;
     int min = INT32_MAX;
     int max = INT32_MIN;
+
     vector<QuGate*> minFinalProgram;
-    try {
-//        QuMappingInitializer::initGenerator(quArchitecture.getN());
-//        for(int i=0; i<QuMappingInitializer::TOTAL_PERM; i++){
-//            cout << fileName + ": Initial Mapping Permutation # " + to_string(i) << endl;
-//            Util::println(fileName + ": Initial Mapping Permutation # " + to_string(i));
-        QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
-//        strategy->setInitialMapping();
-        swaps = strategy->findTotalSwaps(quArchitecture);
-//        if(n < min) {
-//            min = n;
-//            minFinalProgram = instructionsV1;
-//        }
-//        if(n > max)
-//            max = n;
-//        cout << "Init. Mapping Permutation # " + to_string(i) << endl;
-//        cout << "Min Total Gates: " + to_string(instructionsV1.size()) << endl;
-//        cout << "Min Total Swaps: " + to_string(min) << endl;
-//        cout << "Max Total Swaps: " + to_string(max) << endl;
-            delete strategy;
-//        }
-//        instructionsV1 = minFinalProgram;
-    }
-    catch (exception& e)
-    {
-        cout << e.what() << endl;
-    }
-//    n = min;
-    return swaps;
+    QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
+    cost = strategy->findTotalSwaps(quArchitecture);
+//    vector<QuGate*> finalProgram;
+    ((QuSmartSwapper*)strategy)->generateOptimalInstructions(quArchitecture);
+    delete strategy;
+    return cost;
 }
 
 void QuCircuit::printInstructions() {
@@ -487,12 +466,31 @@ int QuCircuit::getSwaps() const {
 }
 
 void QuCircuit::setSwaps(int swaps) {
-    QuCircuit::swaps = swaps;
+    this->swaps = swaps;
 }
 
+int QuCircuit::getN() const {
+    return n;
+}
 
-//vector<int>& QuCircuit::getSwapPath(){
-//    return swapPath;
-//}
-//
+void QuCircuit::setN(int n) {
+    this->n = n;
+}
+
+const vector<int> &QuCircuit::getSrcFrequencies() const {
+    return srcFrequencies;
+}
+
+void QuCircuit::setSrcFrequencies(const vector<int> &srcFrequencies) {
+    this->srcFrequencies = srcFrequencies;
+}
+
+const vector<int> &QuCircuit::getDestFrequencies() const {
+    return destFrequencies;
+}
+
+void QuCircuit::setDestFrequencies(const vector<int> &destFrequencies) {
+    this->destFrequencies = destFrequencies;
+}
+
 

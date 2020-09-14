@@ -25,6 +25,7 @@ protected:
     int printIndex;
     string mnemonic;
     string theta;
+    int gateId;
 
 public:
     static const int MAX_OPERANDS = 3;
@@ -70,6 +71,10 @@ public:
     string getTheta() const;
 
     void setTheta(string theta);
+
+    int getGateId() const;
+
+    void setGateId(int gateId);
 };
 
 

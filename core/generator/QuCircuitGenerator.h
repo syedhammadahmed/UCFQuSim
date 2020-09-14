@@ -25,6 +25,7 @@ private:
     int* quBitRecentLayer;
 
     string inputFileAbsPath;
+    string header;
 
 public:
 //    QuCircuitGenerator(QuCircuit& circuit); // set rows of circuit and call this

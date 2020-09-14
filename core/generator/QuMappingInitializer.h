@@ -7,10 +7,12 @@
 
 
 #include <core/QuMapping.h>
+#include "PriorityGraph.h"
 
 class QuMappingInitializer {
 private:
     int n; // # of qubits
+    int l; // logical qubits
     int count; // permutation count
     QuMapping defaultMapping;
 //    vector<string> perms;
@@ -19,12 +21,17 @@ private:
     vector<pair<int, int>> couples;
     vector<vector<int>> couplingMapAdjList;
     QuMapping restrictedMapping;
+    PriorityGraph rankGraph;
 
-
+    vector<pair<int, int>> srcListPhysical;
+    vector<pair<int, int>> targetListPhysical;
+    vector<pair<int, int>> commonSrcListPhysical;
+    vector<pair<int, int>> commonTargetListPhysical;
 public:
     static int TOTAL_PERM;
 
     QuMappingInitializer(int n);
+    QuMappingInitializer(int n, int l);
     QuMappingInitializer();
 
     void initGenerator();
@@ -36,9 +43,9 @@ public:
 
     const int getPermCount();
 
-    vector<QuMapping> generateSmartMappings(vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture);
+    vector<QuMapping> generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture);
 
-    QuMapping getNextMapping(vector<pair<int, int>> restrictionPairs);
+//    QuMapping getNextMapping(vector<pair<int, int>> restrictionPairs);
 
     void restrict(int first, int second);
 
@@ -55,6 +62,12 @@ public:
     bool pred(QuMapping &a, QuMapping &b);
 
     bool myfunction(int i, int j);
+
+    void smartRestrict(int first, int second);
+
+    pair<int, int> getSmartCouple(int first, int second);
+
+    int getNeighborFromCommonFreqLists(int physicalQuBit);
 };
 
 

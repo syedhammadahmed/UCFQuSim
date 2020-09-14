@@ -81,25 +81,5 @@ pair<vector<int>, int> AllPairShortestPathFinder::getSPSequence(int src, int des
         } while (u != v);
         std::cout << path.str() << ")" << std::endl;
     }
-//    std::cout << "(pair, dist, path)" << std::endl;
-//    const auto size = next.size();
-//    if (src != dest) {
-//        std::cout << "(" << src << " -> " << dest << ", " << distance[src][dest] << ", ";
-//        path.push_back(src);
-//        do {
-//            src = next[src][dest];
-//            path.push_back(src);
-//        } while (src != dest);
-//    }
-//    if (next[src][dest] == 0) {
-//        path.clear();
-//    }
-//    else {
-//        path.push_back(src);
-//        while (src != dest) {
-//            src = next[src][dest];
-//            path.push_back(src);
-//        }
-//    }
     return make_pair(path, distance[i][j]) ;
 }
