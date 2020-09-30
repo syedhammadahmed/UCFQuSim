@@ -43,8 +43,6 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 
     Util::println("nonUnaryInstructions size: " + to_string(nonUnaryInstructions.size()));
 
-
-//    while (!nonUnaryInstructions.empty()){
     int totalInstructions = nonUnaryInstructions.size();
     for(int i=0; i<totalInstructions; i++){
         QuGate* currentInstruction = nullptr;
@@ -56,7 +54,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         unsigned int minHadamard = INT32_MAX;
         unsigned int theMinHadamard = INT32_MAX;
         int theId = -1;
-        vector<int> currentInstructionIds = getCurrentInstructionIds();
+        vector<int> currentInstructionIds = getCurrentInstructionIds(); // source instructions (independent)
         vector<QuMapping> inputMappings;
         vector<QuMapping> theInputMappings;
 
@@ -129,6 +127,8 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 
         selectedNonUnaryInstructionIds.push_back(theId);
         //
+        if (selectedNonUnaryInstructionIds.size() == 6)
+            cout << "ha";
         inputMappings = theInputMappings;
         mappingWiseShortestPaths = theMappingWiseShortestPaths;
         mappingWiseShortestPathCosts = theMappingWiseShortestPathCosts;
@@ -155,6 +155,7 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 
     delete allSPF;
     delete allPairShortestPathFinder;
+    QuCircuitLayerManager::deleteInstance();
 
     cout << circuit.getFileName() << ": " << totalCost << endl;
 //    int pause;
@@ -255,7 +256,9 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
     if (k > nonUnaryInstructions.size())
         k = nonUnaryInstructions.size();
     int x = k; // k is max restrictions
-    for (int i = 0; i < k && j<nonUnaryInstructions.size(); ++i) {
+//    for (int i = 0; i < k && j<nonUnaryInstructions.size(); ++i) {
+//    for (int i = 0; i < k; ++i) {
+    for (int i = 0; i < k; ++i) {
         dup = false;
         QuGate* gate = nonUnaryInstructions[j++];
         cout << i << " " << j << " " << k << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl;
@@ -272,7 +275,10 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
         }
         if (!dup)
             restrictedPairs.push_back(newPair);
-//        if (j>=k) break;
+        cout << "k = " << k;
+        cout << ", j = " << j << endl;
+        cout << ", restrictedPairs.size() = " << restrictedPairs.size() << endl;
+        if (j>=k) break;
 
     }
     return make_pair(restrictedPairs, restrictedPairSources);
@@ -281,7 +287,9 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
 vector<QuMapping> QuSmartSwapper::generateInitialMappings() {
 //    mappingInitializer.initGenerator(architecture.getN());
 
-    pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(circuit.getN());
+//    pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(circuit.getN());
+    int k = 9;  // set k unique instructions to restrict
+    pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(k);
     vector<pair<int, int>> restrictionList = restrictionData.first;
     vector<pair<int, int>> restrictionListSources = restrictionData.second;
 //    vector<pair<int, int>> restrictionList = makeRestrictionPairList(architecture.getN()/2);

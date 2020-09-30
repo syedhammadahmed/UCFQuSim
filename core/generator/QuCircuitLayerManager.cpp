@@ -19,8 +19,6 @@ QuCircuitLayerManager::QuCircuitLayerManager(vector<QuGate*> instructions, int r
 void QuCircuitLayerManager::buildGrid() {
     int currentInstruction = 0;
     for (auto& newGate: instructions) {
-//        if (newGate->getGateId() == 169)
-//            cout << ":";
         int operands = newGate -> getCardinality();
         vector<int> args = newGate -> getArgIndex();
         layer = getLayerForNewGate(args, operands);
@@ -87,8 +85,8 @@ void QuCircuitLayerManager::printSimpleGrid(){
         for (int i = 0; i < rows; i++) {
             cout << std::setw(8);
             cout << "q[" << i << "]";
-//            for (int j = 0; j < cols; j++) {
-            for (int j = 0; j < 1; j++) {
+            for (int j = 0; j < cols; j++) {
+//            for (int j = 0; j < 1; j++) {
                 cout << std::setw(4);
                 if (simpleGrid[i][j] == -1)
                     cout << "." << " ";
@@ -104,6 +102,7 @@ void QuCircuitLayerManager::printSimpleGrid(){
 }
 
 vector<int> QuCircuitLayerManager::getNextSourceInstructionIds() {
+    printSimpleGrid();
     int sourceId = -1;
     vector<int> qubits;
     for (int i = 0; i < rows; ++i) {
@@ -128,6 +127,8 @@ QuCircuitLayerManager* QuCircuitLayerManager::getInstance(vector<QuGate*> instru
     }
     return instance;
 }
+
+
 
 int QuCircuitLayerManager::getRows() const {
     return rows;
@@ -179,6 +180,11 @@ void QuCircuitLayerManager::removeInstruction(int id) {
     cout << endl;
 //    updateSimpleGrid(q1, q2);
     init();
+}
+
+void QuCircuitLayerManager::deleteInstance() {
+    delete instance;
+    instance = nullptr;
 }
 
 //void QuCircuitLayerManager::updateSimpleGrid(int q1, int q2) {

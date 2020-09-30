@@ -388,7 +388,7 @@ int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
     int min = INT32_MAX;
     int max = INT32_MIN;
 
-    vector<QuGate*> minFinalProgram;
+//    vector<QuGate*> minFinalProgram;
     QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
     cost = strategy->findTotalSwaps(quArchitecture);
 //    vector<QuGate*> finalProgram;

@@ -52,6 +52,8 @@ public:
     void removeInstruction(int id);
 
     void updateSimpleGrid(int id);
+
+    static void deleteInstance();
 };
 
 

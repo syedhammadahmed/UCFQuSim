@@ -204,16 +204,16 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 //        restrict(restrictionPairs[i].first, restrictionPairs[i].second);
 //    }
 
-//    if (permInput.size()>10) // 10! perms
-//        permInput.erase(permInput.begin()+10, permInput.end());
-//    Util::permute(permInput, 0, permInput.size()-1, perms);
-//
-//    if (perms.size() > TOTAL_PERM) { // todo random sampling - DONE
-//        perms.erase(perms.begin() + TOTAL_PERM - 1, perms.end());
-//    }
-//    TOTAL_PERM = perms.size();
+    if (permInput.size()>10) // 10! perms
+        permInput.erase(permInput.begin()+10, permInput.end());
+    Util::permute(permInput, 0, permInput.size()-1, perms);
 
-    perms = Util::getNRandomPermutations(TOTAL_PERM, permInput);
+    if (perms.size() > TOTAL_PERM) { // todo random sampling - DONE
+        perms.erase(perms.begin() + TOTAL_PERM - 1, perms.end());
+    }
+    TOTAL_PERM = perms.size();
+
+                  //    perms = Util::getNRandomPermutations(TOTAL_PERM, permInput);  // todo uncomment for sampling
 
     for(int i=0; i<TOTAL_PERM; i++){
         initMappings.push_back(getNextMapping());
@@ -222,6 +222,7 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 //    std::unique(initMappings.begin(), initMappings.end(), MappingEqualityComparator());
 
 
+    initMappings.clear(); // todo remove it.. just testing..
     QuMapping initialMapping;
     initialMapping.defaultInit();
 //    initialMapping.setParentMappingId("*");
