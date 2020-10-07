@@ -32,6 +32,7 @@ private:
     vector<vector<int>> mappingWiseShortestPathCosts;
     vector<vector<int>> theMappingWiseShortestPathCosts;
     vector<int> selectedNonUnaryInstructionIds;
+    vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
 
     void printSwapPath(vector<int> swapPath);
 

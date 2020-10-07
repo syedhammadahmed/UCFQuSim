@@ -68,6 +68,8 @@ public:
     pair<int, int> getSmartCouple(int first, int second);
 
     int getNeighborFromCommonFreqLists(int physicalQuBit);
+
+    void makeSmartCouples(QuArchitecture &architecture);
 };
 
 

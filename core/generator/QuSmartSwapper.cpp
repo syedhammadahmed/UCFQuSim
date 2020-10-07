@@ -54,21 +54,18 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         unsigned int minHadamard = INT32_MAX;
         unsigned int theMinHadamard = INT32_MAX;
         int theId = -1;
-        vector<int> currentInstructionIds = getCurrentInstructionIds(); // source instructions (independent)
+        currentInstructionIds = getCurrentInstructionIds(); // source instructions (independent)
         vector<QuMapping> inputMappings;
         vector<QuMapping> theInputMappings;
 
         // get input mappings to apply on this instruction
         inputMappings = getAllMappingsForCurrentInstruction();  // todo get mappings only once esp initial not re-generate
+        // todo send the 1st layer to generate initial mappings
 
         for (auto id: currentInstructionIds) {
 //            minCost = INT32_MAX;
             minSwap = INT32_MAX;
             minHadamard = INT32_MAX;
-            if (id == 16)
-                cout << "ho";
-            if (id == 22)
-                cout << "ho";
             cout << "Current Instruction under review: " << id << endl;
             for (QuGate *inst: nonUnaryInstructions) {
                 if (inst->getGateId() == id) {
@@ -253,16 +250,17 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
     vector<pair<int, int>> restrictedPairSources;
     int j = 0;
     bool dup = false;
-    if (k > nonUnaryInstructions.size())
-        k = nonUnaryInstructions.size();
+
+    if (k > currentInstructionIds.size())
+        k = currentInstructionIds.size();
     int x = k; // k is max restrictions
 //    for (int i = 0; i < k && j<nonUnaryInstructions.size(); ++i) {
 //    for (int i = 0; i < k; ++i) {
     for (int i = 0; i < k; ++i) {
         dup = false;
-        QuGate* gate = nonUnaryInstructions[j++];
+        QuGate* gate = nonUnaryInstructions[currentInstructionIds[i]];
         cout << i << " " << j << " " << k << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl;
-        cout << *nonUnaryInstructions[j-1] << endl;
+        cout << *nonUnaryInstructions[currentInstructionIds[i]] << endl;
         pair<int, int> newPair = make_pair(gate->getArgAtIndex(0), gate->getArgAtIndex(1));
         restrictedPairSources.push_back(newPair);
         pair<int, int> newPairInverted = make_pair(gate->getArgAtIndex(1), gate->getArgAtIndex(0));
