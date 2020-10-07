@@ -13,3 +13,9 @@ Swap::Swap() : QuGate(2, "><", "SWAP") {
     printIndex = 0;
 }
 
+Swap::Swap(const Swap &arg): QuGate(2, "><", "SWAP")  {
+    for (int i = 0; i < arg.argIndex.size(); ++i) {
+        argIndex[i] = arg.argIndex[i];
+    }
+}
+

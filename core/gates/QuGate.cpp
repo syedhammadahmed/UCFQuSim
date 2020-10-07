@@ -6,8 +6,10 @@
 #include "util/Util.h"
 
 QuGate::QuGate() : depth(0), isElementary(false), cardinality(1), symbol("@"), printIndex(0) {
-    argIndex = new int[cardinality];
+    for(int i=0; i<cardinality; i++)
+        argIndex.push_back(-1);
 }
+
 //QuGate::QuGate(int depth) : depth(depth), isElementary(false), cardinality(1) {
 //}
 //QuGate::QuGate(int depth, bool isElementary) : depth(depth), isElementary(isElementary), cardinality(1) {
@@ -15,11 +17,13 @@ QuGate::QuGate() : depth(0), isElementary(false), cardinality(1), symbol("@"), p
 //QuGate::QuGate(int depth, bool isElementary, int cardinality) : depth(depth), isElementary(isElementary), cardinality(cardinality) {
 //}
 QuGate::QuGate(int cardinality, string symbol, string mnemonic) : cardinality(cardinality), symbol(symbol), printIndex(0), mnemonic(mnemonic) {
-    argIndex = new int[cardinality];
+    for(int i=0; i<cardinality; i++)
+        argIndex.push_back(-1);
 }
 
 QuGate::QuGate(int cardinality, string symbol, string mnemonic, int printIndex) : cardinality(cardinality), symbol(symbol), printIndex(printIndex), mnemonic(mnemonic) {
-    argIndex = new int[cardinality];
+    for(int i=0; i<cardinality; i++)
+        argIndex.push_back(-1);
 }
 
 QuBit& QuGate::operator[](int i) {
@@ -27,16 +31,13 @@ QuBit& QuGate::operator[](int i) {
 }
 
 QuGate::~QuGate() {
-    delete [] argIndex;
+//    delete [] argIndex;
 }
 
 std::string QuGate::getSymbol() const {
     return symbol;
 }
 
-int* QuGate::getArgIndex() const {
-    return argIndex;
-}
 
 int QuGate::getCardinality() const {
     return cardinality;
@@ -65,10 +66,49 @@ void QuGate::setMnemonic(const string &mnemonic) {
 }
 
 std::ostream &operator<<(std::ostream &os, const QuGate& quGate) {
-    string instruction = Util::toLower(quGate.getMnemonic()) + " q[" + to_string(quGate.getArgIndex()[0]) + "]";
+    string instruction = Util::toLower(quGate.getMnemonic()) + " q[" + to_string(quGate.getArgAtIndex(0))+ "]";
     if (quGate.getCardinality() > 1)
-        instruction += ", q[" + to_string(quGate.getArgIndex()[1]) + "]";
+        instruction += ", q[" + to_string(quGate.getArgAtIndex(1)) + "]";
     instruction += ";";
     os << instruction;
     return os;
+}
+
+bool QuGate::isUnary() {
+    return (cardinality == 1);
+}
+
+int QuGate::getArgAtIndex(int index) const {
+    if(index >= 0 && index < cardinality)
+        return argIndex[index];
+    return -1;
+}
+
+void QuGate::setArgAtIndex(int index, int val) {
+    if(index >= 0 && index < cardinality)
+        argIndex[index] = val;
+}
+
+const vector<int> &QuGate::getArgIndex() const {
+    return argIndex;
+}
+
+void QuGate::setArgIndex(const vector<int> &argIndex) {
+    QuGate::argIndex = argIndex;
+}
+
+string QuGate::getTheta() const {
+    return theta;
+}
+
+void QuGate::setTheta(string theta) {
+    this->theta = theta;
+}
+
+int QuGate::getGateId() const {
+    return gateId;
+}
+
+void QuGate::setGateId(int gateId) {
+    QuGate::gateId = gateId;
 }

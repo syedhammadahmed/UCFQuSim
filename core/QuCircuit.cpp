@@ -6,10 +6,10 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <core/generator/QuMappingInitializer.h>
 #include "QuCircuit.h"
 #include "QuGateFactory.h"
 #include "../ShortestPathFinder.h"
-#include "QuInstruction.h"
 #include "util/Util.h"
 #include "core/generator/QuSwapStrategy.h"
 #include "core/generator/QuNaiiveSwapper.h"
@@ -127,9 +127,8 @@ QuCircuit::~QuCircuit() {
 //        if(ptr != nullptr)
 //            delete ptr;
 //    }
-//    for(QuGate* ptr: instructionsV1){
-//        if(ptr != nullptr)
-//            delete ptr;
+//    for(int i=0; i<instructionsV1.size(); i++){
+//            delete instructionsV1[i];
 //    }
 
 //    cout << "~QuCircuit()" << endl;
@@ -179,9 +178,9 @@ ostream &operator<<(ostream &os, const QuCircuit &circuit) {
 //                    os << "-";
 //                }
                 if(gate -> getCardinality() > 1) {
-                    int *arr = gate->getArgIndex();
-                    int s = arr[0];
-                    int t = arr[1];
+
+                    int s = gate->getArgAtIndex(0);
+                    int t = gate->getArgAtIndex(1);
                     if (i == t)
                         circuit.grid[i][j]->setPrintIndex(1);
                     else
@@ -316,10 +315,11 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 
 int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
-    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-    int swaps = strategy->findSwapsFor1Instruction(quGate, couplingMap);
-    delete strategy;
-    return swaps;
+//    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
+//    int swaps = strategy->findSwapsFor1Instruction(quGate, couplingMap);
+//    delete strategy;
+//    return swaps;
+    return 0;
 }
 
 
@@ -385,16 +385,16 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
     int n = 0;
-    try {
-        QuSwapStrategy *strategy = new QuSmartSwapper(*this);
-        n = strategy->findTotalSwaps(quArchitecture);
-        delete strategy;
-    }
-    catch (exception& e)
-    {
-        cout << e.what() << endl;
-    }
-    return n;
+    int min = INT32_MAX;
+    int max = INT32_MIN;
+
+//    vector<QuGate*> minFinalProgram;
+    QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
+    cost = strategy->findTotalSwaps(quArchitecture);
+//    vector<QuGate*> finalProgram;
+    ((QuSmartSwapper*)strategy)->generateOptimalInstructions(quArchitecture);
+    delete strategy;
+    return cost;
 }
 
 void QuCircuit::printInstructions() {
@@ -430,7 +430,7 @@ vector<QuGate*>& QuCircuit::getInstructionsV1(){
 }
 
 void QuCircuit::setInstructionsV1(const vector<QuGate*>& instructionsV1) {
-    QuCircuit::instructionsV1 = instructionsV1;
+    this->instructionsV1 = instructionsV1;
 }
 
 vector<QuGate*> QuCircuit::getInstructions() const{
@@ -449,9 +449,48 @@ void QuCircuit::setSimpleGrid(int** simpleGrid) {
     this->simpleGrid = simpleGrid;
 }
 
+const string &QuCircuit::getFileName() const {
+    return fileName;
+}
 
-//vector<int>& QuCircuit::getSwapPath(){
-//    return swapPath;
-//}
-//
+int QuCircuit::getHadamards() const {
+    return hadamards;
+}
+
+void QuCircuit::setHadamards(int hadamards) {
+    QuCircuit::hadamards = hadamards;
+}
+
+int QuCircuit::getSwaps() const {
+    return swaps;
+}
+
+void QuCircuit::setSwaps(int swaps) {
+    this->swaps = swaps;
+}
+
+int QuCircuit::getN() const {
+    return n;
+}
+
+void QuCircuit::setN(int n) {
+    this->n = n;
+}
+
+const vector<int> &QuCircuit::getSrcFrequencies() const {
+    return srcFrequencies;
+}
+
+void QuCircuit::setSrcFrequencies(const vector<int> &srcFrequencies) {
+    this->srcFrequencies = srcFrequencies;
+}
+
+const vector<int> &QuCircuit::getDestFrequencies() const {
+    return destFrequencies;
+}
+
+void QuCircuit::setDestFrequencies(const vector<int> &destFrequencies) {
+    this->destFrequencies = destFrequencies;
+}
+
 

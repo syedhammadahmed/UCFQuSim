@@ -49,22 +49,29 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         string file = inputFiles[i].substr(0, inputFiles[i].length() - 5); //removing .qasm extension
         // reads the qasm file and makes a default circuit
         QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
-        cout << quArchitecture;
+//        quArchitecture.printCouplingMatrix();
+//        cout << quArchitecture;
         QuCircuit& circuit = quCircuitGenerator.getCircuit();
+        circuit.setFileName(inputFiles[i]);
         Util::println(file + " : ");
         Util::timeIt(false);
         int gatesOriginal = circuit.getInstructions().size();
-        int totalSwaps = circuit.findTotalSwaps(quArchitecture);
+        circuit.findTotalSwaps(quArchitecture);
         double timeProposed = Util::timeIt(true); // todo loss due to cast
 
-        int swaps = totalSwaps;
-        unsigned int gatesProposed = circuit.getInstructions().size() + totalSwaps * 7; // 7 elementary gates per swap
+        int hadamards = circuit.getHadamards();  // todo  check whether hadamards coming correct
+        int swaps = circuit.getSwaps();  // todo find swaps separately
+        int totalCost = hadamards + swaps * 7;
+        unsigned int gatesProposed = totalCost + gatesOriginal;
+//        unsigned int gatesProposed = circuit.getInstructionsV1().size() + totalSwaps * 6; // 7 elementary gates per swap, 1 already counted as swap itself
 
         quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
 //        quCircuitGenerator.buildGrid();
         quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
         int depthProposed = quCircuitGenerator.getLayer() + 1;
-        results.emplace_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, timeProposed));
+        results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
+        circuit.printGrid();
+        circuit.printSimpleGrid();
     }
     return results;
 }

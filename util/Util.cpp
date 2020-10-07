@@ -4,6 +4,10 @@
 
 #include <time.h>
 #include <iostream>
+#include <cstring>
+#include <random>
+#include <algorithm>
+#include <unordered_set>
 #include "Util.h"
 
 using namespace std;
@@ -49,6 +53,31 @@ void Util::printPath(vector<int> path) {
         cout << endl;
     }
 }
+
+void Util::permute(vector<int> a, int l, int r, vector<vector<int>> &perms)
+{
+    // Base case
+    if (l == r)
+        perms.push_back(a);
+//        cout<<a<<endl;
+    else
+    {
+        // Permutations made
+        for (int i = l; i <= r; i++)
+        {
+
+            // Swapping done
+            swap(a[l], a[i]);
+
+            // Recursion called
+            permute(a, l+1, r, perms);
+
+            //backtrack
+            swap(a[l], a[i]);
+        }
+    }
+}
+
 
 void Util::permute(string a, int l, int r, vector<string> &perms)
 {
@@ -106,8 +135,66 @@ void Util::parseMappingId(string mappingId, int& parentProgramCounter, int& pare
     string delimiter = ".";
     parentProgramCounter = -1;
     parentMappingCounter = -1;
-    if(!mappingId.empty()){
+    if(!mappingId.empty() && mappingId != "*"){
         parentProgramCounter = stoi(mappingId.substr(0, mappingId.find(delimiter)));
-        parentMappingCounter = stoi(mappingId.substr(mappingId.find(delimiter), mappingId.length()-1));
+        parentMappingCounter = stoi(mappingId.substr(mappingId.find(delimiter) + 1, mappingId.length()-mappingId.find(delimiter) + 1));
     }
+}
+
+bool Util::sortBySecDesc(const pair<int,int> &a, const pair<int,int> &b)
+{
+    return (a.second > b.second);
+}
+
+bool Util::sortByFirstAsc(const pair<int,int> &a, const pair<int,int> &b)
+{
+    return (a.first < b.first);
+}
+
+bool Util::intersectionCompare(pair<int,int> &a, pair<int,int> &b)
+{
+    return a.first < b.first;
+//    return ((a.second != 0) && (b.second != 0) && (a.first < b.first));
+}
+
+vector<vector<int>> Util::getNRandomPermutations(int n, vector<int> result) {
+    vector<vector<int>> perms(n);
+    for (int i = 0; i < n; i++) {
+        vector<int> perm = result;
+        // Create a random device and use it to generate a random seed
+        random_device myRandomDevice;
+        unsigned seed = myRandomDevice();
+
+        // Initialize a default_random_engine with the seed
+        default_random_engine myRandomEngine(seed);
+        shuffle(perm.begin(), perm.end(), myRandomEngine);
+        perms[i] = perm;
+//        for (int i = 0; i < result.size(); i++) std::cout << result[i] << " ";
+//        std::cout << std::endl;
+    }
+    return perms;
+}
+
+vector<int> Util::getMappingIndexSamples(int threshold, unsigned long size) {
+    unordered_set<int> samples;
+
+    // Sample and insert values into samples
+    for (int r = size - threshold; r < size; ++r) {
+        random_device myRandomDevice;
+        unsigned seed = myRandomDevice();
+
+        // Initialize a default_random_engine with the seed
+        default_random_engine myRandomEngine(seed);
+
+        int v = std::uniform_int_distribution<>(1, r)(myRandomEngine);
+        if (!samples.insert(v).second) samples.insert(r);
+    }
+
+    // Copy samples into vector
+    std::vector<int> result(samples.begin(), samples.end());
+
+    // Shuffle vector
+//    std::shuffle(result.begin(), result.end(), myRandomEngine);
+
+    return result;
 }

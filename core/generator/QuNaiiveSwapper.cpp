@@ -11,7 +11,7 @@ int QuNaiiveSwapper::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap)
     ShortestPathFinder spf(couplingMap, circuit.getRows());
     int* parent = NULL;
     int cardinality = quGate -> getCardinality(); // # of qubits in a gate
-    int* quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
+    vector<int> quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
     int swaps = 0;
     QuMapping& mapping = circuit.getMapping();
     vector<int>& swapSequence = swapPath;
@@ -38,7 +38,7 @@ int QuNaiiveSwapper::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap)
     return swaps;
 }
 
-QuNaiiveSwapper::QuNaiiveSwapper(QuCircuit &circuit) : QuSwapStrategy(circuit) {}
+//QuNaiiveSwapper::QuNaiiveSwapper(QuCircuit &circuit) : QuSwapStrategy(circuit) {}
 
 int QuNaiiveSwapper::findTotalSwaps(QuArchitecture& quArchitecture)  {
     int total = 0;
@@ -74,7 +74,7 @@ vector<int> QuNaiiveSwapper::swapAlongPath(int* parent, int source, int destinat
 //        mapping.setLogicalMapping(destination, temp);
 
         QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
-        int* args = swapGate -> getArgIndex();
+        vector<int> args = swapGate -> getArgIndex();
         args[0] = getCurrentMapping().getLogicalMapping(source);
         args[1] = getCurrentMapping().getLogicalMapping(destination);
         circuit.getInstructionsV1().push_back(swapGate);

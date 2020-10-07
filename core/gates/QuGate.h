@@ -5,6 +5,8 @@
 #ifndef UCFQUSIM_QUGATE_H
 #define UCFQUSIM_QUGATE_H
 
+#include <memory>
+#include <vector>
 #include "../QuBit.h"
 
 using namespace std;
@@ -18,10 +20,12 @@ protected:
     QuBit* arg[3];
     std::string symbol;
     int** matrix;
-    int* argIndex;
+    vector<int> argIndex;
     std::string printSymbol[3];
     int printIndex;
     string mnemonic;
+    string theta;
+    int gateId;
 
 public:
     static const int MAX_OPERANDS = 3;
@@ -43,8 +47,6 @@ public:
 
     std::string getSymbol() const;
 
-    int* getArgIndex() const;
-
     int getCardinality() const;
 
     int getPrintIndex() const;
@@ -56,6 +58,23 @@ public:
     const string &getMnemonic() const;
 
     void setMnemonic(const string &mnemonic);
+    bool isUnary();
+
+    int getArgAtIndex(int index) const;
+
+    void setArgAtIndex(int index, int val);
+
+    const vector<int> &getArgIndex() const;
+
+    void setArgIndex(const vector<int> &argIndex);
+
+    string getTheta() const;
+
+    void setTheta(string theta);
+
+    int getGateId() const;
+
+    void setGateId(int gateId);
 };
 
 

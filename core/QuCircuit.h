@@ -9,7 +9,6 @@
 #include <ostream>
 #include <string>
 #include "gates/QuGate.h"
-#include "QuInstruction.h"
 #include "QuMapping.h"
 #include "QuArchitecture.h"
 
@@ -20,6 +19,7 @@ class QuCircuit {
 private:
     int rows; // # of physical quBits (max rows)
     int cols; // depth
+    int n; // # of logical qubits
 //    int logicalToPhysicalMapping[16]; // logical to physical mapping of quBits : logical index -> physical elements
 //    int physicalToLogicalMapping[16]; // physical to logical mapping of quBits : physical index -> logical elements
 //    int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
@@ -33,8 +33,12 @@ private:
 
     string fileName; // circuit input file name (absolute path)
     QuMapping mapping;
-//    vector<int> swapPath;
+    int hadamards;
+    int swaps;
+    int cost;
 
+    vector<int> srcFrequencies;
+    vector<int> destFrequencies;
 public:
     QuCircuit();
     QuCircuit(int rows);
@@ -74,6 +78,11 @@ public:
     int getRows() const;
     void setCols(int cols);
     void setGrid(QuGate ***grid);
+
+    int getN() const;
+
+    void setN(int n);
+
     void setInstructions(const vector<QuGate*> instructions);
 
     void setFileName(const string &fileName);
@@ -88,7 +97,25 @@ public:
 
     void printSimpleGrid();
 
+    const string &getFileName() const;
+
     void setInstructionsV1(const vector<QuGate*> & instructionsV1);
+
+    int getHadamards() const;
+
+    void setHadamards(int hadamards);
+
+    int getSwaps() const;
+
+    void setSwaps(int swaps);
+
+    const vector<int> &getSrcFrequencies() const;
+
+    void setSrcFrequencies(const vector<int> &srcFrequencies);
+
+    const vector<int> &getDestFrequencies() const;
+
+    void setDestFrequencies(const vector<int> &destFrequencies);
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

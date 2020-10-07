@@ -9,6 +9,8 @@
 #include <vector>
 #include <iostream>
 #include <core/gates/QuGate.h>
+#include <memory>
+#include <core/gates/Swap.h>
 #include "QuArchitecture.h"
 
 using namespace std;
@@ -20,18 +22,24 @@ private:
     int n;
     string mappingId;
     string parentMappingId;
-    vector<QuGate*> swapInstructions;
+    vector<Swap> swapInstructions;
+//    vector<unique_ptr<QuGate>> swapInstructions;
+    bool destructorCalled;
 
 public:
+    int getN() const;
+
     static const int DEFAULT;
     explicit QuMapping(int n);
     explicit QuMapping(int n, int permId);
 
-    QuMapping();
+    QuMapping(bool strongInit = false);
 
     QuMapping(const QuMapping& arg);
     void operator=(const QuMapping& arg);
+    bool operator==(const QuMapping& arg);
 
+    virtual ~QuMapping();
 
 //    virtual ~QuMapping();
 
@@ -46,7 +54,7 @@ public:
     void quSwapLogical(int i, int j);
 
     void fixMappings(int src, std::vector<int> swapSeq);
-    vector<QuGate*> fixMappings(std::vector<int> swapSeq);
+    vector<Swap> fixMappings(std::vector<int> swapSeq);
     void print();
 
     const string &getMappingId() const;
@@ -57,10 +65,31 @@ public:
 
     void setParentMappingId(const string &parentMappingId);
 
-    const vector<QuGate*>& getSwapInstructions() const;
+//    vector<Swap> getSwapInstructions();
+//
+//    void setSwapInstructions(const vector<Swap>& swapInstructions);
+    void clearSwapInstructions();
 
-    void setSwapInstructions(const vector<QuGate*> swapInstructions);
+    const vector<Swap> &getSwapInstructions() const;
 
+    void setSwapInstructions(const vector<Swap> &swapInstructions);
+
+    const int *getPhysicalToLogical() const;
+    void setValueAt(int index, int value);
+    int getValueAt(int index);
+
+    void defaultInit();
+
+    void init(vector<int> initSequence);
+
+    void strongInit();
+
+    void setValueAtNextFree(int i);
+
+    void setUnallocatedQuBits();
+
+    void setN(int n);
+    bool isLegit();
 };
 
 

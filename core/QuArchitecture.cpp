@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <util/Util.h>
+#include <map>
+#include <algorithm>
 #include "QuArchitecture.h"
 
 QuArchitecture::QuArchitecture(int n) : n(n) {
@@ -14,6 +16,9 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
         for(int j = 0; j < n; j++)
             couplingMap[i][j] = 0;
     addConstraintsQX5();
+    makeSourceFrequencyPriorityList();
+    makeTargetFrequencyPriorityList();
+    makeCommonFrequencyPriorityLists();
 }
 
 void QuArchitecture::addConstraint(int src, int dest) {
@@ -34,15 +39,57 @@ std::ostream &operator<<(std::ostream &os, const QuArchitecture &architecture) {
 }
 
 void QuArchitecture::printCouplingMatrix() {
-    if(Util::verbose) {
+//    if(Util::verbose) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 std::cout << couplingMap[i][j] << " ";
             }
             std::cout << std::endl;
         }
-    }
+//    }
 }
+
+void QuArchitecture::makeSourceFrequencyPriorityList() {
+    vector<pair<int ,int>> frequencies(n, make_pair(0, 0));
+
+    if(Util::verbose) {
+        for (int i = 0; i < n; i++) {
+            frequencies[i].first = i;
+            for (int j = 0; j < n; j++) {
+                if (couplingMap[i][j] == 1) {
+                    frequencies[i].second++;
+                }
+            }
+        }
+    }
+    sort(frequencies.begin(), frequencies.end(), Util::sortBySecDesc);
+    srcFreqPriorityList = frequencies;
+//    for (auto const& x: frequencies) {
+//        cout << x.first << " : " << x.second << endl;
+//    }
+}
+
+void QuArchitecture::makeTargetFrequencyPriorityList() {
+    vector<pair<int ,int>> frequencies(n, make_pair(0, 0));
+
+    if(Util::verbose) {
+        for (int j = 0; j < n; j++) {
+            frequencies[j].first = j;
+            for (int i = 0; i < n; i++) {
+                if (couplingMap[i][j] == 1) {
+                    frequencies[j].second++;
+                }
+            }
+        }
+    }
+    sort(frequencies.begin(), frequencies.end(), Util::sortBySecDesc);
+    targetFreqPriorityList = frequencies;
+//    for (auto const& x: frequencies) {
+//        cout << x.first << " : " << x.second << endl;
+//    }
+}
+
+
 
 QuArchitecture::~QuArchitecture() {
     for(int i=0; i<n; i++)
@@ -117,3 +164,101 @@ void QuArchitecture::addConstraintsQX5() {
     architectureQX5.addConstraint(15,2);
     architectureQX5.addConstraint(15,14);
 }
+
+bool QuArchitecture::isAdjacent(int src, int dest) {
+    if(couplingMap[src][dest] != 0)
+        return true;
+    return false;
+}
+
+bool QuArchitecture::isCompatable(int src, int dest) {
+    if(couplingMap[src][dest] == 1)
+        return true;
+    return false;
+}
+
+const vector<pair<int, int>> &QuArchitecture::getSrcFreqPriorityList() const {
+    return srcFreqPriorityList;
+}
+
+const vector<pair<int, int>> &QuArchitecture::getTargetFreqPriorityList() const {
+    return targetFreqPriorityList;
+}
+
+void QuArchitecture::removeSrcQubits(vector<pair<int, int>>& frequencies) {
+    int maxOutDegree = frequencies[0].second;
+    vector<pair<int, int>>::iterator it=frequencies.begin();
+    while(it!=frequencies.end()){
+        if(it->second == maxOutDegree)
+            it = frequencies.erase(it);
+        else
+            ++it;
+    }
+}
+
+void QuArchitecture::removeSinkQubits(vector<pair<int, int>>& frequencies) {
+    int minOutDegree = frequencies.end()->second;
+    vector<pair<int, int>>::iterator it=frequencies.begin();
+    while(it!=frequencies.end()){
+        if(it->second == minOutDegree)
+            it = frequencies.erase(it);
+        else
+            ++it;
+    }
+}
+
+void QuArchitecture::makeCommonFrequencyPriorityLists() {
+    commonSrcFreqPriorityList = srcFreqPriorityList;
+    commonTargetFreqPriorityList = targetFreqPriorityList;
+
+    sort(commonSrcFreqPriorityList.begin(), commonSrcFreqPriorityList.end(), Util::sortBySecDesc);
+    sort(commonTargetFreqPriorityList.begin(), commonTargetFreqPriorityList.end(), Util::sortBySecDesc);
+
+    removeSrcQubits(commonSrcFreqPriorityList);
+    removeSinkQubits(commonSrcFreqPriorityList);
+    removeSrcQubits(commonTargetFreqPriorityList);
+    removeSinkQubits(commonTargetFreqPriorityList);
+//    std::set_intersection(srcFreqPriorityList.begin(),srcFreqPriorityList.end(),
+//                          targetFreqPriorityList.begin(),targetFreqPriorityList.end(),
+//                          back_inserter(commonFreqPriorityList), Util::intersectionCompare);
+
+    vector<pair<int, int>> commonSrcFreqPriorityListFinal;
+    vector<pair<int, int>> commonTargetFreqPriorityListFinal;
+    for (auto const& x: commonSrcFreqPriorityList) {
+        for (auto const& y: commonTargetFreqPriorityList) {
+            if (x.first == y.first){
+                commonSrcFreqPriorityListFinal.push_back(make_pair(x.first, x.second));
+                break;
+            }
+        }
+    }
+
+    for (auto const& x: commonTargetFreqPriorityList) {
+        for (auto const& y: commonSrcFreqPriorityList) {
+            if (x.first == y.first){
+                commonTargetFreqPriorityListFinal.push_back(make_pair(x.first, x.second));
+                break;
+            }
+        }
+    }
+
+//    for (auto const& x: commonSrcFreqPriorityListFinal) {
+//        cout << x.first << " : " << x.second << endl;
+//    }
+//    cout << endl;
+//    for (auto const& x: commonTargetFreqPriorityListFinal) {
+//        cout << x.first << " : " << x.second << endl;
+//    }
+
+    commonTargetFreqPriorityList = commonTargetFreqPriorityListFinal;
+    commonSrcFreqPriorityList = commonSrcFreqPriorityListFinal;
+}
+
+const vector<pair<int, int>> QuArchitecture::getCommonSrcFreqPriorityList() const{
+    return commonSrcFreqPriorityList;
+}
+
+const vector<pair<int, int>> QuArchitecture::getCommonTargetFreqPriorityList() const{
+    return commonTargetFreqPriorityList;
+}
+

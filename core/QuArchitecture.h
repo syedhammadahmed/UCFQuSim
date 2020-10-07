@@ -7,12 +7,17 @@
 
 
 #include <ostream>
+#include <vector>
+using namespace std;
 
 class QuArchitecture {
 private:
     int n; // # of physical quBits
     int** couplingMap;
-
+    vector<pair<int, int>> srcFreqPriorityList;
+    vector<pair<int, int>> targetFreqPriorityList;
+    vector<pair<int, int>> commonSrcFreqPriorityList;
+    vector<pair<int, int>> commonTargetFreqPriorityList;
 public:
     QuArchitecture(int n);
     void addConstraint(int src, int dest);
@@ -30,6 +35,25 @@ public:
     void addConstraintsQX5();
 
     void printCouplingMatrix();
+    bool isAdjacent(int src, int dest);
+
+    bool isCompatable(int src, int dest);
+
+    void makeSourceFrequencyPriorityList();
+    void makeTargetFrequencyPriorityList();
+
+    const vector<pair<int, int>>& getSrcFreqPriorityList() const;
+    const vector<pair<int, int>>& getTargetFreqPriorityList() const;
+
+    const vector<pair<int, int>> getCommonSrcFreqPriorityList() const;
+    const vector<pair<int, int>> getCommonTargetFreqPriorityList() const;
+
+    void makeCommonFrequencyPriorityLists();
+
+    bool comp(pair<int, int> &a, pair<int, int> &b);
+
+    void removeSrcQubits(vector<pair<int, int>>& frequencies);
+    void removeSinkQubits(vector<pair<int, int>>& frequencies);
 };
 
 

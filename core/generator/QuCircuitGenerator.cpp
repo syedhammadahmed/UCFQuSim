@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include "QuCircuitGenerator.h"
 #include "QuGateFactory.h"
 #include "util/Util.h"
@@ -55,10 +56,25 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     int pos2 = 0;
     int i = 0;
     cols = 0;
-
+    vector<int> qubits;
+    vector<pair<int ,int>> srcFrequencies(architecture.getN(), make_pair(-1, 0));
+    vector<pair<int ,int>> destFrequencies(architecture.getN(), make_pair(-1, 0));
+    vector<pair<int ,int>> commons(architecture.getN());
+    std::vector<pair<int ,int>>::iterator it;
 //    int layer = -1;
+    int duals = 0;
+    header = "";
 
     ifs.open(fileName);
+    while (!ifs.eof() && quGate != "creg") {
+        string line;
+        getline(ifs, line);
+        header += line + '\n';
+        if(line == "") continue;
+        stringstream lineStream(line);
+        getline(lineStream, quGate, ' '); // mnemonic for qu-gate e.g. h for Hadamard, x for NOT, cx for C-NOT, etc.
+    }
+
     while (!ifs.eof()){
         i = 0;
         pos1 = 0;
@@ -83,16 +99,33 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
 
 //            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
             if(quGate != "qreg" && quGate != "creg" && quGate != "measure") {
-                if(quGate.substr(0,2) == "rz")
+                string theta = "";
+                if(quGate.substr(0,2) == "rz") {
+                    pos1 = quGate.find("(");
+                    pos2 = quGate.find(")");
+                    theta = quGate.substr(pos1 + 1, pos2 - pos1 - 1);
+//                    theta = stof(quGate.substr(pos1 + 1, pos2 - pos1 - 1));
                     quGate = "rz";
+                }
                 QuGate *newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
-                    int* arr = newGate->getArgIndex();
-                    arr[j] = operandIndexes[j];
+                    newGate->setArgAtIndex(j, operandIndexes[j]);
+                    newGate->setTheta(theta);
+                    qubits.push_back(operandIndexes[j]);
+                    if (j==0 && newGate -> getCardinality() > 1 && duals < 8) {
+                        srcFrequencies[operandIndexes[j]].first = operandIndexes[j];
+                        srcFrequencies[operandIndexes[j]].second++;
+                    }
+                    if (j==1 && duals < 8) {
+                        destFrequencies[operandIndexes[j]].first = operandIndexes[j];
+                        destFrequencies[operandIndexes[j]].second++;
+                        duals++;
+                    }
                 }
 //                layer++;
 //                layer = getLayerForNewGate(operandIndexes, newGate -> getCardinality());
 //                add(newGate, layer); // adds to grid
+                newGate->setGateId(cols);
                 instructions.push_back(newGate);
                 cols++;
             }
@@ -103,7 +136,35 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     circuit.setInstructions(instructions);
     circuit.setFileName(fileName);
     buildGrid();
-//    QuGate*** grid;
+
+    std::sort(qubits.begin(), qubits.end());
+    auto qit = std::unique(qubits.begin(), qubits.begin() + qubits.size());
+    qubits.resize(std::distance(qubits.begin(),qit));
+    circuit.setN(*(qubits.end()-1) + 1);
+
+    sort(srcFrequencies.begin(), srcFrequencies.end(), Util::sortBySecDesc);
+    sort(destFrequencies.begin(), destFrequencies.end(), Util::sortBySecDesc);
+
+    cout << endl;
+    vector<int> freq;
+//    cout << "Logical Src Freq Priority List: (top k instructions) " << endl;
+    for (auto const& x: srcFrequencies) {
+//        cout << x.first << " : " << x.second << endl;
+        freq.push_back(x.second);
+    }
+    circuit.setSrcFrequencies(freq);
+    freq.clear();
+    cout << endl;
+//    cout << "Logical Target Freq Priority List:  (top k instructions)" << endl;
+    for (auto const& x: destFrequencies) {
+//        cout << x.first << " : " << x.second << endl;
+        freq.push_back(x.second);
+    }
+    circuit.setDestFrequencies(freq);
+    cout << endl;
+
+
+    //    QuGate*** grid;
 //    QuMapping mapping;
 
 }
@@ -154,7 +215,7 @@ void QuCircuitGenerator::buildGrid() {
         int currentInstruction = 0;
         for (QuGate *newGate: instructions) {
             int operands = newGate -> getCardinality();
-            int* args = newGate -> getArgIndex();
+            vector<int> args = newGate -> getArgIndex();
 //            for (int j = 0; j < operands; j++) { // set gate operand qubits
                 layer = getLayerForNewGate(args, operands);
                 add(newGate, layer); // adds to grid
@@ -171,8 +232,9 @@ void QuCircuitGenerator::buildGrid() {
     }
 }
 
+
 void QuCircuitGenerator::add(QuGate* gate, int depth) {
-    int* quBits = gate -> getArgIndex();
+    vector<int> quBits = gate -> getArgIndex();
     grid[quBits[0]][depth] = gate;
     if(gate -> getCardinality() > 1) {
         for(int i = 1; i < gate->getCardinality(); i++) {
@@ -183,7 +245,7 @@ void QuCircuitGenerator::add(QuGate* gate, int depth) {
     }
 }
 
-int QuCircuitGenerator::getLayerForNewGate(int* quBits, int operands) {
+int QuCircuitGenerator::getLayerForNewGate(vector<int> quBits, int operands) {
     int layer = 0;
     int max = quBitRecentLayer[quBits[0]];
     for(int i = 1; i < operands; i++){
@@ -240,10 +302,14 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     ofstream ofs;
     ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
+        ofs << header << endl;
         for (QuGate *quGate: instructions) {
-            string instruction = Util::toLower(quGate->getMnemonic()) + " q[" + to_string(quGate->getArgIndex()[0]) + "]";
+            string mnemonic = Util::toLower(quGate->getMnemonic());
+            if(mnemonic == "rz")
+                mnemonic += "(" + quGate->getTheta() + ")";
+            string instruction = mnemonic + " q[" + to_string(quGate->getArgIndex()[0]) + "]";
             if (quGate->getCardinality() > 1)
-                instruction += ", q[" + to_string(quGate->getArgIndex()[1]) + "]";
+                instruction += ",q[" + to_string(quGate->getArgIndex()[1]) + "]";
             instruction += ";";
             ofs << instruction << endl;
         }
@@ -309,13 +375,13 @@ QuCircuit& QuCircuitGenerator::getCircuit() {
 }
 
 void QuCircuitGenerator::addSimple(QuGate *gate, int depth, int instructionNo) {
-    int* quBits = gate -> getArgIndex();
+    vector<int> quBits = gate -> getArgIndex();
     int cardinality = gate -> getCardinality();
     for(int i = 0; i < cardinality; i++)
         simpleGrid[quBits[i]][depth] = instructionNo;
 }
 
-bool QuCircuitGenerator::somethingInBetween(int *quBits, int operands, int layer) {
+bool QuCircuitGenerator::somethingInBetween(vector<int> quBits, int operands, int layer) {
     for(int i = 0; i < operands; i++)
         for(int j = i + 1; j < operands; j++){
             if (somethingInBetween(quBits[i], quBits[j], layer))
