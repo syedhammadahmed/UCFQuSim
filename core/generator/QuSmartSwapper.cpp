@@ -304,11 +304,11 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
             mapping.setParentMappingId("*");
             mapping.setMappingId("0." + to_string(i)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
         }
-//        instructionWiseMappings.push_back(mappings);
+        instructionWiseMappings.push_back(mappings);
 //        initialMapping.setParentMappingId("*");
 //        mappings.push_back(initialMapping);  // 1st instruction has 1 default input mapping
     } else {
-        mappings = instructionWiseMappings[programCounter-1];
+        mappings = instructionWiseMappings[programCounter];
     }
     if(mappings.size() > MAPPING_THRESHOLD) { // todo random sampling
         mappings.erase(mappings.begin() + MAPPING_THRESHOLD, mappings.end());
