@@ -34,7 +34,7 @@ private:
     vector<vector<int>> theMappingWiseShortestPathCosts;
     vector<int> selectedNonUnaryInstructionIds;
     vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
-
+    QuGate* currentInstruction;
     void printSwapPath(vector<int> swapPath);
 
 public:

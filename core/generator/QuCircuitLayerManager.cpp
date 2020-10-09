@@ -168,14 +168,15 @@ void QuCircuitLayerManager::removeInstruction(int id) {
     auto it = instructions.begin();
     cout << "after removal: ";
     while(it != instructions.end()){
-        cout << (*it)->getGateId() << " ";
         if ((*it)->getGateId() == id){
             q1 = (*it)->getArgAtIndex(0);
             q2 = (*it)->getArgAtIndex(1);
             instructions.erase(it);
         }
-        else
+        else{
+            cout << (*it)->getGateId() << " ";
             it++;
+        }
     }
     cout << endl;
 //    updateSimpleGrid(q1, q2);
