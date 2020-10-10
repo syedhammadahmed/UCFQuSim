@@ -25,7 +25,7 @@ void QuCircuitLayerManager::buildGrid() {
         addSimple(newGate, layer, newGate->getGateId());
         currentInstruction++;
     }
-    printSimpleGrid();
+//    printSimpleGrid();
 }
 
 int QuCircuitLayerManager::getLayerForNewGate(vector<int> quBits, int operands) {
@@ -102,7 +102,7 @@ void QuCircuitLayerManager::printSimpleGrid(){
 }
 
 vector<int> QuCircuitLayerManager::getNextSourceInstructionIds() {
-    printSimpleGrid();
+//    printSimpleGrid();
     int sourceId = -1;
     vector<int> qubits;
     for (int i = 0; i < rows; ++i) {

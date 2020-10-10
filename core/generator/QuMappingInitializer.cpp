@@ -345,13 +345,10 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 //    std::unique(initMappings.begin(), initMappings.end(), MappingEqualityComparator());
 
 
-    initMappings.clear(); // todo remove it.. just testing..
-    QuMapping initialMapping;
-    initialMapping.defaultInit();
-//    initialMapping.setParentMappingId("*");
-//    initialMapping.setMappingId("0." + to_string(count)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
-//    initMappings.clear();
-    initMappings.insert(initMappings.begin(), initialMapping);
+//    initMappings.clear(); // todo remove it.. just testing..
+//    QuMapping initialMapping;
+//    initialMapping.defaultInit();
+//    initMappings.insert(initMappings.begin(), initialMapping);
 
     // remove duplicate initial mappings
 
