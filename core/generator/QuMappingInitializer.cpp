@@ -237,25 +237,9 @@ struct MappingEqualityComparator {
 
 vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture) {
     vector<QuMapping> initMappings;
-// initialize qubit perm input vector
-    vector<int> permInput;
-    for (int i = 0; i < n; ++i) {
-        permInput.push_back(i);
-    }
 
-    quArchitecture.makeSourceFrequencyPriorityList();
-    quArchitecture.makeTargetFrequencyPriorityList();
-    quArchitecture.makeCommonFrequencyPriorityLists();
-    commonSrcListPhysical = quArchitecture.getCommonSrcFreqPriorityList();
-    commonTargetListPhysical = quArchitecture.getCommonTargetFreqPriorityList();
-    srcListPhysical = quArchitecture.getSrcFreqPriorityList();
-    targetListPhysical = quArchitecture.getTargetFreqPriorityList();
-
-    for(auto& pair: restrictionListSources) {
-        rankGraph.caterNode(pair.first, true);
-        rankGraph.caterNode(pair.second, false);
-    }
-    rankGraph.sortByRank();
+    buildPhysicalQuBitPriorityLists(quArchitecture);
+    buildRankGraph(restrictionListSources);
 
     makeSmartCouples(quArchitecture);  // makes an adj list of coupling map for restriction mappings
 
@@ -312,11 +296,11 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 //    restrictedMapping.strongInit();
 
     for(int i=0; i<restrictionPairs.size(); i++){
+        restrict(restrictionPairs[i].first, restrictionPairs[i].second);
         if (!permInput.empty()) {
             permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
             permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second), permInput.end());
         }
-        restrict(restrictionPairs[i].first, restrictionPairs[i].second);
     }
 
 //
@@ -449,6 +433,11 @@ void QuMappingInitializer::initGenerator(int n) {
     for (int i = 0; i < n; ++i) {
         allocated.push_back(false);
     }
+    // initialize qubit perm input vector
+    for (int i = 0; i < n; ++i) {
+        permInput.push_back(i);
+    }
+
     restrictedMapping.setN(n);
     restrictedMapping.strongInit();
 }
@@ -520,7 +509,7 @@ QuMappingInitializer::QuMappingInitializer(int n): n(n) {
     initGenerator(n);
 }
 
-QuMappingInitializer::QuMappingInitializer(int n, int l): n(n), l(l) {
+QuMappingInitializer::QuMappingInitializer(int n, int l): n(n), l(l), count(0) {
     initGenerator(n);
 }
 
@@ -547,4 +536,23 @@ int QuMappingInitializer::getNeighborFromCommonFreqLists(int physicalQuBit) {
         }
     }
     return bestNeighbor;
+}
+
+void QuMappingInitializer::buildPhysicalQuBitPriorityLists(QuArchitecture &quArchitecture) {
+    quArchitecture.makeSourceFrequencyPriorityList();
+    quArchitecture.makeTargetFrequencyPriorityList();
+    quArchitecture.makeCommonFrequencyPriorityLists();
+    commonSrcListPhysical = quArchitecture.getCommonSrcFreqPriorityList();
+    commonTargetListPhysical = quArchitecture.getCommonTargetFreqPriorityList();
+    srcListPhysical = quArchitecture.getSrcFreqPriorityList();
+    targetListPhysical = quArchitecture.getTargetFreqPriorityList();
+
+}
+
+void QuMappingInitializer::buildRankGraph(vector<pair<int, int>> quBitPairs) {
+    for(auto& pair: quBitPairs) {
+        rankGraph.caterNode(pair.first, true);
+        rankGraph.caterNode(pair.second, false);
+    }
+    rankGraph.sortByRank();
 }

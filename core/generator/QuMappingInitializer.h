@@ -27,6 +27,9 @@ private:
     vector<pair<int, int>> targetListPhysical;
     vector<pair<int, int>> commonSrcListPhysical;
     vector<pair<int, int>> commonTargetListPhysical;
+
+    vector<int> permInput; // permutation input vector consisting of qubits to permute // restricted qubits are excluded from this
+
 public:
     static int TOTAL_PERM;
 
@@ -70,6 +73,10 @@ public:
     int getNeighborFromCommonFreqLists(int physicalQuBit);
 
     void makeSmartCouples(QuArchitecture &architecture);
+
+    void buildPhysicalQuBitPriorityLists(QuArchitecture &architecture);
+
+    void buildRankGraph(vector<pair<int, int>> quBitPairs);
 };
 
 

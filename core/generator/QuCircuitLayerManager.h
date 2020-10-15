@@ -54,6 +54,8 @@ public:
     void updateSimpleGrid(int id);
 
     static void deleteInstance();
+
+    vector<int> getFirstKInstructionIds(int k);
 };
 
 

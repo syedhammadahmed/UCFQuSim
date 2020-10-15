@@ -95,6 +95,8 @@ public:
     vector<QuGate *>::iterator findMergingPartner(vector<QuGate *>::iterator it1, vector<QuGate *>::iterator end);
 
     vector<int> getCurrentInstructionIds();
+
+    vector<QuGate *> getKRestrictInstructions(int k, bool dag);
 };
 
 

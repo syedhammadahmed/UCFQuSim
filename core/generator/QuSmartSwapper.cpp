@@ -262,22 +262,42 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
     return mappings;
 }
 
+vector<QuGate*> QuSmartSwapper::getKRestrictInstructions(int k, bool dag){
+    vector<QuGate*> instructions;
+    if (k > nonUnaryInstructions.size())
+        k = nonUnaryInstructions.size();
+    if (dag){
+        vector<QuGate*> temp;
+        QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(temp, 0);
+        vector<int> instructionIds = layerManager->getFirstKInstructionIds(k);
+        for (auto id: instructionIds) {
+            instructions.push_back(nonUnaryInstructions[id]);
+        }
+    } else {
+        for (int i = 0; i < k; i++) {
+            instructions.push_back(nonUnaryInstructions[i]);
+        }
+    }
+    return instructions;
+}
+
+
 pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestrictionPairList(int k){ // top k unique instructions
     vector<pair<int, int>> restrictedPairs;
     vector<pair<int, int>> restrictedPairSources;
     int j = 0;
     bool dup = false;
 
-    if (k > currentInstructionIds.size())
-        k = currentInstructionIds.size();
+    vector<QuGate*> instructions = getKRestrictInstructions(k, true);
+
     int x = k; // k is max restrictions
 //    for (int i = 0; i < k && j<nonUnaryInstructions.size(); ++i) {
 //    for (int i = 0; i < k; ++i) {
     for (int i = 0; i < k; ++i) {
         dup = false;
-        QuGate* gate = nonUnaryInstructions[currentInstructionIds[i]];
+        QuGate* gate = instructions[i];
         cout << i << " " << j << " " << k << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl;
-        cout << *nonUnaryInstructions[currentInstructionIds[i]] << endl;
+        cout << *gate << endl;
         pair<int, int> newPair = make_pair(gate->getArgAtIndex(0), gate->getArgAtIndex(1));
         restrictedPairSources.push_back(newPair);
         pair<int, int> newPairInverted = make_pair(gate->getArgAtIndex(1), gate->getArgAtIndex(0));
@@ -296,6 +316,7 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
         if (j>=k) break;
 
     }
+    // restrictedPairs: unique pairs; restrictedPairSources: all pairs => pairs = binary cnot gate args (src , target)
     return make_pair(restrictedPairs, restrictedPairSources);
 }
 
@@ -303,7 +324,7 @@ vector<QuMapping> QuSmartSwapper::generateInitialMappings() {
 //    mappingInitializer.initGenerator(architecture.getN());
 
 //    pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(circuit.getN());
-    int k = 0;  // set k unique instructions to restrict // todo SHA: no restrictions
+    int k = 8;  // set k unique instructions to restrict // todo SHA: no restrictions
     pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(k);
     vector<pair<int, int>> restrictionList = restrictionData.first;
     vector<pair<int, int>> restrictionListSources = restrictionData.second;
@@ -587,7 +608,7 @@ int QuSmartSwapper::insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram
 void
 QuSmartSwapper::hadamardCheck(vector<QuGate *> &finalProgram, QuArchitecture &quArchitecture, QuMapping &currentMapping,
                               int index) {
-    vector<QuGate *> instructions;
+    vector<QuGate*> instructions;
     for (auto id: selectedNonUnaryInstructionIds) {
         for (auto instr: nonUnaryInstructions) {
             if (id == (*instr).getGateId()){
@@ -598,7 +619,6 @@ QuSmartSwapper::hadamardCheck(vector<QuGate *> &finalProgram, QuArchitecture &qu
     }
     QuGate* currentInstruction = instructions[index];
 //    QuGate* currentInstruction = nonUnaryInstructions[index];
-
 
     int src = currentInstruction->getArgAtIndex(0);
     int target = currentInstruction->getArgAtIndex(1);

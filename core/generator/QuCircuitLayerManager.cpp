@@ -188,6 +188,25 @@ void QuCircuitLayerManager::deleteInstance() {
     instance = nullptr;
 }
 
+vector<int> QuCircuitLayerManager::getFirstKInstructionIds(int k) {
+    vector<int> firstKIds;
+    int total = 0;
+    for (int i = 0; i < rows && total < k; ++i) {
+        for (int j = 0; j < cols && total < k; ++j) {
+            if (simpleGrid[i][j] != -1)
+                firstKIds.push_back(simpleGrid[i][j]);
+        }
+    }
+    std::sort(firstKIds.begin(), firstKIds.end());
+    auto qit = std::unique(firstKIds.begin(), firstKIds.begin() + firstKIds.size());
+    firstKIds.resize(std::distance(firstKIds.begin(), qit));
+
+    for (auto a: firstKIds) {
+        cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> K source instr ids:" << a << endl;
+    }
+
+}
+
 //void QuCircuitLayerManager::updateSimpleGrid(int q1, int q2) {
 ////    for (int i = 0; i < rows; ++i) {
 ////        if (simpleGrid[i][0] != id)
