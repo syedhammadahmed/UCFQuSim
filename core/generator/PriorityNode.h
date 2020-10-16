@@ -24,6 +24,8 @@ public:
 
     int getPhysicalQubit() const;
 
+    void setPhysicalQubit(int physicalQubit);
+
     int getInDegree() const;
 
     int getOutDegree() const;

@@ -116,7 +116,7 @@ vector<int> QuCircuitLayerManager::getNextSourceInstructionIds() {
     qubits.resize(std::distance(qubits.begin(), qit));
 
     for (auto a: qubits) {
-        cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>source instr ids:" << a << endl;
+        cout << ">>>source instr ids:" << a << endl;
     }
     return qubits;
 }
@@ -190,11 +190,14 @@ void QuCircuitLayerManager::deleteInstance() {
 
 vector<int> QuCircuitLayerManager::getFirstKInstructionIds(int k) {
     vector<int> firstKIds;
+//    printSimpleGrid();
     int total = 0;
     for (int i = 0; i < rows && total < k; ++i) {
         for (int j = 0; j < cols && total < k; ++j) {
-            if (simpleGrid[i][j] != -1)
+            if (simpleGrid[i][j] != -1 && isNewInsturction(simpleGrid[i][j], firstKIds)) {
                 firstKIds.push_back(simpleGrid[i][j]);
+                total++;
+            }
         }
     }
     std::sort(firstKIds.begin(), firstKIds.end());
@@ -204,7 +207,28 @@ vector<int> QuCircuitLayerManager::getFirstKInstructionIds(int k) {
     for (auto a: firstKIds) {
         cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> K source instr ids:" << a << endl;
     }
+    return firstKIds;
+}
 
+QuGate* QuCircuitLayerManager::getInstructionById(int id){
+    for (QuGate* inst: instructions) {
+        if (inst->getGateId() == id) {
+            return inst;
+        }
+    }
+    return nullptr;
+}
+
+bool QuCircuitLayerManager::isNewInsturction(int instructionId, vector<int> firstKIds) {
+    QuGate* currentInstruction = getInstructionById(instructionId);
+    for (int id: firstKIds) {
+        QuGate* oldInstruction = getInstructionById(id);
+        cout << instructionId << " : " << *currentInstruction << endl;
+        cout << id << " : " << *oldInstruction << endl << endl;
+        if ((*oldInstruction) == (*currentInstruction))
+            return false;
+    }
+    return true;
 }
 
 //void QuCircuitLayerManager::updateSimpleGrid(int q1, int q2) {

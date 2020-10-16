@@ -10,6 +10,7 @@
 #include <util/Util.h>
 #include <core/generator/QuMappingInitializer.h>
 #include <climits>
+#include <algorithm>
 
 #include "core/gates/CNot.h"
 #include "core/gates/QuGate.h"
@@ -23,19 +24,68 @@
 using namespace std;
 
 //int main(){
-//    vector<int> nums = {0,1,2,3,4,5,6,7,8,9};
-//    auto it=nums.begin();
-//    int index1 = 8, index2 = 9;
-//    Util::printPath(nums);
-//    nums.erase(nums.begin() + index1);
-//    nums.erase(nums.begin() + index2 - 1);
-//    Util::printPath(nums);
-////    while(it!=nums.end()){
-////        if(*it == physicalQuBit || it->second == physicalQuBit)
-////            it = couples.erase(it);
-////        else
-////            ++it;
-////    }
+//    const int quBits = 16;
+//    const int MAX_DEPTH = 10;
+//    string inputDirectory = "../input/";
+//    string outputDirectory = "../output/";
+//
+//    QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
+////    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
+////    vector<Result> results = quMultiGenerator.generateAllCircuits();
+//
+//    string inputFileAbsPath = inputDirectory + "sample.qasm";
+//    QuCircuitGenerator quCircuitGenerator(architectureQX5, inputFileAbsPath);
+//    QuCircuit& circuit = quCircuitGenerator.getCircuit();
+//    auto inst = circuit.getInstructions();
+//    vector<int> qubits;
+//    for (auto i: inst) {
+//        qubits.push_back(i->getArgAtIndex(0));
+//        qubits.push_back(i->getArgAtIndex(1));
+//    }
+//    std::sort(qubits.begin(), qubits.end());
+//    auto qit = std::unique(qubits.begin(), qubits.begin() + qubits.size());
+//    qubits.resize(std::distance(qubits.begin(),qit));
+//    for (auto &y: qubits) {
+//        cout << y << " ";
+//    }
+//    cout << endl;
+//
+//    vector<vector<int>> temp;
+//    temp.resize(8);
+//    for (auto i: inst) {
+//        int s = i->getArgAtIndex(0);
+//        int t = i->getArgAtIndex(1);
+//        bool done = false;
+//        for (auto& x: temp) {
+//            for (auto& y: x) {
+//                if (s == y) {
+//                    x.push_back(t);
+//                    done = true;
+//                    break;
+//                }
+//                if (t == y) {
+//                    x.push_back(s);
+//                    done = true;
+//                    break;
+//                }
+//            }
+//        }
+//        if (!done) {
+//            temp[0].push_back(s);
+//            temp[0].push_back(t);
+//        }
+//    }
+//
+//    cout << "list: " << endl;
+//    for (auto& x: temp) {
+//        std::sort(x.begin(), x.end());
+//        auto qit = std::unique(x.begin(), x.begin() + x.size());
+//        x.resize(std::distance(x.begin(),qit));
+//        for (auto &y: x) {
+//            cout << y << " ";
+//        }
+//        cout << endl;
+//    }
 //
 //}
 
@@ -45,28 +95,12 @@ int main() {
 //    Util::mappingInitializer.se = false;
     Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
-    // hello
-//    string inputFileName = "sample.qasm";
-//    getenv("HOME")
-//    getenv("HOMEPATH")
-//    string inputDirectory(string(getenv("HOMEDRIVE")) + getenv("HOMEPATH"));
-//    string inputDirectory(string(getenv("HOME")));
     string inputDirectory = "../input/";
     string outputDirectory = "../output/";
-//    inputDirectory += "/home/hammad/input/";
     if(Util::verbose)
         cout << "Input File Directory: " << inputDirectory << endl;
 
-
     QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
-    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX5);
-
-    //    QuArchitecture architectureQX3(quBits); // includes the coupling map having CNOT constraints
-//    cout << "architectureQX3 constraints: " <<  endl << architectureQX3;
-//    QuMappingInitializer::initGenerator(quBits);
-//    QuMappingInitializer::generateSmartMappings();
-
-
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
     vector<Result> results = quMultiGenerator.generateAllCircuits();
     Result::printHeader();
@@ -74,21 +108,9 @@ int main() {
         result.print();
     }
 
+    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX5);
     quMultiEvaluator.loadFiles();
     quMultiEvaluator.evaluateAllCircuits();
-
-//    QuCircuit testCircuit(architectureQX3.getN());
-//    QuCircuitGenerator testQuCircuitBuilder(testCircuit);
-//    testQuCircuitBuilder.buildFromFile(inputDirectory + "output.qasm");
-//    QuCircuitEvaluator quCircuitEvaluator(testCircuit);
-//    bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(architectureQX3.getCouplingMap());
-//    if(satisfied)
-//        cout << "CNOT Constraints satisfied!" << endl;
-//    else
-//        cout << "CNOT Constraints NOT satisfied! Please make sure all non-unary gates have adjacent qubits!" << endl;
-
-//    QuSimulator simulator(QU_BITS, MAX_DEPTH, circuit, architectureQX3);
-//    simulator.run();
 
     return 0;
 }

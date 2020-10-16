@@ -39,3 +39,7 @@ int PriorityNode::getLogicalQubit() const {
     return logicalQubit;
 }
 
+void PriorityNode::setPhysicalQubit(int physicalQubit) {
+    PriorityNode::physicalQubit = physicalQubit;
+}
+

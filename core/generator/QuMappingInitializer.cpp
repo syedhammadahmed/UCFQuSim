@@ -33,10 +33,7 @@ void QuMappingInitializer::generateMappings() {
 //}
 
 void QuMappingInitializer::makeSmartCouples(QuArchitecture& quArchitecture){
-    for(int i = 0; i < quArchitecture.getN(); i++) {
-        vector<int> list;
-        couplingMapAdjList.push_back(list);
-    }
+    couplingMapAdjList.resize(quArchitecture.getN());
 
     for(int i = 0; i < quArchitecture.getN(); i++) {
         for (int j = 0; j < quArchitecture.getN(); j++){
@@ -235,6 +232,36 @@ struct MappingEqualityComparator {
 //    return initMappings;
 //}
 
+PriorityNode QuMappingInitializer::allocateTopRankNode(){
+    int physicalQuBit = -1;
+
+    PriorityNode logicalQuBitToAllocate = rankGraph.getHead();  // top (i+1)-th node and deleted on returning
+
+    permInput.erase(remove(permInput.begin(), permInput.end(), logicalQuBitToAllocate.getLogicalQubit()), permInput.end());
+    if (logicalQuBitToAllocate.getOutDegree() > logicalQuBitToAllocate.getInDegree()) {
+        if (!commonSrcListPhysical.empty()) {
+            physicalQuBit = commonSrcListPhysical[0].first;
+            commonSrcListPhysical.erase(commonSrcListPhysical.begin());
+        } else {
+            physicalQuBit = srcListPhysical[0].first;
+            srcListPhysical.erase(srcListPhysical.begin());
+        }
+    } else if (logicalQuBitToAllocate.getOutDegree() <= logicalQuBitToAllocate.getInDegree()) {
+        if (!commonTargetListPhysical.empty()) {
+            physicalQuBit = commonTargetListPhysical[0].first;
+            commonTargetListPhysical.erase(commonTargetListPhysical.begin());
+        } else {
+            physicalQuBit = targetListPhysical[0].first;
+            targetListPhysical.erase(targetListPhysical.begin());
+        }
+    }
+    restrictedMapping.setValueAt(physicalQuBit, logicalQuBitToAllocate.getLogicalQubit());
+    allocated[logicalQuBitToAllocate.getLogicalQubit()] = true;
+    logicalQuBitToAllocate.setPhysicalQubit(physicalQuBit);
+
+    return logicalQuBitToAllocate;
+}
+
 vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture) {
     vector<QuMapping> initMappings;
 
@@ -243,38 +270,7 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 
     makeSmartCouples(quArchitecture);  // makes an adj list of coupling map for restriction mappings
 
-    for(int i=0; i<rankGraph.getSize(); i++){   // todo
-        int physicalQuBit = -1;
-        PriorityNode logicalQuBitToAllocate = rankGraph.getHead();  // top (i+1)-th node and deleted on returning
-
-        if (i==0) {  // just assigning 1 logical qubit
-            permInput.erase(remove(permInput.begin(), permInput.end(), logicalQuBitToAllocate.getLogicalQubit()), permInput.end());
-            if (logicalQuBitToAllocate.getOutDegree() > logicalQuBitToAllocate.getInDegree()) {
-                if (!commonSrcListPhysical.empty()) {
-                    physicalQuBit = commonSrcListPhysical[0].first;
-                    commonSrcListPhysical.erase(commonSrcListPhysical.begin());
-                } else {
-                    physicalQuBit = srcListPhysical[0].first;
-                    srcListPhysical.erase(srcListPhysical.begin());
-                }
-            } else if (logicalQuBitToAllocate.getOutDegree() <= logicalQuBitToAllocate.getInDegree()) {
-                if (!commonTargetListPhysical.empty()) {
-                    physicalQuBit = commonTargetListPhysical[0].first;
-                    commonTargetListPhysical.erase(commonTargetListPhysical.begin());
-                } else {
-                    physicalQuBit = targetListPhysical[0].first;
-                    targetListPhysical.erase(targetListPhysical.begin());
-                }
-            }
-            restrictedMapping.setValueAt(physicalQuBit, logicalQuBitToAllocate.getLogicalQubit());
-            allocated[logicalQuBitToAllocate.getLogicalQubit()] = true;
-        }
-//        else{
-//            if (isAdjacent)
-//        }
-
-//        smartRestrict(restrictionPairs[i].first, restrictionPairs[i].second);
-    }
+    startingNode = allocateTopRankNode(); // starting point of init mapping allocation
 
     // testing.. begin todo remove this and uncomment line that follows the block
 
@@ -345,13 +341,24 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 
 pair<int, int> QuMappingInitializer::getSmartCouple(int first, int second) {
     int physical1 = -1, physical2 = -1;
-
-    if (!couples.empty()){
-        physical1 = couples[0].first;
-        physical2 = couples[0].second;
-        removeAdjacents(physical1);
-        removeAdjacents(physical2);
-    }
+    physical1 = findNearest(startingNode.getPhysicalQubit());
+    physical2 = findNearest(physical1);
+//    if (!couples.empty()){
+//        int i;
+//        for (i = 0; i < couples.size(); ++i) {
+//            if (couples[i].first == startingNode.getPhysicalQubit()){
+//                break;
+//            }
+//            else if (couples[i].second == startingNode.getPhysicalQubit()){
+//                couples[i].first =
+//                break;
+//            }
+//        }
+//        physical1 = couples[i].first;
+//        physical2 = couples[i].second;
+//        removeAdjacents(physical1);
+//        removeAdjacents(physical2);
+//    }
     return make_pair(physical1, physical2);
 }
 
@@ -384,7 +391,9 @@ void QuMappingInitializer::smartRestrict(int first, int second) {
 void QuMappingInitializer::restrict(int first, int second) {
     if (!isAllocated(first)){
         if (!isAllocated(second)){
-            pair<int, int> couple = getCouple(first, second);  // get 2 adjacent pairs
+//            pair<int, int> couple = getCouple(first, second);  // get 2 adjacent pairs
+            pair<int, int> couple = getSmartCouple(first, second);  // get 2 adjacent pairs
+
             restrictedMapping.setValueAt(couple.first, first);
             restrictedMapping.setValueAt(couple.second, second);
             allocated[first] = true;
@@ -412,7 +421,8 @@ bool QuMappingInitializer::isAllocated(int logicalQuBit){
 }
 
 QuMapping QuMappingInitializer::getNextMapping() {
-//    restrictedMapping.132strongInit();
+//    restrictedMapping.strongInit();
+//    restrictedMapping.setValueAt(startingNode.getPhysicalQubit(), startingNode.getLogicalQubit());
     QuMapping nextMapping(restrictedMapping);
 
     for(int i=0; i<perms[count].size(); i++){
@@ -468,12 +478,11 @@ pair<int, int> QuMappingInitializer::getCouple(int first, int second) {
     return make_pair(physical1, physical2);
 }
 
-int QuMappingInitializer::findNearest(int logicalQuBit) {
-    int physicalQuBit1 = restrictedMapping.getPhysicalBit(logicalQuBit);
+int QuMappingInitializer::findNearest(int physicalQuBit1) {
     int physicalQuBit2 = -1;
 
     int bestNeighbor = getNeighborFromCommonFreqLists(physicalQuBit1);
-    cout << "logical: " << logicalQuBit << ", physical: " << physicalQuBit1 << ", bestNeighbor: " << bestNeighbor << endl;
+//    cout << "logical: " << logicalQuBit << ", physical: " << physicalQuBit1 << ", bestNeighbor: " << bestNeighbor << endl;
 
     if (bestNeighbor != -1) {
         if (restrictedMapping.getValueAt(bestNeighbor) == -1) { // todo test more corner cases : >3 neighbors
@@ -556,3 +565,4 @@ void QuMappingInitializer::buildRankGraph(vector<pair<int, int>> quBitPairs) {
     }
     rankGraph.sortByRank();
 }
+

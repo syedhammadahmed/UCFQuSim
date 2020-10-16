@@ -75,6 +75,9 @@ public:
     int getGateId() const;
 
     void setGateId(int gateId);
+
+    bool operator==(QuGate& arg);
+//    void operator=(QuGate& arg);
 };
 
 

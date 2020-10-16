@@ -56,6 +56,10 @@ public:
     static void deleteInstance();
 
     vector<int> getFirstKInstructionIds(int k);
+
+    bool isNewInsturction(int instructionId,  vector<int> firstKIds);
+
+    QuGate *getInstructionById(int id);
 };
 
 

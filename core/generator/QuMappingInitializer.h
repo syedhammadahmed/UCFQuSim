@@ -29,7 +29,7 @@ private:
     vector<pair<int, int>> commonTargetListPhysical;
 
     vector<int> permInput; // permutation input vector consisting of qubits to permute // restricted qubits are excluded from this
-
+    PriorityNode startingNode;
 public:
     static int TOTAL_PERM;
 
@@ -77,6 +77,12 @@ public:
     void buildPhysicalQuBitPriorityLists(QuArchitecture &architecture);
 
     void buildRankGraph(vector<pair<int, int>> quBitPairs);
+
+    PriorityNode getTopRankNode();
+
+    PriorityNode allocateTopRankNode();
+
+    vector<pair<int, int>> getFreeNeighbors();
 };
 
 

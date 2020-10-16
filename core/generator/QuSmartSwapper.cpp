@@ -271,7 +271,11 @@ vector<QuGate*> QuSmartSwapper::getKRestrictInstructions(int k, bool dag){
         QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(temp, 0);
         vector<int> instructionIds = layerManager->getFirstKInstructionIds(k);
         for (auto id: instructionIds) {
-            instructions.push_back(nonUnaryInstructions[id]);
+            for (QuGate *inst: nonUnaryInstructions) {
+                if (inst->getGateId() == id) {
+                    instructions.push_back(inst);
+                }
+            }
         }
     } else {
         for (int i = 0; i < k; i++) {
@@ -303,10 +307,11 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
         pair<int, int> newPairInverted = make_pair(gate->getArgAtIndex(1), gate->getArgAtIndex(0));
         for (int l = 0; l < restrictedPairs.size(); ++l) {
             if (newPair == restrictedPairs[l] || newPairInverted == restrictedPairs[l]) {
-                --i;
                 dup = true;
                 break;
             }
+            else
+                j++;
         }
         if (!dup)
             restrictedPairs.push_back(newPair);

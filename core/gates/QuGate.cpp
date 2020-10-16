@@ -112,3 +112,14 @@ int QuGate::getGateId() const {
 void QuGate::setGateId(int gateId) {
     QuGate::gateId = gateId;
 }
+
+bool QuGate::operator==(QuGate& arg) {
+    return ((this->argIndex[0] == arg.argIndex[0]) && (this->argIndex[1] == arg.argIndex[1])) || ((this->argIndex[0] == arg.argIndex[1]) && (this->argIndex[1] == arg.argIndex[0]));
+}
+
+//void QuGate::operator=(QuGate &arg) {
+//    cardinality = arg.cardinality;
+//    for(int i=0; i<cardinality; i++)
+//        argIndex[i] = arg.argIndex[i];
+//    mnemonic = arg.mnemonic;
+//}
