@@ -13,7 +13,7 @@
 #include <util/Util.h>
 #include <AllPairShortestPathFinder.h>
 
-int QuSmartSwapper::MAPPING_THRESHOLD = 1000;
+int QuSmartSwapper::MAPPING_THRESHOLD = 500;
 
 vector<QuGate*> QuSmartSwapper::removeUnaryInstructions(){
     vector<QuGate*> instructions = circuit.getInstructions();
@@ -329,8 +329,8 @@ vector<QuMapping> QuSmartSwapper::generateInitialMappings() {
 //    mappingInitializer.initGenerator(architecture.getN());
 
 //    pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(circuit.getN());
-    int k = 8;  // set k unique instructions to restrict // todo SHA: no restrictions
-    pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(k);
+      // set k unique instructions to restrict // todo SHA: no restrictions
+    pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(K);
     vector<pair<int, int>> restrictionList = restrictionData.first;
     vector<pair<int, int>> restrictionListSources = restrictionData.second;
 //    vector<pair<int, int>> restrictionList = makeRestrictionPairList(architecture.getN()/2);

@@ -11,7 +11,7 @@
 using namespace std;
 
 //int QuMappingInitializer::TOTAL_PERM = 1000000000; // # of qubits
-int QuMappingInitializer::TOTAL_PERM = 10000; // # of qubits
+int QuMappingInitializer::TOTAL_PERM = 500; // # of qubits
 //int QuMappingInitializer::n = 0; // # of qubits
 //int QuMappingInitializer::count = 0; // permutation count
 //QuMapping QuMappingInitializer::defaultMapping;
