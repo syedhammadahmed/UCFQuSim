@@ -10,7 +10,7 @@
 #include <AllPairShortestPathFinder.h>
 #include "QuSwapStrategy.h"
 #include "QuMappingInitializer.h"
-#define K 0
+#define K 4
 
 class AllPairShortestPathsFinder;
 
