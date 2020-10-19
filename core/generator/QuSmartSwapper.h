@@ -10,13 +10,13 @@
 #include <AllPairShortestPathFinder.h>
 #include "QuSwapStrategy.h"
 #include "QuMappingInitializer.h"
-#define K 4
+#include "Config.h"
 
 class AllPairShortestPathsFinder;
 
 class QuSmartSwapper: public QuSwapStrategy {
 private:
-    static int MAPPING_THRESHOLD;
+//    static int MAPPING_THRESHOLD;
     QuMapping initialMapping;
     vector<vector<QuMapping>> instructionWiseMappings;  // instructionWiseMappings[0] = mappings for instruction 0 (1st instruction)
     int perInstructionMappingCounter;
@@ -97,7 +97,7 @@ public:
 
     vector<int> getCurrentInstructionIds();
 
-    vector<QuGate *> getKRestrictInstructions(int k, bool dag);
+    vector<QuGate *> getKRestrictInstructions(int k);
 };
 
 

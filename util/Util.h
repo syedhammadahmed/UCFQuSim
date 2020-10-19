@@ -8,6 +8,12 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <unordered_set>
+#include <random>
+#include <chrono>
+#include <ctime>
+
 using namespace std;
 
 class Util {
@@ -37,6 +43,8 @@ public:
     static vector<vector<int>> getNRandomPermutations(int n, vector<int> result);
 
     static vector<int> getMappingIndexSamples(int threshold, unsigned long size);
+
+    unordered_set<int> getNRandomIndexes(int sampleSize, int rangeUpperBound);
 };
 
 

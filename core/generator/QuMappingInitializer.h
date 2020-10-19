@@ -11,9 +11,9 @@
 
 class QuMappingInitializer {
 private:
-    int n; // # of qubits
-    int l; // logical qubits
-    int count; // permutation count
+    int n{}; // # of qubits
+    int l{}; // logical qubits
+    int count{}; // permutation count
     QuMapping defaultMapping;
 //    vector<string> perms;
     vector<vector<int>> perms;
@@ -31,7 +31,7 @@ private:
     vector<int> permInput; // permutation input vector consisting of qubits to permute // restricted qubits are excluded from this
     PriorityNode startingNode;
 public:
-    static int TOTAL_PERM;
+//    static int TOTAL_PERM;
 
     QuMappingInitializer(int n);
     QuMappingInitializer(int n, int l);

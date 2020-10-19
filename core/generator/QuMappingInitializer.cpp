@@ -2,16 +2,17 @@
 // Created by YUSHAH on 7/24/2020.
 //
 
-#include <util/Util.h>
+#include "util/Util.h"
 #include <queue>
 #include <algorithm>
+#include "core/Config.h"
 #include "QuMappingInitializer.h"
 #include "PriorityGraph.h"
 
 using namespace std;
 
 //int QuMappingInitializer::TOTAL_PERM = 1000000000; // # of qubits
-int QuMappingInitializer::TOTAL_PERM = 500; // # of qubits
+//int QuMappingInitializer::TOTAL_PERM = 1000; // # of qubits
 //int QuMappingInitializer::n = 0; // # of qubits
 //int QuMappingInitializer::count = 0; // permutation count
 //QuMapping QuMappingInitializer::defaultMapping;
@@ -66,25 +67,20 @@ void QuMappingInitializer::makeSmartCouples(QuArchitecture& quArchitecture){
 //    }
 }
 
-//void QuMappingInitializer::makeCouples(QuArchitecture& quArchitecture){
-////    vector<pair<int , int>> counts;
-//    for(int i = 0; i < quArchitecture.getN(); i++) {
-//        vector<int> list;
-//        couplingMapAdjList.push_back(list);
-////        counts.push_back(make_pair(i,0));
-//    }
-//    for(int i = 0; i < quArchitecture.getN(); i++) {
-//        for (int j = 0; j < quArchitecture.getN(); j++){
-//            if ((i != j) && (quArchitecture.getCouplingMap()[i][j] > 0)){
-////                counts[i].second++;
-//                couples.push_back(make_pair(i, j));
-//                couplingMapAdjList[i].push_back(j);
-//                couplingMapAdjList[j].push_back(i);
-//            }
-//        }
-//    }
-//}
-//
+void QuMappingInitializer::makeCouples(QuArchitecture& quArchitecture){
+    couplingMapAdjList.resize(quArchitecture.getN());
+    for(int i = 0; i < quArchitecture.getN(); i++) {
+        for (int j = 0; j < quArchitecture.getN(); j++){
+            if ((i != j) && (quArchitecture.getCouplingMap()[i][j] > 0)){
+//                counts[i].second++;
+                couples.emplace_back(i, j);
+                couplingMapAdjList[i].push_back(j);
+                couplingMapAdjList[j].push_back(i);
+            }
+        }
+    }
+}
+
 struct MappingEqualityComparator {
     bool pred(QuMapping &a, QuMapping &b) {
         for (int i = 0; i < a.getN(); ++i) {
@@ -266,11 +262,14 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
     vector<QuMapping> initMappings;
 
     buildPhysicalQuBitPriorityLists(quArchitecture);
-    buildRankGraph(restrictionListSources);
 
-    makeSmartCouples(quArchitecture);  // makes an adj list of coupling map for restriction mappings
-
-    startingNode = allocateTopRankNode(); // starting point of init mapping allocation
+    if (INIT_MAPPING_START_NODE_RANK_WISE) {
+        buildRankGraph(restrictionListSources);
+        makeSmartCouples(quArchitecture);  // makes an adj list of coupling map for restriction mappings
+        startingNode = allocateTopRankNode(); // starting point of init mapping allocation
+    }
+    else
+        makeCouples(quArchitecture);
 
     // testing.. begin todo remove this and uncomment line that follows the block
 
@@ -291,14 +290,16 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 //    restrictionPairs.clear();
 //    restrictedMapping.strongInit();
 
-    for(int i=0; i<restrictionPairs.size(); i++){
-        restrict(restrictionPairs[i].first, restrictionPairs[i].second);
-        if (!permInput.empty()) {
-            permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
-            permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second), permInput.end());
+    if (INIT_MAPPING_RESTRICT_MODE) {
+        for (int i = 0; i < restrictionPairs.size(); i++) {
+            restrict(restrictionPairs[i].first, restrictionPairs[i].second);
+            if (!permInput.empty()) {
+                permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
+                permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second),
+                                permInput.end());
+            }
         }
     }
-
 //
     //    for(int i=0; i<restrictionPairs.size(); i++){
 //        permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
@@ -306,19 +307,25 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 //
 //        restrict(restrictionPairs[i].first, restrictionPairs[i].second);
 //    }
+    int totalPermutations = TOTAL_PERM;
 
-    if (permInput.size()>10) // 10! perms
-        permInput.erase(permInput.begin()+10, permInput.end());
-    Util::permute(permInput, 0, permInput.size()-1, perms);
-
-    if (perms.size() > TOTAL_PERM) { // todo random sampling - DONE
-        perms.erase(perms.begin() + TOTAL_PERM - 1, perms.end());
+    if (RANDOM_SAMPLING_INIT_MAPPINGS) {
+        perms = Util::getNRandomPermutations(totalPermutations, permInput);
     }
-    TOTAL_PERM = perms.size();
+    else {
+        // no random sampling start
+        if (permInput.size() > 10) // 10! perms
+            permInput.erase(permInput.begin() + 10, permInput.end());
+        Util::permute(permInput, 0, permInput.size() - 1, perms);
 
-    //    perms = Util::getNRandomPermutations(TOTAL_PERM, permInput);  // todo uncomment for sampling
+        if (perms.size() > totalPermutations) { // todo random sampling - DONE
+            perms.erase(perms.begin() + totalPermutations - 1, perms.end());
+        }
+        // no random sampling end
+    }
 
-    for(int i=0; i<TOTAL_PERM; i++){
+    totalPermutations = perms.size();
+    for(int i=0; i<totalPermutations; i++){
         initMappings.push_back(getNextMapping());
     }
     // todo remove duplicate mappings
@@ -343,56 +350,17 @@ pair<int, int> QuMappingInitializer::getSmartCouple(int first, int second) {
     int physical1 = -1, physical2 = -1;
     physical1 = findNearest(startingNode.getPhysicalQubit());
     physical2 = findNearest(physical1);
-//    if (!couples.empty()){
-//        int i;
-//        for (i = 0; i < couples.size(); ++i) {
-//            if (couples[i].first == startingNode.getPhysicalQubit()){
-//                break;
-//            }
-//            else if (couples[i].second == startingNode.getPhysicalQubit()){
-//                couples[i].first =
-//                break;
-//            }
-//        }
-//        physical1 = couples[i].first;
-//        physical2 = couples[i].second;
-//        removeAdjacents(physical1);
-//        removeAdjacents(physical2);
-//    }
     return make_pair(physical1, physical2);
 }
 
-void QuMappingInitializer::smartRestrict(int first, int second) {
-    if (!isAllocated(first)){
-        if (!isAllocated(second)){
-            pair<int, int> couple = getSmartCouple(first, second);  // get 2 adjacent pairs
-            restrictedMapping.setValueAt(couple.first, first);
-            restrictedMapping.setValueAt(couple.second, second);
-            allocated[first] = true;
-            allocated[second] = true;
-        }
-        else {
-            int physicalQuBit1 = findNearest(second);
-            restrictedMapping.setValueAt(physicalQuBit1, first);
-            allocated[first] = true;
-            removeAdjacents(physicalQuBit1);
-        }
-    }
-    else {
-        if (!isAllocated(second)){
-            int physicalQuBit2 = findNearest(first);
-            restrictedMapping.setValueAt(physicalQuBit2, second);
-            allocated[second] = true;
-            removeAdjacents(physicalQuBit2);
-        }
-    }
-}
-
 void QuMappingInitializer::restrict(int first, int second) {
+    pair<int, int> couple;
     if (!isAllocated(first)){
         if (!isAllocated(second)){
-//            pair<int, int> couple = getCouple(first, second);  // get 2 adjacent pairs
-            pair<int, int> couple = getSmartCouple(first, second);  // get 2 adjacent pairs
+            if (INIT_MAPPING_START_NODE_RANK_WISE)
+                couple = getSmartCouple(first, second);  // get 2 adjacent pairs maintaining a connected component
+            else
+                couple = getCouple(first, second);  // get 2 adjacent pairs
 
             restrictedMapping.setValueAt(couple.first, first);
             restrictedMapping.setValueAt(couple.second, second);
@@ -421,8 +389,6 @@ bool QuMappingInitializer::isAllocated(int logicalQuBit){
 }
 
 QuMapping QuMappingInitializer::getNextMapping() {
-//    restrictedMapping.strongInit();
-//    restrictedMapping.setValueAt(startingNode.getPhysicalQubit(), startingNode.getLogicalQubit());
     QuMapping nextMapping(restrictedMapping);
 
     for(int i=0; i<perms[count].size(); i++){
@@ -430,15 +396,12 @@ QuMapping QuMappingInitializer::getNextMapping() {
         nextMapping.setValueAtNextFree(val);
     }
     nextMapping.setUnallocatedQuBits();
-//    nextMapping.setParentMappingId("*");
-//    nextMapping.setMappingId("0." + to_string(count)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
     count++;
     return nextMapping;
 }
 
 
 void QuMappingInitializer::initGenerator(int n) {
-    TOTAL_PERM = 1000;
     count = 0;
     for (int i = 0; i < n; ++i) {
         allocated.push_back(false);
@@ -447,17 +410,12 @@ void QuMappingInitializer::initGenerator(int n) {
     for (int i = 0; i < n; ++i) {
         permInput.push_back(i);
     }
-
     restrictedMapping.setN(n);
     restrictedMapping.strongInit();
 }
 
-const int QuMappingInitializer::getPermCount() {
-    return perms.size();
-}
-
 void QuMappingInitializer::removeAdjacents(int physicalQuBit){
-    vector<pair<int, int>>::iterator it=couples.begin();
+    auto it=couples.begin();
     while(it!=couples.end()){
         if(it->first == physicalQuBit || it->second == physicalQuBit)
             it = couples.erase(it);
@@ -465,7 +423,6 @@ void QuMappingInitializer::removeAdjacents(int physicalQuBit){
             ++it;
     }
 }
-
 
 pair<int, int> QuMappingInitializer::getCouple(int first, int second) {
     int physical1 = -1, physical2 = -1;
@@ -482,7 +439,6 @@ int QuMappingInitializer::findNearest(int physicalQuBit1) {
     int physicalQuBit2 = -1;
 
     int bestNeighbor = getNeighborFromCommonFreqLists(physicalQuBit1);
-//    cout << "logical: " << logicalQuBit << ", physical: " << physicalQuBit1 << ", bestNeighbor: " << bestNeighbor << endl;
 
     if (bestNeighbor != -1) {
         if (restrictedMapping.getValueAt(bestNeighbor) == -1) { // todo test more corner cases : >3 neighbors

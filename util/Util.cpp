@@ -4,7 +4,6 @@
 
 #include <time.h>
 #include <iostream>
-#include <cstring>
 #include <random>
 #include <algorithm>
 #include <unordered_set>
@@ -12,6 +11,22 @@
 
 using namespace std;
 
+unordered_set<int> Util::getNRandomIndexes(int sampleSize, int rangeUpperBound)
+{
+    unordered_set<int> sample;
+    default_random_engine generator;
+    generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
+
+    for(int d = rangeUpperBound - sampleSize; d < rangeUpperBound; d++)
+    {
+        int t = uniform_int_distribution<>(0, d)(generator);
+        if (sample.find(t) == sample.end() )
+            sample.insert(t);
+        else
+            sample.insert(d);
+    }
+    return sample;
+}
 
 string Util::FILE_EXTENSION = ".qasm";
 bool Util::verbose = true;

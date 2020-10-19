@@ -1,0 +1,20 @@
+//
+// Created by hammad on 10/17/20.
+//
+
+#ifndef UCFQUSIM_CONFIG_H
+#define UCFQUSIM_CONFIG_H
+
+#define K 8
+#define TOTAL_PERM 1000
+#define MAPPING_THRESHOLD 1000
+
+#define RANDOM_SAMPLING_INIT_MAPPINGS false
+#define RANDOM_SAMPLING_MAPPINGS_PRUNING false
+
+#define INIT_MAPPING_START_NODE_RANK_WISE false
+#define INIT_MAPPING_RESTRICT_MODE false
+
+#define DAG_SCHEME true
+
+#endif //UCFQUSIM_CONFIG_H

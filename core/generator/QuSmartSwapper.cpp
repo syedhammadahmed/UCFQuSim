@@ -13,7 +13,7 @@
 #include <util/Util.h>
 #include <AllPairShortestPathFinder.h>
 
-int QuSmartSwapper::MAPPING_THRESHOLD = 500;
+//int QuSmartSwapper::MAPPING_THRESHOLD = 500;
 
 vector<QuGate*> QuSmartSwapper::removeUnaryInstructions(){
     vector<QuGate*> instructions = circuit.getInstructions();
@@ -56,10 +56,6 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
         unsigned int theMinHadamard = INT32_MAX;
         int theId = -1;
         unsigned int minId = -1;
-
-        if(programCounter == 32) {
-            cout << "ho";
-        }
 
         currentInstructionIds = getCurrentInstructionIds(); // source instructions (independent)
         vector<QuMapping> inputMappings;
@@ -262,11 +258,11 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
     return mappings;
 }
 
-vector<QuGate*> QuSmartSwapper::getKRestrictInstructions(int k, bool dag){
+vector<QuGate*> QuSmartSwapper::getKRestrictInstructions(int k){
     vector<QuGate*> instructions;
     if (k > nonUnaryInstructions.size())
         k = nonUnaryInstructions.size();
-    if (dag){
+    if (DAG_SCHEME){
         vector<QuGate*> temp;
         QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(temp, 0);
         vector<int> instructionIds = layerManager->getFirstKInstructionIds(k);
@@ -292,7 +288,7 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
     int j = 0;
     bool dup = false;
 
-    vector<QuGate*> instructions = getKRestrictInstructions(k, true);
+    vector<QuGate*> instructions = getKRestrictInstructions(k);
 
     int x = k; // k is max restrictions
 //    for (int i = 0; i < k && j<nonUnaryInstructions.size(); ++i) {
@@ -354,10 +350,16 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     } else {
         mappings = instructionWiseMappings[programCounter-1];
     }
-    if(mappings.size() > MAPPING_THRESHOLD) { // todo random sampling
-        mappings.erase(mappings.begin() + MAPPING_THRESHOLD, mappings.end());
+
+    if (RANDOM_SAMPLING_MAPPINGS_PRUNING) {
+        vector<int> sampleIndexes = Util::getMappingIndexSamples(MAPPING_THRESHOLD, mappings.size());
+        // todo random sampling
+    } else{
+        if(mappings.size() > MAPPING_THRESHOLD) {
+            mappings.erase(mappings.begin() + MAPPING_THRESHOLD, mappings.end());
+        }
     }
-    cout << "###################mappings.size(): " << mappings.size() << endl;
+    cout << "mappings.size(): " << mappings.size() << endl;
     return mappings;
 }
 
@@ -820,9 +822,9 @@ void QuSmartSwapper::prepareMappingsForNextInstruction(vector<QuMapping> &inputM
 //        }
 //        nextInstructionMappings = theNextInstructionMappings;
 //    }
-    if(nextInstructionMappings.size() > MAPPING_THRESHOLD) { // todo random sampling
-        nextInstructionMappings.erase(nextInstructionMappings.begin() + MAPPING_THRESHOLD, nextInstructionMappings.end());
-    }
+//    if(nextInstructionMappings.size() > MAPPING_THRESHOLD) { // todo random sampling
+//        nextInstructionMappings.erase(nextInstructionMappings.begin() + MAPPING_THRESHOLD, nextInstructionMappings.end());
+//    }
 //    if (programCounter == 2)
 //        cout << "";
     if(!nextInstructionMappings.empty()) {

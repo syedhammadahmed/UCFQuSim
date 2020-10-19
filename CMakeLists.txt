@@ -105,4 +105,4 @@ add_executable(UCFQuSim
         AllShortestPathsFinder.h
         main.cpp
         ShortestPathFinder.cpp
-        ShortestPathFinder.h AllPairShortestPathFinder.cpp AllPairShortestPathFinder.h core/generator/PriorityGraph.cpp core/generator/PriorityGraph.h core/generator/PriorityNode.cpp core/generator/PriorityNode.h core/generator/QuCircuitLayerManager.cpp core/generator/QuCircuitLayerManager.h)
+        ShortestPathFinder.h AllPairShortestPathFinder.cpp AllPairShortestPathFinder.h core/generator/PriorityGraph.cpp core/generator/PriorityGraph.h core/generator/PriorityNode.cpp core/generator/PriorityNode.h core/generator/QuCircuitLayerManager.cpp core/generator/QuCircuitLayerManager.h core/Config.h)
