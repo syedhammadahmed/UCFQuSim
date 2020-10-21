@@ -15,6 +15,6 @@
 #define INIT_MAPPING_START_NODE_RANK_WISE false
 #define INIT_MAPPING_RESTRICT_MODE false
 
-#define DAG_SCHEME true
+#define DAG_SCHEME false
 
 #endif //UCFQUSIM_CONFIG_H

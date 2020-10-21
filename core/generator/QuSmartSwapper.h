@@ -98,6 +98,14 @@ public:
     vector<int> getCurrentInstructionIds();
 
     vector<QuGate *> getKRestrictInstructions(int k);
+
+//    static bool pred(const QuGate *a, const QuGate *b);
+
+    bool isNewInsturction(QuGate *currentInstruction, vector<QuGate *> &instructions);
+
+    int findTotalSwapsDefault(QuArchitecture &quArchitecture);
+    int findTotalSwapsDAG(QuArchitecture &quArchitecture);
+
 };
 
 

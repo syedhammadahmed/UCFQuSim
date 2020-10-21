@@ -77,7 +77,7 @@ bool QuCircuitLayerManager::somethingInBetween(int row1, int row2, int layer) {
 }
 
 void QuCircuitLayerManager::printSimpleGrid(){
-    Util::verbose = true;
+//    Util::verbose = true;
     if(Util::verbose) {
         cout << "Printing Circuit Grid (grid of qugates positions): " << endl;
 //        for (int i = 0; i < 50; i++) cout << "__";   // todo make it generic for any layers
@@ -115,9 +115,9 @@ vector<int> QuCircuitLayerManager::getNextSourceInstructionIds() {
     auto qit = std::unique(qubits.begin(), qubits.begin() + qubits.size());
     qubits.resize(std::distance(qubits.begin(), qit));
 
-    for (auto a: qubits) {
-        cout << ">>>source instr ids:" << a << endl;
-    }
+//    for (auto a: qubits) {
+//        cout << ">>>source instr ids:" << a << endl;
+//    }
     return qubits;
 }
 
@@ -164,9 +164,9 @@ void QuCircuitLayerManager::init() {
 
 void QuCircuitLayerManager::removeInstruction(int id) {
     int q1 = -1, q2 = -1;
-    cout << ">>>>>>>>>>>>>>> removing " << id << ": " << endl;
+//    cout << ">>>>>>>>>>>>>>> removing " << id << ": " << endl;
     auto it = instructions.begin();
-    cout << "after removal: ";
+//    cout << "after removal: ";
     while(it != instructions.end()){
         if ((*it)->getGateId() == id){
             q1 = (*it)->getArgAtIndex(0);
@@ -174,11 +174,11 @@ void QuCircuitLayerManager::removeInstruction(int id) {
             instructions.erase(it);
         }
         else{
-            cout << (*it)->getGateId() << " ";
+//            cout << (*it)->getGateId() << " ";
             it++;
         }
     }
-    cout << endl;
+//    cout << endl;
 //    updateSimpleGrid(q1, q2);
     init();
 }
@@ -205,7 +205,7 @@ vector<int> QuCircuitLayerManager::getFirstKInstructionIds(int k) {
     firstKIds.resize(std::distance(firstKIds.begin(), qit));
 
     for (auto a: firstKIds) {
-        cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> K source instr ids:" << a << endl;
+        Util::println("K source instr ids:" + to_string(a));
     }
     return firstKIds;
 }
@@ -223,8 +223,8 @@ bool QuCircuitLayerManager::isNewInsturction(int instructionId, vector<int> firs
     QuGate* currentInstruction = getInstructionById(instructionId);
     for (int id: firstKIds) {
         QuGate* oldInstruction = getInstructionById(id);
-        cout << instructionId << " : " << *currentInstruction << endl;
-        cout << id << " : " << *oldInstruction << endl << endl;
+//        cout << instructionId << " : " << *currentInstruction << endl;
+//        cout << id << " : " << *oldInstruction << endl << endl;
         if ((*oldInstruction) == (*currentInstruction))
             return false;
     }

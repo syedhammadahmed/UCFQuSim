@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// BobFloydAlgo
 unordered_set<int> Util::getNRandomIndexes(int sampleSize, int rangeUpperBound)
 {
     unordered_set<int> sample;
@@ -29,7 +30,7 @@ unordered_set<int> Util::getNRandomIndexes(int sampleSize, int rangeUpperBound)
 }
 
 string Util::FILE_EXTENSION = ".qasm";
-bool Util::verbose = true;
+bool Util::verbose = false;
 
 string Util::toLower(string str) {
     for(int i=0; i<str.length(); i++)
@@ -189,27 +190,27 @@ vector<vector<int>> Util::getNRandomPermutations(int n, vector<int> result) {
     }
     return perms;
 }
-
-vector<int> Util::getMappingIndexSamples(int threshold, unsigned long size) {
-    unordered_set<int> samples;
-
-    // Sample and insert values into samples
-    for (int r = size - threshold; r < size; ++r) {
-        random_device myRandomDevice;
-        unsigned seed = myRandomDevice();
-
-        // Initialize a default_random_engine with the seed
-        default_random_engine myRandomEngine(seed);
-
-        int v = std::uniform_int_distribution<>(1, r)(myRandomEngine);
-        if (!samples.insert(v).second) samples.insert(r);
-    }
-
-    // Copy samples into vector
-    std::vector<int> result(samples.begin(), samples.end());
-
-    // Shuffle vector
-//    std::shuffle(result.begin(), result.end(), myRandomEngine);
-
-    return result;
-}
+//
+//vector<int> Util::getMappingIndexSamples(int threshold, unsigned long size) {
+//    unordered_set<int> samples;
+//
+//    // Sample and insert values into samples
+//    for (int r = size - threshold; r < size; ++r) {
+//        random_device myRandomDevice;
+//        unsigned seed = myRandomDevice();
+//
+//        // Initialize a default_random_engine with the seed
+//        default_random_engine myRandomEngine(seed);
+//
+//        int v = std::uniform_int_distribution<>(1, r)(myRandomEngine);
+//        if (!samples.insert(v).second) samples.insert(r);
+//    }
+//
+//    // Copy samples into vector
+//    std::vector<int> result(samples.begin(), samples.end());
+//
+//    // Shuffle vector
+////    std::shuffle(result.begin(), result.end(), myRandomEngine);
+//
+//    return result;
+//}

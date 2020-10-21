@@ -42,9 +42,9 @@ public:
 
     static vector<vector<int>> getNRandomPermutations(int n, vector<int> result);
 
-    static vector<int> getMappingIndexSamples(int threshold, unsigned long size);
+//    static vector<int> getMappingIndexSamples(int threshold, unsigned long size);
 
-    unordered_set<int> getNRandomIndexes(int sampleSize, int rangeUpperBound);
+    static unordered_set<int> getNRandomIndexes(int sampleSize, int rangeUpperBound);
 };
 
 
