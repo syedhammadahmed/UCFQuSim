@@ -77,7 +77,9 @@ public:
     void setGateId(int gateId);
 
     bool operator==(QuGate& arg);
+    bool operator!=(QuGate& arg);
 //    void operator=(QuGate& arg);
+    bool isDitto(QuGate* instruction);
 };
 
 

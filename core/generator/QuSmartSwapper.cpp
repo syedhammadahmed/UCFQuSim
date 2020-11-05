@@ -65,6 +65,13 @@ int QuSmartSwapper::findTotalSwapsDAG(QuArchitecture& quArchitecture) {
                 }
             }
 
+//            if (previousInstruction != nullptr && (previousInstruction->isDitto(currentInstruction))) {
+//                instructionWiseMappings.push_back(instructionWiseMappings[instructionWiseMappings.size()-1]);
+//                Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
+//                programCounter++;
+//                continue;
+//            }
+
             // get input mappings to apply on this instruction
             inputMappings = getAllMappingsForCurrentInstruction();  // todo get mappings only once esp initial not re-generate
 
@@ -166,6 +173,7 @@ int QuSmartSwapper::findTotalSwapsDAG(QuArchitecture& quArchitecture) {
     return totalCost;
 }
 
+
 int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
     unsigned int totalCost = 0;
     swaps = 0;
@@ -178,13 +186,21 @@ int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
     removeUnaryInstructions();
 
     Util::println("nonUnaryInstructions size: " + to_string(nonUnaryInstructions.size()));
-
+    QuGate* previousInstruction = nullptr;
+    vector<QuMapping> inputMappings;
+    unsigned int minCost = INT32_MAX;
     for(QuGate* currentInstruction: nonUnaryInstructions){
-        this->currentInstruction = currentInstruction;
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
+        this->currentInstruction = currentInstruction;
+        if (previousInstruction != nullptr && (previousInstruction->isDitto(currentInstruction))) {
+            instructionWiseMappings.push_back(instructionWiseMappings[instructionWiseMappings.size()-1]);
+            Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
+            programCounter++;
+            continue;
+        }
 
         // get input mappings to apply on this instruction
-        vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
+        inputMappings = getAllMappingsForCurrentInstruction();
 
         perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
 
@@ -198,7 +214,7 @@ int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
         mappingWiseShortestPathCosts.resize(inputMappings.size());
         mappingWiseShortestPaths.clear();
 
-        unsigned int minCost = INT32_MAX;
+        minCost = INT32_MAX;
         unsigned int minSwap = INT32_MAX;
         unsigned int minHadamard = INT32_MAX;
 
@@ -234,6 +250,7 @@ int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
 
         Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
         programCounter++;
+        previousInstruction = currentInstruction;
     }
 
     delete allSPF;
@@ -825,34 +842,19 @@ int QuSmartSwapper::calculateHadamardCost(vector<int> shortestPath, int **coupli
 
 int QuSmartSwapper::caterHadamardCostAndFilterPaths() {
     int minCost = INT_MAX;
-    for (auto& path: allSPFSwapPaths) {  // todo SHA: this coming empty for pc = 1
+    for (auto& path: allSPFSwapPaths) {
         Util::print("shortest path: ");
         Util::printPath(path);
         int hadamardCost = calculateHadamardCost(path, architecture.getCouplingMap());
         int swapCost = (path.size() - 2) * 7;
         int totalCost = hadamardCost + swapCost;
-//        path.push_back(totalCost); // last element is the cost - remove after filter
-        // add mappingwise all sp cost add to vector
-//        for (auto& temp: allSPFSwapPaths) {
-//        cout << "adding cost to mappingWiseShortestPathCosts: " << endl;
-        mappingWiseShortestPathCosts[perInstructionMappingCounter].push_back(totalCost);
-//        }
 
+        mappingWiseShortestPathCosts[perInstructionMappingCounter].push_back(totalCost);
         if (totalCost < minCost) {
             minCost = totalCost;
             hadamards = hadamardCost;
         }
     }
-//    auto it = allSPFSwapPaths.begin();
-//    while(it!=allSPFSwapPaths.end()){
-//        int cost = it->at(it->size()-1);
-//        if(cost > minCost)
-//            it = allSPFSwapPaths.erase(it);
-//        else
-//            ++it;
-//    }
-//    for (auto& path: allSPFSwapPaths)
-//        path.erase(path.end()-1);
     return minCost;
 }
 

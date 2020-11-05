@@ -113,8 +113,18 @@ void QuGate::setGateId(int gateId) {
     QuGate::gateId = gateId;
 }
 
+// ignores order of qubits
 bool QuGate::operator==(QuGate& arg) {
     return ((this->argIndex[0] == arg.argIndex[0]) && (this->argIndex[1] == arg.argIndex[1])) || ((this->argIndex[0] == arg.argIndex[1]) && (this->argIndex[1] == arg.argIndex[0]));
+}
+
+// ignores order of qubits
+bool QuGate::operator!=(QuGate& arg) {
+    return !((*this) == arg);
+}
+
+bool QuGate::isDitto(QuGate *arg) {
+    return ((this->argIndex[0] == arg->argIndex[0]) && (this->argIndex[1] == arg->argIndex[1]));
 }
 
 //void QuGate::operator=(QuGate &arg) {
