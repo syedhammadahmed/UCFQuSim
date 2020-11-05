@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <util/Result.h>
+#include <core/Config.h>
 #include "QuMultiGenerator.h"
 #include "QuCircuitGenerator.h"
 
@@ -48,30 +49,61 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         string inputFileAbsPath = inputDirectory + inputFiles[i];
         string file = inputFiles[i].substr(0, inputFiles[i].length() - 5); //removing .qasm extension
         // reads the qasm file and makes a default circuit
-        QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
+        int runs = 1;
+        unsigned int minGates = INT32_MAX;
+        unsigned int minSwaps = INT32_MAX;
+        unsigned int minHadamards = INT32_MAX;
+
+        unsigned int max = 0;
+        unsigned int total = 0;
+        unsigned int average = 0;
+        if (RANDOM_SAMPLING_INIT_MAPPINGS || RANDOM_SAMPLING_MAPPINGS_PRUNING)
+            runs = RANDOM_SAMPLING_RUNS;
+        cout << file << endl;
+        int gatesOriginal;
+        int depthProposed;
+        double timeProposed;
+        for (int j = 0; j < runs; ++j) {
+            cout << "run #: " << j << endl;
+            QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
 //        quArchitecture.printCouplingMatrix();
 //        cout << quArchitecture;
-        QuCircuit& circuit = quCircuitGenerator.getCircuit();
-        circuit.setFileName(inputFiles[i]);
-        Util::println(file + " : ");
-        Util::timeIt(false);
-        int gatesOriginal = circuit.getInstructions().size();
-        circuit.findTotalSwaps(quArchitecture);
-        double timeProposed = Util::timeIt(true); // todo loss due to cast
+            QuCircuit &circuit = quCircuitGenerator.getCircuit();
+            circuit.setFileName(inputFiles[i]);
+            Util::println(file + " : ");
+            Util::timeIt(false);
+            gatesOriginal = circuit.getInstructions().size();
+            circuit.findTotalSwaps(quArchitecture);
+            timeProposed = Util::timeIt(true); // todo loss due to cast
 
-        int hadamards = circuit.getHadamards();  // todo  check whether hadamards coming correct
-        int swaps = circuit.getSwaps();  // todo find swaps separately
-        int totalCost = hadamards + swaps * 7;
-        unsigned int gatesProposed = totalCost + gatesOriginal;
+            int hadamards = circuit.getHadamards();  // todo  check whether hadamards coming correct
+            int swaps = circuit.getSwaps();  // todo find swaps separately
+            int totalCost = hadamards + swaps * 7;
+            unsigned int gatesProposed = totalCost + gatesOriginal;
 //        unsigned int gatesProposed = circuit.getInstructionsV1().size() + totalSwaps * 6; // 7 elementary gates per swap, 1 already counted as swap itself
 
-        quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
+            quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
 //        quCircuitGenerator.buildGrid();
-        quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
-        int depthProposed = quCircuitGenerator.getLayer() + 1;
-        results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
-        circuit.printGrid();
-        circuit.printSimpleGrid();
+            quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
+            depthProposed = quCircuitGenerator.getLayer() + 1;
+            if (gatesProposed < minGates) {
+                minGates = gatesProposed;
+                minSwaps = swaps;
+                minHadamards = hadamards;
+            }
+            if (gatesProposed > max)
+                max = gatesProposed;
+            total += gatesProposed;
+            cout <<  "\tg* = " << gatesProposed << endl;
+//            results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
+        }
+        average = total / runs;
+        cout << "min : " << minGates << endl;
+        cout << "max : " << max << endl;
+        cout << "avg : " << average << endl;
+        results.push_back(Result(file, minSwaps, gatesOriginal, minGates, depthProposed, minHadamards, timeProposed));
+        //        circuit.printGrid();
+//        circuit.printSimpleGrid();
     }
     return results;
 }

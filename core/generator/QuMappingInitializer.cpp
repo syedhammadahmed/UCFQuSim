@@ -32,19 +32,19 @@ void QuMappingInitializer::generateMappings() {
 //    int n = str.size();
 //    Util::permute(str, 0, n-1, QuMappingInitializer::perms);
 //}
-
-void QuMappingInitializer::makeSmartCouples(QuArchitecture& quArchitecture){
-    couplingMapAdjList.resize(quArchitecture.getN());
-
-    for(int i = 0; i < quArchitecture.getN(); i++) {
-        for (int j = 0; j < quArchitecture.getN(); j++){
-            if ((i != j) && (quArchitecture.getCouplingMap()[i][j] > 0)){
-                 couples.push_back(make_pair(i, j));
-                couplingMapAdjList[i].push_back(j);
-                couplingMapAdjList[j].push_back(i);
-            }
-        }
-    }
+//
+//void QuMappingInitializer::makeSmartCouples(QuArchitecture& quArchitecture){
+//    couplingMapAdjList.resize(quArchitecture.getN());
+//
+//    for(int i = 0; i < quArchitecture.getN(); i++) {
+//        for (int j = 0; j < quArchitecture.getN(); j++){
+//            if ((i != j) && (quArchitecture.getCouplingMap()[i][j] > 0)){
+//                 couples.push_back(make_pair(i, j));
+//                couplingMapAdjList[i].push_back(j);
+//                couplingMapAdjList[j].push_back(i);
+//            }
+//        }
+//    }
 // make couples according to src freq priority
 //    vector<pair<int, int>> srcPriorityListPhysical = quArchitecture.getSrcFreqPriorityList();
 //    vector<pair<int, int>> targetPriorityListPhysical = quArchitecture.getTargetFreqPriorityList();
@@ -65,7 +65,7 @@ void QuMappingInitializer::makeSmartCouples(QuArchitecture& quArchitecture){
 //            couples.push_back(make_pair(item, pair.second));
 //        }
 //    }
-}
+//}
 
 void QuMappingInitializer::makeCouples(QuArchitecture& quArchitecture){
     couplingMapAdjList.resize(quArchitecture.getN());
@@ -261,17 +261,24 @@ PriorityNode QuMappingInitializer::allocateTopRankNode(){
 vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture) {
     vector<QuMapping> initMappings;
 
-    buildPhysicalQuBitPriorityLists(quArchitecture);
-
-    if (INIT_MAPPING_START_NODE_RANK_WISE) {
-        buildRankGraph(restrictionListSources);
-        makeSmartCouples(quArchitecture);  // makes an adj list of coupling map for restriction mappings
-        startingNode = allocateTopRankNode(); // starting point of init mapping allocation
+    if (INIT_MAPPING_DEFAULT_ONLY) {
+        initMappings.clear(); // todo remove it.. just testing..
+        QuMapping initialMapping(n);
+        initialMapping.defaultInit();
+        initMappings.insert(initMappings.begin(), initialMapping);
     }
-    else
-        makeCouples(quArchitecture);
+    else {
+        buildPhysicalQuBitPriorityLists(quArchitecture);
 
-    // testing.. begin todo remove this and uncomment line that follows the block
+        if (INIT_MAPPING_START_NODE_RANK_WISE) {
+            buildRankGraph(restrictionListSources);
+            startingNode = allocateTopRankNode(); // starting point of init mapping allocation
+            makeCouples(quArchitecture);  // makes an adj list of coupling map for restriction mappings
+        }
+        else
+            makeCouples(quArchitecture);
+
+        // testing.. begin todo remove this and uncomment line that follows the block
 
 //    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[0].first), permInput.end());
 //    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[0].second), permInput.end());
@@ -284,67 +291,62 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 //    restrictedMapping.setValueAt(2, 6);
 //    restrictedMapping.setValueAt(14, 5);
 
-    // testing.. end
+        // testing.. end
 
-    // todo remove next 2 lines after testing
+        // todo remove next 2 lines after testing
 //    restrictionPairs.clear();
 //    restrictedMapping.strongInit();
 
-    if (INIT_MAPPING_RESTRICT_MODE) {
-        for (int i = 0; i < restrictionPairs.size(); i++) {
-            restrict(restrictionPairs[i].first, restrictionPairs[i].second);
-            if (!permInput.empty()) {
-                permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
-                permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second),
-                                permInput.end());
+        if (INIT_MAPPING_RESTRICT_MODE) {
+            for (int i = 0; i < restrictionPairs.size(); i++) {
+                restrict(restrictionPairs[i].first, restrictionPairs[i].second);
+                if (!permInput.empty()) {
+                    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
+                    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second),
+                                    permInput.end());
+                }
             }
         }
-    }
 //
-    //    for(int i=0; i<restrictionPairs.size(); i++){
+        //    for(int i=0; i<restrictionPairs.size(); i++){
 //        permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
 //        permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second), permInput.end());
 //
 //        restrict(restrictionPairs[i].first, restrictionPairs[i].second);
 //    }
-    int totalPermutations = TOTAL_PERM;
+        int totalPermutations = TOTAL_PERM;
 
-    if (RANDOM_SAMPLING_INIT_MAPPINGS) {
-        perms = Util::getNRandomPermutations(totalPermutations, permInput);
-    }
-    else {
-        // no random sampling start
-        if (permInput.size() > 10) // 10! perms
-            permInput.erase(permInput.begin() + 10, permInput.end());
-        Util::permute(permInput, 0, permInput.size() - 1, perms);
-
-        if (perms.size() > totalPermutations) { // todo random sampling - DONE
-            perms.erase(perms.begin() + totalPermutations - 1, perms.end());
+        if (RANDOM_SAMPLING_INIT_MAPPINGS) {
+            perms = Util::getNRandomPermutations(totalPermutations, permInput);
         }
-        // no random sampling end
+        else {
+            // no random sampling start
+            if (permInput.size() > 10) // 10! perms
+                permInput.erase(permInput.begin() + 10, permInput.end());
+            Util::permute(permInput, 0, permInput.size() - 1, perms);
+
+            if (perms.size() > totalPermutations) { // todo random sampling - DONE
+                perms.erase(perms.begin() + totalPermutations, perms.end());
+            }
+            // no random sampling end
+        }
+
+        totalPermutations = perms.size();
+        for(int i=0; i<totalPermutations; i++){
+            initMappings.push_back(getNextMapping());
+        }
     }
-
-    totalPermutations = perms.size();
-    for(int i=0; i<totalPermutations; i++){
-        initMappings.push_back(getNextMapping());
-    }
-    // todo remove duplicate mappings
-//    std::unique(initMappings.begin(), initMappings.end(), MappingEqualityComparator());
-
-
-//    initMappings.clear(); // todo remove it.. just testing..
-//    QuMapping initialMapping;
-//    initialMapping.defaultInit();
-//    initMappings.insert(initMappings.begin(), initialMapping);
-
-    // remove duplicate initial mappings
-
-    auto it = std::unique (initMappings.begin(), initMappings.end());   // (no changes)
-    initMappings.resize( std::distance(initMappings.begin(),it) );
 
     return initMappings;
 }
 
+bool QuMappingInitializer::pred(QuMapping &a, QuMapping &b) {
+    for (int i = 0; i < a.getN(); ++i) {
+        if (a.getValueAt(i) != b.getValueAt(i))
+            return false;
+    }
+    return true;
+}
 
 pair<int, int> QuMappingInitializer::getSmartCouple(int first, int second) {
     int physical1 = -1, physical2 = -1;

@@ -31,8 +31,8 @@ private:
     unsigned int totalSwaps;
     unsigned int totalHadamards;
     vector<vector<int>> mappingWiseShortestPathCosts;
-    vector<vector<int>> minMappingWiseShortestPathCosts;
-    vector<vector<int>> theMappingWiseShortestPathCosts;
+    vector<vector<vector<int>>> mappingWiseShortestPaths;
+
     vector<int> selectedNonUnaryInstructionIds;
     vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
     QuGate* currentInstruction;

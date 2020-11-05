@@ -89,6 +89,7 @@ using namespace std;
 //
 //}
 
+
 int main() {
     const int quBits = 16;
     const int MAX_DEPTH = 10;

@@ -190,6 +190,14 @@ vector<vector<int>> Util::getNRandomPermutations(int n, vector<int> result) {
     }
     return perms;
 }
+
+void Util::setVerbose() {
+    verbose = true;
+}
+
+void Util::resetVerbose() {
+    verbose = false;
+}
 //
 //vector<int> Util::getMappingIndexSamples(int threshold, unsigned long size) {
 //    unordered_set<int> samples;

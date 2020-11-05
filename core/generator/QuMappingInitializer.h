@@ -11,9 +11,9 @@
 
 class QuMappingInitializer {
 private:
-    int n{}; // # of qubits
-    int l{}; // logical qubits
-    int count{}; // permutation count
+    int n; // # of qubits
+    int l; // logical qubits
+    int count; // permutation count
     QuMapping defaultMapping;
 //    vector<string> perms;
     vector<vector<int>> perms;
@@ -62,7 +62,7 @@ public:
 
     int findNearest(int logicalQuBit);
 
-    bool pred(QuMapping &a, QuMapping &b);
+    static bool pred(QuMapping &a, QuMapping &b);
 
     bool myfunction(int i, int j);
 

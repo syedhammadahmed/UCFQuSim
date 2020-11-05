@@ -145,7 +145,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     sort(srcFrequencies.begin(), srcFrequencies.end(), Util::sortBySecDesc);
     sort(destFrequencies.begin(), destFrequencies.end(), Util::sortBySecDesc);
 
-    cout << endl;
+//    cout << endl;
     vector<int> freq;
 //    cout << "Logical Src Freq Priority List: (top k instructions) " << endl;
     for (auto const& x: srcFrequencies) {
@@ -154,14 +154,14 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     }
     circuit.setSrcFrequencies(freq);
     freq.clear();
-    cout << endl;
+//    cout << endl;
 //    cout << "Logical Target Freq Priority List:  (top k instructions)" << endl;
     for (auto const& x: destFrequencies) {
 //        cout << x.first << " : " << x.second << endl;
         freq.push_back(x.second);
     }
     circuit.setDestFrequencies(freq);
-    cout << endl;
+//    cout << endl;
 
 
     //    QuGate*** grid;
@@ -313,6 +313,7 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
             instruction += ";";
             ofs << instruction << endl;
         }
+        ofs.close();
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';
     }

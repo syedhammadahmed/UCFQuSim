@@ -5,6 +5,8 @@
 #include <iostream>
 #include <dirent.h>
 #include <sys/stat.h>
+//#include <dirent.h>
+//#include <sys/stat.h>
 //#include <direct.h>
 //#include <direct.h>
 #include "QuMultiEvaluator.h"

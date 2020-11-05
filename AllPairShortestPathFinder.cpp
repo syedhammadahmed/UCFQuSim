@@ -6,6 +6,7 @@
 #include <climits>
 #include <iostream>
 #include <sstream>
+#include <util/Util.h>
 #include "AllPairShortestPathFinder.h"
 
 AllPairShortestPathFinder::AllPairShortestPathFinder(int **graph, int n):n(n) {
@@ -70,7 +71,8 @@ pair<vector<int>, int> AllPairShortestPathFinder::getSPSequence(int src, int des
     if (i != j) {
         auto u = i;
         auto v = j;
-        std::cout << "(" << u << " -> " << v << ", " << distance[i][j] << ", ";
+        if (Util::verbose)
+            std::cout << "(" << u << " -> " << v << ", " << distance[i][j] << ", ";
         std::stringstream path;
         path << u;
         this->path.push_back(u);
@@ -79,7 +81,8 @@ pair<vector<int>, int> AllPairShortestPathFinder::getSPSequence(int src, int des
             path << " -> " << u;
             this->path.push_back(u);
         } while (u != v);
-        std::cout << path.str() << ")" << std::endl;
+        if (Util::verbose)
+            std::cout << path.str() << ")" << std::endl;
     }
     return make_pair(path, distance[i][j]) ;
 }

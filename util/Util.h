@@ -45,6 +45,9 @@ public:
 //    static vector<int> getMappingIndexSamples(int threshold, unsigned long size);
 
     static unordered_set<int> getNRandomIndexes(int sampleSize, int rangeUpperBound);
+
+    static void setVerbose();
+    static void resetVerbose();
 };
 
 
