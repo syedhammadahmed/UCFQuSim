@@ -20,9 +20,6 @@ QuMultiGenerator::QuMultiGenerator(const string& inputDirectory, const string& o
 //    remove((directoryPath + outputSubDirectoryName).c_str());
 // ubuntu
 //    mkdir((outputDirectory).c_str(), 0777);
-
-// windows
-//
 }
 
 // reads file names and saves in a vector
@@ -60,9 +57,9 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         if (RANDOM_SAMPLING_INIT_MAPPINGS || RANDOM_SAMPLING_MAPPINGS_PRUNING)
             runs = RANDOM_SAMPLING_RUNS;
         cout << file << endl;
-        int gatesOriginal;
-        int depthProposed;
-        double timeProposed;
+        int gatesOriginal = 0;
+        int depthProposed = 0;
+        double timeProposed = 0;
         for (int j = 0; j < runs; ++j) {
             cout << "run #: " << j << endl;
             QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);

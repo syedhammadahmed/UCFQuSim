@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <core/Config.h>
 #include "QuCircuitGenerator.h"
 #include "QuGateFactory.h"
 #include "util/Util.h"
@@ -57,9 +58,11 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     int i = 0;
     cols = 0;
     vector<int> qubits;
+
     vector<pair<int ,int>> srcFrequencies(architecture.getN(), make_pair(-1, 0));
     vector<pair<int ,int>> destFrequencies(architecture.getN(), make_pair(-1, 0));
     vector<pair<int ,int>> commons(architecture.getN());
+
     std::vector<pair<int ,int>>::iterator it;
 //    int layer = -1;
     int duals = 0;
@@ -78,48 +81,45 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     while (!ifs.eof()){
         i = 0;
         pos1 = 0;
-        pos2 = 0;
         string line;
         getline(ifs, line);
-//        cout << ">>> " << line << "<<<\t\t";
         if(line == "") continue;
         stringstream lineStream(line);
         getline(lineStream, quGate, ' '); // mnemonic for qu-gate e.g. h for Hadamard, x for NOT, cx for C-NOT, etc.
         qubitArgs = line.substr(quGate.length()); // operands for the qu-gate - can be 1, 2, or 3 [simulator doesn't supports 4-operand qu-gates]
-//        cout << ">>>> " << quGate << " --- " << qubitArgs << endl;
         if((quGate.find("[") != string::npos) || (qubitArgs.find("[") != string::npos)) {
             while (pos1 != string::npos) {
                 pos1 = qubitArgs.find("[", pos1 + 1);
                 pos2 = qubitArgs.find("]", pos1 + 1);
                 if ((pos1 != string::npos) && (pos2 != string::npos)) {
-//                    cout << ">>>> " << stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1)) << " <<<<" << endl;
                     operandIndexes[i++] = stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1));
                 }
             }
 
-//            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
             if(quGate != "qreg" && quGate != "creg" && quGate != "measure") {
-                string theta = "";
+                string theta;
                 if(quGate.substr(0,2) == "rz") {
                     pos1 = quGate.find("(");
                     pos2 = quGate.find(")");
                     theta = quGate.substr(pos1 + 1, pos2 - pos1 - 1);
-//                    theta = stof(quGate.substr(pos1 + 1, pos2 - pos1 - 1));
                     quGate = "rz";
                 }
                 QuGate *newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     newGate->setArgAtIndex(j, operandIndexes[j]);
-                    newGate->setTheta(theta);
-                    qubits.push_back(operandIndexes[j]);
-                    if (j==0 && newGate -> getCardinality() > 1 && duals < 8) {
-                        srcFrequencies[operandIndexes[j]].first = operandIndexes[j];
-                        srcFrequencies[operandIndexes[j]].second++;
-                    }
-                    if (j==1 && duals < 8) {
-                        destFrequencies[operandIndexes[j]].first = operandIndexes[j];
-                        destFrequencies[operandIndexes[j]].second++;
-                        duals++;
+                    newGate->setTheta(theta); // for rz
+                    qubits.push_back(operandIndexes[j]); // to find unique logical qubits used in program
+                    // for ranking
+                    if (INIT_MAPPING_START_NODE_RANK_WISE) {
+                        if (j == 0 && newGate->getCardinality() > 1 && duals < K) {
+                            srcFrequencies[operandIndexes[j]].first = operandIndexes[j];
+                            srcFrequencies[operandIndexes[j]].second++;
+                        }
+                        if (j == 1 && duals < K) {
+                            destFrequencies[operandIndexes[j]].first = operandIndexes[j];
+                            destFrequencies[operandIndexes[j]].second++;
+                            duals++;
+                        }
                     }
                 }
 //                layer++;
@@ -142,31 +142,20 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     qubits.resize(std::distance(qubits.begin(),qit));
     circuit.setN(*(qubits.end()-1) + 1);
 
-    sort(srcFrequencies.begin(), srcFrequencies.end(), Util::sortBySecDesc);
-    sort(destFrequencies.begin(), destFrequencies.end(), Util::sortBySecDesc);
+    // for ranking
+    if (INIT_MAPPING_START_NODE_RANK_WISE) {
+        sort(srcFrequencies.begin(), srcFrequencies.end(), Util::sortBySecDesc);
+        sort(destFrequencies.begin(), destFrequencies.end(), Util::sortBySecDesc);
 
-//    cout << endl;
-    vector<int> freq;
-//    cout << "Logical Src Freq Priority List: (top k instructions) " << endl;
-    for (auto const& x: srcFrequencies) {
-//        cout << x.first << " : " << x.second << endl;
-        freq.push_back(x.second);
+        vector<int> freq;
+        for (auto const &x: srcFrequencies)
+            freq.push_back(x.second);
+        circuit.setSrcFrequencies(freq);
+        freq.clear();
+        for (auto const &x: destFrequencies)
+            freq.push_back(x.second);
+        circuit.setDestFrequencies(freq);
     }
-    circuit.setSrcFrequencies(freq);
-    freq.clear();
-//    cout << endl;
-//    cout << "Logical Target Freq Priority List:  (top k instructions)" << endl;
-    for (auto const& x: destFrequencies) {
-//        cout << x.first << " : " << x.second << endl;
-        freq.push_back(x.second);
-    }
-    circuit.setDestFrequencies(freq);
-//    cout << endl;
-
-
-    //    QuGate*** grid;
-//    QuMapping mapping;
-
 }
 
 
@@ -258,36 +247,9 @@ int QuCircuitGenerator::getLayerForNewGate(vector<int> quBits, int operands) {
     for(int i = 0; i < operands; i++) {
         quBitRecentLayer[quBits[i]] = layer;
     }
-
-//    if(operands > 1) {
-//        // if a gate is b/w a binary S and T qbits of the new gate in the same layer
-//        max = gates[0];
-//        int min = gates[0];
-//        for (int i = 1; i < operands; i++) {
-//            if (gates[i] > max) max = gates[i];
-//            if (gates[i] < min) min = gates[i];
-//        }
-//
-//        while (somethingInBetween(min + 1, max - 1, layer)) {
-//            layer++;
-//            for (int i = 0; i < operands; i++) {
-//                quBitRecentLayer[gates[i]] = layer;
-//            }
-//        }
-//
-//        //    for(int i = 0; i < operands; i++) {
-//        //        quBitRecentLayer[gates[i]] = layer;
-//        //    }
-//    }
     return layer;
 }
 
-//bool QuCircuitGenerator::somethingInBetween(int row1, int row2, int layer) {
-//    for (int i = row1; i <= row2; i++)
-//        if (grid[i][layer] != NULL)
-//            return true;
-//    return false;
-//}
 bool QuCircuitGenerator::somethingInBetween(int row1, int row2, int layer) {
     if (row1 > row2)
         swap(row1, row2);

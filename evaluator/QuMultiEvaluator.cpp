@@ -9,6 +9,8 @@
 //#include <sys/stat.h>
 //#include <direct.h>
 //#include <direct.h>
+#include <cstdio>
+
 #include "QuMultiEvaluator.h"
 #include "QuCircuitEvaluator.h"
 #include "generator/QuCircuitGenerator.h"
@@ -62,8 +64,9 @@ void QuMultiEvaluator::deletePreviousFiles() {
     while ((dirPtr = readdir(dir)) != NULL) {
         if(string(dirPtr->d_name) == "." || string(dirPtr->d_name) == "..")
             continue;
-        filepath =  directory + "/" + dirPtr->d_name;
-        remove(filepath.c_str());
+        filepath =  directory + dirPtr->d_name;
+        int x = remove(filepath.c_str());
+        cout << x << endl;
     }
     closedir(dir);
 }
