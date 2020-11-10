@@ -119,6 +119,17 @@ void QuMapping::print() {
     }
 }
 
+string QuMapping::toString() {
+    string mappingStr = "";
+    for (int i = 0; i < n; i++) {
+        mappingStr += to_string(i) + "->" + to_string(physicalToLogical[i]);
+        if(i<n-1)
+            mappingStr += ", ";
+    }
+    return mappingStr;
+}
+
+
 void QuMapping::quSwapLogical(int i, int j) {
     int pi = getPhysicalBit(i);
     int pj = getPhysicalBit(j);

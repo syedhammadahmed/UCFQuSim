@@ -59,7 +59,7 @@ public:
     unsigned int getHadamards() const;
     void mappingSanityCheck();
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
-    int caterHadamardCostAndFilterPaths();
+    int findShortestPathsMinimumCost();
     void prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths, unsigned int min, QuArchitecture& quArchitecture);
     void optimize(vector<QuGate*>& finalProgram);
     int performCNOTCancellations(vector<QuGate *> &vector);
@@ -71,7 +71,10 @@ public:
     int findTotalSwapsDefault(QuArchitecture &quArchitecture);
     int findTotalSwapsDAG(QuArchitecture &quArchitecture);
     void updateMappingIdsForDitto();
-};
 
+    bool currentInstructionSameAsPrevious(QuGate *previous, QuGate *current);
+    void doExtraHadamardFiltering(QuGate* currentInstruction, QuArchitecture& quArchitecture);
+
+};
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H

@@ -7,22 +7,14 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include <core/Config.h>
+#include "core/Config.h"
 #include "QuCircuitGenerator.h"
 #include "QuGateFactory.h"
 #include "util/Util.h"
 
 using namespace std;
 
-//QuCircuitGenerator::QuCircuitGenerator(QuCircuit& circuit) : layer(-1), circuit(circuit) {
-//    rows = circuit.getRows();
-//    quBitRecentLayer = new int[rows];
-//    for(int i=0; i<rows; i++)
-//        quBitRecentLayer[i] = -1;
-//}
-
-QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture):circuit(architecture), architecture(architecture), layer(-1) {
-//    circuit = new QuCircuit(architecture);
+QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture):circuit(architecture), architecture(architecture), grid(nullptr), simpleGrid(nullptr), cols(0), layer(-1) {
     rows = architecture.getN();
     quBitRecentLayer = new int[rows];
     for(int i=0; i<rows; i++)
@@ -30,23 +22,12 @@ QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture):circuit(arc
 }
 
 QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture, string inputFileAbsPath):circuit(architecture), architecture(architecture), layer(-1), inputFileAbsPath(inputFileAbsPath) {
-//    circuit = new QuCircuit(architecture);
     rows = architecture.getN();
     quBitRecentLayer = new int[rows];
     for(int i=0; i<rows; i++)
         quBitRecentLayer[i] = -1;
     buildFromFile(inputFileAbsPath);
 }
-
-
-//
-//QuCircuitGenerator::QuCircuitGenerator(QuCircuit &circuit, QuArchitecture &architecture):circuit(circuit), architecture(architecture), layer(-1) {
-//    rows = circuit.getRows();
-//    quBitRecentLayer = new int[rows];
-//    for(int i=0; i<rows; i++)
-//        quBitRecentLayer[i] = -1;
-//}
-
 
 void QuCircuitGenerator::buildFromFile(string fileName) {
     ifstream ifs;
@@ -109,7 +90,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
                     newGate->setArgAtIndex(j, operandIndexes[j]);
                     newGate->setTheta(theta); // for rz
                     qubits.push_back(operandIndexes[j]); // to find unique logical qubits used in program
-                    // for ranking
+                    // for ranking todo: not used -- may remove
                     if (INIT_MAPPING_START_NODE_RANK_WISE) {
                         if (j == 0 && newGate->getCardinality() > 1 && duals < K) {
                             srcFrequencies[operandIndexes[j]].first = operandIndexes[j];
@@ -142,7 +123,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     qubits.resize(std::distance(qubits.begin(),qit));
     circuit.setN(*(qubits.end()-1) + 1);
 
-    // for ranking
+    // for ranking todo: not used -- may remove
     if (INIT_MAPPING_START_NODE_RANK_WISE) {
         sort(srcFrequencies.begin(), srcFrequencies.end(), Util::sortBySecDesc);
         sort(destFrequencies.begin(), destFrequencies.end(), Util::sortBySecDesc);
@@ -158,46 +139,6 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     }
 }
 
-
-//
-//QuGate* QuCircuitGenerator::parseInstruction(string line){
-//    QuGate* newGate = nullptr;
-//    string quGate = "", qubitArgs = "";
-//
-//    if(!line.empty()) {
-//        stringstream lineStream(line);
-//        getline(lineStream, quGate, ' '); // mnemonic for qu-gate e.g. h for Hadamard, x for NOT, cx for C-NOT, etc.
-//        qubitArgs = line.substr(quGate.length()); // operands for the qu-gate - can be 1, 2, or 3 [simulator doesn't supports 4-operand qu-gates]
-//    //        cout << ">>>> " << quGate << " --- " << qubitArgs << endl;
-////        if((quGate.find("[") != string::npos) || (qubitArgs.find("[") != string::npos)) {
-//        int pos1 = qubitArgs.find("[");
-//        int pos2 = qubitArgs.find("]", pos1 + 1);
-//            while (pos1 != string::npos) {
-////                pos2 = qubitArgs.find("[", pos1 + 1);
-//                if ((pos1 != string::npos) && (pos2 != string::npos)) {
-//    //                    cout << ">>>> " << stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1)) << " <<<<" << endl;
-//                    operandIndexes[i++] = stoi(qubitArgs.substr(pos1 + 1, pos2 - pos1 - 1));
-//                }
-//            }
-//
-//            if(quGate != "qreg" && quGate != "creg" && quGate != "measure" && quGate != "rz" && quGate.substr(0,2) != "rz") {
-//                QuGate *newGate = QuGateFactory::getQuGate(quGate);
-//                for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
-//                    int* arr = newGate->getArgIndex();
-//                    arr[j] = operandIndexes[j];
-//                }
-//    //                layer++;
-//    //                layer = getLayerForNewGate(operandIndexes, newGate -> getCardinality());
-//    //                add(newGate, layer); // adds to grid
-//                instructions.push_back(newGate);
-//                cols++;
-//            }
-//    }
-//
-//    return newGate;
-//}
-
-
 void QuCircuitGenerator::buildGrid() {
     init2(); // make grid
     try {
@@ -205,22 +146,17 @@ void QuCircuitGenerator::buildGrid() {
         for (QuGate *newGate: instructions) {
             int operands = newGate -> getCardinality();
             vector<int> args = newGate -> getArgIndex();
-//            for (int j = 0; j < operands; j++) { // set gate operand qubits
-                layer = getLayerForNewGate(args, operands);
-                add(newGate, layer); // adds to grid
-                addSimple(newGate, layer, currentInstruction);
-//            }
+            layer = getLayerForNewGate(args, operands);
+            add(newGate, layer); // adds to grid
+            addSimple(newGate, layer, currentInstruction);
             currentInstruction++;
         }
         circuit.setGrid(grid);
         circuit.setSimpleGrid(simpleGrid);
-//        circuit.printGrid();
-//        circuit.printSimpleGrid();
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';
     }
 }
-
 
 void QuCircuitGenerator::add(QuGate* gate, int depth) {
     vector<int> quBits = gate -> getArgIndex();
@@ -323,10 +259,6 @@ void QuCircuitGenerator::init2() {
 
 void QuCircuitGenerator::setInstructions(const vector<QuGate*> instructions) {
     this -> instructions = instructions;
-}
-
-const vector<QuGate*> QuCircuitGenerator::getInstructions() const{
-    return instructions;
 }
 
 int QuCircuitGenerator::getLayer() const {

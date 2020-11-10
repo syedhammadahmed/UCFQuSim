@@ -27,13 +27,13 @@ public:
     AllShortestPathsFinder(int **graph, int n);
 
     // Prints all paths from 'src' to 'dest'
-    void printAllPaths(int src, int dest, int swaps);
+    void findAllPaths(int src, int dest, int swaps);
 
     // A recursive function to print all paths from src to dest.
     // visited[] keeps track of vertices in current path.
     // path[] stores actual vertices
     // path_index is current index in path[]
-    void printAllPathsUtil(int src, int dest, bool visited[], int path[], int &path_index, int swaps);
+    void findAllPathsUtil(int src, int dest, bool visited[], int path[], int &path_index, int swaps);
 
     vector<vector<int>> findSingleSourceAllShortestPaths(int src, int dest, int swaps);
 

@@ -72,7 +72,7 @@ pair<vector<int>, int> AllPairShortestPathFinder::getSPSequence(int src, int des
         auto u = i;
         auto v = j;
         if (Util::verbose)
-            std::cout << "(" << u << " -> " << v << ", " << distance[i][j] << ", ";
+            std::cout << "shortest path: (" << u << " -> " << v << " || " << distance[i][j] << " || ";
         std::stringstream path;
         path << u;
         this->path.push_back(u);

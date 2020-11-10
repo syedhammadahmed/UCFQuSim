@@ -31,54 +31,35 @@ public:
     static const int MAX_OPERANDS = 3;
 
     QuGate();
-//    QuGate(int depth); // default cardinality = 1, isElemenatary = false
-//    QuGate(int depth, bool isElementary); // default cardinality = 1
-//    QuGate(int depth, bool isElementary, int cardinality);
-
     QuGate(int cardinality, std::string symbol, string mnemonic);
     QuGate(int cardinality, std::string symbol, string mnemonic, int printIndex);
 
     QuBit& operator[](int);
 
-    virtual ~QuGate();
     friend std::ostream &operator<<(std::ostream &os, const QuGate& quGate);
 
+    virtual ~QuGate();
     virtual void apply(QuBit*, int) = 0;
 
-    std::string getSymbol() const;
-
+    string getSymbol() const;
     int getCardinality() const;
-
     int getPrintIndex() const;
-
     void setPrintIndex(int printIndex);
-
-    std::string getPrintSymbol();
-
+    string getPrintSymbol();
     const string &getMnemonic() const;
-
     void setMnemonic(const string &mnemonic);
     bool isUnary();
-
     int getArgAtIndex(int index) const;
-
     void setArgAtIndex(int index, int val);
-
     const vector<int> &getArgIndex() const;
-
     void setArgIndex(const vector<int> &argIndex);
-
     string getTheta() const;
-
     void setTheta(string theta);
-
     int getGateId() const;
-
     void setGateId(int gateId);
 
     bool operator==(QuGate& arg);
     bool operator!=(QuGate& arg);
-//    void operator=(QuGate& arg);
     bool isDitto(QuGate* instruction);
 };
 

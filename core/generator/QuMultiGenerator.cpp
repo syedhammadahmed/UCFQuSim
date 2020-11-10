@@ -63,24 +63,19 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         for (int j = 0; j < runs; ++j) {
             cout << "run #: " << j << endl;
             QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
-//        quArchitecture.printCouplingMatrix();
-//        cout << quArchitecture;
             QuCircuit &circuit = quCircuitGenerator.getCircuit();
             circuit.setFileName(inputFiles[i]);
             Util::println(file + " : ");
             Util::timeIt(false);
             gatesOriginal = circuit.getInstructions().size();
-            circuit.findTotalSwaps(quArchitecture);
+            unsigned int totalCost = circuit.findTotalSwaps(quArchitecture);
             timeProposed = Util::timeIt(true); // todo loss due to cast
-
-            int hadamards = circuit.getHadamards();  // todo  check whether hadamards coming correct
-            int swaps = circuit.getSwaps();  // todo find swaps separately
-            int totalCost = hadamards + swaps * 7;
+            unsigned int hadamards = circuit.getHadamards();
+            unsigned int swaps = circuit.getSwaps();
+//            int totalCost = hadamards + swaps * 7;
             unsigned int gatesProposed = totalCost + gatesOriginal;
-//        unsigned int gatesProposed = circuit.getInstructionsV1().size() + totalSwaps * 6; // 7 elementary gates per swap, 1 already counted as swap itself
 
             quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
-//        quCircuitGenerator.buildGrid();
             quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
             depthProposed = quCircuitGenerator.getLayer() + 1;
             if (gatesProposed < minGates) {

@@ -11,7 +11,7 @@
 using namespace std;
 
 // Prints all paths from 's' to 'd'
-void AllShortestPathsFinder::printAllPaths(int src, int dest, int swaps)
+void AllShortestPathsFinder::findAllPaths(int src, int dest, int swaps)
 {
     // Mark all the vertices as not visited
     bool *visited = new bool[n];
@@ -25,17 +25,18 @@ void AllShortestPathsFinder::printAllPaths(int src, int dest, int swaps)
         visited[i] = false;
 
     // Call the recursive helper function to print all paths
-    printAllPathsUtil(src, dest, visited, path, path_index, swaps);
+    findAllPathsUtil(src, dest, visited, path, path_index, swaps);
 
     delete [] visited;
     delete [] path;
 }
 
+// todo find src reference
 // A recursive function to print all paths from 'u'  to 'd'.
 // visited[] keeps track of vertices in current path.
 // path[] stores actual vertices
 // path_index is current index in path[]
-void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[],
+void AllShortestPathsFinder::findAllPathsUtil(int src, int dest, bool visited[],
                               int path[], int &path_index, int swaps)
 {
     // Mark the current node and store it in path[]
@@ -65,7 +66,7 @@ void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[]
         list<int>::iterator i;
         for (i = adj[src].begin(); i != adj[src].end(); ++i)
             if (!visited[*i])
-                printAllPathsUtil(*i, dest, visited, path, path_index, swaps);
+                findAllPathsUtil(*i, dest, visited, path, path_index, swaps);
     }
 
     // Remove current vertex from path[] and mark it as unvisited
@@ -76,7 +77,7 @@ void AllShortestPathsFinder::printAllPathsUtil(int src, int dest, bool visited[]
 
 vector<vector<int>> AllShortestPathsFinder::findSingleSourceAllShortestPaths(int src, int dest, int swaps) {
     allSwapPaths.clear();
-    printAllPaths(src, dest, swaps);
+    findAllPaths(src, dest, swaps);
     return allSwapPaths;
 }
 

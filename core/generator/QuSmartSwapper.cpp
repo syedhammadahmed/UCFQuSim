@@ -85,16 +85,10 @@ int QuSmartSwapper::findTotalSwapsDAG(QuArchitecture& quArchitecture) {
             for (int i = 0; i < inputMappings.size(); i++) {
                 swapPath.clear();   // for 1 SP
                 allSPFSwapPaths.clear();    // for all SPs
-                // find cost for a particular input mapping for the current instruction
+                // find min cost among all shortest paths for a particular input mapping for the current instruction
                 unsigned int costCurrentMapping = findSwapsFor1Instruction(currentInstruction,
                                                              quArchitecture.getCouplingMap()); // acc. to current mapping before perm
                 mappingWiseShortestPaths.push_back(allSPFSwapPaths);    // all SPFs for current instruction & current mapping
-
-                Util::setVerbose();
-                Util::println(
-                        "Mapping #: " + to_string(i) + ": cost: " + to_string(costCurrentMapping) + ", swaps: " + to_string(swaps) +
-                        ", hadamards: " + to_string(hadamards));
-                Util::resetVerbose();
 
                 if (costCurrentMapping < minCostInstruction) {
                     minCostInstruction = costCurrentMapping;
@@ -197,30 +191,17 @@ int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
 
     removeUnaryInstructions();
 
-    Util::println("nonUnaryInstructions size: " + to_string(nonUnaryInstructions.size()));
     QuGate* previousInstruction = nullptr;
     for(QuGate* currentInstruction: nonUnaryInstructions){
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
         this->currentInstruction = currentInstruction;
-        if (previousInstruction != nullptr && (previousInstruction->isDitto(currentInstruction))) {
-            instructionWiseMappings.push_back(instructionWiseMappings[instructionWiseMappings.size()-1]);
-            updateMappingIdsForDitto();
-            Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
-            programCounter++;
+        if(currentInstructionSameAsPrevious(previousInstruction, currentInstruction))
             continue;
-        }
 
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
 
         perInstructionMappingCounter = 0;   // needed in getCurrentMapping()
-
-        if(Util::verbose) {
-            cout << "Current Instruction: " << *currentInstruction << endl;  //todo commented to print results
-            cout << "Program Counter: " << programCounter << "/" << nonUnaryInstructions.size()-1 << endl;
-        }
-        Util::println("inputMappings.size(): " + to_string(inputMappings.size()));
-
         mappingWiseShortestPathCosts.clear();
         mappingWiseShortestPathCosts.resize(inputMappings.size());
         mappingWiseShortestPaths.clear();
@@ -232,11 +213,9 @@ int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
         for(int i=0; i<inputMappings.size(); i++){
             swapPath.clear();   // for 1 SP
             allSPFSwapPaths.clear();    // for all SPs
-            // find cost count for a particular input mapping
-            unsigned int costCurrentMapping = findSwapsFor1Instruction(currentInstruction, quArchitecture.getCouplingMap()); // acc. to current mapping
-            mappingWiseShortestPaths.push_back(allSPFSwapPaths);    // all SPFs for current instruction & current mapping + last element is cost
-
-            Util::print("Mapping #: " + to_string(i) + ": cost: " + to_string(costCurrentMapping) + ", swaps: " + to_string(swaps) + ", hadamards: " + to_string(hadamards));
+            // find min cost among all shortest paths for a particular input mapping for the current instruction
+            unsigned int costCurrentMapping = findSwapsFor1Instruction(currentInstruction, quArchitecture.getCouplingMap());
+            mappingWiseShortestPaths.push_back(allSPFSwapPaths);    // all SPFs for current instruction & current mapping
 
             if (costCurrentMapping < minCost) {
                 minCost = costCurrentMapping;
@@ -259,16 +238,16 @@ int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
 //        Util::resetVerbose();
         prepareMappingsForNextInstruction(inputMappings, mappingWiseShortestPaths, minCost, quArchitecture);
 
+        doExtraHadamardFiltering(currentInstruction, quArchitecture);
+
         Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
         programCounter++;
         previousInstruction = currentInstruction;
     }
-
     delete allSPF;
     delete allPairShortestPathFinder;
 
     return totalCost;
-
 }
 
 int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
@@ -286,23 +265,13 @@ int QuSmartSwapper::findTotalSwaps(QuArchitecture& quArchitecture) {
 vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inputMapping, vector<int> swapSequence, QuArchitecture& quArchitecture) {
     vector<QuMapping> mappings;
     unsigned int totalMoves = swapSequence.size() - 2;
-    Util::print("Swap Sequence: ");
-    Util::printPath(swapSequence);
-//    vector<int> quBitIndexes = nonUnaryInstructions[programCounter]->getArgIndex(); // logical qubit index values
     vector<int> quBitIndexes = currentInstruction->getArgIndex(); // logical qubit index values
     int src = quBitIndexes[0];
     int dest = quBitIndexes[1];
     int srcMoves = 0;
     int destMoves = 0;
-    Util::println("Program Counter: " + to_string(programCounter));
-    if(Util::verbose) cout << "Current Instruction: " << (*currentInstruction) << endl;
-//    if(Util::verbose) cout << "Current Instruction: " << (*nonUnaryInstructions[programCounter]) << endl;
-//    if(quArchitecture.isAdjacent(inputMapping.getPhysicalBit(src), inputMapping.getPhysicalBit(dest)))
-//        return instructionWiseMappings[programCounter-1];
-//    if(totalMoves > 0 && !quArchitecture.isAdjacent(inputMapping.getPhysicalBit(src), inputMapping.getPhysicalBit(dest))){
     if(totalMoves > 0){
         for (unsigned int i = 0; i <= totalMoves; i++) {
-//            Util::println("Permutation #: " + to_string(i));
             QuMapping mapping = inputMapping;
             vector<Swap> swapGates;
             vector<int> srcSeq, destSeq, tempSeq;
@@ -311,52 +280,26 @@ vector<QuMapping> QuSmartSwapper::findAllMappingsFromPermutations(QuMapping& inp
             srcSeq.push_back(mapping.getPhysicalBit(src));
             for (int j = 0; j < srcMoves; j++) {
                 int val = swapSequence.at(j + 1);
-//                Util::println("Logical Swap: <" + to_string(src) + ", " + to_string(mapping.getLogicalMapping(val)) + ">");  // todo commented for results print.
-//                Util::println("Physical Swap: <" + to_string(mapping.getPhysicalBit(src)) + ", " + to_string(val) + ">");  // todo commented for results print.
                 srcSeq.push_back(val);
             }
             destSeq.push_back(mapping.getPhysicalBit(dest));
             for (int j = 0; j < destMoves; j++) {
-//                Util::println("Logical Swap: <" + to_string(mapping.getLogicalMapping(swapSequence[totalMoves - j])) + ", " + to_string(dest) + ">"); // todo commented for results print.
-//                Util::println("Physical Swap: <" + to_string(swapSequence[totalMoves - j]) + ", " + to_string(mapping.getPhysicalBit(dest)) + ">"); // todo commented for results print.
                 destSeq.push_back(swapSequence[totalMoves - j]);
             }
-//            Util::println("Before: "); // todo commented for results print.
-//            mapping.print();
-//            Util::println("After: ");
+            // add swap instructions to mapping
             vector<Swap> swapGatesTemp;
             if (srcSeq.size()>1) {
                 swapGatesTemp = mapping.fixMappings(srcSeq);
                 swapGates.insert(swapGates.begin(), swapGatesTemp.begin(), swapGatesTemp.end());
             }
-    //        for(int i=0;)
-    //        reverse(destSeq.begin(), destSeq.end());
-//            Util::println("srcSeq + destSeq : START");
-//            printSwapPath(srcSeq);
-//            Util::println("srcSeq + destSeq : MID ");
-//            printSwapPath(destSeq);
-//            Util::println("srcSeq + destSeq : END ");
-//
             if (destSeq.size()>1) {
                 swapGatesTemp = mapping.fixMappings(destSeq);
                 swapGates.insert(swapGates.end(), swapGatesTemp.begin(), swapGatesTemp.end());
             }
-            Util::println("");
-
-////            mapping.print();
-////            mapping.setParentMappingId(parentId);
-//            // todo add swap instructions to mapping
             if(swapGates.size()>0) {
                 mapping.setSwapInstructions(swapGates);
                 mappings.push_back(mapping);
             }
-//            tempSeq.insert(tempSeq.end(),srcSeq.begin(), srcSeq.end());
-//            tempSeq.insert(tempSeq.end(),destSeq.begin(), destSeq.end());
-//            Util::print("srcSeq: ");
-//            Util::printPath(srcSeq);
-//            Util::print("destSeq: ");
-//            Util::printPath(destSeq);
-
         }
     }
     if(mappings.empty()) { // no swap happened so copy it after removing swaps
@@ -469,16 +412,22 @@ vector<QuMapping> QuSmartSwapper::generateInitialMappings() {
 
 vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     vector<QuMapping> mappings;
+    string pid = "*";
     if (!programCounter) {  // 1st instruction
         mappings = generateInitialMappings();
-        int i = 0;
-        for (auto& mapping: mappings) {
-            mapping.setParentMappingId("*");
-            mapping.setMappingId("0." + to_string(i)); //temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
-            i++;
-        }
     } else {
         mappings = instructionWiseMappings[programCounter-1];
+    }
+    int i = 0;
+    for (auto& mapping: mappings) {
+        if(programCounter>0){
+            mapping.setParentMappingId(mapping.getMappingId());
+        }
+        else {
+            mapping.setParentMappingId(pid);
+        }
+        mapping.setMappingId(to_string(programCounter) + "." + to_string(i));
+        i++;
     }
 
     if (RANDOM_SAMPLING_MAPPINGS_PRUNING) {
@@ -512,6 +461,7 @@ QuMapping QuSmartSwapper::getCurrentMapping() {
     return currentMapping;
 }
 
+// returns the minimum total cost of all shortest paths before permutations
 int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **couplingMap) {
     vector<int> quBitIndexes = currentInstruction -> getArgIndex(); // logical qubit index values
     swaps = 0;
@@ -519,29 +469,21 @@ int QuSmartSwapper::findSwapsFor1Instruction(QuGate *currentInstruction, int **c
 //    int edgeDistance = 0;
 
     QuMapping mapping = getCurrentMapping();
-//    cout << "programCounter|perInstructionMappingCounter|mapping.isLegit(): " << programCounter<< "|" << perInstructionMappingCounter << "|" << mapping.isLegit() << endl;
-    // todo SHA: take the architecture pic and map the current mapping and closely debug (mappings[0])
-    Util::println("quBitIndexes[0]: " + to_string(quBitIndexes[0]));
-    Util::println("quBitIndexes[1]: " + to_string(quBitIndexes[1]));
+    cout << "mappping: " << mapping.toString() << endl;
 
     int src = mapping.getPhysicalBit(quBitIndexes[0]);
     int dest = mapping.getPhysicalBit(quBitIndexes[1]);
 
-    string temp = to_string(src) + "," + to_string(dest);
     // returns the shortest path and the cost as a pair
     pair<vector<int>, int> result = allPairShortestPathFinder->getSPSequence(src, dest);
     shortestPath = result.first;
 //    edgeDistance = result.second; // # of swaps + 1 OR # of hops OR edge distance
-//    Util::println("[QuSmartSwapper::findSwapsFor1Instruction:253] shortestPath b/w " + temp + ": [" + Util::pathToString(shortestPath) + "]; path size: " + to_string(cost));
-
-    Util::println("shortestPath.size(): " + to_string(shortestPath.size()));
     swaps = shortestPath.size() - 2;
-
-    if (swaps > 0)
+    if (swaps > 0) // find all shortest paths
         allSPFSwapPaths = allSPF->findSingleSourceAllShortestPaths(src, dest, swaps); // todo find shortest w/o swaps arg
     else
         allSPFSwapPaths.push_back(shortestPath);
-    return caterHadamardCostAndFilterPaths();
+    return findShortestPathsMinimumCost();
 }
 
 vector<int> QuSmartSwapper::swapAlongPath(int* parent, int source, int destination) {
@@ -830,7 +772,6 @@ void QuSmartSwapper::mappingSanityCheck() {
 
 int QuSmartSwapper::calculateHadamardCost(vector<int> shortestPath, int **couplingMap) {
     int hadamards = 0;
-
     for (int i = 0; i < shortestPath.size() - 1; ++i) {
         if (couplingMap[shortestPath[i]][shortestPath[i+1]] == -1)
             hadamards += 4;
@@ -838,11 +779,9 @@ int QuSmartSwapper::calculateHadamardCost(vector<int> shortestPath, int **coupli
     return hadamards;
 }
 
-int QuSmartSwapper::caterHadamardCostAndFilterPaths() {
+int QuSmartSwapper::findShortestPathsMinimumCost() {
     int minCost = INT_MAX;
     for (auto& path: allSPFSwapPaths) {
-        Util::print("shortest path: ");
-        Util::printPath(path);
         int hadamardCost = calculateHadamardCost(path, architecture.getCouplingMap());
         int swapCost = (path.size() - 2) * 7;
         int totalCost = hadamardCost + swapCost;
@@ -857,52 +796,24 @@ int QuSmartSwapper::caterHadamardCostAndFilterPaths() {
 }
 
 void QuSmartSwapper::prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths, unsigned int min, QuArchitecture& quArchitecture) {
-    // remove larger swap paths and mappings
-//    int mappingCount = 0;
     vector<QuMapping> nextInstructionMappings;
     vector<vector<vector<int>>> filteredMappingWiseShortestPaths;
     vector<QuMapping> filteredInputMappings;
 
-//    mappingCount = 0;
     for(int i=0; i<inputMappings.size(); i++){
-//        int currentCost = mappingWiseShortestPaths[mappingCount][0][mappingWiseShortestPaths[mappingCount][0].size()-1];
         vector<int> temp = mappingWiseShortestPathCosts[i];
-//        vector<int> temp = theMappingWiseShortestPathCosts[i];
-        sort(temp.begin(), temp.end());
-//        Util::setVerbose();
-        Util::printPath(temp);
-//        Util::resetVerbose();
-        int currentCost = temp[0]; // as all costs same so just get the 1st one
-//        int currentCost = mappingWiseShortestPathCosts[i][0]; // as all costs same so just get the 1st one
-//        int currentCost = mappingWiseShortestPathCosts[mappingCount][0];
-//        Util::setVerbose();
-        Util::println("currentCost: " + to_string(currentCost) + "; minCost: " + to_string(min));
-//        Util::resetVerbose();
-        if (!mappingWiseShortestPaths[i].empty() &&
-            //                (mappingWiseShortestPaths[mappingCount][0].size() - 2 == min)) {
-            (currentCost == min)) {
+//        sort(temp.begin(), temp.end());
+        int currentCost = temp[i];
+        if (!mappingWiseShortestPaths[i].empty() && (currentCost == min)) {
             filteredInputMappings.push_back(inputMappings[i]);
             filteredMappingWiseShortestPaths.push_back(mappingWiseShortestPaths[i]);
-//            cout << "mappingWiseShortestPaths[" << i << "] = " << Util::pathToString(mappingWiseShortestPaths[i]) << endl;
-            // test print start
-            Util::println("Mapping: " + to_string(i));
-            inputMappings[i].print();
-            for(auto& p: mappingWiseShortestPaths[i])
-                Util::printPath(p);
-            // test print end
         }
-//        mappingCount++;
     }
-
-    Util::println("inputMappings.size(): " + to_string(inputMappings.size()));
-    Util::println("filteredInputMappings.size(): " + to_string(filteredInputMappings.size()));
 
     vector<QuMapping> temp;
     for (unsigned int j = 0; j < filteredInputMappings.size(); j++) {  // todo check why default mapping not filtered
         vector<QuMapping> allPermutationMappings;
         filteredInputMappings[j].clearSwapInstructions();
-        Util::println("Program Counter : " + to_string(programCounter));
-        Util::println("Mapping #: " + to_string(j));
 
         for (unsigned int k = 0; k < filteredMappingWiseShortestPaths[j].size(); k++) {
             //todo legit mystery?!
@@ -912,21 +823,26 @@ void QuSmartSwapper::prepareMappingsForNextInstruction(vector<QuMapping> &inputM
                 temp.insert(temp.end(), filteredInputMappings[j]);
             }
             else {
-//                cout << "filteredMappingWiseShortestPaths[" << j << "][" << k << "]: ";
-                Util::println(pathString);
                 allPermutationMappings = findAllMappingsFromPermutations(filteredInputMappings[j],
                                                                          filteredMappingWiseShortestPaths[j][k],
                                                                          quArchitecture);
-//                if (allPermutationMappings.size() > MAPPING_THRESHOLD / filteredInputMappings.size())
-//                    allPermutationMappings.erase(allPermutationMappings.begin() + MAPPING_THRESHOLD / filteredInputMappings.size() - 1, allPermutationMappings.end());
                 temp.insert(temp.end(), allPermutationMappings.begin(), allPermutationMappings.end());
             }
         }
     }
+
     Util::println("# of mappings from permutations: (temp.size) "  + to_string(temp.size()));
     for(int i=0; i<temp.size(); i++){
+        if(programCounter > 0) {
             temp[i].setParentMappingId(temp[i].getMappingId());
             temp[i].setMappingId(to_string(programCounter) + "." + to_string(i));
+        }
+        cout << "PPPPPPPPPPPPPPPPPPPPPPPP" << "temp[i].getMappingId(): " << temp[i].getMappingId();
+        cout << " || temp[i].getParentMappingId(): " << temp[i].getParentMappingId() << " ";
+        cout << temp[i].toString() << endl;
+        cout << " || programCounter: " << programCounter;
+        cout << " || mapping counter: " << i << endl;
+
     }
 
     if(!temp.empty()){
@@ -1111,5 +1027,41 @@ void QuSmartSwapper::updateMappingIdsForDitto() {
         mapping.setMappingId(to_string(programCounter) + "." + to_string(i));
         i++;
     }
+    cout << "temp" << endl;
+}
 
+bool QuSmartSwapper::currentInstructionSameAsPrevious(QuGate *previous, QuGate *current) {
+    if (previous != nullptr && (previous->isDitto(currentInstruction))) {
+        instructionWiseMappings.push_back(instructionWiseMappings[instructionWiseMappings.size()-1]);
+        updateMappingIdsForDitto();
+        Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
+        programCounter++;
+        return true;
+    }
+    return false;
+}
+
+void QuSmartSwapper::doExtraHadamardFiltering(QuGate *currentInstruction, QuArchitecture &quArchitecture) {
+    auto srcLogical = currentInstruction->getArgAtIndex(0);
+    auto targetLogical = currentInstruction->getArgAtIndex(1);
+
+    auto mappings = instructionWiseMappings[instructionWiseMappings.size()-1];
+    cout << "mappings size old: " << mappings.size() << endl;
+    auto it = mappings.begin();
+    while(it != mappings.end()){
+        cout << it->toString() << endl;
+        if(!quArchitecture.isCompatable(it->getPhysicalBit(srcLogical), it->getPhysicalBit(targetLogical))){
+            cout << "YAYAYAYYYAYAYAYAYYA : "  << srcLogical << " => " << targetLogical << " not compatable!!" << endl;
+            it = mappings.erase(it);
+        }
+        else
+            ++it;
+    }
+    if (!mappings.empty()) {
+        cout << "empty" << endl;
+        instructionWiseMappings[instructionWiseMappings.size()-1] = mappings;
+    }
+
+    cout << "mappings size new: " << mappings.size();
+    cout << endl;
 }

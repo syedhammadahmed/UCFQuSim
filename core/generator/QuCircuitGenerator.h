@@ -34,8 +34,6 @@ public:
     QuCircuitGenerator(QuArchitecture& architecture, string inputFileAbsPath);
     ~QuCircuitGenerator();
 
-    void removeUnaryInstructions();
-
     void buildFromFile(string fileName); // then call this; this creates grid as well as vector of instructions
     void buildGrid();
     void init2();
@@ -49,10 +47,8 @@ public:
 
     void setInstructions(const vector<QuGate*> instructions);
     int getLayer() const;
-    const vector<QuGate*> getInstructions() const;
     QuCircuit& getCircuit();
 
-    QuGate *parseInstruction(string line);
 };
 
 

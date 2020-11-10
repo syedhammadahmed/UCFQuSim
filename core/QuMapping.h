@@ -90,6 +90,8 @@ public:
 
     void setN(int n);
     bool isLegit();
+
+    string toString();
 };
 
 
