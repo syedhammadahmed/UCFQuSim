@@ -231,11 +231,6 @@ int QuSmartSwapper::findTotalSwapsDefault(QuArchitecture& quArchitecture) {
         totalSwaps += minSwap;
         totalHadamards += minHadamard;  // todo totalHadamards value not correct..
 
-//        Util::setVerbose();
-        Util::print("Min Mapping: cost = " + to_string(minCost)); //todo commented to print results
-        Util::print("swaps = " + to_string(minSwap)); //todo commented to print results
-        Util::println("hadamards = " + to_string(minHadamard)); //todo commented to print results
-//        Util::resetVerbose();
         prepareMappingsForNextInstruction(inputMappings, mappingWiseShortestPaths, minCost, quArchitecture);
 
         doExtraHadamardFiltering(currentInstruction, quArchitecture);
