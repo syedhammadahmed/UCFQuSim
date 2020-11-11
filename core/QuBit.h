@@ -1,5 +1,5 @@
 //
-// Created by hammad on 9/25/19.
+// Created by SHA on 9/25/19.
 //
 
 #ifndef UCFQUSIM_QUBIT_H

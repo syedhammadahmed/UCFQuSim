@@ -1,5 +1,5 @@
 //
-// Created by hammad on 11/19/19.
+// Created by SHA on 11/19/19.
 //
 
 #ifndef UCFQUSIM_QUSMARTSWAPPER_H
@@ -40,27 +40,27 @@ private:
 public:
     QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);
 
-    int findTotalSwaps(QuArchitecture& quArchitecture) override;
-    int findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) override;
+    int findTotalSwaps() override;
+    int findCostFor1Instruction(QuGate *quGate, int **couplingMap) override;
     vector<int> swapAlongPath(int* parent, int source, int destination) override;
     QuMapping getCurrentMapping() override;
 
     vector<QuMapping> getAllMappingsForCurrentInstruction();
-    vector<QuMapping> findAllMappingsFromPermutations(QuMapping& mapping, vector<int> sequence, QuArchitecture& quArchitecture);
+    vector<QuMapping> findAllMappingsFromPermutations(QuMapping& mapping, vector<int> sequence);
     void insertSwapGates(int source, int destination);
     vector<QuGate*> removeUnaryInstructions();
     unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
     int insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex);
     void insertEndingUnaryInstructions(vector<QuGate *> &finalProgram);
     void hadamardCheck(vector<QuGate*>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
-    void generateOptimalInstructions(QuArchitecture &quArchitecture);
+    void generateOptimalInstructions();
     vector<QuMapping> generateInitialMappings();
     pair<vector<pair<int, int>>, vector<pair<int, int>>> makeRestrictionPairList(int k);
     unsigned int getHadamards() const;
     void mappingSanityCheck();
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
     int findShortestPathsMinimumCost();
-    void prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths, unsigned int min, QuArchitecture& quArchitecture);
+    void prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths, unsigned int min);
     void optimize(vector<QuGate*>& finalProgram);
     int performCNOTCancellations(vector<QuGate *> &vector);
     int performUnaryCancellations(vector<QuGate *> &finalProgram);
@@ -68,13 +68,14 @@ public:
     vector<int> getCurrentInstructionIds();
     vector<QuGate *> getKRestrictInstructions(int k);
     bool isNewInsturction(QuGate *currentInstruction, vector<QuGate *> &instructions);
-    int findTotalSwapsDefault(QuArchitecture &quArchitecture);
-    int findTotalSwapsDAG(QuArchitecture &quArchitecture);
+    int findTotalCostDefault();
+    int findTotalCostDAG();
     void updateMappingIdsForDitto();
 
     bool currentInstructionSameAsPrevious(QuGate *previous, QuGate *current);
     void doExtraHadamardFiltering(QuGate* currentInstruction, QuArchitecture& quArchitecture);
 
+    void init();
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H

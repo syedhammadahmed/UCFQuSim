@@ -1,5 +1,5 @@
 //
-// Created by hammad on 9/26/19.
+// Created by SHA on 9/26/19.
 //
 
 #include <iostream>
@@ -313,17 +313,17 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 //}
 
 
-int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
+int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-//    int swaps = strategy->findSwapsFor1Instruction(quGate, couplingMap);
+//    int swaps = strategy->findCostFor1Instruction(quGate, couplingMap);
 //    delete strategy;
 //    return swaps;
     return 0;
 }
 
 
-//int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
+//int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, rows);
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate
@@ -347,7 +347,7 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    return swaps;
 //}
 
-//int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
+//int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, rows);
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate
@@ -383,16 +383,9 @@ int QuCircuit::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
 //}
 
 int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
-//    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-    int n = 0;
-    int min = INT32_MAX;
-    int max = INT32_MIN;
-
-//    vector<QuGate*> minFinalProgram;
     QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
-    cost = strategy->findTotalSwaps(quArchitecture);
-//    vector<QuGate*> finalProgram;
-    ((QuSmartSwapper*)strategy)->generateOptimalInstructions(quArchitecture);
+    cost = strategy->findTotalSwaps();
+    ((QuSmartSwapper*)strategy)->generateOptimalInstructions();
     delete strategy;
     return cost;
 }

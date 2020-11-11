@@ -1,5 +1,5 @@
 //
-// Created by hammad on 2/21/20.
+// Created by SHA on 2/21/20.
 //
 
 #ifndef UCFQUSIM_QUMULTIGENERATOR_H

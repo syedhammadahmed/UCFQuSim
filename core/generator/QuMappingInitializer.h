@@ -1,5 +1,5 @@
 //
-// Created by YUSHAH on 7/24/2020.
+// Created by SHA on 7/24/2020.
 //
 
 #ifndef UCFQUSIM_QUMAPPINGINITIALIZER_H

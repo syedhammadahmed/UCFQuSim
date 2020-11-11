@@ -1,5 +1,5 @@
 //
-// Created by hammad on 11/19/19.
+// Created by SHA on 11/19/19.
 //
 
 #include <ShortestPathFinder.h>
@@ -7,7 +7,7 @@
 #include "QuNaiiveSwapper.h"
 #include "QuGateFactory.h"
 
-int QuNaiiveSwapper::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) {
+int QuNaiiveSwapper::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
     ShortestPathFinder spf(couplingMap, circuit.getRows());
     int* parent = NULL;
     int cardinality = quGate -> getCardinality(); // # of qubits in a gate
@@ -40,12 +40,12 @@ int QuNaiiveSwapper::findSwapsFor1Instruction(QuGate *quGate, int **couplingMap)
 
 //QuNaiiveSwapper::QuNaiiveSwapper(QuCircuit &circuit) : QuSwapStrategy(circuit) {}
 
-int QuNaiiveSwapper::findTotalSwaps(QuArchitecture& quArchitecture)  {
+int QuNaiiveSwapper::findTotalSwaps()  {
     int total = 0;
 
     for(QuGate* quGate: circuit.getInstructions()){
         cout << "Instruction #: " << programCounter++ << endl;
-        total += findSwapsFor1Instruction(quGate, quArchitecture.getCouplingMap());
+        total += findCostFor1Instruction(quGate, architecture.getCouplingMap());
     }
     return total;
 }
