@@ -1,5 +1,5 @@
 //
-// Created by hammad on 11/19/19.
+// Created by SHA on 11/19/19.
 //
 
 #ifndef UCFQUSIM_QUMULTIEVALUATOR_H

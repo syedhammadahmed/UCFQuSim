@@ -1,5 +1,5 @@
 //
-// Created by hammad on 9/26/19.
+// Created by SHA on 9/26/19.
 //
 
 #include "QuSimulator.h"

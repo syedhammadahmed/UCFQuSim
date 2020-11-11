@@ -1,5 +1,5 @@
 //
-// Created by hammad on 11/19/19.
+// Created by SHA on 11/19/19.
 //
 
 #ifndef UCFQUSIM_QUSWAPSTRATEGY_H
@@ -17,8 +17,8 @@ protected:
     vector<int> swapPath;
     vector<vector<int>> allSPFSwapPaths;
 public:
-    virtual int findSwapsFor1Instruction(QuGate *quGate, int **couplingMap) = 0;
-    virtual int findTotalSwaps(QuArchitecture& quArchitecture) = 0;
+    virtual int findCostFor1Instruction(QuGate *quGate, int **couplingMap) = 0;
+    virtual int findTotalSwaps() = 0;
     QuSwapStrategy(QuCircuit& circuit, QuArchitecture& architecture);
     virtual vector<int> swapAlongPath(int* parent, int source, int destination) = 0;
     virtual QuMapping getCurrentMapping() = 0;

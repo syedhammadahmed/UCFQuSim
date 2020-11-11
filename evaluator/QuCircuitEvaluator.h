@@ -1,5 +1,5 @@
 //
-// Created by YUSHAH on 10/22/2019.
+// Created by SHA on 10/22/2019.
 //
 
 #ifndef UCFQUSIM_QUCIRCUITEVALUATOR_H

@@ -1,5 +1,5 @@
 //
-// Created by hammad on 9/26/19.
+// Created by SHA on 9/26/19.
 //
 
 #ifndef UCFQUSIM_QUCIRCUIT_H
@@ -64,7 +64,7 @@ public:
     int getLayerForNewGate(int gates[3], int operands);
     bool somethingInBetween(int row1, int row2, int layer);
     void initQuBitMappings(int **couplingMap);
-    int findSwapsFor1Instruction(QuGate* quGate, int **couplingMap);
+    int findCostFor1Instruction(QuGate* quGate, int **couplingMap);
     void initializeMappings();
     void initializeMappings(QuArchitecture& quArchitecture);
     void printMappings();

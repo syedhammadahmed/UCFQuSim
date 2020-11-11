@@ -1,5 +1,5 @@
 //
-// Created by hammad on 10/17/20.
+// Created by SHA on 10/17/20.
 //
 
 #ifndef UCFQUSIM_CONFIG_H
