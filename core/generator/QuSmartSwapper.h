@@ -46,7 +46,7 @@ public:
     QuMapping getCurrentMapping() override;
 
     vector<QuMapping> getAllMappingsForCurrentInstruction();
-    vector<QuMapping> findAllMappingsFromPermutations(QuMapping& mapping, vector<int> sequence);
+    pair<vector<QuMapping>, int> findAllMinCostMappingsFromPermutationsFor1Path(QuMapping& mapping, vector<int> sequence);
     void insertSwapGates(int source, int destination);
     vector<QuGate*> removeUnaryInstructions();
     unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
@@ -60,7 +60,7 @@ public:
     void mappingSanityCheck();
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
     int findShortestPathsMinimumCost();
-    void prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths, unsigned int min);
+    int prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths);
     void optimize(vector<QuGate*>& finalProgram);
     int performCNOTCancellations(vector<QuGate *> &vector);
     int performUnaryCancellations(vector<QuGate *> &finalProgram);

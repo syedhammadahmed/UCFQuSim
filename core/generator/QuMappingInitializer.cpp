@@ -398,8 +398,6 @@ QuMapping QuMappingInitializer::getNextMapping() {
         nextMapping.setValueAtNextFree(val);
     }
     nextMapping.setUnallocatedQuBits();
-    nextMapping.setMappingId("0." + to_string(count));
-    nextMapping.setParentMappingId("*");
     count++;
     return nextMapping;
 }
