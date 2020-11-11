@@ -321,6 +321,7 @@ pair<vector<QuMapping>, int> QuSmartSwapper::findAllMinCostMappingsFromPermutati
         minCost = mappingCosts[0];
         for (int i = 0; i < mappings.size(); ++i) {
             if (mappingCosts[i] == minCost) {
+                mappings[i].setParentMappingId(inputMapping.getMappingId());
                 filteredMappings.push_back(mappings[i]);
             }
         }
@@ -328,6 +329,7 @@ pair<vector<QuMapping>, int> QuSmartSwapper::findAllMinCostMappingsFromPermutati
     }
     else {
         QuMapping mapping = inputMapping;
+        mapping.setParentMappingId(inputMapping.getMappingId());
         mapping.clearSwapInstructions();
         filteredMappings.push_back(mapping);
         vector<int> boundaryPair;
@@ -448,20 +450,26 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     string pid = "*";
     if (!programCounter) {  // 1st instruction
         mappings = generateInitialMappings();
+        int i = 0;
+        for (auto& mapping: mappings) {
+            mapping.setParentMappingId(pid);
+            mapping.setMappingId(to_string(programCounter) + "." + to_string(i));
+            i++;
+        }
     } else {
         mappings = instructionWiseMappings[programCounter-1];
     }
-    int i = 0;
-    for (auto& mapping: mappings) {
-        if(programCounter>0){
-            mapping.setParentMappingId(mapping.getMappingId());
-        }
-        else {
-            mapping.setParentMappingId(pid);
-        }
-        mapping.setMappingId(to_string(programCounter) + "." + to_string(i));
-        i++;
-    }
+//    int i = 0;
+//    for (auto& mapping: mappings) {
+//        if(programCounter>0){
+//            mapping.setParentMappingId(mapping.getMappingId());
+//        }
+//        else {
+//            mapping.setParentMappingId(pid);
+//        }
+//        mapping.setMappingId(to_string(programCounter) + "." + to_string(i));
+//        i++;
+//    }
 
     if (RANDOM_SAMPLING_MAPPINGS_PRUNING) {
         // todo divide threshold among mappings
@@ -576,7 +584,9 @@ void QuSmartSwapper::generateOptimalInstructions() {
         vector<QuMapping> selectedMappings;
 
         int i;
-        for (i = nonUnarySize - 1; i >= 0; i--) { // todo n -1 or n - 2??
+        for (i = nonUnarySize - 1; i >= 0; i--) {
+            if (i==1)
+                cout << "temp";
             selectedMappings.insert(selectedMappings.begin(), theMapping);
             parentMappingId = theMapping.getParentMappingId();
             Util::parseMappingId(parentMappingId, parentProgramCounter, parentMappingCounter);
@@ -783,6 +793,7 @@ int QuSmartSwapper::prepareMappingsForNextInstruction(vector<QuMapping> &inputMa
     vector<int> minCostForAllMappings;
     vector<vector<QuMapping>> minMappingsForAllInputMappings;
     auto absoluteMin = 0;
+    auto absoluteMappingId = 0;
     for (unsigned int j = 0; j < filteredInputMappings.size(); j++) {  // todo check why default mapping not filtered
         vector<QuMapping> allMinMappings;
         filteredInputMappings[j].clearSwapInstructions();
@@ -840,6 +851,10 @@ int QuSmartSwapper::prepareMappingsForNextInstruction(vector<QuMapping> &inputMa
 
     if(!temp.empty()){
         Util::println("mappings generated for next instruction: size = " + to_string(temp.size()));
+        for (auto& mapping: temp) {
+            mapping.setMappingId(to_string(programCounter) + "." + to_string(absoluteMappingId));
+            absoluteMappingId++;
+        }
         nextInstructionMappings.insert(nextInstructionMappings.end(), temp.begin(), temp.end());
     }
 
