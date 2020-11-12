@@ -231,6 +231,14 @@ bool QuCircuitLayerManager::isNewInsturction(int instructionId, vector<int> firs
     return true;
 }
 
+unordered_map<int, QuGate *> QuCircuitLayerManager::getInstructionMap() {
+    unordered_map<int, QuGate*> instructionMap;
+    for (auto& instruction: instructions) {
+        instructionMap[instruction->getGateId()] = instruction;
+    }
+    return instructionMap;
+}
+
 //void QuCircuitLayerManager::updateSimpleGrid(int q1, int q2) {
 ////    for (int i = 0; i < rows; ++i) {
 ////        if (simpleGrid[i][0] != id)

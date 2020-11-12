@@ -24,14 +24,17 @@ int main() {
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
     QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX5);
 
-    vector<Result> results = quMultiGenerator.generateAllCircuits();
+    auto data = quMultiGenerator.generateAllCircuits();
+    auto results = data.first;
+    auto initialMappingsMap = data.second;
     Result::printHeader();
     for (Result result: results) {
         result.print();
     }
 
-//    quMultiEvaluator.loadFiles();
-//    quMultiEvaluator.evaluateAllCircuits();
+    quMultiEvaluator.setinitMappingsMap(initialMappingsMap);
+    quMultiEvaluator.loadFiles();
+    quMultiEvaluator.evaluateAllCircuits();
 
     return 0;
 }

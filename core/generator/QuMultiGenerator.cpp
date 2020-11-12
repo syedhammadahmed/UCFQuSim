@@ -7,8 +7,9 @@
 #include <sys/stat.h>
 #include <iostream>
 #include <iomanip>
-#include <util/Result.h>
-#include <core/Config.h>
+#include <unordered_map>
+#include "util/Result.h"
+#include "core/Config.h"
 #include "QuMultiGenerator.h"
 #include "QuCircuitGenerator.h"
 
@@ -40,8 +41,10 @@ void QuMultiGenerator::loadFiles() {
 }
 
 
-vector<Result> QuMultiGenerator::generateAllCircuits() {
+pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generateAllCircuits() {
     vector<Result> results;
+    unordered_map<string, QuMapping> initialMappingsMap;
+
     for(unsigned int i=0; i<inputFiles.size(); i++) {
         string inputFileAbsPath = inputDirectory + inputFiles[i];
         string file = inputFiles[i].substr(0, inputFiles[i].length() - 5); //removing .qasm extension
@@ -68,7 +71,9 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
             Util::println(file + " : ");
             Util::timeIt(false);
             gatesOriginal = circuit.getInstructions().size();
-            unsigned int totalCost = circuit.findTotalSwaps(quArchitecture);
+            auto data = circuit.findTotalSwaps(quArchitecture);
+            unsigned int totalCost = data.first;
+            auto initMapping = data.second;
             timeProposed = Util::timeIt(true); // todo loss due to cast
             unsigned int hadamards = circuit.getHadamards();
             unsigned int swaps = circuit.getSwaps();
@@ -77,6 +82,7 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
 
             quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
             quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
+            initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
             depthProposed = quCircuitGenerator.getLayer() + 1;
             if (gatesProposed < minGates) {
                 minGates = gatesProposed;
@@ -97,7 +103,7 @@ vector<Result> QuMultiGenerator::generateAllCircuits() {
         //        circuit.printGrid();
 //        circuit.printSimpleGrid();
     }
-    return results;
+    return make_pair(results, initialMappingsMap);
 }
 
 

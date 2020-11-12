@@ -69,7 +69,7 @@ public:
     void initializeMappings(QuArchitecture& quArchitecture);
     void printMappings();
     void printGrid();
-    int findTotalSwaps(QuArchitecture& quArchitecture);
+    pair<int, QuMapping> findTotalSwaps(QuArchitecture& quArchitecture);
     vector<int> swapAlongPath(int *parent, int source, int destination);
     void printInstructions();
 

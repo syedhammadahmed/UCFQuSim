@@ -382,12 +382,12 @@ int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 ////    cout << endl;
 //}
 
-int QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
+pair<int, QuMapping> QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
     QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
     cost = strategy->findTotalSwaps();
-    ((QuSmartSwapper*)strategy)->generateOptimalInstructions();
+    QuMapping initialMapping = ((QuSmartSwapper*)strategy)->generateOptimalInstructions();
     delete strategy;
-    return cost;
+    return make_pair(cost, initialMapping);
 }
 
 void QuCircuit::printInstructions() {

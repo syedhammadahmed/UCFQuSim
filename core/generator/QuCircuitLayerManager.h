@@ -6,6 +6,8 @@
 #define UCFQUSIM_QUCIRCUITLAYERMANAGER_H
 
 
+#include <bits/unordered_map.h>
+
 class QuCircuitLayerManager {
 
 private:
@@ -60,6 +62,8 @@ public:
     bool isNewInsturction(int instructionId,  vector<int> firstKIds);
 
     QuGate *getInstructionById(int id);
+
+    unordered_map<int, QuGate*> getInstructionMap();
 };
 
 

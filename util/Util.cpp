@@ -198,6 +198,15 @@ void Util::setVerbose() {
 void Util::resetVerbose() {
     verbose = false;
 }
+
+int Util::findMin(vector<int> arg) {
+    int min = arg[0];
+    for (int i = 1; i < arg.size(); ++i) {
+        if (arg[i] < min)
+            min = arg[i];
+    }
+    return min;
+}
 //
 //vector<int> Util::getMappingIndexSamples(int threshold, unsigned long size) {
 //    unordered_set<int> samples;

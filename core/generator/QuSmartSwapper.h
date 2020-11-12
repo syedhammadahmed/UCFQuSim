@@ -8,6 +8,7 @@
 
 #include <AllShortestPathsFinder.h>
 #include <AllPairShortestPathFinder.h>
+#include <unordered_map>
 #include "QuSwapStrategy.h"
 #include "QuMappingInitializer.h"
 #include "Config.h"
@@ -36,6 +37,7 @@ private:
     vector<int> selectedNonUnaryInstructionIds;
     vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
     QuGate* currentInstruction;
+    unordered_map<int, QuGate*> nonUnaryInstructionsMap;
 
 public:
     QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);
@@ -53,14 +55,14 @@ public:
     int insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex);
     void insertEndingUnaryInstructions(vector<QuGate *> &finalProgram);
     void hadamardCheck(vector<QuGate*>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
-    void generateOptimalInstructions();
+    QuMapping generateOptimalInstructions();
     vector<QuMapping> generateInitialMappings();
     pair<vector<pair<int, int>>, vector<pair<int, int>>> makeRestrictionPairList(int k);
     unsigned int getHadamards() const;
     void mappingSanityCheck();
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
     int findShortestPathsMinimumCost();
-    int prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings, vector<vector<vector<int>>>& mappingWiseShortestPaths);
+    int prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings);
     void optimize(vector<QuGate*>& finalProgram);
     int performCNOTCancellations(vector<QuGate *> &vector);
     int performUnaryCancellations(vector<QuGate *> &finalProgram);
@@ -76,6 +78,7 @@ public:
     void doExtraHadamardFiltering(QuGate* currentInstruction, QuArchitecture& quArchitecture);
 
     void init();
+
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H

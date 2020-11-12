@@ -9,7 +9,8 @@
 #include <core/QuArchitecture.h>
 #include <string>
 #include <vector>
-
+#include <core/QuMapping.h>
+#include <unordered_map>
 #include "util/Result.h"
 
 using namespace std;
@@ -27,7 +28,7 @@ private:
 
 public:
     QuMultiGenerator(const string& inputDirectory, const string& outputDirectory, QuArchitecture& quArchitecture);
-    vector<Result> generateAllCircuits();
+    pair<vector<Result>, unordered_map<string, QuMapping>> generateAllCircuits();
 
 //    void timeIt(bool isEnd);
 };

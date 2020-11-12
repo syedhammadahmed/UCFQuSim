@@ -34,8 +34,9 @@ void QuMultiEvaluator::evaluateAllCircuits(){
         QuCircuitGenerator testQuCircuitBuilder(quArchitecture);
         cout << "Evaluating intermediate output file: " << ofile << ": ";
         testQuCircuitBuilder.buildFromFile(directory + ofile);
+//        string name = ofile.substr(7, ofile.length()-1);
         QuCircuit& testCircuit = testQuCircuitBuilder.getCircuit();
-        QuCircuitEvaluator quCircuitEvaluator(testCircuit);
+        QuCircuitEvaluator quCircuitEvaluator(testCircuit, map[ofile]);
         bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(quArchitecture.getCouplingMap());
 //        cout << endl;
     }
@@ -71,4 +72,8 @@ void QuMultiEvaluator::deletePreviousFiles() {
         cout << x << endl;
     }
     closedir(dir);
+}
+
+void QuMultiEvaluator::setinitMappingsMap(unordered_map<string, QuMapping> map) {
+    this->map = map;
 }

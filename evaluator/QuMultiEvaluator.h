@@ -9,6 +9,8 @@
 #include <vector>
 
 #include <core/QuArchitecture.h>
+#include <unordered_map>
+#include "core/QuMapping.h"
 
 using namespace std;
 
@@ -18,7 +20,7 @@ private:
 
     QuArchitecture& quArchitecture;  // physical architecture
     vector<string> files;
-
+    unordered_map<string, QuMapping> map;
 
 public:
     const bool DELETE_PREVIOUS_FILES = true;
@@ -27,6 +29,8 @@ public:
     void loadFiles();
 
     void deletePreviousFiles();
+
+    void setinitMappingsMap(unordered_map<string, QuMapping> map);
 };
 
 

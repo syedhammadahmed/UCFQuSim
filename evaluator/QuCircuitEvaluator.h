@@ -11,11 +11,13 @@
 class QuCircuitEvaluator {
 private:
     QuCircuit& circuit;
+    QuMapping initialMapping;
     int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
     int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
 
 public:
     QuCircuitEvaluator(QuCircuit &circuit);
+    QuCircuitEvaluator(QuCircuit &circuit, QuMapping& initialMapping);
 
     virtual ~QuCircuitEvaluator();
 

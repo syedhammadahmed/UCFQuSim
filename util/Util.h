@@ -48,6 +48,8 @@ public:
 
     static void setVerbose();
     static void resetVerbose();
+
+    static int findMin(vector<int> arg);
 };
 
 
