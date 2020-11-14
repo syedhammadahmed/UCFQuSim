@@ -16,8 +16,10 @@ protected:
     int programCounter;
     vector<int> swapPath;
     vector<vector<int>> allSPFSwapPaths;
+    QuGate* currentInstruction;
+    unsigned int swaps;
 public:
-    virtual int findCostFor1Instruction(QuGate *quGate, int **couplingMap) = 0;
+    virtual void findShortestPathsFor1InputMapping() = 0;
     virtual int findTotalSwaps() = 0;
     QuSwapStrategy(QuCircuit& circuit, QuArchitecture& architecture);
     virtual vector<int> swapAlongPath(int* parent, int source, int destination) = 0;

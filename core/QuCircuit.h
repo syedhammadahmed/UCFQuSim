@@ -64,7 +64,7 @@ public:
     int getLayerForNewGate(int gates[3], int operands);
     bool somethingInBetween(int row1, int row2, int layer);
     void initQuBitMappings(int **couplingMap);
-    int findCostFor1Instruction(QuGate* quGate, int **couplingMap);
+    void findShortestPathsFor1InputMapping(QuGate* quGate, int **couplingMap);
     void initializeMappings();
     void initializeMappings(QuArchitecture& quArchitecture);
     void printMappings();
@@ -116,6 +116,8 @@ public:
     const vector<int> &getDestFrequencies() const;
 
     void setDestFrequencies(const vector<int> &destFrequencies);
+
+    void findCostFor1Instruction(QuGate *quGate, int **couplingMap);
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

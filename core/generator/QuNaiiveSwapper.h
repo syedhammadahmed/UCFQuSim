@@ -10,7 +10,7 @@
 
 class QuNaiiveSwapper: public QuSwapStrategy {
 public:
-    int findCostFor1Instruction(QuGate *quGate, int **couplingMap) override;
+    void findShortestPathsFor1InputMapping() override;
     int findTotalSwaps() override;
     vector<int> swapAlongPath(int* parent, int source, int destination) override;
     QuMapping getCurrentMapping() override;

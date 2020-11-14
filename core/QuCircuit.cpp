@@ -313,17 +313,17 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 //}
 
 
-int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
+void QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-//    int swaps = strategy->findCostFor1Instruction(quGate, couplingMap);
+//    int swaps = strategy->findShortestPathsFor1InputMapping(quGate, couplingMap);
 //    delete strategy;
 //    return swaps;
-    return 0;
+//    return 0;
 }
 
 
-//int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
+//int QuCircuit::findShortestPathsFor1InputMapping(QuGate *quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, rows);
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate
@@ -347,7 +347,7 @@ int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    return swaps;
 //}
 
-//int QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
+//int QuCircuit::findShortestPathsFor1InputMapping(QuGate *quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, rows);
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate

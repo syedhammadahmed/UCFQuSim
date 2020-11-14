@@ -28,7 +28,6 @@ private:
     QuMappingInitializer mappingInitializer;
     vector<QuMapping> initialMappings;
     unsigned int hadamards;
-    unsigned int swaps;
     unsigned int totalSwaps;
     unsigned int totalHadamards;
     vector<vector<int>> mappingWiseShortestPathCosts;
@@ -36,14 +35,14 @@ private:
 
     vector<int> selectedNonUnaryInstructionIds;
     vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
-    QuGate* currentInstruction;
+
     unordered_map<int, QuGate*> nonUnaryInstructionsMap;
 
 public:
     QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);
 
     int findTotalSwaps() override;
-    int findCostFor1Instruction(QuGate *quGate, int **couplingMap) override;
+    void findShortestPathsFor1InputMapping() override;
     vector<int> swapAlongPath(int* parent, int source, int destination) override;
     QuMapping getCurrentMapping() override;
 
@@ -62,7 +61,7 @@ public:
     void mappingSanityCheck();
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
     int findShortestPathsMinimumCost();
-    int prepareMappingsForNextInstruction(vector<QuMapping> &inputMappings);
+    int findMinCostMappingsForNextInstruction(vector<QuMapping> &inputMappings);
     void optimize(vector<QuGate*>& finalProgram);
     int performCNOTCancellations(vector<QuGate *> &vector);
     int performUnaryCancellations(vector<QuGate *> &finalProgram);
@@ -79,6 +78,7 @@ public:
 
     void init();
 
+    void findShortestPathsForAllInputMappings(vector<QuMapping> inputMappings);
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H

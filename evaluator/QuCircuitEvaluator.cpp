@@ -141,7 +141,7 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //    return count;
 //}
 
-//int QuCircuitEvaluator::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
+//int QuCircuitEvaluator::findShortestPathsFor1InputMapping(QuGate *quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, circuit.getRows());
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate

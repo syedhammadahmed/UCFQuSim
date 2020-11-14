@@ -6,7 +6,7 @@
 #include "QuGateFactory.h"
 
 
-QuSwapStrategy::QuSwapStrategy(QuCircuit &circuit, QuArchitecture& architecture): circuit(circuit), architecture(architecture), programCounter(0) {
+QuSwapStrategy::QuSwapStrategy(QuCircuit &circuit, QuArchitecture& architecture): circuit(circuit), architecture(architecture), programCounter(0), currentInstruction(nullptr) {
 //    cout << "QuSwapStrategy OK" << endl;
 }
 

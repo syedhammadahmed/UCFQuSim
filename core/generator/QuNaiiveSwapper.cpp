@@ -7,12 +7,13 @@
 #include "QuNaiiveSwapper.h"
 #include "QuGateFactory.h"
 
-int QuNaiiveSwapper::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
+void QuNaiiveSwapper::findShortestPathsFor1InputMapping() {
+    int **couplingMap = architecture.getCouplingMap();
     ShortestPathFinder spf(couplingMap, circuit.getRows());
     int* parent = NULL;
-    int cardinality = quGate -> getCardinality(); // # of qubits in a gate
-    vector<int> quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
-    int swaps = 0;
+    int cardinality = currentInstruction -> getCardinality(); // # of qubits in a gate
+    vector<int> quBitIndexes = currentInstruction -> getArgIndex(); // logical qubit index values
+    swaps = 0;
     QuMapping& mapping = circuit.getMapping();
     vector<int>& swapSequence = swapPath;
 //    vector<int>& swapSequence = circuit.getSwapPath();
@@ -34,8 +35,7 @@ int QuNaiiveSwapper::findCostFor1Instruction(QuGate *quGate, int **couplingMap) 
 //        mapping.print();
 //        Util::verbose = true;
     }
-    circuit.getInstructionsV1().push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
-    return swaps;
+    circuit.getInstructionsV1().push_back(currentInstruction); // new program which includes swap gates for CNOT-constraint satisfaction
 }
 
 //QuNaiiveSwapper::QuNaiiveSwapper(QuCircuit &circuit) : QuSwapStrategy(circuit) {}
@@ -45,7 +45,8 @@ int QuNaiiveSwapper::findTotalSwaps()  {
 
     for(QuGate* quGate: circuit.getInstructions()){
         cout << "Instruction #: " << programCounter++ << endl;
-        total += findCostFor1Instruction(quGate, architecture.getCouplingMap());
+        findShortestPathsFor1InputMapping();
+        total += swaps;
     }
     return total;
 }
