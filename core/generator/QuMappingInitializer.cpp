@@ -334,6 +334,8 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
         totalPermutations = perms.size();
         for(int i=0; i<totalPermutations; i++){
             initMappings.push_back(getNextMapping());
+            initMappings[i].setParentMappingId("*");
+            initMappings[i].setMappingId("0." + to_string(i));
         }
     }
 

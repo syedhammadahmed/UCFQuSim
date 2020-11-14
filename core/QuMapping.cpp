@@ -233,6 +233,10 @@ void QuMapping::setValueAt(int index, int value) {
         physicalToLogical[index] = value;
 }
 
+QuMapping::QuMapping(string mappingId) {
+    this->mappingId = mappingId;
+}
+
 QuMapping::QuMapping(bool doStrongInit) {
     if (doStrongInit)
         strongInit();

@@ -7,6 +7,7 @@
 #include <random>
 #include <algorithm>
 #include <unordered_set>
+#include <core/QuMapping.h>
 #include "Util.h"
 
 using namespace std;
@@ -231,3 +232,12 @@ int Util::findMin(vector<int> arg) {
 //
 //    return result;
 //}
+
+void Util::randomSampling(vector<QuMapping>& population, vector<QuMapping>& sample, int sampleSize){
+    // Create a random device and use it to generate a random seed
+    std::random_device myRandomDevice;
+    unsigned seed = myRandomDevice();
+    std::default_random_engine myRandomEngine(seed);
+    std::shuffle(population.begin(), population.end(), myRandomEngine);
+    sample.insert(sample.begin(), population.begin(), population.begin() + sampleSize);
+}

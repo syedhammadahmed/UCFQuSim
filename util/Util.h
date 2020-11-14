@@ -13,6 +13,7 @@
 #include <random>
 #include <chrono>
 #include <ctime>
+#include "QuMapping.h"
 
 using namespace std;
 
@@ -50,6 +51,9 @@ public:
     static void resetVerbose();
 
     static int findMin(vector<int> arg);
+
+    //https://www.gormanalysis.com/blog/random-numbers-in-cpp/#sampling-without-replacement
+    static void randomSampling(vector<QuMapping> &population, vector<QuMapping> &sample, int sampleSize);
 };
 
 

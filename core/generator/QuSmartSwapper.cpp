@@ -217,6 +217,7 @@ int QuSmartSwapper::findTotalCostDefault() {
 //            continue;
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();
+
         findShortestPathsForAllInputMappings(inputMappings);
         auto minCost = findMinCostMappingsForNextInstruction(inputMappings);
 //        doExtraHadamardFiltering(currentInstruction, architecture);
@@ -427,41 +428,18 @@ vector<QuMapping> QuSmartSwapper::generateInitialMappings() {
 vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     vector<QuMapping> mappings;
     string pid = "*";
-    if (!programCounter) {  // 1st instruction
+    if (!programCounter) // 1st instruction
         mappings = generateInitialMappings();
-        int i = 0;
-        for (auto& mapping: mappings) {
-            mapping.setParentMappingId(pid);
-            mapping.setMappingId(to_string(programCounter) + "." + to_string(i));
-            i++;
-        }
-    } else {
+    else
         mappings = instructionWiseMappings[programCounter-1];
-    }
-//    int i = 0;
-//    for (auto& mapping: mappings) {
-//        if(programCounter>0){
-//            mapping.setParentMappingId(mapping.getMappingId());
-//        }
-//        else {
-//            mapping.setParentMappingId(pid);
-//        }
-//        mapping.setMappingId(to_string(programCounter) + "." + to_string(i));
-//        i++;
-//    }
 
     if (RANDOM_SAMPLING_MAPPINGS_PRUNING) {
         // todo divide threshold among mappings
-        unsigned long threshold = MAPPING_THRESHOLD - 1;
+        vector<QuMapping> sampledMappings;
+        unsigned long threshold = MAPPING_THRESHOLD;
         if (mappings.size() <= threshold)
             threshold = mappings.size();
-        unordered_set<int> sampleIndexes = Util::getNRandomIndexes(threshold, mappings.size());
-        vector<QuMapping> sampledMappings(threshold);
-        int i = 0;
-        for (auto index: sampleIndexes) {
-            sampledMappings[i] = mappings[index];
-            i++;
-        }
+        Util::randomSampling(mappings, sampledMappings, threshold);
         mappings = sampledMappings;
     }
     else {

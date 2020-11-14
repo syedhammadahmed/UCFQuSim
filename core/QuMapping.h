@@ -17,6 +17,7 @@ using namespace std;
 
 class QuMapping {
 private:
+
 //    int* physicalToLogical;  // todo revert to dynamic logic
     int physicalToLogical[16];
     int n;
@@ -92,6 +93,8 @@ public:
     bool isLegit();
 
     string toString();
+
+    QuMapping(string mappingId);
 };
 
 
