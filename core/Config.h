@@ -5,7 +5,7 @@
 #ifndef UCFQUSIM_CONFIG_H
 #define UCFQUSIM_CONFIG_H
 
-#define DAG_SCHEME false
+#define DAG_SCHEME true
 #define INIT_MAPPING_RESTRICT_MODE true
 #define K 4
 #define INIT_MAPPING_DEFAULT_ONLY false
