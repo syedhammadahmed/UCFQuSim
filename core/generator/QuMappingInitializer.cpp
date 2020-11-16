@@ -265,6 +265,9 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
         initMappings.clear(); // todo remove it.. just testing..
         QuMapping initialMapping(n);
         initialMapping.defaultInit();
+        initialMapping.setParentMappingId("*");
+        initialMapping.setMappingId("0.0");
+
         initMappings.insert(initMappings.begin(), initialMapping);
     }
     else {

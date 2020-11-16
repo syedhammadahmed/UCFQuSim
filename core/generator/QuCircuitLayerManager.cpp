@@ -192,13 +192,12 @@ vector<int> QuCircuitLayerManager::getFirstKInstructionIds(int k) {
     vector<int> firstKIds;
 //    printSimpleGrid();
     int total = 0;
+    int j = 0;
     for (int i = 0; i < rows && total < k; ++i) {
-        for (int j = 0; j < cols && total < k; ++j) {
             if (simpleGrid[i][j] != -1 && isNewInsturction(simpleGrid[i][j], firstKIds)) {
                 firstKIds.push_back(simpleGrid[i][j]);
                 total++;
             }
-        }
     }
     std::sort(firstKIds.begin(), firstKIds.end());
     auto qit = std::unique(firstKIds.begin(), firstKIds.begin() + firstKIds.size());
