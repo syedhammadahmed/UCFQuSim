@@ -703,6 +703,7 @@ int QuSmartSwapper::performCNOTCancellations(vector<QuGate*>& finalProgram) { //
     int i = 0, j = 0, k = 0;
     vector<int> cancelIndexes;
     auto it1 = finalProgram.begin();
+    auto it2 = finalProgram.begin();
 //        if(it->first == physicalQuBit || it->second == physicalQuBit)
 //            it = couples.erase(it);
 //        else
@@ -713,7 +714,7 @@ int QuSmartSwapper::performCNOTCancellations(vector<QuGate*>& finalProgram) { //
         if ((*it1)->getMnemonic() == "cx"){
             src1 = (*it1)->getArgAtIndex(0);
             target1 = (*it1)->getArgAtIndex(1);
-            auto it2 = it1 + 1;
+            it2 = it1 + 1;
             while(it2!=finalProgram.end()){
 //            for (j = i + 1; j < finalProgram.size(); ++j) {
                 if ((*it2)->getMnemonic() == "cx") {
@@ -721,15 +722,15 @@ int QuSmartSwapper::performCNOTCancellations(vector<QuGate*>& finalProgram) { //
                     target2 = (*it2)->getArgAtIndex(1);
                     if (src1 == src2 && target1 == target2){
                         auto it3 = it1 + 1;
-                        int temp1 = 0;
                         while(it3 != it2){
-//                        for (k = i+1; k < j; ++k) {
-                            if ((*it3)->getMnemonic() == "cx") {
-                                src3 = (*it3)->getArgAtIndex(0);
-                                target3 = (*it3)->getArgAtIndex(1);
-                                if(src1 == target3 || target1 == src3){
+                            src3 = (*it3)->getArgAtIndex(0);
+                            if ((*it3)->getCardinality() == 1){
+                                if(src1 == src3 || target1 == src3)
                                     cancelIt = false;
-                                }
+                            } else {
+                                target3 = (*it3)->getArgAtIndex(1);
+                                if(src1 == target3 || target1 == src3)
+                                    cancelIt = false;
                             }
                             it3++;
                         }
@@ -748,7 +749,7 @@ int QuSmartSwapper::performCNOTCancellations(vector<QuGate*>& finalProgram) { //
             }
         }
         i++;
-        it1++;
+        it1 = it2;
     }
     // todo remove cancelled CNOTS from finalProgram
     return cancelIndexes.size();

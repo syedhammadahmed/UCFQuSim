@@ -63,7 +63,6 @@ public:
     int findShortestPathsMinimumCost();
     pair<int, vector<struct QuMapping>> findMinCostMappingsForNextInstruction(vector<QuMapping> &inputMappings);
     void optimize(vector<QuGate*>& finalProgram);
-    int performCNOTCancellations(vector<QuGate *> &vector);
     int performUnaryCancellations(vector<QuGate *> &finalProgram);
     vector<QuGate *>::iterator findMergingPartner(vector<QuGate *>::iterator it1, vector<QuGate *>::iterator end);
     vector<int> getCurrentInstructionIds();
@@ -79,6 +78,7 @@ public:
     void init();
 
     void findShortestPathsForAllInputMappings(vector<QuMapping> inputMappings);
+    static int performCNOTCancellations(vector<QuGate *> &vector);
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H
