@@ -14,7 +14,7 @@ using namespace std;
 int main() {
     const int quBits = 16;
 
-    Util::verbose = true;
+//    Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
     string inputDirectory = "../input/";
     string outputDirectory = "../output/";

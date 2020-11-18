@@ -13,6 +13,7 @@
 #include <util/Util.h>
 #include <AllPairShortestPathFinder.h>
 #include <algorithm>
+#include <climits>
 
 vector<QuGate*> QuSmartSwapper::removeUnaryInstructions(){
     vector<QuGate*> instructions = circuit.getInstructions();
@@ -535,7 +536,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
 
     insertEndingUnaryInstructions(finalProgram);
 
-    optimize(finalProgram);
+//    optimize(finalProgram);
 
     circuit.setInstructionsV1(finalProgram);
     circuit.setSwaps(totalSwaps);  // todo  should it be swaps??
@@ -840,10 +841,14 @@ int QuSmartSwapper::performUnaryCancellations(vector<QuGate*>& finalProgram) { /
                 }
             }
         }
+        else {
+            cancelled = false;
+        }
         if(cancelled)
             i = j + 1;
         else
             i++;
+        cout << i << endl;
     }
     cout << "program size (after): " << finalProgram.size()  << " cancellations: " <<  cancellations << endl;
 
