@@ -189,7 +189,7 @@ pair<vector<QuMapping>, int> QuSmartSwapper::findAllMinCostMappingsFromPermutati
     int srcMoves = 0;
     int destMoves = 0;
     int cost = 0;
-    int minCost = INT_MAX;
+    int minCost = INT32_MAX;
     if(totalMoves > 0){
         for (unsigned int i = 0; i <= totalMoves; i++) {
             QuMapping mapping = inputMapping;
@@ -506,7 +506,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
 
     insertEndingUnaryInstructions(finalProgram);
 
-//    optimize(finalProgram);
+//    optimize(finalProgram); // todo buggy
 
     circuit.setInstructionsV1(finalProgram);
     circuit.setSwaps(totalSwaps);  // todo  should it be swaps??
@@ -639,7 +639,7 @@ int QuSmartSwapper::calculateHadamardCost(vector<int> shortestPath, int **coupli
 }
 
 int QuSmartSwapper::findShortestPathsMinimumCost() {
-    int minCost = INT_MAX;
+    int minCost = INT32_MAX;
     for (auto& path: allSPFSwapPaths) {
         int hadamardCost = calculateHadamardCost(path, architecture.getCouplingMap());
         int swapCost = (path.size() - 2) * 7;
