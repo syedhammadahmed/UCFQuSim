@@ -490,23 +490,52 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
         for (i = 0; i < selectedMappings.size(); i++) {
             selectedMappings[i].print();
             x = insertRemovedUnaryInstructions(finalProgram, x);
-            vector<QuGate *> swapInstructions;
-            for (int j = 0; j < selectedMappings[i].getSwapInstructions().size(); j++) {
-                QuGate *swapGate = QuGateFactory::getQuGate("SWAP");
-                swapGate->setArgAtIndex(0, selectedMappings[i].getSwapInstructions()[j].getArgIndex()[0]);
-                swapGate->setArgAtIndex(1, selectedMappings[i].getSwapInstructions()[j].getArgIndex()[1]);
-                swapInstructions.push_back(swapGate);
-                swaps++;
+            vector<QuGate*> swapInstructions;
+            if(!ELEMENTARY_SWAP_DECOMPOSITION) {
+                for (int j = 0; j < selectedMappings[i].getSwapInstructions().size(); j++) {
+                        QuGate *swapGate = QuGateFactory::getQuGate("SWAP");
+                        int src = selectedMappings[i].getSwapInstructions()[j].getArgIndex()[0];
+                        int target = selectedMappings[i].getSwapInstructions()[j].getArgIndex()[1];
+                        swapGate->setArgAtIndex(0, src);
+                        swapGate->setArgAtIndex(1, target);
+                        swapInstructions.push_back(swapGate);
+                        swaps++;
+                    }
+                for (int i = 0; i < swapInstructions.size(); i++) {
+                    finalProgram.push_back(swapInstructions[i]);
+                }
             }
-            for (int i = 0; i < swapInstructions.size(); i++) {
-                finalProgram.push_back(swapInstructions[i]);
+            else {
+                QuGate* cnot = nullptr;
+                QuGate* h = nullptr;
+
+                for (int j = 0; j < selectedMappings[i].getSwapInstructions().size(); j++) {
+                    int src = selectedMappings[i].getSwapInstructions()[j].getArgIndex()[0];
+                    int target = selectedMappings[i].getSwapInstructions()[j].getArgIndex()[1];
+//                    cx q[1], q[2];
+//                    h q[1];
+//                    h q[2];
+//                    cx q[1], q[2];
+//                    h q[1];
+//                    h q[2];
+//                    cx q[1], q[2];
+                    cnot = QuGateFactory::getQuGate("cx");
+                    cnot->setArgAtIndex(0, src);
+                    cnot->setArgAtIndex(1, target);
+                    swapInstructions.push_back(cnot);
+                    swaps++;
+                }
+                for (int i = 0; i < swapInstructions.size(); i++) {
+                    finalProgram.push_back(swapInstructions[i]);
+                }
             }
+
         }
     }
 
     insertEndingUnaryInstructions(finalProgram);
 
-//    optimize(finalProgram);
+    optimize(finalProgram);
 
     circuit.setInstructionsV1(finalProgram);
     circuit.setSwaps(totalSwaps);  // todo  should it be swaps??
@@ -545,7 +574,6 @@ int QuSmartSwapper::insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram
     }
     Util::println("nextNonUnaryIndex + i + 1: " + to_string(nextNonUnaryIndex + i + 1));
     return nextNonUnaryIndex + i + 1;
-
 }
 
 void QuSmartSwapper::hadamardCheck(vector<QuGate *> &finalProgram, QuArchitecture &quArchitecture, QuMapping &currentMapping,
