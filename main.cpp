@@ -39,3 +39,26 @@ int main() {
 
     return 0;
 }
+
+//int main(){
+//    vector<QuGate*> program;
+//    QuGate* gate = nullptr;
+//
+//    gate = QuGateFactory::getQuGate("h");
+//    gate->setArgAtIndex(0, 3);
+//    program.push_back(gate);
+//    gate = QuGateFactory::getQuGate("h");
+//    gate->setArgAtIndex(0, 3);
+//    program.push_back(gate);
+//    gate = QuGateFactory::getQuGate("h");
+//    gate->setArgAtIndex(0, 3);
+//    program.push_back(gate);
+//    gate = QuGateFactory::getQuGate("h");
+//    gate->setArgAtIndex(0, 3);
+//    program.push_back(gate);
+//    gate = QuGateFactory::getQuGate("h");
+//    gate->setArgAtIndex(0, 3);
+//    program.push_back(gate);
+//    QuSmartSwapper::performUnaryCancellations(program);
+//    return 0;
+//}
