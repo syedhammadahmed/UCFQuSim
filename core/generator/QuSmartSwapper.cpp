@@ -536,7 +536,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
 
     insertEndingUnaryInstructions(finalProgram);
 
-//    optimize(finalProgram);
+    optimize(finalProgram);
 
     circuit.setInstructionsV1(finalProgram);
     circuit.setSwaps(totalSwaps);  // todo  should it be swaps??
@@ -736,7 +736,7 @@ int QuSmartSwapper::performCNOTCancellations(vector<QuGate*>& finalProgram) { //
     int size = finalProgram.size();
     cout << "program size (before): " << finalProgram.size() << endl;
     while(g < size){
-        while(finalProgram[i++]->getMnemonic() != "cx");
+        while(i < size && finalProgram[i++]->getMnemonic() != "cx");
         i--;
 
         for(j = i + 1; j < finalProgram.size(); j++){
