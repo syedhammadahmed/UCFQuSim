@@ -46,8 +46,8 @@ int main(){
     vector<QuGate*> program;
     QuGate* gate = nullptr;
 
-    gate = QuGateFactory::getQuGate("h");
-    gate->setArgAtIndex(0, 0);
+    gate = QuGateFactory::getQuGate("x");
+    gate->setArgAtIndex(0, 1);
     program.push_back(gate);
 
     gate = QuGateFactory::getQuGate("cx");
@@ -55,33 +55,13 @@ int main(){
     gate->setArgAtIndex(1, 1);
     program.push_back(gate);
 
-    gate = QuGateFactory::getQuGate("cx");
-    gate->setArgAtIndex(0, 0);
-    gate->setArgAtIndex(1, 2);
-    program.push_back(gate);
-
-    gate = QuGateFactory::getQuGate("cx");
-    gate->setArgAtIndex(0, 1);
-    gate->setArgAtIndex(1, 2);
-    program.push_back(gate);
-
-    gate = QuGateFactory::getQuGate("x");
-    gate->setArgAtIndex(0, 1);
-    program.push_back(gate);
-
     gate = QuGateFactory::getQuGate("z");
-    gate->setArgAtIndex(0, 1);
-    program.push_back(gate);
-
-
-    gate = QuGateFactory::getQuGate("cx");
-    gate->setArgAtIndex(0, 1);
-    gate->setArgAtIndex(1, 2);
+    gate->setArgAtIndex(1, 3);
     program.push_back(gate);
 
     gate = QuGateFactory::getQuGate("cx");
     gate->setArgAtIndex(0, 0);
-    gate->setArgAtIndex(1, 2);
+    gate->setArgAtIndex(1, 1);
     program.push_back(gate);
 
     cout << "cancellations: " << QuCircuitOptimizer::performCNOTCancellations(program) << endl;

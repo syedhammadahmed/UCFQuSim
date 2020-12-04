@@ -27,8 +27,7 @@ bool QuCircuitOptimizer::isClearInBetween(int left, int right, vector<QuGate *> 
 bool QuCircuitOptimizer::areCancellable(int left, int right, vector<QuGate*>& finalProgram) {
     QuGate* leftGate = finalProgram[left];
     QuGate* rightGate = finalProgram[right];
-
-    if (leftGate->isDitto(rightGate)) {
+    if (!leftGate->isCancelled() && leftGate->isDitto(rightGate)) {
         if (isClearInBetween(left, right, finalProgram)) {
             return true;
         }
