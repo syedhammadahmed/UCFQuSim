@@ -44,107 +44,149 @@ int main(){
     vector<QuGate*> program;
     QuGate* gate = nullptr;
 
-    gate = QuGateFactory::getQuGate("h");
-    gate->setArgAtIndex(0, 3);
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 0);
+    gate->setArgAtIndex(1, 1);
     program.push_back(gate);
-    gate = QuGateFactory::getQuGate("h");
-    gate->setArgAtIndex(0, 3);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 0);
+    gate->setArgAtIndex(1, 1);
     program.push_back(gate);
-    gate = QuGateFactory::getQuGate("h");
-    gate->setArgAtIndex(0, 3);
-    program.push_back(gate);
-    gate = QuGateFactory::getQuGate("h");
-    gate->setArgAtIndex(0, 3);
-    program.push_back(gate);
-    gate = QuGateFactory::getQuGate("h");
-    gate->setArgAtIndex(0, 3);
-    program.push_back(gate);
-    QuSmartSwapper::performUnaryCancellations(program);
+
+    cout << "cancellations: " << QuSmartSwapper::performCNOTCancellations(program) << endl;
     return 0;
 }
 
 /*
 unary optimizer cases:
-Case:
+Case: cancellations: 0
 h q[0];
 
-Case:
+Case: cancellations: 0
 cx q[0], q[1];
 
-Case:
+Case: cancellations: 0
 h q[0];
 cx q[0], q[1];
 
-Case:
+Case: cancellations: 0
 h q[0];
 cx q[1], q[0];
 
-Case:
+Case: cancellations: 0
 cx q[0], q[1];
 h q[0];
 
-Case:
+Case: cancellations: 0
 cx q[1], q[0];
 h q[0];
 
-Case:
-h q[0];
-h q[0];
-cx q[1], q[0];
-
-Case:
-h q[0];
-h q[1];
-cx q[1], q[0];
-
-Case:
-h q[1];
-h q[1];
-cx q[1], q[0];
-
-Case:
-h q[1];
-h q[0];
-cx q[1], q[0];
-
-Case:
-h q[0];
-cx q[1], q[0];
-h q[0];
-
-Case:
-h q[0];
-cx q[1], q[0];
-h q[1];
-
-Case:
-h q[1];
-cx q[1], q[0];
-h q[1];
-
-Case:
-h q[1];
-cx q[1], q[0];
-h q[0];
-
-Case:
+Case: cancellations: 1
 h q[0];
 h q[0];
 cx q[1], q[0];
 
-Case:
+Case: cancellations: 0
 h q[0];
 h q[1];
 cx q[1], q[0];
 
-Case:
+Case: cancellations: 1
 h q[1];
 h q[1];
 cx q[1], q[0];
 
-Case:
+Case: cancellations: 0
 h q[1];
 h q[0];
 cx q[1], q[0];
+
+Case: cancellations: 0
+h q[0];
+cx q[1], q[0];
+h q[0];
+
+Case: cancellations: 0
+h q[0];
+cx q[1], q[0];
+h q[1];
+
+Case: cancellations: 0
+h q[1];
+cx q[1], q[0];
+h q[1];
+
+Case: cancellations: 1
+h q[2];
+cx q[1], q[0];
+h q[2];
+
+Case: cancellations: 0
+h q[1];
+cx q[1], q[0];
+h q[0];
+
+Case: cancellations: 0
+h q[2];
+cx q[1], q[0];
+h q[3];
+
+Case: cancellations: 0
+cx q[1], q[0];
+h q[0];
+h q[1];
+cx q[1], q[0];
+
+Case: cancellations: 1
+cx q[1], q[0];
+h q[0];
+h q[0];
+cx q[1], q[0];
+
+Case: cancellations: 0
+cx q[1], q[0];
+h q[0];
+cx q[1], q[0];
+h q[0];
+
+Case: cancellations: 1
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[2];
+
+Case: cancellations: 3
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[2];
+
+Case: cancellations: 4
+h q[2];
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[2];
+
+Case: cancellations: 3
+h q[2];
+cx q[1], q[0];
+h q[3];
+cx q[1], q[0];
+h q[2];
+cx q[1], q[0];
+h q[3];
+cx q[1], q[0];
+h q[2];
+
 
  */

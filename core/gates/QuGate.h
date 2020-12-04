@@ -61,6 +61,7 @@ public:
     bool operator==(QuGate& arg);
     bool operator!=(QuGate& arg);
     bool isDitto(QuGate* instruction);
+    bool hasAnyOfArgs(const vector<int> argIndex);
 };
 
 

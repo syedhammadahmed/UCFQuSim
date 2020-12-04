@@ -127,6 +127,18 @@ bool QuGate::isDitto(QuGate *arg) {
     return ((this->argIndex[0] == arg->argIndex[0]) && (this->argIndex[1] == arg->argIndex[1]));
 }
 
+bool QuGate::hasAnyOfArgs(const vector<int> argIndex) {
+    for (int i = 0; i < argIndex.size(); ++i) {
+        if (this->argIndex[0] == argIndex[i])
+            return true;
+        if (cardinality > 1) {
+            if (this->argIndex[1] == argIndex[i])
+                return true;
+        }
+    }
+    return false;
+}
+
 //void QuGate::operator=(QuGate &arg) {
 //    cardinality = arg.cardinality;
 //    for(int i=0; i<cardinality; i++)

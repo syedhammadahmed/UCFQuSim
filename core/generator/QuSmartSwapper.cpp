@@ -728,69 +728,95 @@ pair<int, vector<QuMapping>> QuSmartSwapper::findMinCostMappingsForNextInstructi
 }
 
 int QuSmartSwapper::performCNOTCancellations(vector<QuGate*>& finalProgram) { // todo also check non-adjacent CNOTS and check in-between see fig 9 SOTA 2
-    int src1 = -1, target1 = -1, src2 = -1, target2 = -1, src3 = -1, target3 = -1;
-    bool cancelIt = true;
-    bool matchFound = false;
-    int i = 0, j = 0, k = 0, g = 0;
-    vector<int> cancelIndexes;
-    int size = finalProgram.size();
-    cout << "program size (before): " << finalProgram.size() << endl;
-    while(g < size){
-        while(finalProgram[i++]->getMnemonic() != "cx");
-        i--;
-
-        for(j = i + 1; j < finalProgram.size(); j++){
-            cancelIt = true;
-            matchFound = false;
-            src1 = finalProgram[i]->getArgAtIndex(0);
-            target1 = finalProgram[i]->getArgAtIndex(1);
-            if(finalProgram[j]->getMnemonic() == "cx") {
-                src2 = finalProgram[j]->getArgAtIndex(0);
-                target2 = finalProgram[j]->getArgAtIndex(1);
-
-                if (src1 == src2 && target1 == target2) {
-                    matchFound = true;
-                    cout << "match found : " << i << " " << j << endl;
-                    k = i + 1;
-                    while (k < j) {
-                        src3 = finalProgram[k]->getArgAtIndex(0);
-                        if (finalProgram[k]->getCardinality() == 1) {
-                            if (src1 == src3 || target1 == src3)
-                                cancelIt = false;
-                        } else {
-                            target3 = finalProgram[k]->getArgAtIndex(1);
-                            if (src1 == target3 || target1 == src3)
-                                cancelIt = false;
-                        }
-                        k++;
-                    }
-                }
-                if (matchFound) {
-                    if (cancelIt) {
-                        cancelIndexes.push_back(i);
-                        cancelIndexes.push_back(j);
-                        finalProgram.erase(finalProgram.begin() + i);
-                        finalProgram.erase(finalProgram.begin() + j - 1);
-                        g++;
-                        i = j - 2;
-                        break;
-                    } else {
-                        i = j;
-                    }
-                }
-            }
-            else {
-
+    bool dirty = false;
+    vector<int> cancelled;
+    auto left = finalProgram.begin();
+    while ((left+1) != finalProgram.end()) {
+        while (((*left) != NULL) && (*left)->isUnary()) // find the next cnot
+            left++;
+        auto right = left + 1;
+        while (((*right) != NULL) && (*right)->isUnary()) { // find the next cnot
+            if ((*right)->hasAnyOfArgs((*left)->getArgIndex()))
+                dirty = true;
+            right++;
+        }
+        if (!dirty) {
+            if (((*right) != NULL) && (*right)->isDitto(*left)) {
+                left = finalProgram.erase(left);
+                right = finalProgram.erase(right);
             }
         }
-        cout << "iteration " << g++ << endl;
+        else {
+            left = right;
+        }
     }
-    // todo remove cancelled CNOTS from finalProgram
-    cout << (cancelIndexes.empty()? "not cancelled!" : "cancelled!") << endl;
-    cout << "program size (after): " << finalProgram.size() << ", g = " << g << endl;
-    return cancelIndexes.size();
+    return cancelled.size();
 }
 
+//int QuSmartSwapper::performCNOTCancellations(vector<QuGate*>& finalProgram) { // todo also check non-adjacent CNOTS and check in-between see fig 9 SOTA 2
+//    int src1 = -1, target1 = -1, src2 = -1, target2 = -1, src3 = -1, target3 = -1;
+//    bool cancelIt = true;
+//    bool matchFound = false;
+//    int i = 0, j = 0, k = 0, g = 0;
+//    vector<int> cancelIndexes;
+//    int size = finalProgram.size();
+//    cout << "program size (before): " << finalProgram.size() << endl;
+//    while(g < size){
+//        while(finalProgram[i++]->getMnemonic() != "cx");
+//        i--;
+//
+//        for(j = i + 1; j < finalProgram.size(); j++){
+//            cancelIt = true;
+//            matchFound = false;
+//            src1 = finalProgram[i]->getArgAtIndex(0);
+//            target1 = finalProgram[i]->getArgAtIndex(1);
+//            if(finalProgram[j]->getMnemonic() == "cx") {
+//                src2 = finalProgram[j]->getArgAtIndex(0);
+//                target2 = finalProgram[j]->getArgAtIndex(1);
+//
+//                if (src1 == src2 && target1 == target2) {
+//                    matchFound = true;
+//                    cout << "match found : " << i << " " << j << endl;
+//                    k = i + 1;
+//                    while (k < j) {
+//                        src3 = finalProgram[k]->getArgAtIndex(0);
+//                        if (finalProgram[k]->getCardinality() == 1) {
+//                            if (src1 == src3 || target1 == src3)
+//                                cancelIt = false;
+//                        } else {
+//                            target3 = finalProgram[k]->getArgAtIndex(1);
+//                            if (src1 == target3 || target1 == src3)
+//                                cancelIt = false;
+//                        }
+//                        k++;
+//                    }
+//                }
+//                if (matchFound) {
+//                    if (cancelIt) {
+//                        cancelIndexes.push_back(i);
+//                        cancelIndexes.push_back(j);
+//                        finalProgram.erase(finalProgram.begin() + i);
+//                        finalProgram.erase(finalProgram.begin() + j - 1);
+//                        g++;
+//                        i = j - 2;
+//                        break;
+//                    } else {
+//                        i = j;
+//                    }
+//                }
+//            }
+//            else {
+//
+//            }
+//        }
+//        cout << "iteration " << g++ << endl;
+//    }
+//    // todo remove cancelled CNOTS from finalProgram
+//    cout << (cancelIndexes.empty()? "not cancelled!" : "cancelled!") << endl;
+//    cout << "program size (after): " << finalProgram.size() << ", g = " << g << endl;
+//    return cancelIndexes.size();
+//}
+//
 int QuSmartSwapper::performUnaryCancellations(vector<QuGate*>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
     int cancellations = 0;
     cout << "program size (before): " << finalProgram.size() << endl;
