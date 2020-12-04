@@ -139,6 +139,14 @@ bool QuGate::hasAnyOfArgs(const vector<int> argIndex) {
     return false;
 }
 
+bool QuGate::isCancelled() const {
+    return cancelled;
+}
+
+void QuGate::setCancelled(bool cancelled) {
+    QuGate::cancelled = cancelled;
+}
+
 //void QuGate::operator=(QuGate &arg) {
 //    cardinality = arg.cardinality;
 //    for(int i=0; i<cardinality; i++)

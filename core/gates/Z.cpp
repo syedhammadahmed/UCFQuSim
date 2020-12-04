@@ -4,6 +4,8 @@
 
 #include "Z.h"
 
+Z::Z() : QuGate(1, "Z", "z"){}
+
 void Z::apply(QuBit *bit, int i) {
 
 }

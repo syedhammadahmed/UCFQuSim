@@ -8,7 +8,9 @@
 #include "util/Util.h"
 #include "AllShortestPathsFinder.h"
 #include "core/generator/QuSmartSwapper.h"
+#include "core/generator/QuCircuitOptimizer.h"
 #include "core/gates/QuGateFactory.h"
+
 using namespace std;
 //
 //int main() {
@@ -44,9 +46,8 @@ int main(){
     vector<QuGate*> program;
     QuGate* gate = nullptr;
 
-    gate = QuGateFactory::getQuGate("cx");
+    gate = QuGateFactory::getQuGate("h");
     gate->setArgAtIndex(0, 0);
-    gate->setArgAtIndex(1, 1);
     program.push_back(gate);
 
     gate = QuGateFactory::getQuGate("cx");
@@ -54,7 +55,36 @@ int main(){
     gate->setArgAtIndex(1, 1);
     program.push_back(gate);
 
-    cout << "cancellations: " << QuSmartSwapper::performCNOTCancellations(program) << endl;
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 0);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 1);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("x");
+    gate->setArgAtIndex(0, 1);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("z");
+    gate->setArgAtIndex(0, 1);
+    program.push_back(gate);
+
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 1);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 0);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    cout << "cancellations: " << QuCircuitOptimizer::performCNOTCancellations(program) << endl;
     return 0;
 }
 

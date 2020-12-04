@@ -26,6 +26,7 @@ protected:
     string mnemonic;
     string theta;
     int gateId;
+    bool cancelled;
 
 public:
     static const int MAX_OPERANDS = 3;
@@ -57,6 +58,10 @@ public:
     void setTheta(string theta);
     int getGateId() const;
     void setGateId(int gateId);
+
+    bool isCancelled() const;
+
+    void setCancelled(bool cancelled);
 
     bool operator==(QuGate& arg);
     bool operator!=(QuGate& arg);
