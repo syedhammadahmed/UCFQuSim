@@ -53,6 +53,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         unsigned int minGates = INT32_MAX;
         unsigned int minSwaps = INT32_MAX;
         unsigned int minHadamards = INT32_MAX;
+        unsigned int minGatesProposedOptimized = INT32_MAX;
 
         unsigned int max = 0;
         unsigned int total = 0;
@@ -63,6 +64,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         int gatesOriginal = 0;
         int depthProposed = 0;
         double timeProposed = 0;
+        unsigned int gatesProposedOptimized = 0;
         for (int j = 0; j < runs; ++j) {
             cout << "run #: " << j << endl;
             QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
@@ -79,6 +81,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             unsigned int swaps = circuit.getSwaps();
 //            int totalCost = hadamards + swaps * 7;
             unsigned int gatesProposed = totalCost + gatesOriginal;
+            gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
 
             quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
             quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
@@ -88,6 +91,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
                 minGates = gatesProposed;
                 minSwaps = swaps;
                 minHadamards = hadamards;
+                minGatesProposedOptimized = gatesProposedOptimized;
             }
             if (gatesProposed > max)
                 max = gatesProposed;
@@ -99,7 +103,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         cout << "min : " << minGates << endl;
         cout << "max : " << max << endl;
         cout << "avg : " << average << endl;
-        results.push_back(Result(file, minSwaps, gatesOriginal, minGates, depthProposed, minHadamards, timeProposed));
+        results.push_back(Result(file, minSwaps, gatesOriginal, minGates, depthProposed, minHadamards, timeProposed, gatesProposedOptimized));
         //        circuit.printGrid();
 //        circuit.printSimpleGrid();
     }

@@ -62,7 +62,7 @@ public:
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
     int findShortestPathsMinimumCost();
     pair<int, vector<struct QuMapping>> findMinCostMappingsForNextInstruction(vector<QuMapping> &inputMappings);
-    void optimize(vector<QuGate*>& finalProgram);
+    int optimize(vector<QuGate*>& finalProgram);
     vector<int> getCurrentInstructionIds();
     vector<QuGate *> getKRestrictInstructions(int k);
     bool isNewInsturction(QuGate *currentInstruction, vector<QuGate *> &instructions);

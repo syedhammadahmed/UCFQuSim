@@ -119,7 +119,7 @@ int QuCircuitOptimizer::performCNOTCancellations(vector<QuGate*>& finalProgram) 
 //
 int QuCircuitOptimizer::performUnaryCancellations(vector<QuGate*>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
     int cancellations = 0;
-    cout << "program size (before): " << finalProgram.size() << endl;
+//    cout << "program size (before): " << finalProgram.size() << endl;
     int i = 0, j = 0, g = finalProgram.size();
     bool cancelled = false;
     // todo identity opearation to cancel out
@@ -174,9 +174,9 @@ int QuCircuitOptimizer::performUnaryCancellations(vector<QuGate*>& finalProgram)
             i = j + 1;
         else
             i++;
-        cout << i << endl;
+//        cout << i << endl;
     }
-    cout << "program size (after): " << finalProgram.size()  << " cancellations: " <<  cancellations << endl;
+//    cout << "program size (after): " << finalProgram.size()  << " cancellations: " <<  cancellations << endl;
 
     return cancellations;
 }

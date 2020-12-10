@@ -486,4 +486,12 @@ void QuCircuit::setDestFrequencies(const vector<int> &destFrequencies) {
     this->destFrequencies = destFrequencies;
 }
 
+int QuCircuit::getOptimizations() const {
+    return optimizations;
+}
+
+void QuCircuit::setOptimizations(int optimizations) {
+    this->optimizations = optimizations;
+}
+
 
