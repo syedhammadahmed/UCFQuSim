@@ -36,6 +36,7 @@ private:
     int hadamards;
     int swaps;
     int cost;
+    int optimizations;
 
     vector<int> srcFrequencies;
     vector<int> destFrequencies;
@@ -118,6 +119,10 @@ public:
     void setDestFrequencies(const vector<int> &destFrequencies);
 
     void findCostFor1Instruction(QuGate *quGate, int **couplingMap);
+
+    int getOptimizations() const;
+
+    void setOptimizations(int optimizations);
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

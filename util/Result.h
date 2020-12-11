@@ -21,10 +21,13 @@ private:
     int depthProposed;
     int hadamards;
     double timeProposed;
+    int gatesProposedOptimized;
 
 public:
     Result(const string &file, int swaps, int gatesOriginal, int gatesProposed, int depthProposed, int hadamards,
            double timeProposed);
+    Result(const string &file, int swaps, int gatesOriginal, int gatesProposed, int depthProposed, int hadamards,
+           double timeProposed, int gatesProposedOptimized);
 
     void print();
     static void printHeader();
