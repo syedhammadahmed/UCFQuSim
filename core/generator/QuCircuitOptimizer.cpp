@@ -52,70 +52,6 @@ int QuCircuitOptimizer::performCNOTCancellations(vector<QuGate*>& finalProgram) 
     return count;
 }
 
-//int QuCircuitOptimizer::performCNOTCancellations(vector<QuGate*>& finalProgram) { // todo also check non-adjacent CNOTS and check in-between see fig 9 SOTA 2
-//    int src1 = -1, target1 = -1, src2 = -1, target2 = -1, src3 = -1, target3 = -1;
-//    bool cancelIt = true;
-//    bool matchFound = false;
-//    int i = 0, j = 0, k = 0, g = 0;
-//    vector<int> cancelIndexes;
-//    int size = finalProgram.size();
-//    cout << "program size (before): " << finalProgram.size() << endl;
-//    while(g < size){
-//        while(finalProgram[i++]->getMnemonic() != "cx");
-//        i--;
-//
-//        for(j = i + 1; j < finalProgram.size(); j++){
-//            cancelIt = true;
-//            matchFound = false;
-//            src1 = finalProgram[i]->getArgAtIndex(0);
-//            target1 = finalProgram[i]->getArgAtIndex(1);
-//            if(finalProgram[j]->getMnemonic() == "cx") {
-//                src2 = finalProgram[j]->getArgAtIndex(0);
-//                target2 = finalProgram[j]->getArgAtIndex(1);
-//
-//                if (src1 == src2 && target1 == target2) {
-//                    matchFound = true;
-//                    cout << "match found : " << i << " " << j << endl;
-//                    k = i + 1;
-//                    while (k < j) {
-//                        src3 = finalProgram[k]->getArgAtIndex(0);
-//                        if (finalProgram[k]->getCardinality() == 1) {
-//                            if (src1 == src3 || target1 == src3)
-//                                cancelIt = false;
-//                        } else {
-//                            target3 = finalProgram[k]->getArgAtIndex(1);
-//                            if (src1 == target3 || target1 == src3)
-//                                cancelIt = false;
-//                        }
-//                        k++;
-//                    }
-//                }
-//                if (matchFound) {
-//                    if (cancelIt) {
-//                        cancelIndexes.push_back(i);
-//                        cancelIndexes.push_back(j);
-//                        finalProgram.erase(finalProgram.begin() + i);
-//                        finalProgram.erase(finalProgram.begin() + j - 1);
-//                        g++;
-//                        i = j - 2;
-//                        break;
-//                    } else {
-//                        i = j;
-//                    }
-//                }
-//            }
-//            else {
-//
-//            }
-//        }
-//        cout << "iteration " << g++ << endl;
-//    }
-//    // todo remove cancelled CNOTS from finalProgram
-//    cout << (cancelIndexes.empty()? "not cancelled!" : "cancelled!") << endl;
-//    cout << "program size (after): " << finalProgram.size() << ", g = " << g << endl;
-//    return cancelIndexes.size();
-//}
-//
 int QuCircuitOptimizer::performUnaryCancellations(vector<QuGate*>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
     int cancellations = 0;
     cout << "program size (before): " << finalProgram.size() << endl;
@@ -179,26 +115,3 @@ int QuCircuitOptimizer::performUnaryCancellations(vector<QuGate*>& finalProgram)
 
     return cancellations;
 }
-
-//vector<QuGate *>::iterator QuCircuitOptimizer::findMergingPartner(vector<QuGate *>::iterator it1, vector<QuGate *>::iterator end) {
-//    vector<QuGate *>::iterator it2 = it1++;
-//    int quBit1 = (*it1)->getArgAtIndex(0);
-//    bool isUnary2;
-//    int quBit2 = -1;
-//    do{
-//        isUnary2 = (*it2)->getCardinality() == 1;
-//        quBit2 = (*it2)->getArgAtIndex(0);
-//        if (quBit1 == quBit2){
-//            if (isUnary2) {
-//                break;
-//            }
-//            else {
-//                int quBit2Target = (*it2)->getArgAtIndex(1);
-//                it2 = it1;
-//                break;
-//            }
-//        }
-//        it2++;
-//    } while (quBit1 != quBit2 && it2 != end);
-//    return it2;
-//}
