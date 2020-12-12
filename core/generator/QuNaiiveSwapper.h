@@ -15,7 +15,7 @@ public:
     vector<int> swapAlongPath(int* parent, int source, int destination) override;
     QuMapping getCurrentMapping() override;
 
-    QuNaiiveSwapper(QuCircuit &circuit);
+    QuNaiiveSwapper(QuCircuit &circuit, QuArchitecture& architecture);
 };
 
 

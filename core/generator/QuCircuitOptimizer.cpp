@@ -59,46 +59,39 @@ int QuCircuitOptimizer::performUnaryCancellations(vector<QuGate*>& finalProgram)
     bool cancelled = false;
     // todo identity opearation to cancel out
     while(i < g){
-        bool isUnary1 = finalProgram[i]->getCardinality() == 1;
+        bool isUnary1 = finalProgram[i]->isUnary();
         int arg1 = finalProgram[i]->getArgAtIndex(0);
         if (isUnary1) {
             j = i + 1;
-            if(j < g){
-                bool isUnary2 = (finalProgram[j]->getCardinality() == 1);
+            cancelled = false;
+            while (j < g) {
+                bool isUnary2 = finalProgram[j]->isUnary();
                 int arg2 = finalProgram[j]->getArgAtIndex(0);
-                cancelled = false;
-                while (j < g) {
-                    if(isUnary2){
-                        if(arg1 == arg2){
-                            cancelled = true;
-                        }
+                if(isUnary2){
+                    if(arg1 == arg2){
+                        cancelled = true;
+                    }
+                }
+                else {
+                    int arg3 = finalProgram[j]->getArgAtIndex(1);
+                    if((arg2 != arg1) && (arg3 != arg1)) {
+                        j++;
+                        continue;
                     }
                     else {
-                        int arg3 = finalProgram[j]->getArgAtIndex(1);
-                        if((arg2 != arg1) && (arg3 != arg1)) {
-                            j++;
-                            if (j < g) {
-                                isUnary2 = (finalProgram[j]->getCardinality() == 1);
-                                arg2 = finalProgram[j]->getArgAtIndex(0);
-                            }
-                            continue;
-                        }
-                        else {
-                            i = j;
-                            break;
-                        }
-
+                        i = j;
+                        break;
                     }
-                    if(cancelled) {
-                        finalProgram.erase(finalProgram.begin() + j);
-                        cancellations++;
-                        g--;
-                    } else
-                        j++;
-                    if (j < g) {
-                        isUnary2 = (finalProgram[j]->getCardinality() == 1);
-                        arg2 = finalProgram[j]->getArgAtIndex(0);
-                    }
+                }
+                if(cancelled) {
+                    finalProgram.erase(finalProgram.begin() + j);
+                    cancellations++;
+                    g--;
+                } else
+                    j++;
+                if (j < g) {
+                    isUnary2 = finalProgram[j]->isUnary();
+                    arg2 = finalProgram[j]->getArgAtIndex(0);
                 }
             }
         }

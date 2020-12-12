@@ -45,6 +45,7 @@ int QuNaiiveSwapper::findTotalSwaps()  {
 
     for(QuGate* quGate: circuit.getInstructions()){
         cout << "Instruction #: " << programCounter++ << endl;
+        currentInstruction = quGate;
         findShortestPathsFor1InputMapping();
         total += swaps;
     }
@@ -82,3 +83,8 @@ vector<int> QuNaiiveSwapper::swapAlongPath(int* parent, int source, int destinat
     }
     return swapPath;
 }
+
+QuNaiiveSwapper::QuNaiiveSwapper(QuCircuit &circuit, QuArchitecture& architecture)
+        : QuSwapStrategy(circuit, architecture)
+{}
+
