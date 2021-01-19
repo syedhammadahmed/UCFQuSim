@@ -201,6 +201,8 @@ void Util::resetVerbose() {
 }
 
 int Util::findMin(vector<int> arg) {
+    if(arg.size() == 0)
+        return -1;
     int min = arg[0];
     for (int i = 1; i < arg.size(); ++i) {
         if (arg[i] < min)

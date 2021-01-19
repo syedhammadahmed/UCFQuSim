@@ -14,7 +14,7 @@
 using namespace std;
 
 int main() {
-    const int quBits = 16;
+    const int physicalQuBits = 16;
 
 //    Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
@@ -23,7 +23,7 @@ int main() {
     if (Util::verbose)
         cout << "Input File Directory: " << inputDirectory << endl;
 
-    QuArchitecture architectureQX5(quBits); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX5(physicalQuBits); // includes the coupling map having CNOT constraints
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
     QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX5);
 

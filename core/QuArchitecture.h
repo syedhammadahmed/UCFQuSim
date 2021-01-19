@@ -54,6 +54,8 @@ public:
 
     void removeSrcQubits(vector<pair<int, int>>& frequencies);
     void removeSinkQubits(vector<pair<int, int>>& frequencies);
+
+    void init();
 };
 
 
