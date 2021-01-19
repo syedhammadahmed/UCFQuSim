@@ -15,6 +15,10 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
     for(int i = 0; i < n; i++)
         for(int j = 0; j < n; j++)
             couplingMap[i][j] = 0;
+    init();
+}
+
+void QuArchitecture::init() {
     addConstraintsQX5();
     makeSourceFrequencyPriorityList();
     makeTargetFrequencyPriorityList();

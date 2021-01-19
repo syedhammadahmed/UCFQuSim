@@ -565,7 +565,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
 
     insertEndingUnaryInstructions(finalProgram);
 
-    circuit.setOptimizations(optimize(finalProgram));
+//    circuit.setOptimizations(optimize(finalProgram));
 
     circuit.setInstructionsV1(finalProgram);
     circuit.setSwaps(totalSwaps);  // todo  should it be swaps??

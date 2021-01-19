@@ -42,7 +42,7 @@ public:
     QuMapping getNextMapping();
     const vector<string> &getPerms();
 
-    void initGenerator(int n);
+//    void initGenerator(int n);
 
     const int getPermCount();
 

@@ -408,13 +408,13 @@ QuMapping QuMappingInitializer::getNextMapping() {
 }
 
 
-void QuMappingInitializer::initGenerator(int n) {
+void QuMappingInitializer::initGenerator() {
     count = 0;
     for (int i = 0; i < n; ++i) {
         allocated.push_back(false);
     }
     // initialize qubit perm input vector
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < l; ++i) {
         permInput.push_back(i);
     }
     restrictedMapping.setN(n);
@@ -478,11 +478,11 @@ int QuMappingInitializer::findNearest(int physicalQuBit1) {
 }
 
 QuMappingInitializer::QuMappingInitializer(int n): n(n) {
-    initGenerator(n);
+    initGenerator();
 }
 
 QuMappingInitializer::QuMappingInitializer(int n, int l): n(n), l(l), count(0) {
-    initGenerator(n);
+    initGenerator();
 }
 
 
