@@ -327,7 +327,7 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
             if (permInput.size() > 10) // 10! perms
                 permInput.erase(permInput.begin() + 10, permInput.end());
             Util::permute(permInput, 0, permInput.size() - 1, perms);
-
+            cout << Util::pathToString(perms[perms.size()-1]) << endl;
             if (perms.size() > totalPermutations) { // todo random sampling - DONE
                 perms.erase(perms.begin() + totalPermutations, perms.end());
             }
@@ -367,7 +367,7 @@ void QuMappingInitializer::restrict(int first, int second) {
             if (INIT_MAPPING_START_NODE_RANK_WISE)
                 couple = getSmartCouple(first, second);  // get 2 adjacent pairs maintaining a connected component
             else
-                couple = getCouple(first, second);  // get 2 adjacent pairs
+                couple = getCouple(first, second);  // get 2 unallocated adjacent pairs
 
             restrictedMapping.setValueAt(couple.first, first);
             restrictedMapping.setValueAt(couple.second, second);
@@ -408,13 +408,13 @@ QuMapping QuMappingInitializer::getNextMapping() {
 }
 
 
-void QuMappingInitializer::initGenerator(int n) {
+void QuMappingInitializer::initGenerator() {
     count = 0;
     for (int i = 0; i < n; ++i) {
         allocated.push_back(false);
     }
     // initialize qubit perm input vector
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < l; ++i) {
         permInput.push_back(i);
     }
     restrictedMapping.setN(n);
@@ -478,11 +478,11 @@ int QuMappingInitializer::findNearest(int physicalQuBit1) {
 }
 
 QuMappingInitializer::QuMappingInitializer(int n): n(n) {
-    initGenerator(n);
+    initGenerator();
 }
 
 QuMappingInitializer::QuMappingInitializer(int n, int l): n(n), l(l), count(0) {
-    initGenerator(n);
+    initGenerator();
 }
 
 
