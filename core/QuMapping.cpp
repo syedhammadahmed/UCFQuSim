@@ -54,8 +54,6 @@ QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
 
 void QuMapping::init(int initializingPolicy) {  // 0 = default
     defaultInit();
-    if(initializingPolicy != 0){
-    }
 }
 
 int QuMapping::getLogicalMapping(int physicalBit) {

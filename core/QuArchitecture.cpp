@@ -19,7 +19,8 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
 }
 
 void QuArchitecture::init() {
-    addConstraintsQX5();
+//    addConstraintsQX5();
+    addConstraintsQX4();
     makeSourceFrequencyPriorityList();
     makeTargetFrequencyPriorityList();
     makeCommonFrequencyPriorityLists();
@@ -168,6 +169,19 @@ void QuArchitecture::addConstraintsQX5() {
     architectureQX5.addConstraint(15,2);
     architectureQX5.addConstraint(15,14);
 }
+
+void QuArchitecture::addConstraintsQX4() {
+    QuArchitecture& architectureQX4 = *this;
+    architectureQX4.addConstraint(1,0);
+
+    architectureQX4.addConstraint(2,0);
+    architectureQX4.addConstraint(2,1);
+    architectureQX4.addConstraint(2,4);
+
+    architectureQX4.addConstraint(3,2);
+    architectureQX4.addConstraint(3,4);
+}
+
 
 bool QuArchitecture::isAdjacent(int src, int dest) {
     if(couplingMap[src][dest] != 0)

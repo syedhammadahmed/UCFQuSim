@@ -388,7 +388,7 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
 }
 
 QuMapping QuSmartSwapper::getCurrentMapping() {
-    QuMapping currentMapping;
+    QuMapping currentMapping(0);
     if(!programCounter)
         currentMapping = initialMappings[perInstructionMappingCounter];
     else
@@ -447,7 +447,7 @@ void QuSmartSwapper::insertSwapGates(int source, int destination){
 }
 
 QuSmartSwapper::QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture)
-        : QuSwapStrategy(circuit, architecture), initialMapping(circuit.getRows()), perInstructionMappingCounter(0), allSPF(
+        : QuSwapStrategy(circuit, architecture), perInstructionMappingCounter(0), allSPF(
         nullptr), allPairShortestPathFinder(nullptr), mappingInitializer(architecture.getN(), circuit.getN()), hadamards(0), totalSwaps(0), totalHadamards(0)
            {}
 
@@ -468,7 +468,7 @@ unsigned int QuSmartSwapper::constraintNotSatisfied(int src, int dest, int **cou
 QuMapping QuSmartSwapper::generateOptimalInstructions() {
     int nonUnarySize = instructionWiseMappings.size() - 1;
     string parentMappingId;
-    vector<QuGate *> finalProgram;
+    vector<QuGate*> finalProgram;
     int parentProgramCounter, parentMappingCounter;
     hadamards = 0;
     QuMapping theMapping; // the initial mapping selected for program gen.
@@ -565,7 +565,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
 
     insertEndingUnaryInstructions(finalProgram);
 
-//    circuit.setOptimizations(optimize(finalProgram));
+    circuit.setOptimizations(optimize(finalProgram));
 
     circuit.setInstructionsV1(finalProgram);
     circuit.setSwaps(totalSwaps);  // todo  should it be swaps??

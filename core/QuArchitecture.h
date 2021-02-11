@@ -56,6 +56,8 @@ public:
     void removeSinkQubits(vector<pair<int, int>>& frequencies);
 
     void init();
+
+    void addConstraintsQX4();
 };
 
 

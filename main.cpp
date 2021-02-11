@@ -14,7 +14,7 @@
 using namespace std;
 
 int main() {
-    const int physicalQuBits = 16;
+    const int physicalQuBits = 5;
 
 //    Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;

@@ -42,6 +42,9 @@ private:
     vector<int> destFrequencies;
 public:
     QuCircuit();
+
+    virtual ~QuCircuit();
+
     QuCircuit(int rows);
     QuCircuit(int rows, int cols);
 //    QuCircuit(string fileName, int rows);
@@ -56,8 +59,6 @@ public:
 //    QuGate* operator[][](int, int);
 
     friend std::ostream &operator<<(std::ostream &os, const QuCircuit &circuit);
-
-    virtual ~QuCircuit();
 
     void init1();
     void init2();

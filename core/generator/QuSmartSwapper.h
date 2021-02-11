@@ -18,7 +18,7 @@ class AllPairShortestPathsFinder;
 class QuSmartSwapper: public QuSwapStrategy {
 private:
 //    static int MAPPING_THRESHOLD;
-    QuMapping initialMapping;
+//    QuMapping initialMapping;
     vector<vector<QuMapping>> instructionWiseMappings;  // instructionWiseMappings[0] = mappings for instruction 0 (1st instruction)
     int perInstructionMappingCounter;
     vector<QuGate*> nonUnaryInstructions;

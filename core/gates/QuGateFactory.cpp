@@ -36,7 +36,7 @@ QuGate* QuGateFactory::getQuGate(string mnemonic) {
     if(mnemonic == "h"){
         gate = new Hadamard();
     }
-    else if(mnemonic == "cx"){
+    else if(mnemonic == "cx"){;
         gate = new CNot();
     }
     else if(mnemonic == "id"){

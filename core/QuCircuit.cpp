@@ -24,7 +24,7 @@ QuCircuit::QuCircuit() {
     }
 }
 
-QuCircuit::QuCircuit(QuArchitecture& architecture): rows(architecture.getN()), grid(NULL) {
+QuCircuit::QuCircuit(QuArchitecture& architecture): rows(architecture.getN()), grid(NULL), mapping(architecture.getN()) {
 //    cout << "QuCircuit parameterized!" << endl;
     init1();
 }
@@ -493,5 +493,6 @@ int QuCircuit::getOptimizations() const {
 void QuCircuit::setOptimizations(int optimizations) {
     this->optimizations = optimizations;
 }
+
 
 
