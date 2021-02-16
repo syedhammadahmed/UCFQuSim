@@ -18,8 +18,7 @@ using namespace std;
 class QuMapping {
 private:
 
-//    int* physicalToLogical;  // todo revert to dynamic logic
-    int physicalToLogical[16];
+    vector<int> physicalToLogical;
     int n;
     string mappingId;
     string parentMappingId;
@@ -75,7 +74,7 @@ public:
 
     void setSwapInstructions(const vector<Swap> &swapInstructions);
 
-    const int *getPhysicalToLogical() const;
+    const vector<int> getPhysicalToLogical() const;
     void setValueAt(int index, int value);
     int getValueAt(int index);
 

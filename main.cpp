@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <util/Constants.h>
 
 #include "evaluator/QuMultiEvaluator.h"
 #include "core/generator/QuMultiGenerator.h"
@@ -14,8 +15,6 @@
 using namespace std;
 
 int main() {
-    const int physicalQuBits = 5;
-
 //    Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
     string inputDirectory = "../input/";
@@ -23,9 +22,10 @@ int main() {
     if (Util::verbose)
         cout << "Input File Directory: " << inputDirectory << endl;
 
-    QuArchitecture architectureQX5(physicalQuBits); // includes the coupling map having CNOT constraints
-    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX5);
-    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX5);
+//    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
+    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
+    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX);
 
     auto data = quMultiGenerator.generateAllCircuits();
     auto results = data.first;

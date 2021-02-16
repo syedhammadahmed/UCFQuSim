@@ -46,8 +46,9 @@ QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
     parentMappingId = arg.parentMappingId;
     clearSwapInstructions();
     setSwapInstructions(arg.swapInstructions);
+    physicalToLogical.clear();
     for(int i=0; i<n; i++){
-        physicalToLogical[i] = arg.physicalToLogical[i];
+        physicalToLogical.push_back(arg.physicalToLogical[i]);
     }
 }
 
@@ -188,8 +189,9 @@ void QuMapping::operator=(const QuMapping &arg) {
     parentMappingId = arg.parentMappingId;
     clearSwapInstructions();
     setSwapInstructions(arg.swapInstructions);
+    physicalToLogical.clear();
     for(int i=0; i<n; i++){
-        physicalToLogical[i] = arg.physicalToLogical[i];
+        physicalToLogical.push_back(arg.physicalToLogical[i]);
     }
 }
 
@@ -222,7 +224,7 @@ const vector<Swap> &QuMapping::getSwapInstructions() const {
 //    }
 //}
 
-const int *QuMapping::getPhysicalToLogical() const {
+const vector<int> QuMapping::getPhysicalToLogical() const {
     return physicalToLogical;
 }
 
@@ -244,6 +246,7 @@ QuMapping::QuMapping(bool doStrongInit) {
 
 void QuMapping::defaultInit() {
     // default initial mapping
+    physicalToLogical.resize(n);
     for(int i=0; i<n; i++) {
         physicalToLogical[i] = (i) % n; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
     }
@@ -251,6 +254,7 @@ void QuMapping::defaultInit() {
 
 void QuMapping::strongInit() {
     // default initial mapping
+    physicalToLogical.resize(n);
     for(int i=0; i<n; i++) {
         physicalToLogical[i] = -1;
     }

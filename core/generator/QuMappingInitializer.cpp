@@ -481,7 +481,7 @@ QuMappingInitializer::QuMappingInitializer(int n): n(n) {
     initGenerator();
 }
 
-QuMappingInitializer::QuMappingInitializer(int n, int l): n(n), l(l), count(0) {
+QuMappingInitializer::QuMappingInitializer(int n, int l): n(n), l(l), count(0), restrictedMapping(n) {
     initGenerator();
 }
 

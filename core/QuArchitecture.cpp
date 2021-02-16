@@ -6,6 +6,7 @@
 #include <util/Util.h>
 #include <map>
 #include <algorithm>
+#include <util/Constants.h>
 #include "QuArchitecture.h"
 
 QuArchitecture::QuArchitecture(int n) : n(n) {
@@ -19,8 +20,10 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
 }
 
 void QuArchitecture::init() {
-//    addConstraintsQX5();
-    addConstraintsQX4();
+    if (n == Constants::QX4_N)
+        addConstraintsQX4();
+    else
+        addConstraintsQX5();  // default QX5
     makeSourceFrequencyPriorityList();
     makeTargetFrequencyPriorityList();
     makeCommonFrequencyPriorityLists();

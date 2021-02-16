@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(UCFQuSim)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 
 include_directories(.)
 include_directories(core)
@@ -89,10 +90,6 @@ add_executable(UCFQuSim
         core/QuCircuit.h
         core/QuMapping.cpp
         core/QuMapping.h
-        core/QuRegister.cpp
-        core/QuRegister.h
-        core/QuSimulator.cpp
-        core/QuSimulator.h
         evaluator/QuCircuitEvaluator.cpp
         evaluator/QuCircuitEvaluator.h
         evaluator/QuMultiEvaluator.cpp
@@ -105,4 +102,4 @@ add_executable(UCFQuSim
         AllShortestPathsFinder.h
         main.cpp
         ShortestPathFinder.cpp
-        ShortestPathFinder.h AllPairShortestPathFinder.cpp AllPairShortestPathFinder.h core/generator/PriorityGraph.cpp core/generator/PriorityGraph.h core/generator/PriorityNode.cpp core/generator/PriorityNode.h core/generator/QuCircuitLayerManager.cpp core/generator/QuCircuitLayerManager.h core/Config.h core/generator/QuCircuitOptimizer.cpp core/generator/QuCircuitOptimizer.h)
+        ShortestPathFinder.h AllPairShortestPathFinder.cpp AllPairShortestPathFinder.h core/generator/PriorityGraph.cpp core/generator/PriorityGraph.h core/generator/PriorityNode.cpp core/generator/PriorityNode.h core/generator/QuCircuitLayerManager.cpp core/generator/QuCircuitLayerManager.h core/Config.h core/generator/QuCircuitOptimizer.cpp core/generator/QuCircuitOptimizer.h util/Constants.h)
