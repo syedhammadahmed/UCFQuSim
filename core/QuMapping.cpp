@@ -203,6 +203,9 @@ bool QuMapping::operator==(const QuMapping &arg) {
     return true;
 }
 
+QuMapping::QuMapping() {
+}
+
 QuMapping::~QuMapping() {
 //    for(int i=0; i<swapInstructions.size(); i++) {
 //        delete swapInstructions[i];
@@ -237,12 +240,12 @@ QuMapping::QuMapping(string mappingId) {
     this->mappingId = mappingId;
 }
 
-QuMapping::QuMapping(bool doStrongInit) {
-    if (doStrongInit)
-        strongInit();
-    else
-        defaultInit();
-}
+//QuMapping::QuMapping(bool doStrongInit) {
+//    if (doStrongInit)
+//        strongInit();
+//    else
+//        defaultInit();
+//}
 
 void QuMapping::defaultInit() {
     // default initial mapping

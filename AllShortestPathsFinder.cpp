@@ -31,7 +31,6 @@ void AllShortestPathsFinder::findAllPaths(int src, int dest, int swaps)
     delete [] path;
 }
 
-// todo find src reference
 // A recursive function to print all paths from 'u'  to 'd'.
 // visited[] keeps track of vertices in current path.
 // path[] stores actual vertices

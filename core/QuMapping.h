@@ -17,7 +17,6 @@ using namespace std;
 
 class QuMapping {
 private:
-
     vector<int> physicalToLogical;
     int n;
     string mappingId;
@@ -33,8 +32,9 @@ public:
     explicit QuMapping(int n);
     explicit QuMapping(int n, int permId);
 
-    QuMapping(bool strongInit = false);
+//    QuMapping(bool strongInit = false);
 
+    QuMapping();
     QuMapping(const QuMapping& arg);
     void operator=(const QuMapping& arg);
     bool operator==(const QuMapping& arg);

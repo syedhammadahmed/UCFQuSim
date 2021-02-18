@@ -23,7 +23,7 @@ int main() {
         cout << "Input File Directory: " << inputDirectory << endl;
 
 //    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
-    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX(Constants::QX4_N); // includes the coupling map having CNOT constraints
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
     QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX);
 

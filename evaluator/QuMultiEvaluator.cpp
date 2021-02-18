@@ -23,19 +23,16 @@ QuMultiEvaluator::QuMultiEvaluator(const string directory, QuArchitecture& quArc
 }
 
 void QuMultiEvaluator::evaluateAllCircuits(){
-
     for(int i=0; i<files.size(); i++) {
-        string ofile = files[i]; // todo commented for results printing
+        string ofile = files[i];
         if(files[i] == "." || files[i] == "..")
             continue;
         QuCircuitGenerator testQuCircuitBuilder(quArchitecture);
         cout << "Evaluating intermediate output file: " << ofile << ": ";
         testQuCircuitBuilder.buildFromFile(directory + ofile);
-//        string name = ofile.substr(7, ofile.length()-1);
         QuCircuit& testCircuit = testQuCircuitBuilder.getCircuit();
         QuCircuitEvaluator quCircuitEvaluator(testCircuit, map[ofile]);
         bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(quArchitecture.getCouplingMap());
-//        cout << endl;
     }
 }
 

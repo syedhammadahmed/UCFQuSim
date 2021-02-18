@@ -388,7 +388,7 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
 }
 
 QuMapping QuSmartSwapper::getCurrentMapping() {
-    QuMapping currentMapping(0);
+    QuMapping currentMapping(this->architecture.getN());
     if(!programCounter)
         currentMapping = initialMappings[perInstructionMappingCounter];
     else
@@ -471,7 +471,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
     vector<QuGate*> finalProgram;
     int parentProgramCounter, parentMappingCounter;
     hadamards = 0;
-    QuMapping theMapping; // the initial mapping selected for program gen.
+    QuMapping theMapping(architecture.getN()); // the initial mapping selected for program gen.
     if (!nonUnaryInstructions.empty()){  // todo SHA: use DAG sequence
         theMapping = instructionWiseMappings[nonUnarySize][0]; // get any (1st) last mapping to start backtracking
         vector<QuMapping> selectedMappings;

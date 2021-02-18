@@ -80,13 +80,11 @@ void QuCircuitLayerManager::printSimpleGrid(){
 //    Util::verbose = true;
     if(Util::verbose) {
         cout << "Printing Circuit Grid (grid of qugates positions): " << endl;
-//        for (int i = 0; i < 50; i++) cout << "__";   // todo make it generic for any layers
         cout << endl;
         for (int i = 0; i < rows; i++) {
             cout << std::setw(8);
             cout << "q[" << i << "]";
             for (int j = 0; j < cols; j++) {
-//            for (int j = 0; j < 1; j++) {
                 cout << std::setw(4);
                 if (simpleGrid[i][j] == -1)
                     cout << "." << " ";

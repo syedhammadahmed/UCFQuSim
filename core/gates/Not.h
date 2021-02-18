@@ -14,7 +14,7 @@ public:
 
 //    Not(int depth, int cardinality);
 
-    // TODO: generate constructors
+
     void apply(QuBit *bit, int i) override;
 
 
