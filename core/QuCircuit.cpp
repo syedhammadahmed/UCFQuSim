@@ -399,6 +399,7 @@ void QuCircuit::printInstructions() {
             }
         } catch (exception &e) {
             cout << "Exception : " << e.what() << '\n';
+
         }
     }
 }
