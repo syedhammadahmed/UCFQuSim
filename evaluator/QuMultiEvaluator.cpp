@@ -6,7 +6,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 //#include <direct.h>
-//#include <direct.h>
+#include <direct.h>
 #include <cstdio>
 
 #include "QuMultiEvaluator.h"
@@ -55,8 +55,8 @@ void QuMultiEvaluator::deletePreviousFiles() {
 
     dir = opendir(directory.c_str());
     if(dir == NULL)
-//        _mkdir(directory.c_str());
-        mkdir(directory.c_str(), 0777);
+        _mkdir(directory.c_str());
+//        mkdir(directory.c_str(), 0777);
 
     while ((dirPtr = readdir(dir)) != NULL) {
         if(string(dirPtr->d_name) == "." || string(dirPtr->d_name) == "..")
