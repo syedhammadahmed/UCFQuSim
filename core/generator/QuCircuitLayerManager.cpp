@@ -230,7 +230,9 @@ bool QuCircuitLayerManager::isNewInsturction(int instructionId, vector<int> firs
 
 unordered_map<int, QuGate *> QuCircuitLayerManager::getInstructionMap() {
     unordered_map<int, QuGate*> instructionMap;
-    for (auto& instruction: instructions) {
+    cout << "instructions size: " << instructions.size() << endl;
+    for (auto instruction: instructions) {
+        cout << "instruction->getGateId(): " << instruction->getGateId() << endl;
         instructionMap[instruction->getGateId()] = instruction;
     }
     return instructionMap;

@@ -80,6 +80,9 @@ public:
     static int performUnaryCancellations(vector<QuGate *> &finalProgram);
     static vector<QuGate *>::iterator findMergingPartner(vector<QuGate *>::iterator it1, vector<QuGate *>::iterator end);
 
+    QuMapping generateOptimalInstructionsDAG();
+
+    QuMapping generateOptimalInstructionsDefault();
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H

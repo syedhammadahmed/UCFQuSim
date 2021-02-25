@@ -110,7 +110,7 @@ int QuGate::getGateId() const {
 }
 
 void QuGate::setGateId(int gateId) {
-    QuGate::gateId = gateId;
+    this->gateId = gateId;
 }
 
 // ignores order of qubits
