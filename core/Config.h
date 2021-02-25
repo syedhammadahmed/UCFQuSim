@@ -5,12 +5,12 @@
 #ifndef UCFQUSIM_CONFIG_H
 #define UCFQUSIM_CONFIG_H
 
-#define DAG_SCHEME true
+#define DAG_SCHEME false
 #define INIT_MAPPING_RESTRICT_MODE false
 #define K 4
-#define INIT_MAPPING_DEFAULT_ONLY true
-#define TOTAL_PERM 30  // initial mapping count
-#define MAPPING_THRESHOLD 30  // other mapping count after pruning
+#define INIT_MAPPING_DEFAULT_ONLY false
+#define TOTAL_PERM 100000  // initial mapping count
+#define MAPPING_THRESHOLD 100000  // other mapping count after pruning
 //#define MAPPING_THRESHOLD 3628800  // other mapping count after pruning
 #define RANDOM_SAMPLING_INIT_MAPPINGS false
 #define INIT_MAPPING_START_NODE_RANK_WISE false

@@ -34,7 +34,10 @@ int QuSmartSwapper::findTotalCostDAG() {
 
     int totalInstructions = nonUnaryInstructions.size();
     for(int i=0; i<totalInstructions; i++){
-        Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
+        Util::setVerbose();
+        Util::println("INSTRUCTION ANALYSIS START: programCounter: " + to_string(programCounter));
+        Util::resetVerbose();
+
         this->currentInstruction = nullptr;
 
         // get input mappings to apply on this instruction
@@ -91,7 +94,10 @@ int QuSmartSwapper::findTotalCostDAG() {
 
         totalCost += minCostLayer;
 
-        Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
+        Util::setVerbose();
+        Util::println("minCostLayer: " + to_string(minCostLayer) + " totalCost: " + to_string(totalCost));
+        Util::println("INSTRUCTION ANALYSIS END: programCounter: " + to_string(programCounter) + " gateId: " + to_string(minId));
+        Util::resetVerbose();
 //        previousInstruction = currentInstruction;
         programCounter++;
     }
@@ -233,8 +239,12 @@ pair<vector<QuMapping>, int> QuSmartSwapper::findAllMinCostMappingsFromPermutati
                 mappingCosts.push_back(cost);
             }
         }
-        std::sort(mappingCosts.begin(), mappingCosts.end());
-        minCost = mappingCosts[0];
+        // find min cost
+        vector<int> tempMappingCosts = mappingCosts;
+        std::sort(tempMappingCosts.begin(), tempMappingCosts.end());
+        minCost = tempMappingCosts[0];
+        //
+
         for (int i = 0; i < mappings.size(); ++i) {
             if (mappingCosts[i] == minCost) {
                 mappings[i].setParentMappingId(inputMapping.getMappingId());
@@ -413,8 +423,10 @@ void QuSmartSwapper::findShortestPathsFor1InputMapping() {
     shortestPath = result.first;
 //    edgeDistance = result.second; // # of swaps + 1 OR # of hops OR edge distance
     swaps = shortestPath.size() - 2;
-    if (swaps > 0) // find all shortest paths
+    if (swaps > 0) { // find all shortest paths
         allSPFSwapPaths = allSPF->findSingleSourceAllShortestPaths(src, dest, swaps); // todo find shortest w/o swaps arg
+
+    }
     else
         allSPFSwapPaths.push_back(shortestPath);
 }
@@ -583,13 +595,16 @@ QuMapping QuSmartSwapper::generateOptimalInstructionsDAG() {
     int parentProgramCounter, parentMappingCounter;
     hadamards = 0;
     QuMapping theMapping(architecture.getN()); // the initial mapping selected for program gen.
+
+//    QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
+//    selectedNonUnaryInstructionIds
     if (!nonUnaryInstructions.empty()){  // todo SHA: use DAG sequence
         theMapping = instructionWiseMappings[nonUnarySize][0]; // get any (1st) last mapping to start backtracking
         vector<QuMapping> selectedMappings;
 
         int i;
         // prepare hierarchical list of mappings that will lead to the optimized code
-        for (i = nonUnarySize - 1; i >= 0; i--) { // todo fix dag mapping backtrack issue
+        for (i = nonUnarySize - 1; i >= 0; i--) { // todo fix dag mapping backtrack issue0-
             selectedMappings.insert(selectedMappings.begin(), theMapping);
             parentMappingId = theMapping.getParentMappingId();
             Util::parseMappingId(parentMappingId, parentProgramCounter, parentMappingCounter);
