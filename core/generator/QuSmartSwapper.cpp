@@ -33,12 +33,15 @@ int QuSmartSwapper::findTotalCostDAG() {
 //    QuGate* previousInstruction = nullptr;
 
     int totalInstructions = nonUnaryInstructions.size();
+    QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
+    nonUnaryInstructionsMap = layerManager->getInstructionMap();
+
     for(int i=0; i<totalInstructions; i++){
         Util::setVerbose();
         Util::println("INSTRUCTION ANALYSIS START: programCounter: " + to_string(programCounter));
         Util::resetVerbose();
 
-        this->currentInstruction = nullptr;
+         this->currentInstruction = nullptr;
 
         // get input mappings to apply on this instruction
         vector<QuMapping> inputMappings = getAllMappingsForCurrentInstruction();  // todo get mappings only once esp initial not re-generate
@@ -79,7 +82,7 @@ int QuSmartSwapper::findTotalCostDAG() {
         if(!minFilteredSPMappingsForAllMappings.empty()){
             auto totalMappingsCounter = 0;
             for (auto& mapping: minFilteredSPMappingsForAllMappings) {
-                mapping.setMappingId(to_string(programCounter) + "." + to_string(totalMappingsCounter));
+                mapping.setMappingId(to_string(programCounter+1) + "." + to_string(totalMappingsCounter));
                 totalMappingsCounter++;
             }
             instructionWiseMappings.push_back(minFilteredSPMappingsForAllMappings);
@@ -89,7 +92,6 @@ int QuSmartSwapper::findTotalCostDAG() {
         }
 
         selectedNonUnaryInstructionIds.push_back(minId);
-        QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
         layerManager->removeInstruction(minId);
 
         totalCost += minCostLayer;
@@ -612,7 +614,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructionsDAG() {
             selectedMappings.insert(selectedMappings.begin(), theMapping);
             parentMappingId = theMapping.getParentMappingId();
             Util::parseMappingId(parentMappingId, parentProgramCounter, parentMappingCounter);
-            theMapping = instructionWiseMappings[parentProgramCounter][parentMappingCounter];
+            theMapping = instructionWiseMappings[parentProgramCounter - 1][parentMappingCounter];
             Util::println("B: theMapping.getMappingId(): " + theMapping.getMappingId());
             Util::println("B: theMapping.getParentMappingId(): " + theMapping.getParentMappingId());
         }
@@ -633,7 +635,7 @@ QuMapping QuSmartSwapper::generateOptimalInstructionsDAG() {
                         swapGate->setArgAtIndex(1, target);
                         swapInstructions.push_back(swapGate);
                         swaps++;
-                    }
+                }
                 for (int i = 0; i < swapInstructions.size(); i++) {
                     finalProgram.push_back(swapInstructions[i]);
                 }
@@ -738,6 +740,32 @@ void QuSmartSwapper::insertEndingUnaryInstructions(vector<QuGate*>& finalProgram
 }
 
 int QuSmartSwapper::insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex) {
+    int index = 0;
+    if (DAG_SCHEME){
+        index = insertRemovedUnaryInstructionsDAG(finalProgram, nextNonUnaryIndex);
+    }
+    else {
+        index = insertRemovedUnaryInstructionsDefault(finalProgram, nextNonUnaryIndex);
+    }
+    return index;
+}
+
+int QuSmartSwapper::insertRemovedUnaryInstructionsDefault(vector<QuGate*>& finalProgram, int nextNonUnaryIndex) {
+    vector<QuGate*> originalProgram = circuit.getInstructions();
+    int i = 0;
+    int nonUnaryCounter = 0;
+    originalProgram.erase(originalProgram.begin(), originalProgram.begin() + nextNonUnaryIndex);
+    while(originalProgram[i]->isUnary()){
+        finalProgram.push_back(originalProgram[i]);
+        i++;
+//        cout << "originalProgram.size(): " << originalProgram.size() << ", i: " << i << endl;
+    }
+    Util::println("nextNonUnaryIndex + i + 1: " + to_string(nextNonUnaryIndex + i + 1));
+    return nextNonUnaryIndex + i + 1;
+}
+
+// todo
+int QuSmartSwapper::insertRemovedUnaryInstructionsDAG(vector<QuGate*>& finalProgram, int nextNonUnaryIndex) {
     vector<QuGate*> originalProgram = circuit.getInstructions();
     int i = 0;
     int nonUnaryCounter = 0;
@@ -904,7 +932,6 @@ pair<int, vector<QuMapping>> QuSmartSwapper::findMinCostMappingsForNextInstructi
 vector<int> QuSmartSwapper::getCurrentInstructionIds() {
     QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
     vector<int> instructionIds = layerManager->getNextSourceInstructionIds();
-    nonUnaryInstructionsMap = layerManager->getInstructionMap();
     return instructionIds;
 }
 

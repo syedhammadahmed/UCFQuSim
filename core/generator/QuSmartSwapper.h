@@ -83,6 +83,10 @@ public:
     QuMapping generateOptimalInstructionsDAG();
 
     QuMapping generateOptimalInstructionsDefault();
+
+    int insertRemovedUnaryInstructionsDefault(vector<QuGate *> &finalProgram, int nextNonUnaryIndex);
+
+    int insertRemovedUnaryInstructionsDAG(vector<QuGate *> &finalProgram, int nextNonUnaryIndex);
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H
