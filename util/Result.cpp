@@ -36,4 +36,8 @@ Result::Result(const string &file, int swaps, int gatesOriginal, int gatesPropos
                int depthProposed, int hadamards, double timeProposed, int gatesProposedOptimized) : file(file), swaps(swaps), gatesOriginal(gatesOriginal), gatesProposed(gatesProposed),
                                                       depthProposed(depthProposed), hadamards(hadamards), timeProposed(timeProposed), gatesProposedOptimized(gatesProposedOptimized) {}
 
+string Result::getFile() {
+    return file;
+}
+
 

@@ -93,7 +93,11 @@ public:
 
     string toString();
 
+    void setPhysicalToLogical(const vector<int> &physicalToLogical);
+
     QuMapping(string mappingId);
+
+    void hardCodedInit();
 };
 
 

@@ -31,6 +31,8 @@ public:
 
     void print();
     static void printHeader();
+
+    string getFile();
 };
 
 

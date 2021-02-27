@@ -83,6 +83,8 @@ public:
     PriorityNode allocateTopRankNode();
 
     vector<pair<int, int>> getFreeNeighbors();
+
+//    vector<QuMapping> generateHardcodedMappings(vector<int> physicalToLogical, QuArchitecture &quArchitecture);
 };
 
 

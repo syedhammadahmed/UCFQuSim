@@ -315,3 +315,11 @@ bool QuMapping::isLegit() {
 int QuMapping::getN() const {
     return n;
 }
+
+void QuMapping::setPhysicalToLogical(const vector<int> &physicalToLogical) {
+    this->physicalToLogical = physicalToLogical;
+}
+
+void QuMapping::hardCodedInit() {
+    setPhysicalToLogical(Util::makeMappingVector());
+}

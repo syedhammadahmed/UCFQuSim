@@ -243,3 +243,25 @@ void Util::randomSampling(vector<QuMapping>& population, vector<QuMapping>& samp
     std::shuffle(population.begin(), population.end(), myRandomEngine);
     sample.insert(sample.begin(), population.begin(), population.begin() + sampleSize);
 }
+
+vector<int> Util::makeMappingVector() {
+    vector<int> mappingVector;
+    mappingVector.push_back(0);
+    mappingVector.push_back(1);
+    mappingVector.push_back(2);
+    mappingVector.push_back(7);
+    mappingVector.push_back(6);
+    mappingVector.push_back(5);
+    mappingVector.push_back(3);
+    mappingVector.push_back(4);
+    mappingVector.push_back(8);
+    mappingVector.push_back(9);
+    mappingVector.push_back(10);
+    mappingVector.push_back(11);
+    mappingVector.push_back(12);
+    mappingVector.push_back(13);
+    mappingVector.push_back(14);
+    mappingVector.push_back(15);
+
+    return mappingVector;
+}

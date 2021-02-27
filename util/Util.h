@@ -54,6 +54,8 @@ public:
 
     //https://www.gormanalysis.com/blog/random-numbers-in-cpp/#sampling-without-replacement
     static void randomSampling(vector<QuMapping> &population, vector<QuMapping> &sample, int sampleSize);
+
+    static vector<int> makeMappingVector();
 };
 
 

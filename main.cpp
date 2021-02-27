@@ -14,6 +14,15 @@
 
 using namespace std;
 
+//int main() {
+//    for (int i = 5; i < 11; ++i) {
+//        cout << "#define TOTAL_PERM " << Util::factorial(i) << "    // " << i << "!" << endl;
+//        cout << "#define MAPPING_THRESHOLD " << Util::factorial(i) << "    // " << i << "!" << endl;
+//    }
+//
+//    return 0;
+//}
+//
 int main() {
 //    Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
@@ -30,9 +39,15 @@ int main() {
     auto data = quMultiGenerator.generateAllCircuits();
     auto results = data.first;
     auto initialMappingsMap = data.second;
+
     Result::printHeader();
     for (Result result: results) {
         result.print();
+        Util::setVerbose();
+        string name = "output_" + result.getFile() + ".qasm";
+        QuMapping initialMapping = initialMappingsMap[name];
+        initialMapping.print();
+        Util::resetVerbose();
     }
 
     quMultiEvaluator.setinitMappingsMap(initialMappingsMap);
@@ -41,7 +56,7 @@ int main() {
 
     return 0;
 }
-//
+
 //int main(){
 //    vector<QuGate*> program;
 //    QuGate* gate = nullptr;

@@ -138,7 +138,9 @@ int QuSmartSwapper::findTotalCostDefault() {
     QuGate* previousInstruction = nullptr;
     vector<QuMapping> nextInstructionMappings;
 
+
     for(QuGate* instruction: nonUnaryInstructions){
+        Util::timeIt(false);
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
         this->currentInstruction = instruction;
 //        if(currentInstructionSameAsPrevious(previousInstruction, currentInstruction))
@@ -158,6 +160,7 @@ int QuSmartSwapper::findTotalCostDefault() {
                 totalMappingsCounter++;
             }
             instructionWiseMappings.push_back(filteredSPMappingsForAllMappings);
+            cout << "filteredSPMappingsForAllMappings: " << filteredSPMappingsForAllMappings.size() << endl;
         }
         else {
             cout << "WWWWWWWWWWWWHHHHHHHHHHHHHHHYYYYYYYYYYYYYYYYYY!" << endl;
@@ -167,6 +170,7 @@ int QuSmartSwapper::findTotalCostDefault() {
         Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
         programCounter++;
 //        previousInstruction = currentInstruction;
+        cout << "time per instruction: " << Util::timeIt(true) << endl;
     }
     delete allSPF;
     delete allPairShortestPathFinder;

@@ -258,13 +258,27 @@ PriorityNode QuMappingInitializer::allocateTopRankNode(){
     return logicalQuBitToAllocate;
 }
 
+
+//vector<QuMapping> QuMappingInitializer::generateHardcodedMappings(vector<int> physicalToLogical, QuArchitecture& quArchitecture) {
+//    vector<QuMapping> initMappings;
+//    QuMapping initMapping(quArchitecture.getN());
+//    initMapping.setPhysicalToLogical(physicalToLogical);
+//    initMappings.push_back(initMapping);
+//
+//    return initMappings;
+//}
+
 vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture) {
     vector<QuMapping> initMappings;
 
-    if (INIT_MAPPING_DEFAULT_ONLY) {
+    if (INIT_MAPPING_DEFAULT_ONLY || INIT_MAPPING_HARD_CODED_ONLY) {
         initMappings.clear(); // todo remove it.. just testing..
         QuMapping initialMapping(n);
-        initialMapping.defaultInit();
+        if (INIT_MAPPING_DEFAULT_ONLY)
+            initialMapping.defaultInit();
+        else
+            initialMapping.hardCodedInit();
+
         initialMapping.setParentMappingId("*");
         initialMapping.setMappingId("0.0");
 
@@ -324,11 +338,11 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
         }
         else {
             // no random sampling start
-            if (permInput.size() > 10) // 10! perms
-                permInput.erase(permInput.begin() + 10, permInput.end());
+            if (permInput.size() > PERM_N) // 10! perms
+                permInput.erase(permInput.begin() + PERM_N, permInput.end());
             Util::permute(permInput, 0, permInput.size() - 1, perms);
-            cout << Util::pathToString(perms[perms.size()-1]) << endl;
-            if (perms.size() > totalPermutations) { // todo random sampling - DONE
+            cout << "Permutations generated!"<< endl;
+            if (perms.size() > totalPermutations) {
                 perms.erase(perms.begin() + totalPermutations, perms.end());
             }
             // no random sampling end
@@ -414,9 +428,10 @@ void QuMappingInitializer::initGenerator() {
         allocated.push_back(false);
     }
     // initialize qubit perm input vector
-    for (int i = 0; i < l; ++i) {
+    for (int i = 0; i < n; ++i) { // todo: l changed to n ????
         permInput.push_back(i);
     }
+    cout << "logical bits: " << l << endl;
     restrictedMapping.setN(n);
     restrictedMapping.strongInit();
 }
