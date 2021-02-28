@@ -258,7 +258,7 @@ PriorityNode QuMappingInitializer::allocateTopRankNode(){
     return logicalQuBitToAllocate;
 }
 
-
+//
 //vector<QuMapping> QuMappingInitializer::generateHardcodedMappings(vector<int> physicalToLogical, QuArchitecture& quArchitecture) {
 //    vector<QuMapping> initMappings;
 //    QuMapping initMapping(quArchitecture.getN());

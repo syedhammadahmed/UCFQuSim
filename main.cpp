@@ -15,10 +15,7 @@
 using namespace std;
 
 //int main() {
-//    for (int i = 5; i < 11; ++i) {
-//        cout << "#define TOTAL_PERM " << Util::factorial(i) << "    // " << i << "!" << endl;
-//        cout << "#define MAPPING_THRESHOLD " << Util::factorial(i) << "    // " << i << "!" << endl;
-//    }
+//    Util::makeMappingVector();
 //
 //    return 0;
 //}
@@ -46,7 +43,7 @@ int main() {
         Util::setVerbose();
         string name = "output_" + result.getFile() + ".qasm";
         QuMapping initialMapping = initialMappingsMap[name];
-        initialMapping.print();
+//        initialMapping.print();
         Util::resetVerbose();
     }
 
