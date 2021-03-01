@@ -248,7 +248,7 @@ void Util::randomSampling(vector<QuMapping>& population, vector<QuMapping>& samp
 
 vector<int> Util::makeMappingVector() {
     vector<int> mappingVector(Constants::QX5_N);
-    const int *mappingArray = Constants::HARDCODED_INIT_MAPPINGS[Constants::ising_model_10];
+    const int *mappingArray = Constants::HARDCODED_INIT_MAPPINGS[Constants::rd73_140];
     memcpy(&mappingVector[0], mappingArray, Constants::QX5_N*sizeof(int));
     return mappingVector;
 }

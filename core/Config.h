@@ -23,8 +23,8 @@
 #define DAG_SCHEME false
 #define INIT_MAPPING_RESTRICT_MODE false
 #define K 4
-#define INIT_MAPPING_DEFAULT_ONLY true
-#define INIT_MAPPING_HARD_CODED_ONLY false
+#define INIT_MAPPING_DEFAULT_ONLY false
+#define INIT_MAPPING_HARD_CODED_ONLY true
 
 
 //#define TOTAL_PERM 3628800    // 10!
