@@ -33,11 +33,11 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
     bool satisfied = true;
     int arg1 = 0;
     int arg2 = 0;
-    vector<QuGate*> instructions = circuit.getInstructionsV1();
+    vector<std::shared_ptr<QuGate>> instructions = circuit.getInstructionsV1();
 //    cout << "Before evaluator: " << endl;
 //    printMappings();
     try {
-        for (QuGate *quGate: instructions) {
+        for (std::shared_ptr<QuGate> quGate: instructions) {
             string quGateName = Util::toLower(quGate->getMnemonic());
             arg1 = quGate -> getArgIndex()[0];
             if (quGate -> getCardinality() > 1) {
@@ -82,11 +82,11 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //    bool satisfied = true;
 //    int arg1 = 0;
 //    int arg2 = 0;
-//    vector<QuGate*> instructions = circuit.getInstructions();
+//    vector<std::shared_ptr<QuGate>> instructions = circuit.getInstructions();
 ////    cout << "Before evaluator: " << endl;
 ////    printMappings();
 //    try {
-//        for (QuGate *quGate: instructions) {
+//        for (std::shared_ptr<QuGate> quGate: instructions) {
 ////            cout << endl;
 ////            printMappings();
 ////            cout << endl;
@@ -141,7 +141,7 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //    return count;
 //}
 
-//int QuCircuitEvaluator::findShortestPathsFor1InputMapping(QuGate *quGate, int **couplingMap) {
+//int QuCircuitEvaluator::findShortestPathsFor1InputMapping(std::shared_ptr<QuGate> quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, circuit.getRows());
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate

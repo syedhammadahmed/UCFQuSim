@@ -159,11 +159,11 @@ void QuMapping::setParentMappingId(const string &parentMappingId) {
 }
 
 
-//vector<QuGate*> QuMapping::getSwapInstructions(){
+//vector<std::shared_ptr<QuGate>> QuMapping::getSwapInstructions(){
 //return swapInstructions;
 //}
 //
-void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
+void QuMapping::setSwapInstructions(const vector<Swap> swapInstructions) {
     for (int i = 0; i < swapInstructions.size(); ++i) {
         Swap swapGate;
         swapGate.setArgAtIndex(0, swapInstructions[i].getArgAtIndex(0));
@@ -174,9 +174,9 @@ void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
 }
 
 
-//void QuMapping::setSwapInstructions(const vector<QuGate*>& swapInstructions) {
-//    for(QuGate* gate: swapInstructions) {
-//        QuGate *swapGate = QuGateFactory::getQuGate("SWAP");
+//void QuMapping::setSwapInstructions(const vector<std::shared_ptr<QuGate>>& swapInstructions) {
+//    for(std::shared_ptr<QuGate> gate: swapInstructions) {
+//        std::shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");
 //        swapGate->getArgIndex()[0] = gate->getArgIndex()[0];
 //        swapGate->getArgIndex()[1] = gate->getArgIndex()[1];
 //        this->swapInstructions.push_back(swapGate);
@@ -217,7 +217,7 @@ void QuMapping::clearSwapInstructions() {
     swapInstructions.clear();
 }
 
-const vector<Swap> &QuMapping::getSwapInstructions() const {
+const vector<Swap> QuMapping::getSwapInstructions() const {
     return swapInstructions;
 }
 
@@ -249,9 +249,11 @@ QuMapping::QuMapping(string mappingId) {
 
 void QuMapping::defaultInit() {
     // default initial mapping
-    physicalToLogical.resize(n);
+//    physicalToLogical.resize(n);
+    physicalToLogical.clear();
     for(int i=0; i<n; i++) {
-        physicalToLogical[i] = (i) % n; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
+        physicalToLogical.push_back(i % n); // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
+//        physicalToLogical[i] = (i) % n; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
     }
 }
 

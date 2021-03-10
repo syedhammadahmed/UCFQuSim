@@ -28,82 +28,84 @@
 #include "gates/Swap.h"
 #include "util/Util.h"
 
-QuGate* QuGateFactory::getQuGate(string mnemonic) {
-    QuGate* gate = NULL;
+std::shared_ptr<QuGate> QuGateFactory::getQuGate(string mnemonic) {
+    std::shared_ptr<QuGate> gate;
 
     mnemonic = Util::toLower(mnemonic);
 
     if(mnemonic == "h"){
-        gate = new Hadamard();
+//        gate = std::make_shared<Hadamard>();
+        gate = std::make_shared<Hadamard>();
     }
     else if(mnemonic == "cx"){;
-        gate = new CNot();
+//        gate = std::make_shared<CNot>();
+        gate = std::make_shared<CNot>();
     }
     else if(mnemonic == "id"){
-        gate = new Identity();
+        gate = std::make_shared<Identity>();
     }
     else if(mnemonic == "u3"){
-        gate = new U3();
+        gate = std::make_shared<U3>();
     }
     else if(mnemonic == "u2"){
-        gate = new U2();
+        gate = std::make_shared<U2>();
     }
     else if(mnemonic == "u1"){
-        gate = new U1();
+        gate = std::make_shared<U1>();
     }
     else if(mnemonic == "rx"){
-        gate = new Rx();
+        gate = std::make_shared<Rx>();
     }
     else if(mnemonic == "ry"){
-        gate = new Ry();
+        gate = std::make_shared<Ry>();
     }
     else if(mnemonic == "rz"){
-        gate = new Rz();
+        gate = std::make_shared<Rz>();
     }
     else if(mnemonic == "x"){
-        gate = new X();
+        gate = std::make_shared<X>();
     }
     else if(mnemonic == "y"){
-        gate = new Y();
+        gate = std::make_shared<Y>();
     }
     else if(mnemonic == "z"){
-        gate = new Z();
+        gate = std::make_shared<Z>();
     }
     else if(mnemonic == "s"){
-        gate = new S();
+        gate = std::make_shared<S>();
     }
     else if(mnemonic == "sdg"){
-        gate = new Sdg();
+        gate = std::make_shared<Sdg>();
     }
     else if(mnemonic == "t"){
-        gate = new T();
+        gate = std::make_shared<T>();
     }
     else if(mnemonic == "tdg"){
-        gate = new Tdg();
+        gate = std::make_shared<Tdg>();
     }
     else if(mnemonic == "ch"){
-        gate = new CHadamard();
+        gate = std::make_shared<CHadamard>();
     }
     else if(mnemonic == "cy"){
-        gate = new CY();
+        gate = std::make_shared<CY>();
     }
     else if(mnemonic == "cz"){
-        gate = new CZ();
+        gate = std::make_shared<CZ>();
     }
     else if(mnemonic == "crz"){
-        gate = new Rx();
+        gate = std::make_shared<Rx>();
     }
     else if(mnemonic == "cu1"){
-        gate = new CU1();
+        gate = std::make_shared<CU1>();
     }
     else if(mnemonic == "cu3"){
-        gate = new CU3();
+        gate = std::make_shared<CU3>();
     }
     else if(mnemonic == "measure"){
-        gate = new Measure();
+        gate = std::make_shared<Measure>();
     }
     else if(mnemonic == "swap"){
-        gate = new Swap();
+        gate = std::make_shared<Swap>();
     }
 
     return gate;

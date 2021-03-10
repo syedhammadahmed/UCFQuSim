@@ -55,8 +55,8 @@ int main() {
 }
 
 //int main(){
-//    vector<QuGate*> program;
-//    QuGate* gate = nullptr;
+//    vector<std::shared_ptr<QuGate>> program;
+//    std::shared_ptr<QuGate> gate = nullptr;
 //
 //    gate = QuGateFactory::getQuGate("h");
 //    gate->setArgAtIndex(0, 0);

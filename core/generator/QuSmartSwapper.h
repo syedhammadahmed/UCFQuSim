@@ -21,7 +21,7 @@ private:
 //    QuMapping initialMapping;
     vector<vector<QuMapping>> instructionWiseMappings;  // instructionWiseMappings[0] = mappings for instruction 0 (1st instruction)
     int perInstructionMappingCounter;
-    vector<QuGate*> nonUnaryInstructions;
+    vector<std::shared_ptr<QuGate>> nonUnaryInstructions;
     AllShortestPathsFinder* allSPF;
     AllPairShortestPathFinder* allPairShortestPathFinder;
     map<string, vector<int>> preCalShortestPaths;
@@ -36,7 +36,7 @@ private:
     vector<int> selectedNonUnaryInstructionIds;
     vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
 
-    unordered_map<int, QuGate*> nonUnaryInstructionsMap;
+    unordered_map<int, std::shared_ptr<QuGate>> nonUnaryInstructionsMap;
 
 public:
     QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);
@@ -49,11 +49,11 @@ public:
     vector<QuMapping> getAllMappingsForCurrentInstruction();
     pair<vector<QuMapping>, int> findAllMinCostMappingsFromPermutationsFor1Path(QuMapping& mapping, vector<int> sequence);
     void insertSwapGates(int source, int destination);
-    vector<QuGate*> removeUnaryInstructions();
+    vector<std::shared_ptr<QuGate>> removeUnaryInstructions();
     unsigned int constraintNotSatisfied(int src, int dest, int **couplingMap);
-    int insertRemovedUnaryInstructions(vector<QuGate*>& finalProgram, int nextNonUnaryIndex);
-    void insertEndingUnaryInstructions(vector<QuGate *> &finalProgram);
-    void hadamardCheck(vector<QuGate*>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
+    int insertRemovedUnaryInstructions(vector<std::shared_ptr<QuGate>>& finalProgram, int nextNonUnaryIndex);
+    void insertEndingUnaryInstructions(vector<std::shared_ptr<QuGate> > &finalProgram);
+    void hadamardCheck(vector<std::shared_ptr<QuGate>>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
     QuMapping generateOptimalInstructions();
     vector<QuMapping> generateInitialMappings();
     pair<vector<pair<int, int>>, vector<pair<int, int>>> makeRestrictionPairList(int k);
@@ -62,31 +62,31 @@ public:
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
     int findShortestPathsMinimumCost();
     pair<int, vector<struct QuMapping>> findMinCostMappingsForNextInstruction(vector<QuMapping> &inputMappings);
-    int optimize(vector<QuGate*>& finalProgram);
+    int optimize(vector<std::shared_ptr<QuGate>>& finalProgram);
     vector<int> getCurrentInstructionIds();
-    vector<QuGate *> getKRestrictInstructions(int k);
-    bool isNewInsturction(QuGate *currentInstruction, vector<QuGate *> &instructions);
+    vector<std::shared_ptr<QuGate> > getKRestrictInstructions(int k);
+    bool isNewInsturction(std::shared_ptr<QuGate> currentInstruction, vector<std::shared_ptr<QuGate> > &instructions);
     int findTotalCostDefault();
     int findTotalCostDAG();
     void updateMappingIdsForDitto();
 
-    bool currentInstructionSameAsPrevious(QuGate *previous, QuGate *current);
-    void doExtraHadamardFiltering(QuGate* currentInstruction, QuArchitecture& quArchitecture);
+    bool currentInstructionSameAsPrevious(std::shared_ptr<QuGate> previous, std::shared_ptr<QuGate> current);
+    void doExtraHadamardFiltering(std::shared_ptr<QuGate> currentInstruction, QuArchitecture& quArchitecture);
 
     void init();
 
     void findShortestPathsForAllInputMappings(vector<QuMapping> inputMappings);
-    static int performCNOTCancellations(vector<QuGate *> &vector);
-    static int performUnaryCancellations(vector<QuGate *> &finalProgram);
-    static vector<QuGate *>::iterator findMergingPartner(vector<QuGate *>::iterator it1, vector<QuGate *>::iterator end);
+    static int performCNOTCancellations(vector<std::shared_ptr<QuGate> > &vector);
+    static int performUnaryCancellations(vector<std::shared_ptr<QuGate> > &finalProgram);
+    static vector<std::shared_ptr<QuGate> >::iterator findMergingPartner(vector<std::shared_ptr<QuGate> >::iterator it1, vector<std::shared_ptr<QuGate> >::iterator end);
 
     QuMapping generateOptimalInstructionsDAG();
 
     QuMapping generateOptimalInstructionsDefault();
 
-    int insertRemovedUnaryInstructionsDefault(vector<QuGate *> &finalProgram, int nextNonUnaryIndex);
+    int insertRemovedUnaryInstructionsDefault(vector<std::shared_ptr<QuGate> > &finalProgram, int nextNonUnaryIndex);
 
-    int insertRemovedUnaryInstructionsDAG(vector<QuGate *> &finalProgram, int nextNonUnaryIndex);
+    int insertRemovedUnaryInstructionsDAG(vector<std::shared_ptr<QuGate> > &finalProgram, int nextNonUnaryIndex);
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H

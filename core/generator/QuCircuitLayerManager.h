@@ -15,11 +15,11 @@ private:
     int rows; // total qubits
     int cols; // total instructions
     vector<vector<int>> simpleGrid;
-    vector<QuGate*> instructions;
+    vector<std::shared_ptr<QuGate>> instructions;
     vector<int> quBitRecentLayer;
     int layer;
 
-    QuCircuitLayerManager(vector<QuGate *> instructions, int rows);
+    QuCircuitLayerManager(vector<std::shared_ptr<QuGate> > instructions, int rows);
     QuCircuitLayerManager();
 
 public:
@@ -27,7 +27,7 @@ public:
 
     int getLayerForNewGate(vector<int> quBits, int operands);
 
-    void addSimple(QuGate *gate, int depth, int instructionNo);
+    void addSimple(std::shared_ptr<QuGate> gate, int depth, int instructionNo);
 
     void buildGrid();
 
@@ -43,13 +43,13 @@ public:
 
     void setRows(int rows);
 
-    const vector<QuGate*> getInstructions() const;
+    const vector<std::shared_ptr<QuGate>> getInstructions() const;
 
-    void setInstructions(const vector<QuGate*> instructions);
+    void setInstructions(const vector<std::shared_ptr<QuGate>> instructions);
 
     void init();
 
-    static QuCircuitLayerManager *getInstance(vector<QuGate *> instructions, int rows);
+    static QuCircuitLayerManager *getInstance(vector<std::shared_ptr<QuGate> > instructions, int rows);
 
     void removeInstruction(int id);
 
@@ -61,9 +61,9 @@ public:
 
     bool isNewInsturction(int instructionId,  vector<int> firstKIds);
 
-    QuGate *getInstructionById(int id);
+    std::shared_ptr<QuGate> getInstructionById(int id);
 
-    unordered_map<int, QuGate*> getInstructionMap();
+    unordered_map<int, std::shared_ptr<QuGate>> getInstructionMap();
 };
 
 

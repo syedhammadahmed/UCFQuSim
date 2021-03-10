@@ -85,7 +85,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
                     theta = quGate.substr(pos1 + 1, pos2 - pos1 - 1);
                     quGate = "rz";
                 }
-                QuGate *newGate = QuGateFactory::getQuGate(quGate);
+                std::shared_ptr<QuGate> newGate = QuGateFactory::getQuGate(quGate);
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     newGate->setArgAtIndex(j, operandIndexes[j]);
                     newGate->setTheta(theta); // for rz
@@ -143,7 +143,7 @@ void QuCircuitGenerator::buildGrid() {
     init2(); // make grid
     try {
         int currentInstruction = 0;
-        for (QuGate *newGate: instructions) {
+        for (std::shared_ptr<QuGate> newGate: instructions) {
             int operands = newGate -> getCardinality();
             vector<int> args = newGate -> getArgIndex();
             layer = getLayerForNewGate(args, operands);
@@ -158,12 +158,12 @@ void QuCircuitGenerator::buildGrid() {
     }
 }
 
-void QuCircuitGenerator::add(QuGate* gate, int depth) {
+void QuCircuitGenerator::add(std::shared_ptr<QuGate> gate, int depth) {
     vector<int> quBits = gate -> getArgIndex();
     grid[quBits[0]][depth] = gate;
     if(gate -> getCardinality() > 1) {
         for(int i = 1; i < gate->getCardinality(); i++) {
-            QuGate* temp = QuGateFactory::getQuGate(gate->getMnemonic());
+            std::shared_ptr<QuGate> temp = QuGateFactory::getQuGate(gate->getMnemonic());
             temp->setPrintIndex(i);
             grid[quBits[i]][depth] = temp;
         }
@@ -201,7 +201,7 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
         ofs << header << endl;
-        for (QuGate *quGate: instructions) {
+        for (std::shared_ptr<QuGate> quGate: instructions) {
             string mnemonic = Util::toLower(quGate->getMnemonic());
             if(mnemonic == "rz")
                 mnemonic += "(" + quGate->getTheta() + ")";
@@ -220,10 +220,10 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
 QuCircuitGenerator::~QuCircuitGenerator() {
     delete [] quBitRecentLayer;
 
-    for(int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            if(grid[i][j] != NULL)
-                delete grid[i][j];  // deleting the gate made by QuGateFactory
+//    for(int i = 0; i < rows; i++)
+//        for (int j = 0; j < cols; j++)
+//            if(grid[i][j] != NULL)
+//                delete grid[i][j];  // deleting the gate made by QuGateFactory
 
     for(int i = 0; i < rows; i++)
         delete [] grid[i];
@@ -232,7 +232,7 @@ QuCircuitGenerator::~QuCircuitGenerator() {
         delete [] simpleGrid[i];
 
     delete [] simpleGrid;
-//    for(QuGate* ptr: instructions){
+//    for(std::shared_ptr<QuGate> ptr: instructions){
 //        if(ptr != nullptr)
 //            delete ptr;
 //    }
@@ -240,9 +240,9 @@ QuCircuitGenerator::~QuCircuitGenerator() {
 
 // initializes the circuit grid
 void QuCircuitGenerator::init2() {
-    grid = new QuGate**[rows];
+    grid = new std::shared_ptr<QuGate>*[rows];
     for(int i = 0; i < rows; i++)
-        grid[i] = new QuGate*[cols];
+        grid[i] = new std::shared_ptr<QuGate>[cols];
     for(int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
             grid[i][j] = NULL;
@@ -257,7 +257,7 @@ void QuCircuitGenerator::init2() {
         //    printGrid();
 }
 
-void QuCircuitGenerator::setInstructions(const vector<QuGate*> instructions) {
+void QuCircuitGenerator::setInstructions(const vector<std::shared_ptr<QuGate>> instructions) {
     this -> instructions = instructions;
 }
 
@@ -269,7 +269,7 @@ QuCircuit& QuCircuitGenerator::getCircuit() {
     return circuit;
 }
 
-void QuCircuitGenerator::addSimple(QuGate *gate, int depth, int instructionNo) {
+void QuCircuitGenerator::addSimple(std::shared_ptr<QuGate> gate, int depth, int instructionNo) {
     vector<int> quBits = gate -> getArgIndex();
     int cardinality = gate -> getCardinality();
     for(int i = 0; i < cardinality; i++)

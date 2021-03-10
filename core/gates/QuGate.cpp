@@ -123,7 +123,7 @@ bool QuGate::operator!=(QuGate& arg) {
     return !((*this) == arg);
 }
 
-bool QuGate::isDitto(QuGate *arg) {
+bool QuGate::isDitto(std::shared_ptr<QuGate> arg) {
     return ((this->argIndex[0] == arg->argIndex[0]) && (this->argIndex[1] == arg->argIndex[1]));
 }
 

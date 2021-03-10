@@ -39,7 +39,7 @@ public:
     void operator=(const QuMapping& arg);
     bool operator==(const QuMapping& arg);
 
-    virtual ~QuMapping();
+    ~QuMapping();
 
 //    virtual ~QuMapping();
 
@@ -70,9 +70,9 @@ public:
 //    void setSwapInstructions(const vector<Swap>& swapInstructions);
     void clearSwapInstructions();
 
-    const vector<Swap> &getSwapInstructions() const;
+    const vector<Swap> getSwapInstructions() const;
 
-    void setSwapInstructions(const vector<Swap> &swapInstructions);
+//    void setSwapInstructions(const vector<Swap> &swapInstructions);
 
     const vector<int> getPhysicalToLogical() const;
     void setValueAt(int index, int value);
@@ -98,6 +98,8 @@ public:
     QuMapping(string mappingId);
 
     void hardCodedInit();
+
+    void setSwapInstructions(const vector<Swap> swapInstructions);
 };
 
 

@@ -83,7 +83,7 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
                 }
             }
             if(quGate != "qreg" && quGate != "creg") {
-                QuGate *newGate = QuGateFactory::getQuGate(quGate);
+                std::shared_ptr<QuGate> newGate = QuGateFactory::getQuGate(quGate);
                 // set gate operand qubits
                 for (int j = 0; j < newGate -> getCardinality(); j++) {
 //                    cout << gates[j] << endl;
@@ -114,7 +114,7 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 //void QuCircuit::init2() {
 //    grid = new QuGate**[rows];
 //    for(int i = 0; i < rows; i++)
-//        grid[i] = new QuGate*[cols];
+//        grid[i] = new std::shared_ptr<QuGate>[cols];
 //    for(int i = 0; i < rows; i++)
 //        for (int j = 0; j < cols; j++)
 //            grid[i][j] = NULL;
@@ -123,7 +123,7 @@ QuCircuit::QuCircuit(string fileName, int rows): rows(rows), cols(20), logicalTo
 
 
 QuCircuit::~QuCircuit() {
-//    for(QuGate* ptr: instructions){
+//    for(std::shared_ptr<QuGate> ptr: instructions){
 //        if(ptr != nullptr)
 //            delete ptr;
 //    }
@@ -140,11 +140,11 @@ QuCircuit::~QuCircuit() {
 }
 
 
-//void QuCircuit::add(QuGate* gate, int row, int depth) {
+//void QuCircuit::add(std::shared_ptr<QuGate> gate, int row, int depth) {
 //    grid[row][depth] = gate;
 //}
 
-//void QuCircuit::add(QuGate* gate, int depth) {
+//void QuCircuit::add(std::shared_ptr<QuGate> gate, int depth) {
 //    int* quBitIndexes = gate -> getArgIndex();
 //    grid[quBitIndexes[0]][depth] = gate;
 //    if(gate -> getCardinality() == 2) {
@@ -172,7 +172,7 @@ ostream &operator<<(ostream &os, const QuCircuit &circuit) {
 //        temp = 0;
         os << "q" << i << " : ";
         for (int j = 0; j < circuit.cols; j++) {
-            QuGate* gate = circuit.grid[i][j];
+            std::shared_ptr<QuGate> gate = circuit.grid[i][j];
             if (gate != NULL) {
 //                for (int k = temp+1; k < j; k++) {
 //                    os << "-";
@@ -209,7 +209,7 @@ void QuCircuit::init1() {
 //void QuCircuit::init2() {
 //    grid = new QuGate**[rows];
 //    for(int i=0; i<rows; i++)
-//        grid[i] = new QuGate*[cols];
+//        grid[i] = new std::shared_ptr<QuGate>[cols];
 //    for(int i=0; i<rows; i++)
 //        for (int j = 0; j < cols; j++)
 //            grid[i][j] = NULL;
@@ -283,7 +283,7 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 ////        mapping.setLogicalMapping(parent[destination], mapping.getLogicalMapping(destination));
 ////        mapping.setLogicalMapping(destination, temp);
 //
-//        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
+//        std::shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");
 //        int* args = swapGate -> getArgIndex();
 //        args[0] = mapping.getLogicalMapping(source);
 //        args[1] = mapping.getLogicalMapping(destination);
@@ -303,7 +303,7 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 //        swap(physicalToLogicalMapping[parent[destination]], physicalToLogicalMapping[destination]);
 //        swap(logicalToPhysicalMapping[physicalToLogicalMapping[parent[destination]]], logicalToPhysicalMapping[physicalToLogicalMapping[destination]]);
 //
-//        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
+//        std::shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");
 //        int* args = swapGate -> getArgIndex();
 //        args[0] = physicalToLogicalMapping[source];
 //        args[1] = physicalToLogicalMapping[destination];
@@ -313,7 +313,7 @@ void QuCircuit::initializeMappings(QuArchitecture& quArchitecture){
 //}
 
 
-void QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
+void QuCircuit::findCostFor1Instruction(std::shared_ptr<QuGate> quGate, int **couplingMap) {
 //    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
 //    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
 //    int swaps = strategy->findShortestPathsFor1InputMapping(quGate, couplingMap);
@@ -323,7 +323,7 @@ void QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 }
 
 
-//int QuCircuit::findShortestPathsFor1InputMapping(QuGate *quGate, int **couplingMap) {
+//int QuCircuit::findShortestPathsFor1InputMapping(std::shared_ptr<QuGate> quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, rows);
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate
@@ -347,7 +347,7 @@ void QuCircuit::findCostFor1Instruction(QuGate *quGate, int **couplingMap) {
 //    return swaps;
 //}
 
-//int QuCircuit::findShortestPathsFor1InputMapping(QuGate *quGate, int **couplingMap) {
+//int QuCircuit::findShortestPathsFor1InputMapping(std::shared_ptr<QuGate> quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, rows);
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate
@@ -394,7 +394,7 @@ pair<int, QuMapping> QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
 void QuCircuit::printInstructions() {
     if(Util::verbose) {
         try {
-            for (QuGate *quGate: instructionsV1) {
+            for (std::shared_ptr<QuGate> quGate: instructionsV1) {
                 cout << *quGate << endl;
             }
         } catch (exception &e) {
@@ -412,23 +412,23 @@ void QuCircuit::setCols(int cols) {
     this -> cols = cols;
 }
 
-void QuCircuit::setGrid(QuGate ***grid) {
-    this -> grid = grid;
+void QuCircuit::setGrid(std::shared_ptr<QuGate>** grid) {
+    this -> grid = std::move(grid);
 }
 
-void QuCircuit::setInstructions(const vector<QuGate*> instructions) {
+void QuCircuit::setInstructions(const vector<std::shared_ptr<QuGate>> instructions) {
     this -> instructions = instructions;
 }
 
-vector<QuGate*>& QuCircuit::getInstructionsV1(){
+vector<std::shared_ptr<QuGate>>& QuCircuit::getInstructionsV1(){
     return instructionsV1;
 }
 
-void QuCircuit::setInstructionsV1(const vector<QuGate*>& instructionsV1) {
+void QuCircuit::setInstructionsV1(const vector<std::shared_ptr<QuGate>>& instructionsV1) {
     this->instructionsV1 = instructionsV1;
 }
 
-vector<QuGate*> QuCircuit::getInstructions() const{
+vector<std::shared_ptr<QuGate>> QuCircuit::getInstructions() const{
     return instructions;
 }
 

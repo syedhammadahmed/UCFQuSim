@@ -43,7 +43,7 @@ void QuNaiiveSwapper::findShortestPathsFor1InputMapping() {
 int QuNaiiveSwapper::findTotalSwaps()  {
     int total = 0;
 
-    for(QuGate* quGate: circuit.getInstructions()){
+    for(std::shared_ptr<QuGate> quGate: circuit.getInstructions()){
         cout << "Instruction #: " << programCounter++ << endl;
         currentInstruction = quGate;
         findShortestPathsFor1InputMapping();
@@ -75,7 +75,7 @@ vector<int> QuNaiiveSwapper::swapAlongPath(int* parent, int source, int destinat
 //        mapping.setLogicalMapping(parent[destination], mapping.getLogicalMapping(destination));
 //        mapping.setLogicalMapping(destination, temp);
 
-        QuGate* swapGate = QuGateFactory::getQuGate("SWAP");
+        std::shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");
         vector<int> args = swapGate -> getArgIndex();
         args[0] = getCurrentMapping().getLogicalMapping(source);
         args[1] = getCurrentMapping().getLogicalMapping(destination);
