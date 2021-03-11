@@ -19,6 +19,8 @@ private:
     vector<int> quBitRecentLayer;
     int layer;
 
+    unordered_map<int, vector<int>> layerwiseInstructionsMap;
+
     QuCircuitLayerManager(vector<std::shared_ptr<QuGate> > instructions, int rows);
     QuCircuitLayerManager();
 
@@ -64,6 +66,9 @@ public:
     std::shared_ptr<QuGate> getInstructionById(int id);
 
     unordered_map<int, std::shared_ptr<QuGate>> getInstructionMap();
+    unordered_map<int, vector<int>> buildLayerwiseInstructionsMap();
+
+    void removeAllInstructions(vector<int> ids);
 };
 
 

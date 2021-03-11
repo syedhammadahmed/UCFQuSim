@@ -74,6 +74,8 @@ add_executable(UCFQuSim
         core/generator/QuCircuitGenerator.h
         core/generator/QuMappingInitializer.cpp
         core/generator/QuMappingInitializer.h
+        core/generator/QuMappingInitializerZulehner.cpp
+        core/generator/QuMappingInitializerZulehner.h
         core/generator/QuMultiGenerator.cpp
         core/generator/QuMultiGenerator.h
         core/generator/QuNaiiveSwapper.cpp

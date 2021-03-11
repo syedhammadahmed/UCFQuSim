@@ -85,7 +85,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
                     theta = quGate.substr(pos1 + 1, pos2 - pos1 - 1);
                     quGate = "rz";
                 }
-                std::shared_ptr<QuGate> newGate = QuGateFactory::getQuGate(quGate);
+                std::shared_ptr<QuGate> newGate = std::move(QuGateFactory::getQuGate(quGate));
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     newGate->setArgAtIndex(j, operandIndexes[j]);
                     newGate->setTheta(theta); // for rz

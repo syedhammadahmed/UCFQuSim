@@ -10,7 +10,7 @@
 #include <AllPairShortestPathFinder.h>
 #include <unordered_map>
 #include "QuSwapStrategy.h"
-#include "QuMappingInitializer.h"
+#include "QuMappingInitializerZulehner.h"
 #include "Config.h"
 
 class AllPairShortestPathsFinder;
@@ -25,7 +25,8 @@ private:
     AllShortestPathsFinder* allSPF;
     AllPairShortestPathFinder* allPairShortestPathFinder;
     map<string, vector<int>> preCalShortestPaths;
-    QuMappingInitializer mappingInitializer;
+//    QuMappingInitializer mappingInitializer;
+    QuMappingInitializerZulehner mappingInitializer;
     vector<QuMapping> initialMappings;
     unsigned int hadamards;
     unsigned int totalSwaps;
@@ -37,6 +38,7 @@ private:
     vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
 
     unordered_map<int, std::shared_ptr<QuGate>> nonUnaryInstructionsMap;
+
 
 public:
     QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);

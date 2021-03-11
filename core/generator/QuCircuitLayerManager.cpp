@@ -160,6 +160,8 @@ void QuCircuitLayerManager::init() {
     buildGrid();
 }
 
+
+
 void QuCircuitLayerManager::removeInstruction(int id) {
     int q1 = -1, q2 = -1;
 //    cout << ">>>>>>>>>>>>>>> removing " << id << ": " << endl;
@@ -236,6 +238,24 @@ unordered_map<int, std::shared_ptr<QuGate> > QuCircuitLayerManager::getInstructi
         instructionMap[instruction->getGateId()] = instruction;
     }
     return instructionMap;
+}
+
+unordered_map<int, vector<int>> QuCircuitLayerManager::buildLayerwiseInstructionsMap() {
+    layerwiseInstructionsMap.clear();
+    int i = 0;
+    while (!instructions.empty()) {
+        vector<int> instructionIds = getNextSourceInstructionIds();
+        removeAllInstructions(instructionIds);
+        layerwiseInstructionsMap[i++] = instructionIds;
+    }
+
+    return layerwiseInstructionsMap;
+}
+
+void QuCircuitLayerManager::removeAllInstructions(vector<int> ids) {
+    for (auto id: ids) {
+        removeInstruction(id);
+    }
 }
 
 //void QuCircuitLayerManager::updateSimpleGrid(int q1, int q2) {
