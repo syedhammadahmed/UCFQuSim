@@ -364,28 +364,28 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuSmartSwapper::makeRestric
 vector<QuMapping> QuSmartSwapper::generateInitialMappings() {
 //    mappingInitializer.initGenerator(architecture.getN());
     vector<pair<int, int>> restrictionList;
-
-    QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
-    vector<int> instructionIds;
-    auto layerMap = layerManager->buildLayerwiseInstructionsMap();
-    QuCircuitLayerManager::deleteInstance();
-
-    layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
-
-    instructionIds = layerManager->getNextSourceInstructionIds();
-    nonUnaryInstructionsMap = layerManager->getInstructionMap(); // to get instruction objects
-
-    vector<std::shared_ptr<QuGate>> layer0Instructions;
-    for (auto id: instructionIds) {
-        layer0Instructions.push_back(nonUnaryInstructionsMap[id]);
-    }
-
-    for (int i = 0; i < layer0Instructions.size(); ++i) {
-        std::shared_ptr<QuGate> gate = layer0Instructions[i];
-        cout << *gate << endl;
-        pair<int, int> newPair = make_pair(gate->getArgAtIndex(0), gate->getArgAtIndex(1));
-        restrictionList.push_back(newPair);
-    }
+//
+//    QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
+//    vector<int> instructionIds;
+//    auto layerMap = layerManager->buildLayerwiseInstructionsMap();
+//    QuCircuitLayerManager::deleteInstance();
+//
+//    layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
+//
+//    instructionIds = layerManager->getNextSourceInstructionIds();
+//    nonUnaryInstructionsMap = layerManager->getInstructionMap(); // to get instruction objects
+//
+//    vector<std::shared_ptr<QuGate>> layer0Instructions;
+//    for (auto id: instructionIds) {
+//        layer0Instructions.push_back(nonUnaryInstructionsMap[id]);
+//    }
+//
+//    for (int i = 0; i < layer0Instructions.size(); ++i) {
+//        std::shared_ptr<QuGate> gate = layer0Instructions[i];
+//        cout << *gate << endl;
+//        pair<int, int> newPair = make_pair(gate->getArgAtIndex(0), gate->getArgAtIndex(1));
+//        restrictionList.push_back(newPair);
+//    }
 
 //    mappingInitializer.setLayer0Instructions(layer0Instructions);
     initialMappings = mappingInitializer.generateSmartMappings(restrictionList, architecture);
