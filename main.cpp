@@ -4,13 +4,9 @@
 #include <util/Constants.h>
 
 #include "evaluator/QuMultiEvaluator.h"
-#include "core/generator/QuMultiGenerator.h"
+#include "generator/QuMultiGenerator.h"
 #include "util/Result.h"
 #include "util/Util.h"
-#include "AllShortestPathsFinder.h"
-#include "core/generator/QuSmartSwapper.h"
-#include "core/generator/QuCircuitOptimizer.h"
-#include "core/gates/QuGateFactory.h"
 
 using namespace std;
 
@@ -55,8 +51,8 @@ int main() {
 }
 
 //int main(){
-//    vector<std::shared_ptr<QuGate>> program;
-//    std::shared_ptr<QuGate> gate = nullptr;
+//    vector<shared_ptr<QuGate>> program;
+//    shared_ptr<QuGate> gate = nullptr;
 //
 //    gate = QuGateFactory::getQuGate("h");
 //    gate->setArgAtIndex(0, 0);

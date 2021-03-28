@@ -14,8 +14,8 @@ using namespace std;
 class QuGateFactory {
 
 public:
-    static std::shared_ptr<QuGate> getQuGate(string symbol);
-//    static std::shared_ptr<QuGate> getQuGate(string symbol);
+    static shared_ptr<QuGate> getQuGate(string symbol);
+//    static shared_ptr<QuGate> getQuGate(string symbol);
 
 };
 

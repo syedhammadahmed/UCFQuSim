@@ -14,9 +14,9 @@ private:
     QuCircuit circuit;
     QuArchitecture& architecture;
 
-    vector<std::shared_ptr<QuGate>> instructions; // original qasm program instructions/qugates
+    vector<shared_ptr<QuGate>> instructions; // original qasm program instructions/qugates
 
-    std::shared_ptr<QuGate>** grid;
+    shared_ptr<QuGate>** grid;
     int** simpleGrid;
     int rows;
     int cols;
@@ -37,15 +37,15 @@ public:
     void buildFromFile(string fileName); // then call this; this creates grid as well as vector of instructions
     void buildGrid();
     void init2();
-    void add(std::shared_ptr<QuGate> gate, int depth);
-    void addSimple(std::shared_ptr<QuGate> gate, int depth, int instructionNo);
+    void add(shared_ptr<QuGate> gate, int depth);
+    void addSimple(shared_ptr<QuGate> gate, int depth, int instructionNo);
     int getLayerForNewGate(vector<int> quBits, int operands);
 
     void makeProgramFile(string outputFileName);
     bool somethingInBetween(int row1, int row2, int layer);
     bool somethingInBetween(vector<int> quBits, int operands, int layer);
 
-    void setInstructions(const vector<std::shared_ptr<QuGate>> instructions);
+    void setInstructions(const vector<shared_ptr<QuGate>> instructions);
     int getLayer() const;
     QuCircuit& getCircuit();
 

@@ -8,6 +8,7 @@
 #include <vector>
 #include <ostream>
 #include <string>
+
 #include "gates/QuGate.h"
 #include "QuMapping.h"
 #include "QuArchitecture.h"
@@ -17,23 +18,17 @@ using namespace std;
 class QuCircuit {
 
 private:
+    string fileName; // circuit input file name (absolute path)
     int rows; // # of physical quBits (max rows)
     int cols; // depth
     int n; // # of logical qubits
-//    int logicalToPhysicalMapping[16]; // logical to physical mapping of quBits : logical index -> physical elements
-//    int physicalToLogicalMapping[16]; // physical to logical mapping of quBits : physical index -> logical elements
-//    int* logicalToPhysicalMapping; // logical to physical mapping of quBits : logical index -> physical elements
-//    int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
-//    int* quBitRecentLayer;
-//    QuBit* logicalQuBits;
-//    QuGate*** grid;
-    std::shared_ptr<QuGate>** grid;
-    int** simpleGrid;
-    vector<std::shared_ptr<QuGate>> instructions; // qasm program instructions/qugates
-    vector<std::shared_ptr<QuGate>> instructionsV1; // modified qasm program after inserting swap and H instructions/qugates
 
-    string fileName; // circuit input file name (absolute path)
-    QuMapping mapping;
+    shared_ptr<QuGate>** grid;
+    int** simpleGrid;
+
+    vector<shared_ptr<QuGate>> instructions0; // original program
+    vector<shared_ptr<QuGate>> instructions1; // modified program after satisfying constraints
+
     int hadamards;
     int swaps;
     int cost;
@@ -41,23 +36,15 @@ private:
 
     vector<int> srcFrequencies;
     vector<int> destFrequencies;
+
 public:
     QuCircuit();
-
-    virtual ~QuCircuit();
-
-    QuCircuit(int rows);
+    explicit QuCircuit(int rows);
     QuCircuit(int rows, int cols);
-//    QuCircuit(string fileName, int rows);
-    QuCircuit(QuArchitecture& architecture);
-    QuCircuit(const QuCircuit& arg);
+    explicit QuCircuit(QuArchitecture& architecture);
+    ~QuCircuit();
 
-
-    void add(std::shared_ptr<QuGate> gate, int row, int depth);
-    void add(std::shared_ptr<QuGate> gate, int depth);
-    void addMapping(int logicalQuBit, int physicalQuBit);
     void run();
-//    std::shared_ptr<QuGate> operator[][](int, int);
 
     friend std::ostream &operator<<(std::ostream &os, const QuCircuit &circuit);
 
@@ -67,10 +54,9 @@ public:
     int getLayerForNewGate(int gates[3], int operands);
     bool somethingInBetween(int row1, int row2, int layer);
     void initQuBitMappings(int **couplingMap);
-    void findShortestPathsFor1InputMapping(std::shared_ptr<QuGate> quGate, int **couplingMap);
+    void findShortestPathsFor1InputMapping(shared_ptr<QuGate> quGate, int **couplingMap);
     void initializeMappings();
     void initializeMappings(QuArchitecture& quArchitecture);
-    void printMappings();
     void printGrid();
     pair<int, QuMapping> findTotalSwaps(QuArchitecture& quArchitecture);
     vector<int> swapAlongPath(int *parent, int source, int destination);
@@ -80,18 +66,18 @@ public:
     void build(string fileName);
     int getRows() const;
     void setCols(int cols);
-    void setGrid(std::shared_ptr<QuGate>** grid);
+    void setGrid(shared_ptr<QuGate>** grid);
 
     int getN() const;
 
     void setN(int n);
 
-    void setInstructions(const vector<std::shared_ptr<QuGate>> instructions);
+    void setInstructions(const vector<shared_ptr<QuGate>> instructions);
 
     void setFileName(const string &fileName);
 
-    vector<std::shared_ptr<QuGate>>& getInstructionsV1();
-    vector<std::shared_ptr<QuGate>> getInstructions() const;
+    vector<shared_ptr<QuGate>>& getInstructions1();
+    vector<shared_ptr<QuGate>> getInstructions() const;
 
     QuMapping& getMapping();
 //
@@ -102,7 +88,7 @@ public:
 
     const string &getFileName() const;
 
-    void setInstructionsV1(const vector<std::shared_ptr<QuGate>> & instructionsV1);
+    void setInstructions1(const vector<shared_ptr<QuGate>> & instructions1);
 
     int getHadamards() const;
 
@@ -120,7 +106,7 @@ public:
 
     void setDestFrequencies(const vector<int> &destFrequencies);
 
-    void findCostFor1Instruction(std::shared_ptr<QuGate> quGate, int **couplingMap);
+    void findCostFor1Instruction(shared_ptr<QuGate> quGate, int **couplingMap);
 
     int getOptimizations() const;
 

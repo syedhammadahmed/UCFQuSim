@@ -85,7 +85,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
                     theta = quGate.substr(pos1 + 1, pos2 - pos1 - 1);
                     quGate = "rz";
                 }
-                std::shared_ptr<QuGate> newGate = std::move(QuGateFactory::getQuGate(quGate));
+                shared_ptr<QuGate> newGate = std::move(QuGateFactory::getQuGate(quGate));
                 for (int j = 0; j < newGate -> getCardinality(); j++) { // set gate operand qubits
                     newGate->setArgAtIndex(j, operandIndexes[j]);
                     newGate->setTheta(theta); // for rz
@@ -143,7 +143,7 @@ void QuCircuitGenerator::buildGrid() {
     init2(); // make grid
     try {
         int currentInstruction = 0;
-        for (std::shared_ptr<QuGate> newGate: instructions) {
+        for (shared_ptr<QuGate> newGate: instructions) {
             int operands = newGate -> getCardinality();
             vector<int> args = newGate -> getArgIndex();
             layer = getLayerForNewGate(args, operands);
@@ -158,12 +158,12 @@ void QuCircuitGenerator::buildGrid() {
     }
 }
 
-void QuCircuitGenerator::add(std::shared_ptr<QuGate> gate, int depth) {
+void QuCircuitGenerator::add(shared_ptr<QuGate> gate, int depth) {
     vector<int> quBits = gate -> getArgIndex();
     grid[quBits[0]][depth] = gate;
     if(gate -> getCardinality() > 1) {
         for(int i = 1; i < gate->getCardinality(); i++) {
-            std::shared_ptr<QuGate> temp = QuGateFactory::getQuGate(gate->getMnemonic());
+            shared_ptr<QuGate> temp = QuGateFactory::getQuGate(gate->getMnemonic());
             temp->setPrintIndex(i);
             grid[quBits[i]][depth] = temp;
         }
@@ -201,7 +201,7 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
         ofs << header << endl;
-        for (std::shared_ptr<QuGate> quGate: instructions) {
+        for (shared_ptr<QuGate> quGate: instructions) {
             string mnemonic = Util::toLower(quGate->getMnemonic());
             if(mnemonic == "rz")
                 mnemonic += "(" + quGate->getTheta() + ")";
@@ -232,7 +232,7 @@ QuCircuitGenerator::~QuCircuitGenerator() {
         delete [] simpleGrid[i];
 
     delete [] simpleGrid;
-//    for(std::shared_ptr<QuGate> ptr: instructions){
+//    for(shared_ptr<QuGate> ptr: instructions){
 //        if(ptr != nullptr)
 //            delete ptr;
 //    }
@@ -240,9 +240,9 @@ QuCircuitGenerator::~QuCircuitGenerator() {
 
 // initializes the circuit grid
 void QuCircuitGenerator::init2() {
-    grid = new std::shared_ptr<QuGate>*[rows];
+    grid = new shared_ptr<QuGate>*[rows];
     for(int i = 0; i < rows; i++)
-        grid[i] = new std::shared_ptr<QuGate>[cols];
+        grid[i] = new shared_ptr<QuGate>[cols];
     for(int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
             grid[i][j] = NULL;
@@ -257,7 +257,7 @@ void QuCircuitGenerator::init2() {
         //    printGrid();
 }
 
-void QuCircuitGenerator::setInstructions(const vector<std::shared_ptr<QuGate>> instructions) {
+void QuCircuitGenerator::setInstructions(const vector<shared_ptr<QuGate>> instructions) {
     this -> instructions = instructions;
 }
 
@@ -269,7 +269,7 @@ QuCircuit& QuCircuitGenerator::getCircuit() {
     return circuit;
 }
 
-void QuCircuitGenerator::addSimple(std::shared_ptr<QuGate> gate, int depth, int instructionNo) {
+void QuCircuitGenerator::addSimple(shared_ptr<QuGate> gate, int depth, int instructionNo) {
     vector<int> quBits = gate -> getArgIndex();
     int cardinality = gate -> getCardinality();
     for(int i = 0; i < cardinality; i++)

@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 include_directories(.)
 include_directories(core)
 include_directories(core/gates)
-include_directories(core/generator)
+include_directories(generator)
 include_directories(evaluator)
 include_directories(util)
 
@@ -70,20 +70,18 @@ add_executable(UCFQuSim
         core/gates/Y.h
         core/gates/Z.cpp
         core/gates/Z.h
-        core/generator/QuCircuitGenerator.cpp
-        core/generator/QuCircuitGenerator.h
-        core/generator/QuMappingInitializer.cpp
-        core/generator/QuMappingInitializer.h
-        core/generator/QuMappingInitializerZulehner.cpp
-        core/generator/QuMappingInitializerZulehner.h
-        core/generator/QuMultiGenerator.cpp
-        core/generator/QuMultiGenerator.h
-        core/generator/QuNaiiveSwapper.cpp
-        core/generator/QuNaiiveSwapper.h
-        core/generator/QuSmartSwapper.cpp
-        core/generator/QuSmartSwapper.h
-        core/generator/QuSwapStrategy.cpp
-        core/generator/QuSwapStrategy.h
+        generator/QuCircuitGenerator.cpp
+        generator/QuCircuitGenerator.h
+        generator/QuMappingInitializer.cpp
+        generator/QuMappingInitializer.h
+        generator/QuMappingInitializerZulehner.cpp
+        generator/QuMappingInitializerZulehner.h
+        generator/QuMultiGenerator.cpp
+        generator/QuMultiGenerator.h
+        generator/QuSmartSwapper.cpp
+        generator/QuSmartSwapper.h
+        generator/QuSwapStrategy.cpp
+        generator/QuSwapStrategy.h
         core/QuArchitecture.cpp
         core/QuArchitecture.h
         core/QuBit.cpp
@@ -100,8 +98,8 @@ add_executable(UCFQuSim
         util/Result.h
         util/Util.cpp
         util/Util.h
-        AllShortestPathsFinder.cpp
-        AllShortestPathsFinder.h
+        algorithm/AllShortestPathsFinder.cpp
+        algorithm/AllShortestPathsFinder.h
         main.cpp
-        ShortestPathFinder.cpp
-        ShortestPathFinder.h AllPairShortestPathFinder.cpp AllPairShortestPathFinder.h core/generator/PriorityGraph.cpp core/generator/PriorityGraph.h core/generator/PriorityNode.cpp core/generator/PriorityNode.h core/generator/QuCircuitLayerManager.cpp core/generator/QuCircuitLayerManager.h core/Config.h core/generator/QuCircuitOptimizer.cpp core/generator/QuCircuitOptimizer.h util/Constants.h)
+        algorithm/ShortestPathFinder.cpp
+        algorithm/ShortestPathFinder.h algorithm/AllPairShortestPathFinder.cpp algorithm/AllPairShortestPathFinder.h generator/PriorityGraph.cpp generator/PriorityGraph.h generator/PriorityNode.cpp generator/PriorityNode.h generator/QuCircuitLayerManager.cpp generator/QuCircuitLayerManager.h core/Config.h generator/QuCircuitOptimizer.cpp generator/QuCircuitOptimizer.h util/Constants.h)

@@ -10,3 +10,8 @@ QuSwapStrategy::QuSwapStrategy(QuCircuit &circuit, QuArchitecture& architecture)
 //    cout << "QuSwapStrategy OK" << endl;
 }
 
+void QuSwapStrategy::initInitializerMappingCounter() {
+
+}
+
+

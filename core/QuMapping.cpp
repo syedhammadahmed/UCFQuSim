@@ -2,10 +2,7 @@
 // Created by SHA on 11/18/19.
 //
 
-#include <cstdlib>
 #include <util/Util.h>
-#include <core/gates/QuGateFactory.h>
-#include <core/generator/QuMappingInitializer.h>
 #include <algorithm>
 
 #include "QuMapping.h"
@@ -159,7 +156,7 @@ void QuMapping::setParentMappingId(const string &parentMappingId) {
 }
 
 
-//vector<std::shared_ptr<QuGate>> QuMapping::getSwapInstructions(){
+//vector<shared_ptr<QuGate>> QuMapping::getSwapInstructions(){
 //return swapInstructions;
 //}
 //
@@ -174,9 +171,9 @@ void QuMapping::setSwapInstructions(const vector<Swap> swapInstructions) {
 }
 
 
-//void QuMapping::setSwapInstructions(const vector<std::shared_ptr<QuGate>>& swapInstructions) {
-//    for(std::shared_ptr<QuGate> gate: swapInstructions) {
-//        std::shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");
+//void QuMapping::setSwapInstructions(const vector<shared_ptr<QuGate>>& swapInstructions) {
+//    for(shared_ptr<QuGate> gate: swapInstructions) {
+//        shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");
 //        swapGate->getArgIndex()[0] = gate->getArgIndex()[0];
 //        swapGate->getArgIndex()[1] = gate->getArgIndex()[1];
 //        this->swapInstructions.push_back(swapGate);

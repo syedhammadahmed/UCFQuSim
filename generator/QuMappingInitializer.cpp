@@ -418,6 +418,7 @@ QuMapping QuMappingInitializer::getNextMapping() {
     }
     nextMapping.setUnallocatedQuBits();
     count++;
+    restrictedMapping.strongInit();
     return nextMapping;
 }
 
@@ -542,5 +543,35 @@ void QuMappingInitializer::buildRankGraph(vector<pair<int, int>> quBitPairs) {
         rankGraph.caterNode(pair.second, false);
     }
     rankGraph.sortByRank();
+}
+
+void QuMappingInitializer::initInitializerMappingCounter() {
+    count = 0;
+    int totalPermutations = TOTAL_PERM;
+
+    if (permInput.size() > PERM_N) // 10! perms
+        permInput.erase(permInput.begin() + PERM_N, permInput.end());
+    Util::permute(permInput, 0, permInput.size() - 1, perms);
+    cout << perms.size() << " permutations generated!"<< endl;
+
+}
+
+
+vector<QuMapping> QuMappingInitializer::getNextPermutationMapping() {
+    vector<QuMapping> initMappings;
+    restrictedMapping.strongInit();
+    QuMapping nextMapping(restrictedMapping);
+
+    for(int i=0; i<perms[count].size(); i++){
+        int val = perms[count][i];
+        nextMapping.setValueAtNextFree(val);
+    }
+    nextMapping.setUnallocatedQuBits();
+    count++;
+    nextMapping.setParentMappingId("*");
+    nextMapping.setMappingId("0.0");
+    initMappings.push_back(nextMapping);
+
+    return initMappings;
 }
 

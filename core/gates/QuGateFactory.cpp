@@ -28,8 +28,8 @@
 #include "gates/Swap.h"
 #include "util/Util.h"
 
-std::shared_ptr<QuGate> QuGateFactory::getQuGate(string mnemonic) {
-    std::shared_ptr<QuGate> gate;
+shared_ptr<QuGate> QuGateFactory::getQuGate(string mnemonic) {
+    shared_ptr<QuGate> gate;
 
     mnemonic = Util::toLower(mnemonic);
 

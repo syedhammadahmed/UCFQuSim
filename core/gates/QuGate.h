@@ -65,7 +65,7 @@ public:
 
     bool operator==(QuGate& arg);
     bool operator!=(QuGate& arg);
-    bool isDitto(std::shared_ptr<QuGate> instruction);
+    bool isDitto(shared_ptr<QuGate> instruction);
     bool hasAnyOfArgs(const vector<int> argIndex);
 };
 

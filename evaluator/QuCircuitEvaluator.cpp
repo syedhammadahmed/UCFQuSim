@@ -4,7 +4,7 @@
 
 #include "QuCircuitEvaluator.h"
 #include "util/Util.h"
-#include "../ShortestPathFinder.h"
+#include "algorithm/ShortestPathFinder.h"
 #include "core/gates/QuGateFactory.h"
 #include <iostream>
 
@@ -33,11 +33,11 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
     bool satisfied = true;
     int arg1 = 0;
     int arg2 = 0;
-    vector<std::shared_ptr<QuGate>> instructions = circuit.getInstructionsV1();
+    vector<shared_ptr<QuGate>> instructions = circuit.getInstructions1();
 //    cout << "Before evaluator: " << endl;
 //    printMappings();
     try {
-        for (std::shared_ptr<QuGate> quGate: instructions) {
+        for (shared_ptr<QuGate> quGate: instructions) {
             string quGateName = Util::toLower(quGate->getMnemonic());
             arg1 = quGate -> getArgIndex()[0];
             if (quGate -> getCardinality() > 1) {
@@ -82,11 +82,11 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //    bool satisfied = true;
 //    int arg1 = 0;
 //    int arg2 = 0;
-//    vector<std::shared_ptr<QuGate>> instructions = circuit.getInstructions();
+//    vector<shared_ptr<QuGate>> instructions = circuit.getInstructions();
 ////    cout << "Before evaluator: " << endl;
 ////    printMappings();
 //    try {
-//        for (std::shared_ptr<QuGate> quGate: instructions) {
+//        for (shared_ptr<QuGate> quGate: instructions) {
 ////            cout << endl;
 ////            printMappings();
 ////            cout << endl;
@@ -141,7 +141,7 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //    return count;
 //}
 
-//int QuCircuitEvaluator::findShortestPathsFor1InputMapping(std::shared_ptr<QuGate> quGate, int **couplingMap) {
+//int QuCircuitEvaluator::findShortestPathsFor1InputMapping(shared_ptr<QuGate> quGate, int **couplingMap) {
 //    ShortestPathFinder spf(couplingMap, circuit.getRows());
 //    int* parent = NULL;
 //    int inputs = quGate -> getCardinality(); // # of qubits in a gate
@@ -156,7 +156,7 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //        if(swaps == 0)
 //            cout << "No swap required!" << endl;
 //    }
-//    instructionsV1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
+//    instructions1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
 //    return swaps;
 //}
 

@@ -83,7 +83,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             unsigned int gatesProposed = totalCost + gatesOriginal;
             gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
 
-            quCircuitGenerator.setInstructions(circuit.getInstructionsV1());
+            quCircuitGenerator.setInstructions(circuit.getInstructions1());
             quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
             initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
             depthProposed = quCircuitGenerator.getLayer() + 1;

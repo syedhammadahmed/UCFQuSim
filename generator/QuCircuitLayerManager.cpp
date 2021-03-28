@@ -11,7 +11,7 @@
 
 QuCircuitLayerManager* QuCircuitLayerManager::instance = nullptr;
 
-QuCircuitLayerManager::QuCircuitLayerManager(vector<std::shared_ptr<QuGate>> instructions, int rows) : rows(rows), cols(instructions.size()), instructions(instructions) {
+QuCircuitLayerManager::QuCircuitLayerManager(vector<shared_ptr<QuGate>> instructions, int rows) : rows(rows), cols(instructions.size()), instructions(instructions) {
     init();
 
 }
@@ -45,7 +45,7 @@ int QuCircuitLayerManager::getLayerForNewGate(vector<int> quBits, int operands) 
     return layer;
 }
 
-void QuCircuitLayerManager::addSimple(std::shared_ptr<QuGate> gate, int depth, int instructionNo) {
+void QuCircuitLayerManager::addSimple(shared_ptr<QuGate> gate, int depth, int instructionNo) {
     vector<int> quBits = gate -> getArgIndex();
     int cardinality = gate -> getCardinality();
 //    if (instructionNo == 169)
@@ -119,7 +119,7 @@ vector<int> QuCircuitLayerManager::getNextSourceInstructionIds() {
     return qubits;
 }
 
-QuCircuitLayerManager* QuCircuitLayerManager::getInstance(vector<std::shared_ptr<QuGate>> instructions, int rows) {
+QuCircuitLayerManager* QuCircuitLayerManager::getInstance(vector<shared_ptr<QuGate>> instructions, int rows) {
     if (instance == nullptr) {
         instance = new QuCircuitLayerManager(instructions, rows);
     }
@@ -136,11 +136,11 @@ void QuCircuitLayerManager::setRows(int rows) {
     QuCircuitLayerManager::rows = rows;
 }
 
-const vector<std::shared_ptr<QuGate>> QuCircuitLayerManager::getInstructions() const{
+const vector<shared_ptr<QuGate>> QuCircuitLayerManager::getInstructions() const{
     return instructions;
 }
 
-void QuCircuitLayerManager::setInstructions(const vector<std::shared_ptr<QuGate>> instructions) {
+void QuCircuitLayerManager::setInstructions(const vector<shared_ptr<QuGate>> instructions) {
     this->instructions = instructions;
 }
 
@@ -209,8 +209,8 @@ vector<int> QuCircuitLayerManager::getFirstKInstructionIds(int k) {
     return firstKIds;
 }
 
-std::shared_ptr<QuGate> QuCircuitLayerManager::getInstructionById(int id){
-    for (std::shared_ptr<QuGate> inst: instructions) {
+shared_ptr<QuGate> QuCircuitLayerManager::getInstructionById(int id){
+    for (shared_ptr<QuGate> inst: instructions) {
         if (inst->getGateId() == id) {
             return inst;
         }
@@ -219,9 +219,9 @@ std::shared_ptr<QuGate> QuCircuitLayerManager::getInstructionById(int id){
 }
 
 bool QuCircuitLayerManager::isNewInsturction(int instructionId, vector<int> firstKIds) {
-    std::shared_ptr<QuGate> currentInstruction = getInstructionById(instructionId);
+    shared_ptr<QuGate> currentInstruction = getInstructionById(instructionId);
     for (int id: firstKIds) {
-        std::shared_ptr<QuGate> oldInstruction = getInstructionById(id);
+        shared_ptr<QuGate> oldInstruction = getInstructionById(id);
 //        cout << instructionId << " : " << *currentInstruction << endl;
 //        cout << id << " : " << *oldInstruction << endl << endl;
         if ((*oldInstruction) == (*currentInstruction))
@@ -230,8 +230,8 @@ bool QuCircuitLayerManager::isNewInsturction(int instructionId, vector<int> firs
     return true;
 }
 
-unordered_map<int, std::shared_ptr<QuGate> > QuCircuitLayerManager::getInstructionMap() {
-    unordered_map<int, std::shared_ptr<QuGate>> instructionMap;
+unordered_map<int, shared_ptr<QuGate> > QuCircuitLayerManager::getInstructionMap() {
+    unordered_map<int, shared_ptr<QuGate>> instructionMap;
     cout << "instructions size: " << instructions.size() << endl;
     for (auto instruction: instructions) {
         cout << "instruction->getGateId(): " << instruction->getGateId() << endl;

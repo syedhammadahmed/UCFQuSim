@@ -8,6 +8,7 @@
 
 class Constants {
     public:
+        static const int QX3_N = 16;
         static const int QX4_N = 5;
         static const int QX5_N = 16;
 

@@ -16,7 +16,7 @@ protected:
     int programCounter;
     vector<int> swapPath;
     vector<vector<int>> allSPFSwapPaths;
-    std::shared_ptr<QuGate> currentInstruction;
+    shared_ptr<QuGate> currentInstruction;
     unsigned int swaps;
 public:
     virtual void findShortestPathsFor1InputMapping() = 0;
@@ -25,6 +25,7 @@ public:
     virtual vector<int> swapAlongPath(int* parent, int source, int destination) = 0;
     virtual QuMapping getCurrentMapping() = 0;
 //    virtual void setInitialMapping();
+    virtual void initInitializerMappingCounter();
 };
 
 

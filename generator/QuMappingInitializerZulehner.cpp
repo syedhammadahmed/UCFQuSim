@@ -469,7 +469,7 @@ void QuMappingInitializerZulehner::buildRankGraph(vector<pair<int, int>> quBitPa
     rankGraph.sortByRank();
 }
 
-void QuMappingInitializerZulehner::setLayer0Instructions(vector<std::shared_ptr<QuGate>> layer0Instructions) {
+void QuMappingInitializerZulehner::setLayer0Instructions(vector<shared_ptr<QuGate>> layer0Instructions) {
     this->layer0Instructions = layer0Instructions;
 }
 

@@ -19,11 +19,19 @@ QuArchitecture::QuArchitecture(int n) : n(n) {
     init();
 }
 
+QuArchitecture::~QuArchitecture() {
+    for(int i=0; i<n; i++)
+        delete [] couplingMap[i];
+    delete [] couplingMap;
+}
+
 void QuArchitecture::init() {
-    if (n == Constants::QX4_N)
+    if (n == Constants::QX5_N) // default QX5
+        addConstraintsQX5();
+    else if (n == Constants::QX4_N)
         addConstraintsQX4();
     else
-        addConstraintsQX5();  // default QX5
+        addConstraintsQX3();
     makeSourceFrequencyPriorityList();
     makeTargetFrequencyPriorityList();
     makeCommonFrequencyPriorityLists();
@@ -32,29 +40,89 @@ void QuArchitecture::init() {
 void QuArchitecture::addConstraint(int src, int dest) {
     couplingMap[src][dest] = 1;
     couplingMap[dest][src] = -1;
-//    cout << src << " " << dest << " SSS " << endl;
-//    cout << couplingMap[dest][src] << " SSS " << endl;
 }
 
-std::ostream &operator<<(std::ostream &os, const QuArchitecture &architecture) {
-    for(int i = 0; i < architecture.n; i++)
-        for(int j = 0; j < architecture.n; j++)
-            if((i!=j) && (architecture.couplingMap[i][j] > 0))
-                os << "Q" << i << " => Q" << j << std::endl;
-//            else if(architecture.couplingMap[i][j] == -1)
-//                os << "Q" << i << " <= Q" << j << std::endl;
-    return os;
+void QuArchitecture::addConstraintsQX3() {
+    QuArchitecture& architectureQX3 = *this;
+    architectureQX3.addConstraint(1,2);
+    architectureQX3.addConstraint(2,3);
+    architectureQX3.addConstraint(3,14);
+    architectureQX3.addConstraint(15,14);
+    architectureQX3.addConstraint(15,0);
+    architectureQX3.addConstraint(0,1);
+
+    architectureQX3.addConstraint(4,3);
+    architectureQX3.addConstraint(4,5);
+    architectureQX3.addConstraint(12,5);
+    architectureQX3.addConstraint(12,13);
+    architectureQX3.addConstraint(13,4);
+    architectureQX3.addConstraint(13,14);
+
+    architectureQX3.addConstraint(12,11);
+    architectureQX3.addConstraint(6,11);
+    architectureQX3.addConstraint(6,7);
+    architectureQX3.addConstraint(8,7);
+    architectureQX3.addConstraint(9,8);
+    architectureQX3.addConstraint(9,10);
+    architectureQX3.addConstraint(7,10);
+    architectureQX3.addConstraint(11,10);
 }
 
-void QuArchitecture::printCouplingMatrix() {
-//    if(Util::verbose) {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                std::cout << couplingMap[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
-//    }
+void QuArchitecture::addConstraintsQX4() {
+    QuArchitecture& architectureQX4 = *this;
+    architectureQX4.addConstraint(1,0);
+
+    architectureQX4.addConstraint(2,0);
+    architectureQX4.addConstraint(2,1);
+    architectureQX4.addConstraint(2,4);
+
+    architectureQX4.addConstraint(3,2);
+    architectureQX4.addConstraint(3,4);
+}
+
+void QuArchitecture::addConstraintsQX5() {
+    QuArchitecture& architectureQX5 = *this;
+    architectureQX5.addConstraint(1,2);
+    architectureQX5.addConstraint(1,0);
+
+    architectureQX5.addConstraint(2,3);
+    architectureQX5.addConstraint(3,4);
+    architectureQX5.addConstraint(3,14);
+    architectureQX5.addConstraint(5,4);
+    architectureQX5.addConstraint(6,5);
+    architectureQX5.addConstraint(6,7);
+    architectureQX5.addConstraint(6,11);
+
+    architectureQX5.addConstraint(7,10);
+    architectureQX5.addConstraint(8,7);
+
+    architectureQX5.addConstraint(9,8);
+    architectureQX5.addConstraint(9,10);
+
+    architectureQX5.addConstraint(11,10);
+
+    architectureQX5.addConstraint(12,5);
+    architectureQX5.addConstraint(12,11);
+    architectureQX5.addConstraint(12,13);
+
+    architectureQX5.addConstraint(13,4);
+    architectureQX5.addConstraint(13,14);
+
+    architectureQX5.addConstraint(15,0);
+    architectureQX5.addConstraint(15,2);
+    architectureQX5.addConstraint(15,14);
+}
+
+bool QuArchitecture::isAdjacent(int src, int dest) {
+    if(couplingMap[src][dest] != 0)
+        return true;
+    return false;
+}
+
+bool QuArchitecture::isCompatable(int src, int dest) {
+    if(couplingMap[src][dest] == 1)
+        return true;
+    return false;
 }
 
 void QuArchitecture::makeSourceFrequencyPriorityList() {
@@ -95,137 +163,6 @@ void QuArchitecture::makeTargetFrequencyPriorityList() {
 //    for (auto const& x: frequencies) {
 //        cout << x.first << " : " << x.second << endl;
 //    }
-}
-
-
-
-QuArchitecture::~QuArchitecture() {
-    for(int i=0; i<n; i++)
-        delete [] couplingMap[i];
-    delete [] couplingMap;
-}
-
-int QuArchitecture::getN() {
-    return n;
-}
-
-int** QuArchitecture::getCouplingMap() const {
-    return couplingMap;
-}
-
-void QuArchitecture::addConstraintsQX3() {
-    QuArchitecture& architectureQX3 = *this;
-    architectureQX3.addConstraint(1,2);
-    architectureQX3.addConstraint(2,3);
-    architectureQX3.addConstraint(3,14);
-    architectureQX3.addConstraint(15,14);
-    architectureQX3.addConstraint(15,0);
-    architectureQX3.addConstraint(0,1);
-
-    architectureQX3.addConstraint(4,3);
-    architectureQX3.addConstraint(4,5);
-    architectureQX3.addConstraint(12,5);
-    architectureQX3.addConstraint(12,13);
-    architectureQX3.addConstraint(13,4);
-    architectureQX3.addConstraint(13,14);
-
-    architectureQX3.addConstraint(12,11);
-    architectureQX3.addConstraint(6,11);
-    architectureQX3.addConstraint(6,7);
-    architectureQX3.addConstraint(8,7);
-    architectureQX3.addConstraint(9,8);
-    architectureQX3.addConstraint(9,10);
-    architectureQX3.addConstraint(7,10);
-    architectureQX3.addConstraint(11,10);
-}
-
-
-void QuArchitecture::addConstraintsQX5() {
-    QuArchitecture& architectureQX5 = *this;
-    architectureQX5.addConstraint(1,2);
-    architectureQX5.addConstraint(1,0);
-
-    architectureQX5.addConstraint(2,3);
-    architectureQX5.addConstraint(3,4);
-    architectureQX5.addConstraint(3,14);
-    architectureQX5.addConstraint(5,4);
-    architectureQX5.addConstraint(6,5);
-    architectureQX5.addConstraint(6,7);
-    architectureQX5.addConstraint(6,11);
-
-    architectureQX5.addConstraint(7,10);
-    architectureQX5.addConstraint(8,7);
-
-    architectureQX5.addConstraint(9,8);
-    architectureQX5.addConstraint(9,10);
-
-    architectureQX5.addConstraint(11,10);
-
-    architectureQX5.addConstraint(12,5);
-    architectureQX5.addConstraint(12,11);
-    architectureQX5.addConstraint(12,13);
-
-    architectureQX5.addConstraint(13,4);
-    architectureQX5.addConstraint(13,14);
-
-    architectureQX5.addConstraint(15,0);
-    architectureQX5.addConstraint(15,2);
-    architectureQX5.addConstraint(15,14);
-}
-
-void QuArchitecture::addConstraintsQX4() {
-    QuArchitecture& architectureQX4 = *this;
-    architectureQX4.addConstraint(1,0);
-
-    architectureQX4.addConstraint(2,0);
-    architectureQX4.addConstraint(2,1);
-    architectureQX4.addConstraint(2,4);
-
-    architectureQX4.addConstraint(3,2);
-    architectureQX4.addConstraint(3,4);
-}
-
-
-bool QuArchitecture::isAdjacent(int src, int dest) {
-    if(couplingMap[src][dest] != 0)
-        return true;
-    return false;
-}
-
-bool QuArchitecture::isCompatable(int src, int dest) {
-    if(couplingMap[src][dest] == 1)
-        return true;
-    return false;
-}
-
-const vector<pair<int, int>> &QuArchitecture::getSrcFreqPriorityList() const {
-    return srcFreqPriorityList;
-}
-
-const vector<pair<int, int>> &QuArchitecture::getTargetFreqPriorityList() const {
-    return targetFreqPriorityList;
-}
-
-void QuArchitecture::removeSrcQubits(vector<pair<int, int>>& frequencies) {
-    int maxOutDegree = frequencies[0].second;
-    vector<pair<int, int>>::iterator it=frequencies.begin();
-    while(it!=frequencies.end()){
-        if(it->second == maxOutDegree)
-            it = frequencies.erase(it);
-        else
-            ++it;
-    }
-}
-
-void QuArchitecture::removeSinkQubits(vector<pair<int, int>>& frequencies) {
-    int minOutDegree = frequencies.end()->second;
-    vector<pair<int, int>>::iterator it=frequencies.begin();
-    while(it!=frequencies.end()){
-        if(it->second == minOutDegree)
-            it = frequencies.erase(it);
-        else
-            ++it;
-    }
 }
 
 void QuArchitecture::makeCommonFrequencyPriorityLists() {
@@ -275,6 +212,62 @@ void QuArchitecture::makeCommonFrequencyPriorityLists() {
     commonSrcFreqPriorityList = commonSrcFreqPriorityListFinal;
 }
 
+void QuArchitecture::removeSrcQubits(vector<pair<int, int>>& frequencies) {
+    int maxOutDegree = frequencies[0].second;
+    vector<pair<int, int>>::iterator it=frequencies.begin();
+    while(it!=frequencies.end()){
+        if(it->second == maxOutDegree)
+            it = frequencies.erase(it);
+        else
+            ++it;
+    }
+}
+
+void QuArchitecture::removeSinkQubits(vector<pair<int, int>>& frequencies) {
+    int minOutDegree = frequencies.end()->second;
+    vector<pair<int, int>>::iterator it=frequencies.begin();
+    while(it!=frequencies.end()){
+        if(it->second == minOutDegree)
+            it = frequencies.erase(it);
+        else
+            ++it;
+    }
+}
+
+void QuArchitecture::printCouplingMatrix() {
+//    if(Util::verbose) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            std::cout << couplingMap[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+//    }
+}
+
+std::ostream &operator<<(std::ostream &os, const QuArchitecture &architecture) {
+    for(int i = 0; i < architecture.n; i++)
+        for(int j = 0; j < architecture.n; j++)
+            if((i!=j) && (architecture.couplingMap[i][j] > 0))
+                os << "Q" << i << " => Q" << j << std::endl;
+    return os;
+}
+
+int QuArchitecture::getN() {
+    return n;
+}
+
+int** QuArchitecture::getCouplingMap() const {
+    return couplingMap;
+}
+
+const vector<pair<int, int>> QuArchitecture::getSrcFreqPriorityList() const {
+    return srcFreqPriorityList;
+}
+
+const vector<pair<int, int>> QuArchitecture::getTargetFreqPriorityList() const {
+    return targetFreqPriorityList;
+}
 const vector<pair<int, int>> QuArchitecture::getCommonSrcFreqPriorityList() const{
     return commonSrcFreqPriorityList;
 }
@@ -282,4 +275,3 @@ const vector<pair<int, int>> QuArchitecture::getCommonSrcFreqPriorityList() cons
 const vector<pair<int, int>> QuArchitecture::getCommonTargetFreqPriorityList() const{
     return commonTargetFreqPriorityList;
 }
-

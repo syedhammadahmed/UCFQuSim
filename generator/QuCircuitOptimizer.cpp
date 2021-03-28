@@ -5,10 +5,10 @@
 #include "QuCircuitOptimizer.h"
 
 
-bool QuCircuitOptimizer::isClearInBetween(int left, int right, vector<std::shared_ptr<QuGate> > &finalProgram) {
+bool QuCircuitOptimizer::isClearInBetween(int left, int right, vector<shared_ptr<QuGate> > &finalProgram) {
     const auto& operands = finalProgram[left]->getArgIndex();
     for (int i = left + 1; i < right; i++) {
-        std::shared_ptr<QuGate> currentGate = finalProgram[i];
+        shared_ptr<QuGate> currentGate = finalProgram[i];
         if(currentGate->isUnary()){
             if(currentGate->hasAnyOfArgs(operands)) {
                 return false;
@@ -24,7 +24,7 @@ bool QuCircuitOptimizer::isClearInBetween(int left, int right, vector<std::share
     return true;
 }
 
-bool QuCircuitOptimizer::areCancellable(int left, int right, vector<std::shared_ptr<QuGate>>& finalProgram) {
+bool QuCircuitOptimizer::areCancellable(int left, int right, vector<shared_ptr<QuGate>>& finalProgram) {
     auto& leftGate = finalProgram[left];
     auto& rightGate = finalProgram[right];
     if (!leftGate->isCancelled() && leftGate->isDitto(rightGate)) {
@@ -35,7 +35,7 @@ bool QuCircuitOptimizer::areCancellable(int left, int right, vector<std::shared_
     return false;
 }
 
-int QuCircuitOptimizer::performCNOTCancellations(vector<std::shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent CNOTS and check in-between see fig 9 SOTA 2
+int QuCircuitOptimizer::performCNOTCancellations(vector<shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent CNOTS and check in-between see fig 9 SOTA 2
     int left = -1, right = -1;
     int count = 0;
     for (left = 0; left < finalProgram.size() - 1; left++) {
@@ -52,7 +52,7 @@ int QuCircuitOptimizer::performCNOTCancellations(vector<std::shared_ptr<QuGate>>
     return count;
 }
 
-int QuCircuitOptimizer::performUnaryCancellations(vector<std::shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
+int QuCircuitOptimizer::performUnaryCancellations(vector<shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
     int cancellations = 0;
 //    cout << "program size (before): " << finalProgram.size() << endl;
     int i = 0, j = 0, g = finalProgram.size();

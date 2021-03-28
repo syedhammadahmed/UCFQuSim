@@ -2,14 +2,14 @@
 // Created by SHA on 7/24/2020.
 //
 
-#ifndef UCFQUSIM_QUMAPPINGINITIALIZER_H
-#define UCFQUSIM_QUMAPPINGINITIALIZER_H
+#ifndef UCFQUSIM_QuMappingInitializerZulehner_ZULEHNER_H
+#define UCFQUSIM_QuMappingInitializerZulehner_ZULEHNER_H
 
 
 #include <core/QuMapping.h>
 #include "PriorityGraph.h"
 
-class QuMappingInitializer {
+class QuMappingInitializerZulehner {
 private:
     int n; // # of qubits
     int l; // logical qubits
@@ -30,12 +30,15 @@ private:
 
     vector<int> permInput; // permutation input vector consisting of qubits to permute // restricted qubits are excluded from this
     PriorityNode startingNode;
+
+    vector<shared_ptr<QuGate>> layer0Instructions;
+
 public:
 //    static int TOTAL_PERM;
 
-    QuMappingInitializer(int n);
-    QuMappingInitializer(int n, int l);
-    QuMappingInitializer();
+    QuMappingInitializerZulehner(int n);
+    QuMappingInitializerZulehner(int n, int l);
+    QuMappingInitializerZulehner();
 
     void initGenerator();
     void generateMappings();
@@ -46,7 +49,7 @@ public:
 
     const int getPermCount();
 
-    vector<QuMapping> generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture);
+    vector<QuMapping> generateSmartMappings(vector<pair<int, int>> restrictionPairs, QuArchitecture& quArchitecture);
 
 //    QuMapping getNextMapping(vector<pair<int, int>> restrictionPairs);
 
@@ -85,7 +88,8 @@ public:
     vector<pair<int, int>> getFreeNeighbors();
 
 //    vector<QuMapping> generateHardcodedMappings(vector<int> physicalToLogical, QuArchitecture &quArchitecture);
+    void setLayer0Instructions(vector<shared_ptr<QuGate>> vector);
 };
 
 
-#endif //UCFQUSIM_QUMAPPINGINITIALIZER_H
+#endif //UCFQUSIM_QuMappingInitializerZulehner_H
