@@ -72,7 +72,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             circuit.setFileName(inputFiles[i]);
             Util::println(file + " : ");
             Util::timeIt(false);
-            gatesOriginal = circuit.getInstructions().size();
+            gatesOriginal = circuit.getInstructions0().size();
             auto data = circuit.findTotalSwaps(quArchitecture);
             unsigned int totalCost = data.first;
             auto initMapping = data.second;

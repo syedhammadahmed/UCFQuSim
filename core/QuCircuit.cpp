@@ -20,33 +20,16 @@ QuCircuit::QuCircuit() {
 }
 
 QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL) {
-    init1();
 }
 
 QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), grid(NULL){
-    init1();
 }
 
 QuCircuit::QuCircuit(QuArchitecture& architecture): rows(architecture.getN()), grid(NULL) {
-    init1();
 }
 
 QuCircuit::~QuCircuit() {
-
 }
-
-
-//void QuCircuit::add(shared_ptr<QuGate> gate, int row, int depth) {
-//    grid[row][depth] = gate;
-//}
-
-//void QuCircuit::add(shared_ptr<QuGate> gate, int depth) {
-//    int* quBitIndexes = gate -> getArgIndex();
-//    grid[quBitIndexes[0]][depth] = gate;
-//    if(gate -> getCardinality() == 2) {
-//        grid[quBitIndexes[1]][depth] = gate;
-//    }
-//}
 
 void QuCircuit::run() {
     if(Util::verbose)
@@ -55,56 +38,6 @@ void QuCircuit::run() {
     if(Util::verbose)
         cout << "Circuit execution end..." << endl;
 }
-
-ostream &operator<<(ostream &os, const QuCircuit &circuit) {
-    int temp = 0;
-    for (int i = 0; i < circuit.rows; i++) {
-//        temp = 0;
-        os << "q" << i << " : ";
-        for (int j = 0; j < circuit.cols; j++) {
-            shared_ptr<QuGate> gate = circuit.grid[i][j];
-            if (gate != NULL) {
-//                for (int k = temp+1; k < j; k++) {
-//                    os << "-";
-//                }
-                if(gate -> getCardinality() > 1) {
-
-                    int s = gate->getArgAtIndex(0);
-                    int t = gate->getArgAtIndex(1);
-                    if (i == t)
-                        circuit.grid[i][j]->setPrintIndex(1);
-                    else
-                        circuit.grid[i][j]->setPrintIndex(0);
-                }
-                os << circuit.grid[i][j] -> getPrintSymbol() << " ";
-
-
-//                temp = j;
-            } else
-                os << "~ ";
-        }
-        os << endl;
-    }
-    return os;
-}
-
-// initializes the 1D arrays - qubits, mappings, etc.
-void QuCircuit::init1() {
-//    logicalToPhysicalMapping = new int[rows];
-//    physicalToLogicalMapping = new int[rows];
-//    logicalQuBits = new QuBit[rows];
-}
-
-//// initializes the circuit grid
-//void QuCircuit::init2() {
-//    grid = new QuGate**[rows];
-//    for(int i=0; i<rows; i++)
-//        grid[i] = new shared_ptr<QuGate>[cols];
-//    for(int i=0; i<rows; i++)
-//        for (int j = 0; j < cols; j++)
-//            grid[i][j] = NULL;
-////    printGrid();
-//}
 
 void QuCircuit::printGrid(){
     if(Util::verbose) {
@@ -151,76 +84,43 @@ void QuCircuit::printSimpleGrid(){
     }
 }
 
+void QuCircuit::printInstructions() {
+    if(Util::verbose) {
+        try {
+            for (shared_ptr<QuGate> quGate: instructions1) {
+                cout << *quGate << endl;
+            }
+        } catch (exception &e) {
+            cout << "Exception : " << e.what() << '\n';
 
-
-void QuCircuit::findCostFor1Instruction(shared_ptr<QuGate> quGate, int **couplingMap) {
-//    QuSwapStrategy* strategy = new QuNaiiveSwapper(*this);
-//    QuSwapStrategy* strategy = new QuSmartSwapper(*this);
-//    int swaps = strategy->findShortestPathsFor1InputMapping(quGate, couplingMap);
-//    delete strategy;
-//    return swaps;
-//    return 0;
+        }
+    }
 }
 
+ostream &operator<<(ostream &os, const QuCircuit &circuit) {
+    int temp = 0;
+    for (int i = 0; i < circuit.rows; i++) {
+        os << "q" << i << " : ";
+        for (int j = 0; j < circuit.cols; j++) {
+            shared_ptr<QuGate> gate = circuit.grid[i][j];
+            if (gate != NULL) {
+                if(gate -> getCardinality() > 1) {
 
-//int QuCircuit::findShortestPathsFor1InputMapping(shared_ptr<QuGate> quGate, int **couplingMap) {
-//    ShortestPathFinder spf(couplingMap, rows);
-//    int* parent = NULL;
-//    int inputs = quGate -> getCardinality(); // # of qubits in a gate
-//    int* quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
-//    int swaps = 0;
-//    int physicalIndex1 = mapping.getPhysicalBit(quBitIndexes[0]);
-//    parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
-//    if(inputs == 2){
-//        int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
-////        cout << "Finding swaps from " << quBitIndexes[0] << " to " << quBitIndexes[1] << " : " << endl;
-//        swapPath.clear();
-//        swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
-//        mapping.fixMappings(physicalIndex1, swapPath);
-////        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
-//        swaps = swapPath.size();
-////        if(swaps == 0)
-////            cout << "No swap required!" << endl;
-////        printMappings();
-//    }
-//    instructions1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
-//    return swaps;
-//}
-
-//int QuCircuit::findShortestPathsFor1InputMapping(shared_ptr<QuGate> quGate, int **couplingMap) {
-//    ShortestPathFinder spf(couplingMap, rows);
-//    int* parent = NULL;
-//    int inputs = quGate -> getCardinality(); // # of qubits in a gate
-//    int* quBitIndexes = quGate -> getArgIndex(); // logical qubit index values
-//    int swaps = 0;
-//    int physicalIndex1 = mapping.getPhysicalBit(quBitIndexes[0]);
-//    parent = spf.findSingleSourceShortestPaths(couplingMap, physicalIndex1);
-//    if(inputs == 2){
-//        int physicalIndex2 = mapping.getPhysicalBit(quBitIndexes[1]);
-//        cout << "Finding swaps from " << quBitIndexes[0] << " to " << quBitIndexes[1] << " : " << endl;
-//        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
-////        swaps = swapAlongPath(parent, physicalIndex1, parent[physicalIndex2]);
-//        if(swaps == 0)
-//            cout << "No swap required!" << endl;
-//        printMappings();
-//    }
-//    instructions1.push_back(quGate); // new program which includes swap gates for CNOT-constraint satisfaction
-//    return swaps;
-//}
-//
-//void QuCircuit::printMappings() {
-//    cout << "Printing physical-logical qubit mappings: " << endl;
-//    for(int i = 0; i < rows; i++) {
-//        cout << "Q" << i << " -> q" << mapping.getLogicalMapping(i) << endl;
-////        cout << "Q" << i << " -> q" << physicalToLogicalMapping[i] << endl;
-//    }
-//    cout << endl;
-////    cout << "Printing logical-physical qubit mappings: " << endl;
-////    for(int i = 0; i < rows; i++) {
-////        cout << "Q" << logicalToPhysicalMapping[i] << " -> q" << i << endl;
-////    }
-////    cout << endl;
-//}
+                    int s = gate->getArgAtIndex(0);
+                    int t = gate->getArgAtIndex(1);
+                    if (i == t)
+                        circuit.grid[i][j]->setPrintIndex(1);
+                    else
+                        circuit.grid[i][j]->setPrintIndex(0);
+                }
+                os << circuit.grid[i][j] -> getPrintSymbol() << " ";
+            } else
+                os << "~ ";
+        }
+        os << endl;
+    }
+    return os;
+}
 
 pair<int, QuMapping> QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
     QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
@@ -244,18 +144,6 @@ pair<int, QuMapping> QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
     return make_pair(cost, initialMapping);
 }
 
-void QuCircuit::printInstructions() {
-    if(Util::verbose) {
-        try {
-            for (shared_ptr<QuGate> quGate: instructions1) {
-                cout << *quGate << endl;
-            }
-        } catch (exception &e) {
-            cout << "Exception : " << e.what() << '\n';
-
-        }
-    }
-}
 
 int QuCircuit::getRows() const {
     return rows;
@@ -269,7 +157,7 @@ void QuCircuit::setGrid(shared_ptr<QuGate>** grid) {
     this -> grid = std::move(grid);
 }
 
-void QuCircuit::setInstructions(const vector<shared_ptr<QuGate>> instructions) {
+void QuCircuit::setInstructions0(const vector<shared_ptr<QuGate>> instructions) {
     this -> instructions0 = instructions;
 }
 
@@ -281,7 +169,7 @@ void QuCircuit::setInstructions1(const vector<shared_ptr<QuGate>>& instructions1
     this->instructions1 = instructions1;
 }
 
-vector<shared_ptr<QuGate>> QuCircuit::getInstructions() const{
+vector<shared_ptr<QuGate>> QuCircuit::getInstructions0() {
     return instructions0;
 }
 
@@ -291,10 +179,6 @@ void QuCircuit::setFileName(const string &fileName) {
 
 void QuCircuit::setSimpleGrid(int** simpleGrid) {
     this->simpleGrid = simpleGrid;
-}
-
-const string &QuCircuit::getFileName() const {
-    return fileName;
 }
 
 int QuCircuit::getHadamards() const {
@@ -321,16 +205,8 @@ void QuCircuit::setN(int n) {
     this->n = n;
 }
 
-const vector<int> &QuCircuit::getSrcFrequencies() const {
-    return srcFrequencies;
-}
-
 void QuCircuit::setSrcFrequencies(const vector<int> &srcFrequencies) {
     this->srcFrequencies = srcFrequencies;
-}
-
-const vector<int> &QuCircuit::getDestFrequencies() const {
-    return destFrequencies;
 }
 
 void QuCircuit::setDestFrequencies(const vector<int> &destFrequencies) {

@@ -114,7 +114,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     }
     ifs.close();
     circuit.setCols(cols);
-    circuit.setInstructions(instructions);
+    circuit.setInstructions0(instructions);
     circuit.setFileName(fileName);
     buildGrid();
 

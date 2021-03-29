@@ -17,7 +17,7 @@
 #include <iostream>
 
 vector<shared_ptr<QuGate>> QuSmartSwapper::removeUnaryInstructions(){
-    vector<shared_ptr<QuGate>> instructions = circuit.getInstructions();
+    vector<shared_ptr<QuGate>> instructions = circuit.getInstructions0();
     for(shared_ptr<QuGate> currentInstruction: instructions){
         if(currentInstruction->getCardinality()> 1) {
             nonUnaryInstructions.push_back(currentInstruction);
@@ -848,7 +848,7 @@ int QuSmartSwapper::optimize(vector<shared_ptr<QuGate>>& finalProgram){
 }
 
 void QuSmartSwapper::insertEndingUnaryInstructions(vector<shared_ptr<QuGate>>& finalProgram) {
-    vector<shared_ptr<QuGate>> originalProgram = circuit.getInstructions();
+    vector<shared_ptr<QuGate>> originalProgram = circuit.getInstructions0();
     int i=originalProgram.size()-1;
     while(i>=0 && originalProgram[i]->isUnary()){
         i--;
@@ -870,7 +870,7 @@ int QuSmartSwapper::insertRemovedUnaryInstructions(vector<shared_ptr<QuGate>>& f
 }
 
 int QuSmartSwapper::insertRemovedUnaryInstructionsDefault(vector<shared_ptr<QuGate>>& finalProgram, int nextNonUnaryIndex) {
-    vector<shared_ptr<QuGate>> originalProgram = circuit.getInstructions();
+    vector<shared_ptr<QuGate>> originalProgram = circuit.getInstructions0();
     int i = 0;
     int nonUnaryCounter = 0;
     originalProgram.erase(originalProgram.begin(), originalProgram.begin() + nextNonUnaryIndex);
@@ -885,7 +885,7 @@ int QuSmartSwapper::insertRemovedUnaryInstructionsDefault(vector<shared_ptr<QuGa
 
 // todo
 int QuSmartSwapper::insertRemovedUnaryInstructionsDAG(vector<shared_ptr<QuGate>>& finalProgram, int nextNonUnaryIndex) {
-    vector<shared_ptr<QuGate>> originalProgram = circuit.getInstructions();
+    vector<shared_ptr<QuGate>> originalProgram = circuit.getInstructions0();
     int i = 0;
     int nonUnaryCounter = 0;
     originalProgram.erase(originalProgram.begin(), originalProgram.begin() + nextNonUnaryIndex);

@@ -82,7 +82,7 @@ bool QuCircuitEvaluator::evaluateCNOTConstraints(int** couplingMap) {
 //    bool satisfied = true;
 //    int arg1 = 0;
 //    int arg2 = 0;
-//    vector<shared_ptr<QuGate>> instructions = circuit.getInstructions();
+//    vector<shared_ptr<QuGate>> instructions = circuit.getInstructions0();
 ////    cout << "Before evaluator: " << endl;
 ////    printMappings();
 //    try {
