@@ -20,7 +20,7 @@ protected:
     unsigned int swaps;
 public:
     virtual void findShortestPathsFor1InputMapping() = 0;
-    virtual int findTotalSwaps() = 0;
+    virtual pair<int, QuMapping> findTotalSwaps() = 0;
     QuSwapStrategy(QuCircuit& circuit, QuArchitecture& architecture);
     virtual vector<int> swapAlongPath(int* parent, int source, int destination) = 0;
     virtual QuMapping getCurrentMapping() = 0;

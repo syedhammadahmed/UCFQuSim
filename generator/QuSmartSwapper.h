@@ -44,7 +44,8 @@ private:
 public:
     QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);
 
-    int findTotalSwaps() override;
+//    int findTotalSwaps() override;
+    pair<int, QuMapping> findTotalSwaps() override;
     void findShortestPathsFor1InputMapping() override;
     vector<int> swapAlongPath(int* parent, int source, int destination) override;
     QuMapping getCurrentMapping() override;

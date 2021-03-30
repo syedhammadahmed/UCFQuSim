@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include "core/Config.h"
+#include "Config.h"
 #include "QuCircuitGenerator.h"
 #include "QuGateFactory.h"
 #include "util/Util.h"

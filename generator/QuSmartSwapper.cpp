@@ -253,7 +253,30 @@ int QuSmartSwapper::findTotalCostDefault() {
     return totalCost;
 }
 
-int QuSmartSwapper::findTotalSwaps() {
+//pair<int, QuMapping> QuCircuit::findTotalSwaps() {
+//    QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
+//
+////    int min = INT32_MAX;
+////    int minPerm = INT32_MAX;
+////    strategy->initInitializerMappingCounter();
+////    for (int i = 0; i < 2 ; ++i) {
+//    cost = strategy->findTotalSwaps();
+////        if (cost < min) {
+////            min = cost;
+////            minPerm = i;
+////        }
+////        cout << "cost : " << cost << ", min perm : " << minPerm << endl;
+////
+////    }
+////    QuMapping initialMapping(quArchitecture.getN());
+//    QuMapping initialMapping = ((QuSmartSwapper*)strategy)->generateOptimalInstructions();
+//    delete strategy;
+//
+//    return make_pair(cost, initialMapping);
+//}
+
+
+pair<int, QuMapping> QuSmartSwapper::findTotalSwaps() {
     unsigned int totalCost = 0;
     if (DAG_SCHEME){
         totalCost = findTotalCostDAG();
@@ -265,7 +288,9 @@ int QuSmartSwapper::findTotalSwaps() {
         else
             totalCost = findTotalCostDefault();
     }
-    return totalCost;
+    QuMapping initialMapping = generateOptimalInstructions();
+
+    return make_pair(totalCost, initialMapping);
 }
 
 // find all mappings for current instruction

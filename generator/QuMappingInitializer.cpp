@@ -5,7 +5,7 @@
 #include "util/Util.h"
 #include <queue>
 #include <algorithm>
-#include "core/Config.h"
+#include "Config.h"
 #include "QuMappingInitializer.h"
 #include "PriorityGraph.h"
 

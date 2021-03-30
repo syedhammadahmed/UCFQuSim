@@ -9,9 +9,11 @@
 #include <iomanip>
 #include <unordered_map>
 #include "util/Result.h"
-#include "core/Config.h"
+#include "Config.h"
 #include "QuMultiGenerator.h"
 #include "QuCircuitGenerator.h"
+#include "QuSwapStrategy.h"
+#include "QuSmartSwapper.h"
 
 using namespace std;
 
@@ -73,7 +75,11 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             Util::println(file + " : ");
             Util::timeIt(false);
             gatesOriginal = circuit.getInstructions0().size();
-            auto data = circuit.findTotalSwaps(quArchitecture);
+
+            QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture);
+
+            auto data = strategy->findTotalSwaps();
+//            auto data = circuit.findTotalSwaps(quArchitecture);
             unsigned int totalCost = data.first;
             auto initMapping = data.second;
             timeProposed = Util::timeIt(true); // todo loss due to cast
