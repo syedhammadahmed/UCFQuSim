@@ -110,28 +110,6 @@ ostream &operator<<(ostream &os, const QuCircuit &circuit) {
     return os;
 }
 
-//pair<int, QuMapping> QuCircuit::findTotalSwaps(QuArchitecture& quArchitecture) {
-//    QuSwapStrategy *strategy = new QuSmartSwapper(*this, quArchitecture);
-//
-////    int min = INT32_MAX;
-////    int minPerm = INT32_MAX;
-////    strategy->initInitializerMappingCounter();
-////    for (int i = 0; i < 2 ; ++i) {
-//        cost = strategy->findTotalSwaps();
-////        if (cost < min) {
-////            min = cost;
-////            minPerm = i;
-////        }
-////        cout << "cost : " << cost << ", min perm : " << minPerm << endl;
-////
-////    }
-////    QuMapping initialMapping(quArchitecture.getN());
-//    QuMapping initialMapping = ((QuSmartSwapper*)strategy)->generateOptimalInstructions();
-//    delete strategy;
-//
-//    return make_pair(cost, initialMapping);
-//}
-
 
 int QuCircuit::getRows() const {
     return rows;

@@ -281,7 +281,7 @@ pair<int, QuMapping> QuSmartSwapper::findTotalSwaps() {
     if (DAG_SCHEME){
         totalCost = findTotalCostDAG();
     }
-    else {
+    else { // id default scheme
         if (ALL_PERMUTATIONS_SCHEME) {
             totalCost = findTotalCostDefaultAllPermutations();
         }

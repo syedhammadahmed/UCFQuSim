@@ -47,8 +47,6 @@ public:
     void printInstructions();
     friend std::ostream &operator<<(std::ostream &os, const QuCircuit &circuit);
 
-//    pair<int, QuMapping> findTotalSwaps(QuArchitecture& quArchitecture);
-
     // setters and getters
     void setCols(int cols);
     void setN(int n);
