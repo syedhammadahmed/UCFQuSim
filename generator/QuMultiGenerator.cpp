@@ -2,18 +2,18 @@
 // Created by SHA on 2/21/20.
 //
 
-#include <util/Util.h>
 #include <dirent.h>
-#include <sys/stat.h>
 #include <iostream>
 #include <iomanip>
 #include <unordered_map>
-#include "util/Result.h"
+
 #include "Config.h"
 #include "QuMultiGenerator.h"
 #include "QuCircuitGenerator.h"
 #include "QuSwapStrategy.h"
 #include "QuSmartSwapper.h"
+#include "util/Util.h"
+#include "util/Result.h"
 
 using namespace std;
 
@@ -79,7 +79,6 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture);
 
             auto data = strategy->findTotalSwaps();
-//            auto data = circuit.findTotalSwaps(quArchitecture);
             unsigned int totalCost = data.first;
             auto initMapping = data.second;
             timeProposed = Util::timeIt(true); // todo loss due to cast
@@ -109,26 +108,8 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         cout << "max : " << max << endl;
         cout << "avg : " << average << endl;
         results.push_back(Result(file, minSwaps, gatesOriginal, minGates, depthProposed, minHadamards, timeProposed, gatesProposedOptimized));
-        //        circuit.printGrid();
+//        circuit.printGrid();
 //        circuit.printSimpleGrid();
     }
     return make_pair(results, initialMappingsMap);
 }
-
-
-//
-//void QuMultiGenerator::timeIt(bool isEnd) {
-//    time_t start;
-//    time_t end;
-//    if(!isEnd) {
-//        time(&start);
-//        // unsync the I/O of C and C++.
-//        ios_base::sync_with_stdio(false);
-//    }
-//    else {
-//        time(&end);
-//        double time_taken = double(end - start);
-//        cout << fixed << time_taken << setprecision(5) << endl;
-//    }
-//
-//}

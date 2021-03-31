@@ -28,20 +28,21 @@ public:
     ~QuCircuitGenerator();
 
     void buildFromFile(string fileName); // then call this; this creates grid as well as vector of instructions
+
+    // grid related functions
     void buildGrid();
     void initGrids();
-    void deleteGrids();
     void add(shared_ptr<QuGate> gate, int depth);
     void addSimple(shared_ptr<QuGate> gate, int depth, int instructionNo);
     int getLayerForNewGate(vector<int> quBits, int operands);
-
-    void makeProgramFile(string outputFileName);
     bool somethingInBetween(int row1, int row2, int layer);
     bool somethingInBetween(vector<int> quBits, int operands, int layer);
+    void deleteGrids();
+
+    void makeProgramFile(string outputFileName);
 
     int getLayer() const;
     QuCircuit& getCircuit();
-
 };
 
 

@@ -5,12 +5,12 @@
 #ifndef UCFQUSIM_QUMAPPING_H
 #define UCFQUSIM_QUMAPPING_H
 
-
 #include <vector>
 #include <iostream>
-#include <core/gates/QuGate.h>
 #include <memory>
-#include <core/gates/Swap.h>
+
+#include "core/gates/QuGate.h"
+#include "core/gates/Swap.h"
 #include "QuArchitecture.h"
 
 using namespace std;
@@ -22,29 +22,15 @@ private:
     string mappingId;
     string parentMappingId;
     vector<Swap> swapInstructions;
-//    vector<unique_ptr<QuGate>> swapInstructions;
-    bool destructorCalled;
 
 public:
-    int getN() const;
-
-    static const int DEFAULT;
-    explicit QuMapping(int n);
-    explicit QuMapping(int n, int permId);
-
-//    QuMapping(bool strongInit = false);
-
     QuMapping();
+    explicit QuMapping(int n);
     QuMapping(const QuMapping& arg);
-    void operator=(const QuMapping& arg);
-    bool operator==(const QuMapping& arg);
-
     ~QuMapping();
-
-//    virtual ~QuMapping();
-
-    int getLogicalMapping(int physicalBit);
-    void setLogicalMapping(int physicalBit, int logicalBit);
+    QuMapping& operator=(const QuMapping& arg);
+    bool operator==(const QuMapping& arg);
+    int& operator[](int index);
 
     void init(int initializingPolicy);
 
@@ -82,13 +68,15 @@ public:
 
     void init(vector<int> initSequence);
 
-    void strongInit();
+    void noMappingInit();
 
     void setValueAtNextFree(int i);
 
     void setUnallocatedQuBits();
 
     void setN(int n);
+    int getN() const;
+
     bool isLegit();
 
     string toString();

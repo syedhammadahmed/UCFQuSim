@@ -27,7 +27,6 @@
 #define INIT_MAPPING_DEFAULT_ONLY false
 #define INIT_MAPPING_HARD_CODED_ONLY false
 
-
 //#define TOTAL_PERM 3628800    // 10!
 //#define MAPPING_THRESHOLD 3628800  // other mapping count after pruning
 

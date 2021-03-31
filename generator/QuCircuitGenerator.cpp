@@ -21,6 +21,13 @@ QuCircuitGenerator::QuCircuitGenerator(int n, string inputFileAbsPath):n(n), cir
     buildFromFile(inputFileAbsPath);
 }
 
+QuCircuitGenerator::~QuCircuitGenerator() {
+    delete [] quBitRecentLayer;
+    if (CIRCUIT_BUILD_GRID) {
+        deleteGrids();
+    }
+}
+
 void QuCircuitGenerator::buildFromFile(string fileName) {
     ifstream ifs;
     string quGate = "";
@@ -152,6 +159,24 @@ void QuCircuitGenerator::buildGrid() {
     }
 }
 
+// initializes the circuit grid
+void QuCircuitGenerator::initGrids() {
+    grid = new shared_ptr<QuGate> *[n];
+    for (int i = 0; i < n; i++)
+        grid[i] = new shared_ptr<QuGate>[cols];
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < cols; j++)
+            grid[i][j] = NULL;
+
+    simpleGrid = new int *[n];
+    for (int i = 0; i < n; i++)
+        simpleGrid[i] = new int[cols];
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < cols; j++)
+            simpleGrid[i][j] = -1;
+    //    printGrid();
+}
+
 void QuCircuitGenerator::add(shared_ptr<QuGate> gate, int depth) {
     vector<int> quBits = gate -> getArgIndex();
     grid[quBits[0]][depth] = gate;
@@ -162,6 +187,13 @@ void QuCircuitGenerator::add(shared_ptr<QuGate> gate, int depth) {
             grid[quBits[i]][depth] = temp;
         }
     }
+}
+
+void QuCircuitGenerator::addSimple(shared_ptr<QuGate> gate, int depth, int instructionNo) {
+    vector<int> quBits = gate -> getArgIndex();
+    int cardinality = gate -> getCardinality();
+    for(int i = 0; i < cardinality; i++)
+        simpleGrid[quBits[i]][depth] = instructionNo;
 }
 
 int QuCircuitGenerator::getLayerForNewGate(vector<int> quBits, int operands) {
@@ -190,6 +222,25 @@ bool QuCircuitGenerator::somethingInBetween(int row1, int row2, int layer) {
     return false;
 }
 
+bool QuCircuitGenerator::somethingInBetween(vector<int> quBits, int operands, int layer) {
+    for(int i = 0; i < operands; i++)
+        for(int j = i + 1; j < operands; j++){
+            if (somethingInBetween(quBits[i], quBits[j], layer))
+                return true;
+        }
+    return false;
+}
+
+void QuCircuitGenerator::deleteGrids() {
+    for (int i = 0; i < n; i++)
+        delete[] grid[i];
+    delete[] grid;
+
+    for (int i = 0; i < n; i++)
+        delete[] simpleGrid[i];
+    delete[] simpleGrid;
+}
+
 void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     ofstream ofs;
     ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
@@ -212,32 +263,6 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     }
 }
 
-QuCircuitGenerator::~QuCircuitGenerator() {
-    delete [] quBitRecentLayer;
-    if (CIRCUIT_BUILD_GRID) {
-        deleteGrids();
-    }
-}
-
-// initializes the circuit grid
-void QuCircuitGenerator::initGrids() {
-    grid = new shared_ptr<QuGate> *[n];
-    for (int i = 0; i < n; i++)
-        grid[i] = new shared_ptr<QuGate>[cols];
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < cols; j++)
-            grid[i][j] = NULL;
-
-    simpleGrid = new int *[n];
-    for (int i = 0; i < n; i++)
-        simpleGrid[i] = new int[cols];
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < cols; j++)
-            simpleGrid[i][j] = -1;
-    //    printGrid();
-}
-
-
 int QuCircuitGenerator::getLayer() const {
     return layer;
 }
@@ -245,30 +270,3 @@ int QuCircuitGenerator::getLayer() const {
 QuCircuit& QuCircuitGenerator::getCircuit() {
     return circuit;
 }
-
-void QuCircuitGenerator::addSimple(shared_ptr<QuGate> gate, int depth, int instructionNo) {
-    vector<int> quBits = gate -> getArgIndex();
-    int cardinality = gate -> getCardinality();
-    for(int i = 0; i < cardinality; i++)
-        simpleGrid[quBits[i]][depth] = instructionNo;
-}
-
-bool QuCircuitGenerator::somethingInBetween(vector<int> quBits, int operands, int layer) {
-    for(int i = 0; i < operands; i++)
-        for(int j = i + 1; j < operands; j++){
-            if (somethingInBetween(quBits[i], quBits[j], layer))
-                return true;
-        }
-    return false;
-}
-
-void QuCircuitGenerator::deleteGrids() {
-    for (int i = 0; i < n; i++)
-        delete[] grid[i];
-    delete[] grid;
-
-    for (int i = 0; i < n; i++)
-        delete[] simpleGrid[i];
-    delete[] simpleGrid;
-}
-

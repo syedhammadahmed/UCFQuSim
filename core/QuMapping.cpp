@@ -2,15 +2,13 @@
 // Created by SHA on 11/18/19.
 //
 
-#include <util/Util.h>
 #include <algorithm>
 
+#include "util/Util.h"
+#include "util/Constants.h"
 #include "QuMapping.h"
 #include "QuArchitecture.h"
 using namespace std;
-
-
-const int QuMapping::DEFAULT = 0;
 
 //todo uncomment to restore dynamic array logic
 //QuMapping::QuMapping(int n) : physicalToLogical(NULL), n(n) {
@@ -51,15 +49,11 @@ QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
 
 
 void QuMapping::init(int initializingPolicy) {  // 0 = default
-    defaultInit();
-}
-
-int QuMapping::getLogicalMapping(int physicalBit) {
-    return physicalToLogical[physicalBit];
-}
-
-void QuMapping::setLogicalMapping(int physicalBit, int logicalBit) {
-    physicalToLogical[physicalBit] = logicalBit;
+    switch (initializingPolicy) {
+        case Constants::INIT_MAPPING_DEFAULT: defaultInit(); break;
+        case Constants::INIT_MAPPING_HARD_CODED: hardCodedInit(); break; // see Util::makeMappingVector()
+        case Constants::INIT_MAPPING_NO_MAPPING: noMappingInit(); break;
+    }
 }
 
 int QuMapping::getPhysicalBit(int logicalBit){
@@ -134,11 +128,6 @@ void QuMapping::quSwapLogical(int i, int j) {
     physicalToLogical[pj] = temp;
 }
 
-QuMapping::QuMapping(int n, int permId) : n(n) {
-    init(permId);
-//    cout << "QuMapping Constructor OK!" << endl;
-}
-
 const string &QuMapping::getMappingId() const {
     return mappingId;
 }
@@ -180,7 +169,7 @@ void QuMapping::setSwapInstructions(const vector<Swap> swapInstructions) {
 //    }
 //}
 
-void QuMapping::operator=(const QuMapping &arg) {
+QuMapping& QuMapping::operator=(const QuMapping &arg) {
     n = arg.n;
     mappingId = arg.mappingId;
     parentMappingId = arg.parentMappingId;
@@ -190,6 +179,7 @@ void QuMapping::operator=(const QuMapping &arg) {
     for(int i=0; i<n; i++){
         physicalToLogical.push_back(arg.physicalToLogical[i]);
     }
+    return (*this);
 }
 
 bool QuMapping::operator==(const QuMapping &arg) {
@@ -239,7 +229,7 @@ QuMapping::QuMapping(string mappingId) {
 
 //QuMapping::QuMapping(bool doStrongInit) {
 //    if (doStrongInit)
-//        strongInit();
+//        noMappingInit();
 //    else
 //        defaultInit();
 //}
@@ -254,7 +244,7 @@ void QuMapping::defaultInit() {
     }
 }
 
-void QuMapping::strongInit() {
+void QuMapping::noMappingInit() {
     // default initial mapping
     physicalToLogical.resize(n);
     for(int i=0; i<n; i++) {
@@ -263,10 +253,11 @@ void QuMapping::strongInit() {
 }
 
 void QuMapping::init(vector<int> initSequence) {
-    defaultInit();
+    init(Constants::INIT_MAPPING_NO_MAPPING);
     for(int i=0; i<initSequence.size(); i++) {
         physicalToLogical[i] = initSequence[i]; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
     }
+    setUnallocatedQuBits();
 }
 
 void QuMapping::setValueAtNextFree(int i) {
@@ -321,4 +312,8 @@ void QuMapping::setPhysicalToLogical(const vector<int> &physicalToLogical) {
 
 void QuMapping::hardCodedInit() {
     setPhysicalToLogical(Util::makeMappingVector());
+}
+
+int& QuMapping::operator[](int index) {
+    return physicalToLogical[index];
 }

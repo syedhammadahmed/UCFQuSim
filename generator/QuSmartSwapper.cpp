@@ -601,8 +601,10 @@ void QuSmartSwapper::insertSwapGates(int source, int destination){
         // insert swap gate in circuit
     shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");    // create a new swap gate
     vector<int> args = swapGate -> getArgIndex();
-    swapGate -> setArgAtIndex(0, getCurrentMapping().getLogicalMapping(source));       // set swap gate 1st arg
-    swapGate -> setArgAtIndex(1, getCurrentMapping().getLogicalMapping(destination));       // set swap gate 2nd arg
+    swapGate -> setArgAtIndex(0, getCurrentMapping()[source]);       // set swap gate 1st arg
+    swapGate -> setArgAtIndex(1, getCurrentMapping()[destination]);       // set swap gate 2nd arg
+//    swapGate -> setArgAtIndex(0, getCurrentMapping().getLogicalMapping(source));       // set swap gate 1st arg
+//    swapGate -> setArgAtIndex(1, getCurrentMapping().getLogicalMapping(destination));       // set swap gate 2nd arg
     circuit.getInstructions1().push_back(swapGate);               // add swap gate to circuit
 }
 

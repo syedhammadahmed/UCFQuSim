@@ -312,7 +312,7 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
 
         // todo remove next 2 lines after testing
 //    restrictionPairs.clear();
-//    restrictedMapping.strongInit();
+//    restrictedMapping.noMappingInit();
 
         if (INIT_MAPPING_RESTRICT_MODE) {
             for (int i = 0; i < restrictionPairs.size(); i++) {
@@ -418,7 +418,7 @@ QuMapping QuMappingInitializer::getNextMapping() {
     }
     nextMapping.setUnallocatedQuBits();
     count++;
-    restrictedMapping.strongInit();
+    restrictedMapping.noMappingInit();
     return nextMapping;
 }
 
@@ -434,7 +434,7 @@ void QuMappingInitializer::initGenerator() {
     }
     cout << "logical bits: " << l << endl;
     restrictedMapping.setN(n);
-    restrictedMapping.strongInit();
+    restrictedMapping.noMappingInit();
 }
 
 void QuMappingInitializer::removeAdjacents(int physicalQuBit){
@@ -559,7 +559,7 @@ void QuMappingInitializer::initInitializerMappingCounter() {
 
 vector<QuMapping> QuMappingInitializer::getNextPermutationMapping() {
     vector<QuMapping> initMappings;
-    restrictedMapping.strongInit();
+    restrictedMapping.noMappingInit();
     QuMapping nextMapping(restrictedMapping);
 
     for(int i=0; i<perms[count].size(); i++){

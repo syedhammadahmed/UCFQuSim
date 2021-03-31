@@ -4,9 +4,7 @@
 
 #include <iostream>
 #include <dirent.h>
-#include <sys/stat.h>
-//#include <direct.h>
-//#include <direct.h>
+#include <direct.h>
 #include <cstdio>
 
 #include "QuMultiEvaluator.h"
@@ -15,11 +13,11 @@
 
 using namespace std;
 
-QuMultiEvaluator::QuMultiEvaluator(const string directory, QuArchitecture& quArchitecture)
-                   : directory(directory), quArchitecture(quArchitecture){
-//    loadFiles();
+QuMultiEvaluator::QuMultiEvaluator(const string directory, QuArchitecture &quArchitecture,
+                                   unordered_map<basic_string<char>, QuMapping> initialMappingsMap): directory(directory), quArchitecture(quArchitecture) {
+    setinitMappingsMap(initialMappingsMap);
     deletePreviousFiles();
-
+    loadFiles();
 }
 
 void QuMultiEvaluator::evaluateAllCircuits(){
@@ -54,8 +52,8 @@ void QuMultiEvaluator::deletePreviousFiles() {
 
     dir = opendir(directory.c_str());
     if(dir == NULL)
-//        _mkdir(directory.c_str());
-        mkdir(directory.c_str(), 0777);
+        _mkdir(directory.c_str());
+//        mkdir(directory.c_str(), 0777);
 
     while ((dirPtr = readdir(dir)) != NULL) {
         if(string(dirPtr->d_name) == "." || string(dirPtr->d_name) == "..")
@@ -70,3 +68,4 @@ void QuMultiEvaluator::deletePreviousFiles() {
 void QuMultiEvaluator::setinitMappingsMap(unordered_map<string, QuMapping> map) {
     this->map = map;
 }
+

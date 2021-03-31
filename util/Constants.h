@@ -20,7 +20,11 @@ class Constants {
         static const int sym6_316 = 5;
         static const int sym9_146 = 6;
 
-        constexpr static const int HARDCODED_INIT_MAPPINGS [][QX5_N] = {
+        static const int INIT_MAPPING_DEFAULT = 0;
+        static const int INIT_MAPPING_HARD_CODED = 1;
+        static const int INIT_MAPPING_NO_MAPPING = 2;
+
+    constexpr static const int HARDCODED_INIT_MAPPINGS [][QX5_N] = {
 //         index  0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15
                 { 1, 0, 2, 3, 5, 4, 6, 7, 9, 8, 10, 11, 12, 13, 14, 15 }, // ising_model_10
                 { 1, 0, 2, 3, 5, 4, 6, 7, 9, 8, 11, 10, 12, 13, 14, 15 }, // ising_model_13

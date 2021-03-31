@@ -7,9 +7,9 @@
 
 #include <string>
 #include <vector>
-
-#include <core/QuArchitecture.h>
 #include <unordered_map>
+
+#include "core/QuArchitecture.h"
 #include "core/QuMapping.h"
 
 using namespace std;
@@ -17,17 +17,16 @@ using namespace std;
 class QuMultiEvaluator {
 private:
     string directory;
-
     QuArchitecture& quArchitecture;  // physical architecture
     vector<string> files;
     unordered_map<string, QuMapping> map;
 
 public:
-    const bool DELETE_PREVIOUS_FILES = true;
-    QuMultiEvaluator(const string directory, QuArchitecture& quArchitecture);
-    void evaluateAllCircuits();
-    void loadFiles();
+    QuMultiEvaluator(const string directory, QuArchitecture& quArchitecture, unordered_map<basic_string<char>, QuMapping> initialMappingsMap);
 
+    void evaluateAllCircuits();
+
+    void loadFiles();
     void deletePreviousFiles();
 
     void setinitMappingsMap(unordered_map<string, QuMapping> map);

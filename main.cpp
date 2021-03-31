@@ -1,21 +1,14 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <util/Constants.h>
 
 #include "evaluator/QuMultiEvaluator.h"
 #include "generator/QuMultiGenerator.h"
-#include "util/Result.h"
+#include "util/Constants.h"
 #include "util/Util.h"
 
 using namespace std;
 
-//int main() {
-//    Util::makeMappingVector();
-//
-//    return 0;
-//}
-//
 int main() {
 //    Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
@@ -27,7 +20,6 @@ int main() {
 //    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
     QuArchitecture architectureQX(Constants::QX4_N); // includes the coupling map having CNOT constraints
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
-    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX);
 
     auto data = quMultiGenerator.generateAllCircuits();
     auto results = data.first;
@@ -43,8 +35,7 @@ int main() {
         Util::resetVerbose();
     }
 
-    quMultiEvaluator.setinitMappingsMap(initialMappingsMap);
-    quMultiEvaluator.loadFiles();
+    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX, initialMappingsMap);
     quMultiEvaluator.evaluateAllCircuits();
 
     return 0;

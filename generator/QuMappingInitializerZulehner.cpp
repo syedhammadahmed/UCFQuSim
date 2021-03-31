@@ -358,7 +358,7 @@ void QuMappingInitializerZulehner::initGenerator() {
     }
     cout << "logical bits: " << l << endl;
     restrictedMapping.setN(n);
-    restrictedMapping.strongInit();
+    restrictedMapping.noMappingInit();
 }
 
 void QuMappingInitializerZulehner::removeAdjacents(int physicalQuBit){
