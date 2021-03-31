@@ -69,7 +69,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         unsigned int gatesProposedOptimized = 0;
         for (int j = 0; j < runs; ++j) {
             cout << "run #: " << j << endl;
-            QuCircuitGenerator quCircuitGenerator(quArchitecture, inputFileAbsPath);
+            QuCircuitGenerator quCircuitGenerator(quArchitecture.getN(), inputFileAbsPath);
             QuCircuit &circuit = quCircuitGenerator.getCircuit();
             circuit.setFileName(inputFiles[i]);
             Util::println(file + " : ");
@@ -89,7 +89,6 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             unsigned int gatesProposed = totalCost + gatesOriginal;
             gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
 
-            quCircuitGenerator.setInstructions(circuit.getInstructions1());
             quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
             initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
             depthProposed = quCircuitGenerator.getLayer() + 1;

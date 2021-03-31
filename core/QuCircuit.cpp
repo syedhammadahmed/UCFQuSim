@@ -14,21 +14,9 @@
 using namespace std;
 
 QuCircuit::QuCircuit() {
-    if(Util::verbose) {
-        cout << "QuCircuit default" << endl;
-    }
 }
 
 QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL) {
-}
-
-QuCircuit::QuCircuit(int rows, int cols): rows(rows), cols(cols), grid(NULL){
-}
-
-QuCircuit::QuCircuit(QuArchitecture& architecture): rows(architecture.getN()), grid(NULL) {
-}
-
-QuCircuit::~QuCircuit() {
 }
 
 void QuCircuit::run() {

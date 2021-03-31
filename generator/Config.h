@@ -38,4 +38,6 @@
 
 #define ELEMENTARY_SWAP_DECOMPOSITION true
 
+#define CIRCUIT_BUILD_GRID false
+
 #endif //UCFQUSIM_CONFIG_H

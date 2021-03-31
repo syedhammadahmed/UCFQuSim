@@ -14,17 +14,9 @@
 
 using namespace std;
 
-QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture):circuit(architecture), architecture(architecture), grid(nullptr), simpleGrid(nullptr), cols(0), layer(-1) {
-    rows = architecture.getN();
-    quBitRecentLayer = new int[rows];
-    for(int i=0; i<rows; i++)
-        quBitRecentLayer[i] = -1;
-}
-
-QuCircuitGenerator::QuCircuitGenerator(QuArchitecture &architecture, string inputFileAbsPath):circuit(architecture), architecture(architecture), layer(-1), inputFileAbsPath(inputFileAbsPath) {
-    rows = architecture.getN();
-    quBitRecentLayer = new int[rows];
-    for(int i=0; i<rows; i++)
+QuCircuitGenerator::QuCircuitGenerator(int n, string inputFileAbsPath):n(n), circuit(n), layer(-1), inputFileAbsPath(inputFileAbsPath) {
+    quBitRecentLayer = new int[n];
+    for(int i=0; i<n; i++)
         quBitRecentLayer[i] = -1;
     buildFromFile(inputFileAbsPath);
 }
@@ -39,16 +31,16 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     int i = 0;
     cols = 0;
     vector<int> qubits;
+    vector<shared_ptr<QuGate>> instructions; // original qasm program instructions/qugates
 
-    vector<pair<int ,int>> srcFrequencies(architecture.getN(), make_pair(-1, 0));
-    vector<pair<int ,int>> destFrequencies(architecture.getN(), make_pair(-1, 0));
-    vector<pair<int ,int>> commons(architecture.getN());
+    vector<pair<int ,int>> srcFrequencies(n, make_pair(-1, 0));
+    vector<pair<int ,int>> destFrequencies(n, make_pair(-1, 0));
+    vector<pair<int ,int>> commons(n);
 
     std::vector<pair<int ,int>>::iterator it;
 //    int layer = -1;
     int duals = 0;
     header = "";
-
     ifs.open(fileName);
     while (!ifs.eof() && quGate != "creg") {
         string line;
@@ -116,7 +108,8 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     circuit.setCols(cols);
     circuit.setInstructions0(instructions);
     circuit.setFileName(fileName);
-    buildGrid();
+    if(CIRCUIT_BUILD_GRID)
+        buildGrid();
 
     std::sort(qubits.begin(), qubits.end());
     auto qit = std::unique(qubits.begin(), qubits.begin() + qubits.size());
@@ -140,9 +133,10 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
 }
 
 void QuCircuitGenerator::buildGrid() {
-    init2(); // make grid
+    initGrids(); // make grid
     try {
         int currentInstruction = 0;
+        auto instructions = circuit.getInstructions0();
         for (shared_ptr<QuGate> newGate: instructions) {
             int operands = newGate -> getCardinality();
             vector<int> args = newGate -> getArgIndex();
@@ -201,6 +195,7 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
     ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
         ofs << header << endl;
+        vector<shared_ptr<QuGate>> instructions = circuit.getInstructions1();
         for (shared_ptr<QuGate> quGate: instructions) {
             string mnemonic = Util::toLower(quGate->getMnemonic());
             if(mnemonic == "rz")
@@ -219,47 +214,29 @@ void QuCircuitGenerator::makeProgramFile(string outputFileName) {
 
 QuCircuitGenerator::~QuCircuitGenerator() {
     delete [] quBitRecentLayer;
-
-//    for(int i = 0; i < rows; i++)
-//        for (int j = 0; j < cols; j++)
-//            if(grid[i][j] != NULL)
-//                delete grid[i][j];  // deleting the gate made by QuGateFactory
-
-    for(int i = 0; i < rows; i++)
-        delete [] grid[i];
-    delete [] grid;
-    for(int i = 0; i < rows; i++)
-        delete [] simpleGrid[i];
-
-    delete [] simpleGrid;
-//    for(shared_ptr<QuGate> ptr: instructions){
-//        if(ptr != nullptr)
-//            delete ptr;
-//    }
+    if (CIRCUIT_BUILD_GRID) {
+        deleteGrids();
+    }
 }
 
 // initializes the circuit grid
-void QuCircuitGenerator::init2() {
-    grid = new shared_ptr<QuGate>*[rows];
-    for(int i = 0; i < rows; i++)
+void QuCircuitGenerator::initGrids() {
+    grid = new shared_ptr<QuGate> *[n];
+    for (int i = 0; i < n; i++)
         grid[i] = new shared_ptr<QuGate>[cols];
-    for(int i = 0; i < rows; i++)
+    for (int i = 0; i < n; i++)
         for (int j = 0; j < cols; j++)
             grid[i][j] = NULL;
 
-    simpleGrid = new int*[rows];
-    for(int i = 0; i < rows; i++)
+    simpleGrid = new int *[n];
+    for (int i = 0; i < n; i++)
         simpleGrid[i] = new int[cols];
-    for(int i = 0; i < rows; i++)
+    for (int i = 0; i < n; i++)
         for (int j = 0; j < cols; j++)
             simpleGrid[i][j] = -1;
-
-        //    printGrid();
+    //    printGrid();
 }
 
-void QuCircuitGenerator::setInstructions(const vector<shared_ptr<QuGate>> instructions) {
-    this -> instructions = instructions;
-}
 
 int QuCircuitGenerator::getLayer() const {
     return layer;
@@ -283,5 +260,15 @@ bool QuCircuitGenerator::somethingInBetween(vector<int> quBits, int operands, in
                 return true;
         }
     return false;
+}
+
+void QuCircuitGenerator::deleteGrids() {
+    for (int i = 0; i < n; i++)
+        delete[] grid[i];
+    delete[] grid;
+
+    for (int i = 0; i < n; i++)
+        delete[] simpleGrid[i];
+    delete[] simpleGrid;
 }
 

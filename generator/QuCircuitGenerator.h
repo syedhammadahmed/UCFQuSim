@@ -10,15 +10,11 @@
 
 class QuCircuitGenerator {
 private:
-//    QuCircuit& circuit;
     QuCircuit circuit;
-    QuArchitecture& architecture;
-
-    vector<shared_ptr<QuGate>> instructions; // original qasm program instructions/qugates
 
     shared_ptr<QuGate>** grid;
     int** simpleGrid;
-    int rows;
+    int n; // # of physical qubits
     int cols;
 
     int layer;
@@ -28,15 +24,13 @@ private:
     string header;
 
 public:
-//    QuCircuitGenerator(QuCircuit& circuit); // set rows of circuit and call this
-//    QuCircuitGenerator(QuCircuit& circuit, QuArchitecture& architecture); // set rows of circuit and call this
-    QuCircuitGenerator(QuArchitecture& architecture);
-    QuCircuitGenerator(QuArchitecture& architecture, string inputFileAbsPath);
+    QuCircuitGenerator(int n, string inputFileAbsPath);
     ~QuCircuitGenerator();
 
     void buildFromFile(string fileName); // then call this; this creates grid as well as vector of instructions
     void buildGrid();
-    void init2();
+    void initGrids();
+    void deleteGrids();
     void add(shared_ptr<QuGate> gate, int depth);
     void addSimple(shared_ptr<QuGate> gate, int depth, int instructionNo);
     int getLayerForNewGate(vector<int> quBits, int operands);
@@ -45,7 +39,6 @@ public:
     bool somethingInBetween(int row1, int row2, int layer);
     bool somethingInBetween(vector<int> quBits, int operands, int layer);
 
-    void setInstructions(const vector<shared_ptr<QuGate>> instructions);
     int getLayer() const;
     QuCircuit& getCircuit();
 

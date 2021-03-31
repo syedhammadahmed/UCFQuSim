@@ -27,11 +27,10 @@ void QuMultiEvaluator::evaluateAllCircuits(){
         string ofile = files[i];
         if(files[i] == "." || files[i] == "..")
             continue;
-        QuCircuitGenerator testQuCircuitBuilder(quArchitecture);
-        cout << "Evaluating intermediate output file: " << ofile << ": ";
-        testQuCircuitBuilder.buildFromFile(directory + ofile);
+        QuCircuitGenerator testQuCircuitBuilder(quArchitecture.getN(), directory + ofile);
         QuCircuit& testCircuit = testQuCircuitBuilder.getCircuit();
         QuCircuitEvaluator quCircuitEvaluator(testCircuit, map[ofile]);
+        cout << "Evaluating intermediate output file: " << ofile << ": ";
         bool satisfied = quCircuitEvaluator.evaluateCNOTConstraints(quArchitecture.getCouplingMap());
     }
 }

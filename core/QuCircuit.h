@@ -33,16 +33,12 @@ private:
     int swaps;
     int cost;
     int optimizations;
-
     vector<int> srcFrequencies;
     vector<int> destFrequencies;
 
 public:
     QuCircuit();
     explicit QuCircuit(int rows);
-    QuCircuit(int rows, int cols);
-    explicit QuCircuit(QuArchitecture& architecture);
-    ~QuCircuit();
 
     void run();
 
