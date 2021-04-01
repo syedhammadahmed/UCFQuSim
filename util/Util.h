@@ -20,7 +20,6 @@ using namespace std;
 class Util {
 public:
     static bool verbose;
-    static string FILE_EXTENSION;
     static string toLower(string str);
     static double timeIt(bool isEnd);
     static void printPath(vector<int> path);

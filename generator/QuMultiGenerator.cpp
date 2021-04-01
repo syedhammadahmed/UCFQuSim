@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <unordered_map>
+#include <util/Constants.h>
 
 #include "Config.h"
 #include "QuMultiGenerator.h"
@@ -34,7 +35,7 @@ void QuMultiGenerator::loadFiles() {
     dir = opendir(inputDirectory.c_str());
     while ((dirPtr = readdir(dir)) != nullptr) {
         string temp = string(dirPtr->d_name);
-        if(temp.find(Util::FILE_EXTENSION) != string::npos){
+        if(temp.find(Constants::FILE_EXTENSION) != string::npos){
             inputFiles.push_back(temp);
             outputFiles.push_back("output_" + temp);
         }
@@ -48,7 +49,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
     unordered_map<string, QuMapping> initialMappingsMap;
 
     for(unsigned int i=0; i<inputFiles.size(); i++) {
-        string inputFileAbsPath = inputDirectory + inputFiles[i];
+//        string inputFileAbsPath = inputDirectory + inputFiles[i];
         string file = inputFiles[i].substr(0, inputFiles[i].length() - 5); //removing .qasm extension
         // reads the qasm file and makes a default circuit
         int runs = 1;
@@ -68,11 +69,10 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         double timeProposed = 0;
         unsigned int gatesProposedOptimized = 0;
         for (int j = 0; j < runs; ++j) {
-            cout << "run #: " << j << endl;
-            QuCircuitGenerator quCircuitGenerator(quArchitecture.getN(), inputFileAbsPath);
-            QuCircuit &circuit = quCircuitGenerator.getCircuit();
-            circuit.setFileName(inputFiles[i]);
             Util::println(file + " : ");
+            cout << "run #: " << j << endl;
+            QuCircuitGenerator quCircuitGenerator(quArchitecture.getN(), file);
+            QuCircuit &circuit = quCircuitGenerator.getCircuit();
             Util::timeIt(false);
             gatesOriginal = circuit.getInstructions0().size();
 

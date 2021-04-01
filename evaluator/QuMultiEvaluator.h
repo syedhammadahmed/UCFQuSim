@@ -22,7 +22,7 @@ private:
     unordered_map<string, QuMapping> map;
 
 public:
-    QuMultiEvaluator(const string directory, QuArchitecture& quArchitecture, unordered_map<basic_string<char>, QuMapping> initialMappingsMap);
+    QuMultiEvaluator(QuArchitecture& quArchitecture, unordered_map<basic_string<char>, QuMapping> initialMappingsMap);
 
     void evaluateAllCircuits();
 

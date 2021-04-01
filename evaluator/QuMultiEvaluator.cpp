@@ -4,8 +4,10 @@
 
 #include <iostream>
 #include <dirent.h>
-#include <direct.h>
+//#include <direct.h>
 #include <cstdio>
+#include <sys/stat.h>
+#include <util/Constants.h>
 
 #include "QuMultiEvaluator.h"
 #include "QuCircuitEvaluator.h"
@@ -13,8 +15,8 @@
 
 using namespace std;
 
-QuMultiEvaluator::QuMultiEvaluator(const string directory, QuArchitecture &quArchitecture,
-                                   unordered_map<basic_string<char>, QuMapping> initialMappingsMap): directory(directory), quArchitecture(quArchitecture) {
+QuMultiEvaluator::QuMultiEvaluator(QuArchitecture &quArchitecture,
+                                   unordered_map<basic_string<char>, QuMapping> initialMappingsMap): directory(Constants::OUTPUT_FILES_DIRECTORY_RPATH), quArchitecture(quArchitecture) {
     setinitMappingsMap(initialMappingsMap);
     deletePreviousFiles();
     loadFiles();
@@ -52,15 +54,15 @@ void QuMultiEvaluator::deletePreviousFiles() {
 
     dir = opendir(directory.c_str());
     if(dir == NULL)
-        _mkdir(directory.c_str());
-//        mkdir(directory.c_str(), 0777);
+//        _mkdir(directory.c_str());
+        mkdir(directory.c_str(), 0777);
 
     while ((dirPtr = readdir(dir)) != NULL) {
         if(string(dirPtr->d_name) == "." || string(dirPtr->d_name) == "..")
             continue;
         filepath =  directory + dirPtr->d_name;
         int x = remove(filepath.c_str());
-        cout << x << endl;
+//        cout << x << endl;
     }
     closedir(dir);
 }

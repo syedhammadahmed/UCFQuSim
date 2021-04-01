@@ -32,7 +32,6 @@ unordered_set<int> Util::getNRandomIndexes(int sampleSize, int rangeUpperBound)
     return sample;
 }
 
-string Util::FILE_EXTENSION = ".qasm";
 bool Util::verbose = false;
 
 string Util::toLower(string str) {

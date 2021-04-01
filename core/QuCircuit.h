@@ -39,6 +39,7 @@ private:
 public:
     QuCircuit();
     explicit QuCircuit(int rows);
+    explicit QuCircuit(string file, int rows);
 
     void run();
 
