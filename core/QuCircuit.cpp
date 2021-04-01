@@ -19,6 +19,9 @@ QuCircuit::QuCircuit() {
 QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL) {
 }
 
+QuCircuit::QuCircuit(string file, int rows): fileName(file), rows(rows), grid(NULL) {
+}
+
 void QuCircuit::run() {
     if(Util::verbose)
         cout << "Circuit execution start..." << endl;

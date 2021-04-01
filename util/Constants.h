@@ -5,12 +5,18 @@
 #ifndef UCFQUSIM_CONSTANTS_H
 #define UCFQUSIM_CONSTANTS_H
 
+#include <string>
+using namespace std;
 
 class Constants {
     public:
         static const int QX3_N = 16;
         static const int QX4_N = 5;
         static const int QX5_N = 16;
+
+        static const string INPUT_FILES_DIRECTORY_RPATH;
+        static const string OUTPUT_FILES_DIRECTORY_RPATH;
+        static const string FILE_EXTENSION;
 
         static const int ising_model_10 = 0;
         static const int ising_model_13 = 1;

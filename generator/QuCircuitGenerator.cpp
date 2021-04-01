@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <util/Constants.h>
 #include "Config.h"
 #include "QuCircuitGenerator.h"
 #include "QuGateFactory.h"
@@ -14,11 +15,11 @@
 
 using namespace std;
 
-QuCircuitGenerator::QuCircuitGenerator(int n, string inputFileAbsPath):n(n), circuit(n), layer(-1), inputFileAbsPath(inputFileAbsPath) {
+QuCircuitGenerator::QuCircuitGenerator(int n, string fileName):n(n), circuit(fileName, n), layer(-1) {
     quBitRecentLayer = new int[n];
     for(int i=0; i<n; i++)
         quBitRecentLayer[i] = -1;
-    buildFromFile(inputFileAbsPath);
+    buildFromFile(fileName);
 }
 
 QuCircuitGenerator::~QuCircuitGenerator() {
@@ -48,7 +49,8 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
 //    int layer = -1;
     int duals = 0;
     header = "";
-    ifs.open(fileName);
+    fileName = Constants::INPUT_FILES_DIRECTORY_RPATH + fileName + Constants::FILE_EXTENSION;
+                   ifs.open(fileName);
     while (!ifs.eof() && quGate != "creg") {
         string line;
         getline(ifs, line);

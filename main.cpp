@@ -35,7 +35,7 @@ int main() {
         Util::resetVerbose();
     }
 
-    QuMultiEvaluator quMultiEvaluator(outputDirectory, architectureQX, initialMappingsMap);
+    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
     quMultiEvaluator.evaluateAllCircuits();
 
     return 0;
