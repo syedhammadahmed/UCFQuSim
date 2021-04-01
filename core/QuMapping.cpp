@@ -70,6 +70,12 @@ void QuMapping::quSwap(int i, int j) {
     physicalToLogical[j] = temp;
 }
 
+void QuMapping::quSwapLogical(int i, int j) {
+    int pi = getPhysicalBit(i);
+    int pj = getPhysicalBit(j);
+    quSwap(pi, pj);
+}
+
 //void QuMapping::quSwap(int i, int j) {
 //    int temp = physicalToLogical[getPhysicalBit(i)];
 //    physicalToLogical[getPhysicalBit(i)] = physicalToLogical[getPhysicalBit(j)];
@@ -120,13 +126,6 @@ string QuMapping::toString() {
 }
 
 
-void QuMapping::quSwapLogical(int i, int j) {
-    int pi = getPhysicalBit(i);
-    int pj = getPhysicalBit(j);
-    int temp = physicalToLogical[pi];
-    physicalToLogical[pi] = physicalToLogical[pj];
-    physicalToLogical[pj] = temp;
-}
 
 const string &QuMapping::getMappingId() const {
     return mappingId;

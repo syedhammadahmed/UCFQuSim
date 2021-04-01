@@ -56,6 +56,7 @@ int QuSmartSwapper::findTotalCostDAG() {
         for (auto id: currentInstructionIds) {
             currentInstruction = nonUnaryInstructionsMap[id];
             findShortestPathsForAllInputMappings(inputMappings);
+            cout << *currentInstruction << endl;
             auto minData = findMinCostMappingsForNextInstruction(inputMappings);
             auto minCostInstruction = minData.first;
             auto nextInstructionMappings = minData.second;
