@@ -27,67 +27,42 @@ public:
     QuMapping();
     explicit QuMapping(int n);
     QuMapping(const QuMapping& arg);
-    ~QuMapping();
     QuMapping& operator=(const QuMapping& arg);
     bool operator==(const QuMapping& arg);
     int& operator[](int index);
 
+    void init(vector<int> initSequence);
     void init(int initializingPolicy);
+    void defaultInit();
+    void noMappingInit();
+    void hardCodedInit();
+    void setValueAtNextFree(int i);
+    void setUnallocatedQuBits();
+    bool isLegit(); // check if all allocated
 
     int getPhysicalBit(int logicalBit);
-
-    void quSwap(int i, int j);
+    void quSwapPhysical(int i, int j);
     void quSwapLogical(int i, int j);
+    vector<Swap> fixMappings(vector<int> swapSeq);
 
-    void fixMappings(int src, std::vector<int> swapSeq);
-    vector<Swap> fixMappings(std::vector<int> swapSeq);
-    void print();
-
-    const string &getMappingId() const;
-
-    void setMappingId(const string &mappingId);
-
-    const string &getParentMappingId() const;
-
-    void setParentMappingId(const string &parentMappingId);
-
-//    vector<Swap> getSwapInstructions();
-//
-//    void setSwapInstructions(const vector<Swap>& swapInstructions);
     void clearSwapInstructions();
 
-    const vector<Swap> getSwapInstructions() const;
-
-//    void setSwapInstructions(const vector<Swap> &swapInstructions);
-
-    const vector<int> getPhysicalToLogical() const;
-    void setValueAt(int index, int value);
-    int getValueAt(int index);
-
-    void defaultInit();
-
-    void init(vector<int> initSequence);
-
-    void noMappingInit();
-
-    void setValueAtNextFree(int i);
-
-    void setUnallocatedQuBits();
-
-    void setN(int n);
-    int getN() const;
-
-    bool isLegit();
-
+    void print();
+    void printShort();
     string toString();
 
+    const string getMappingId() const;
+    void setMappingId(const string &mappingId);
+    const string getParentMappingId() const;
+    void setParentMappingId(const string &parentMappingId);
+    const vector<Swap> getSwapInstructions() const;
+    void setValueAt(int index, int value);
+    int getValueAt(int index);
+    void setN(int n);
+    int getN() const;
     void setPhysicalToLogical(const vector<int> &physicalToLogical);
-
-    QuMapping(string mappingId);
-
-    void hardCodedInit();
-
     void setSwapInstructions(const vector<Swap> swapInstructions);
+
 };
 
 

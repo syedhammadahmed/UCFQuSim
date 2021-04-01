@@ -14,8 +14,6 @@ private:
     int n; // # of qubits
     int l; // logical qubits
     int count; // permutation count
-    QuMapping defaultMapping;
-//    vector<string> perms;
     vector<vector<int>> perms;
     vector<bool> allocated;
     vector<pair<int, int>> couples;
@@ -32,8 +30,6 @@ private:
     PriorityNode startingNode;
 public:
 //    static int TOTAL_PERM;
-
-    QuMappingInitializer(int n);
     QuMappingInitializer(int n, int l);
     QuMappingInitializer();
 

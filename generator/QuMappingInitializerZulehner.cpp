@@ -417,18 +417,6 @@ int QuMappingInitializerZulehner::findNearest(int physicalQuBit1) {
     return physicalQuBit2;
 }
 
-QuMappingInitializerZulehner::QuMappingInitializerZulehner(int n): n(n) {
-    initGenerator();
-}
-
-QuMappingInitializerZulehner::QuMappingInitializerZulehner(int n, int l): n(n), l(l), count(0), restrictedMapping(n) {
-    initGenerator();
-}
-
-
-
-QuMappingInitializerZulehner::QuMappingInitializerZulehner() = default;
-
 int QuMappingInitializerZulehner::getNeighborFromCommonFreqLists(int physicalQuBit) {
     int bestNeighbor = -1;
     for (int i = 0; i < couplingMapAdjList[physicalQuBit].size(); ++i) {

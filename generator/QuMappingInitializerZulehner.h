@@ -34,12 +34,6 @@ private:
     vector<shared_ptr<QuGate>> layer0Instructions;
 
 public:
-//    static int TOTAL_PERM;
-
-    QuMappingInitializerZulehner(int n);
-    QuMappingInitializerZulehner(int n, int l);
-    QuMappingInitializerZulehner();
-
     void initGenerator();
     void generateMappings();
     QuMapping getNextMapping();

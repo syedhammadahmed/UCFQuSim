@@ -493,17 +493,9 @@ int QuMappingInitializer::findNearest(int physicalQuBit1) {
     return physicalQuBit2;
 }
 
-QuMappingInitializer::QuMappingInitializer(int n): n(n) {
-    initGenerator();
-}
-
 QuMappingInitializer::QuMappingInitializer(int n, int l): n(n), l(l), count(0), restrictedMapping(n) {
     initGenerator();
 }
-
-
-
-QuMappingInitializer::QuMappingInitializer() = default;
 
 int QuMappingInitializer::getNeighborFromCommonFreqLists(int physicalQuBit) {
     int bestNeighbor = -1;

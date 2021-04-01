@@ -989,7 +989,7 @@ void QuSmartSwapper::mappingSanityCheck() {
     Util::println("C: theMapping.getMappingId(): " + instructionWiseMappings[0][0].getMappingId());
     Util::println("C: theMapping.getParentMappingId(): " + instructionWiseMappings[0][0].getParentMappingId());
 
-    QuMapping theMapping;
+    QuMapping theMapping(this->architecture.getN());
 
     for (int j = 0; j < instructionWiseMappings[nonUnarySize-1].size(); ++j) {  // last layer
         int i = nonUnarySize-1;

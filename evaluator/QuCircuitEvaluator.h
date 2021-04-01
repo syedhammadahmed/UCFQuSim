@@ -16,7 +16,6 @@ private:
     int* physicalToLogicalMapping; // physical to logical mapping of quBits : physical index -> logical elements
 
 public:
-    QuCircuitEvaluator(QuCircuit &circuit);
     QuCircuitEvaluator(QuCircuit &circuit, QuMapping& initialMapping);
 
     virtual ~QuCircuitEvaluator();

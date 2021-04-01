@@ -181,9 +181,4 @@ QuCircuitEvaluator::~QuCircuitEvaluator() {
 QuCircuitEvaluator::QuCircuitEvaluator(QuCircuit &circuit, QuMapping& initialMapping) : circuit(circuit), initialMapping(initialMapping) {
 
 }
-QuCircuitEvaluator::QuCircuitEvaluator(QuCircuit &circuit) : circuit(circuit) {
-    logicalToPhysicalMapping = new int[circuit.getRows()];
-    physicalToLogicalMapping = new int[circuit.getRows()];
-    initializeMappings(NULL);
-}
 

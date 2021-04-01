@@ -10,31 +10,9 @@
 #include "QuArchitecture.h"
 using namespace std;
 
-//todo uncomment to restore dynamic array logic
-//QuMapping::QuMapping(int n) : physicalToLogical(NULL), n(n) {
-//    physicalToLogical = new int[n];
-//    init(0);
-//}
-//
-//QuMapping::QuMapping(const QuMapping& arg):physicalToLogical(NULL), n(arg.n) {
-//    physicalToLogical = new int[n];
-//    for(int i=0; i<n; i++){
-//        physicalToLogical[i] = arg.physicalToLogical[i];
-//    }
-//}
-//
-
-//QuMapping::~QuMapping() {
-//    delete [] physicalToLogical;
-//}
-
 QuMapping::QuMapping(int n) : n(n) {
-    init(0);
-    //    srand(time(NULL));
-//    init(rand() % 3628800);
-//    cout << "QuMapping Constructor OK!" << endl;
+    init(Constants::INIT_MAPPING_DEFAULT);
 }
-
 
 QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
     mappingId = arg.mappingId;
@@ -46,127 +24,6 @@ QuMapping::QuMapping(const QuMapping& arg):n(arg.n) {
         physicalToLogical.push_back(arg.physicalToLogical[i]);
     }
 }
-
-
-void QuMapping::init(int initializingPolicy) {  // 0 = default
-    switch (initializingPolicy) {
-        case Constants::INIT_MAPPING_DEFAULT: defaultInit(); break;
-        case Constants::INIT_MAPPING_HARD_CODED: hardCodedInit(); break; // see Util::makeMappingVector()
-        case Constants::INIT_MAPPING_NO_MAPPING: noMappingInit(); break;
-    }
-}
-
-int QuMapping::getPhysicalBit(int logicalBit){
-    for(int i=0; i<n; i++){
-        if(physicalToLogical[i] == logicalBit)
-            return i;
-    }
-    return -1;
-}
-
-void QuMapping::quSwap(int i, int j) {
-    int temp = physicalToLogical[i];
-    physicalToLogical[i] = physicalToLogical[j];
-    physicalToLogical[j] = temp;
-}
-
-void QuMapping::quSwapLogical(int i, int j) {
-    int pi = getPhysicalBit(i);
-    int pj = getPhysicalBit(j);
-    quSwap(pi, pj);
-}
-
-//void QuMapping::quSwap(int i, int j) {
-//    int temp = physicalToLogical[getPhysicalBit(i)];
-//    physicalToLogical[getPhysicalBit(i)] = physicalToLogical[getPhysicalBit(j)];
-//    physicalToLogical[getPhysicalBit(j)] = temp;
-//}
-
-void QuMapping::fixMappings(int src, std::vector<int> swapSeq) {
-    if(swapSeq.empty())
-        return;
-//    quSwap(src, swapSeq[0]);
-    Util::println("SWAPPING: START");
-    for(int i=0; i<signed(swapSeq.size()-2); i++){
-        quSwap(swapSeq[i], swapSeq[i+1]);
-    }
-    Util::println("SWAPPING: END");
-}
-
-vector<Swap> QuMapping::fixMappings(std::vector<int> swapSeq) {
-    vector<Swap> swapGates;
-    int swapSeqSize = swapSeq.size();
-    for(int i=0; i<signed(swapSeqSize-1); i++){
-        quSwap(swapSeq[i], swapSeq[i+1]);
-        Swap swapGate;
-        swapGate.setArgAtIndex(0, physicalToLogical[swapSeq[i]]); // todo src and target check acc. to arch.
-        swapGate.setArgAtIndex(1, physicalToLogical[swapSeq[i+1]]);
-        swapGates.push_back(swapGate);
-        Util::println("SWAP " + to_string(physicalToLogical[swapSeq[i]]) + ", " + to_string(physicalToLogical[swapSeq[i+1]]));
-    }
-    return swapGates;
-}
-
-void QuMapping::print() {
-    if(Util::verbose) {
-        for (int i = 0; i < n; i++) {
-            cout << "Q" << i << " -> q" << physicalToLogical[i] << endl;
-        }
-    }
-}
-
-string QuMapping::toString() {
-    string mappingStr = "";
-    for (int i = 0; i < n; i++) {
-        mappingStr += to_string(i) + "->" + to_string(physicalToLogical[i]);
-        if(i<n-1)
-            mappingStr += ", ";
-    }
-    return mappingStr;
-}
-
-
-
-const string &QuMapping::getMappingId() const {
-    return mappingId;
-}
-
-void QuMapping::setMappingId(const string &mappingId) {
-    this->mappingId = mappingId;
-}
-
-const string &QuMapping::getParentMappingId() const {
-    return parentMappingId;
-}
-
-void QuMapping::setParentMappingId(const string &parentMappingId) {
-    this->parentMappingId = parentMappingId;
-}
-
-
-//vector<shared_ptr<QuGate>> QuMapping::getSwapInstructions(){
-//return swapInstructions;
-//}
-//
-void QuMapping::setSwapInstructions(const vector<Swap> swapInstructions) {
-    for (int i = 0; i < swapInstructions.size(); ++i) {
-        Swap swapGate;
-        swapGate.setArgAtIndex(0, swapInstructions[i].getArgAtIndex(0));
-        swapGate.setArgAtIndex(1, swapInstructions[i].getArgAtIndex(1));
-        this->swapInstructions.push_back(swapGate);
-
-    }
-}
-
-
-//void QuMapping::setSwapInstructions(const vector<shared_ptr<QuGate>>& swapInstructions) {
-//    for(shared_ptr<QuGate> gate: swapInstructions) {
-//        shared_ptr<QuGate> swapGate = QuGateFactory::getQuGate("SWAP");
-//        swapGate->getArgIndex()[0] = gate->getArgIndex()[0];
-//        swapGate->getArgIndex()[1] = gate->getArgIndex()[1];
-//        this->swapInstructions.push_back(swapGate);
-//    }
-//}
 
 QuMapping& QuMapping::operator=(const QuMapping &arg) {
     n = arg.n;
@@ -189,14 +46,106 @@ bool QuMapping::operator==(const QuMapping &arg) {
     return true;
 }
 
-QuMapping::QuMapping() {
+int& QuMapping::operator[](int index) {
+    return physicalToLogical[index];
 }
 
-QuMapping::~QuMapping() {
-//    for(int i=0; i<swapInstructions.size(); i++) {
-//        delete swapInstructions[i];
-//    }
+void QuMapping::init(vector<int> initSequence) {
+    init(Constants::INIT_MAPPING_NO_MAPPING);
+    for(int i=0; i<initSequence.size(); i++) {
+        physicalToLogical[i] = initSequence[i]; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
+    }
+    setUnallocatedQuBits();
+}
 
+void QuMapping::init(int initializingPolicy) {  // 0 = default
+    switch (initializingPolicy) {
+        case Constants::INIT_MAPPING_DEFAULT: defaultInit(); break;
+        case Constants::INIT_MAPPING_HARD_CODED: hardCodedInit(); break; // see Util::makeMappingVector()
+        case Constants::INIT_MAPPING_NO_MAPPING: noMappingInit(); break;
+    }
+}
+
+int QuMapping::getPhysicalBit(int logicalBit){
+    for(int i=0; i<n; i++){
+        if(physicalToLogical[i] == logicalBit)
+            return i;
+    }
+    return -1;
+}
+
+void QuMapping::quSwapPhysical(int i, int j) {
+    int temp = physicalToLogical[i];
+    physicalToLogical[i] = physicalToLogical[j];
+    physicalToLogical[j] = temp;
+}
+
+void QuMapping::quSwapLogical(int i, int j) {
+    int pi = getPhysicalBit(i);
+    int pj = getPhysicalBit(j);
+    quSwapPhysical(pi, pj);
+}
+
+vector<Swap> QuMapping::fixMappings(std::vector<int> swapSeq) {
+    vector<Swap> swapGates;
+    this->print();
+    int swapSeqSize = swapSeq.size();
+    for(int i=0; i<signed(swapSeqSize-1); i++){
+        quSwapPhysical(swapSeq[i], swapSeq[i + 1]);
+        Swap swapGate;
+        swapGate.setArgAtIndex(0, physicalToLogical[swapSeq[i]]); // todo src and target check acc. to arch.
+        swapGate.setArgAtIndex(1, physicalToLogical[swapSeq[i+1]]);
+        swapGates.push_back(swapGate);
+        Util::println("SWAP " + to_string(physicalToLogical[swapSeq[i]]) + ", " + to_string(physicalToLogical[swapSeq[i+1]]));
+    }
+    return swapGates;
+}
+
+void QuMapping::print() {
+//    if(Util::verbose) {
+        for (int i = 0; i < n; i++) {
+            cout << "Q" << i << " -> q" << physicalToLogical[i] << endl;
+        }
+//    }
+}
+
+void QuMapping::printShort() {
+    cout << toString() << endl;
+}
+
+string QuMapping::toString() {
+    string mappingStr = "";
+    for (int i = 0; i < n; i++) {
+        mappingStr += to_string(i) + "->" + to_string(physicalToLogical[i]);
+        if(i<n-1)
+            mappingStr += ", ";
+    }
+    return mappingStr;
+}
+
+const string QuMapping::getMappingId() const {
+    return mappingId;
+}
+
+void QuMapping::setMappingId(const string &mappingId) {
+    this->mappingId = mappingId;
+}
+
+const string QuMapping::getParentMappingId() const {
+    return parentMappingId;
+}
+
+void QuMapping::setParentMappingId(const string &parentMappingId) {
+    this->parentMappingId = parentMappingId;
+}
+
+void QuMapping::setSwapInstructions(const vector<Swap> swapInstructions) {
+    for (int i = 0; i < swapInstructions.size(); ++i) {
+        Swap swapGate;
+        swapGate.setArgAtIndex(0, swapInstructions[i].getArgAtIndex(0));
+        swapGate.setArgAtIndex(1, swapInstructions[i].getArgAtIndex(1));
+        this->swapInstructions.push_back(swapGate);
+    }
 }
 
 void QuMapping::clearSwapInstructions() {
@@ -207,31 +156,10 @@ const vector<Swap> QuMapping::getSwapInstructions() const {
     return swapInstructions;
 }
 
-//void QuMapping::setSwapInstructions(const vector<Swap> &swapInstructions) {
-//    for (int i = 0; i < swapInstructions.size(); ++i) {
-//        this->swapInstructions.push_back(swapInstructions[i]);
-//    }
-//}
-
-const vector<int> QuMapping::getPhysicalToLogical() const {
-    return physicalToLogical;
-}
-
 void QuMapping::setValueAt(int index, int value) {
     if(index >= 0 && index < n)
         physicalToLogical[index] = value;
 }
-
-QuMapping::QuMapping(string mappingId) {
-    this->mappingId = mappingId;
-}
-
-//QuMapping::QuMapping(bool doStrongInit) {
-//    if (doStrongInit)
-//        noMappingInit();
-//    else
-//        defaultInit();
-//}
 
 void QuMapping::defaultInit() {
     // default initial mapping
@@ -251,13 +179,6 @@ void QuMapping::noMappingInit() {
     }
 }
 
-void QuMapping::init(vector<int> initSequence) {
-    init(Constants::INIT_MAPPING_NO_MAPPING);
-    for(int i=0; i<initSequence.size(); i++) {
-        physicalToLogical[i] = initSequence[i]; // it may change due to swap initial mapping: [0] = 0, [1] = 1, ...
-    }
-    setUnallocatedQuBits();
-}
 
 void QuMapping::setValueAtNextFree(int i) {
     for (int j = 0; j < n; ++j) {
@@ -313,6 +234,7 @@ void QuMapping::hardCodedInit() {
     setPhysicalToLogical(Util::makeMappingVector());
 }
 
-int& QuMapping::operator[](int index) {
-    return physicalToLogical[index];
+QuMapping::QuMapping() {
+
 }
+
