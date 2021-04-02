@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <unordered_map>
 #include <util/Constants.h>
+#include <algorithm>
 
 #include "Config.h"
 #include "QuMultiGenerator.h"
@@ -75,33 +76,46 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             QuCircuit &circuit = quCircuitGenerator.getCircuit();
             Util::timeIt(false);
             gatesOriginal = circuit.getInstructions0().size();
+            QuMappingInitializer mappingInitializer(circuit, quArchitecture);
+            vector<QuMapping> initialMappings = mappingInitializer.generateAllPermutationInitialMappings();
+            vector<int> costs;
+            for (auto& mapping: initialMappings) {
+                vector<QuMapping> temp;
+                temp.push_back(mapping);
+                //            QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, initialMappings);
+                QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, temp);
 
-            QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture);
+                auto data = strategy->findTotalSwaps();
+                unsigned int totalCost = data.first;
+                auto initMapping = data.second;
+                timeProposed = Util::timeIt(true); // todo loss due to cast
+                unsigned int hadamards = circuit.getHadamards();
+                unsigned int swaps = circuit.getSwaps();
+                //            int totalCost = hadamards + swaps * 7;
+                unsigned int gatesProposed = totalCost + gatesOriginal;
+                costs.push_back(gatesProposed);
 
-            auto data = strategy->findTotalSwaps();
-            unsigned int totalCost = data.first;
-            auto initMapping = data.second;
-            timeProposed = Util::timeIt(true); // todo loss due to cast
-            unsigned int hadamards = circuit.getHadamards();
-            unsigned int swaps = circuit.getSwaps();
-//            int totalCost = hadamards + swaps * 7;
-            unsigned int gatesProposed = totalCost + gatesOriginal;
-            gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
+                gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
 
-            quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
-            initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
-            depthProposed = quCircuitGenerator.getLayer() + 1;
-            if (gatesProposed < minGates) {
-                minGates = gatesProposed;
-                minSwaps = swaps;
-                minHadamards = hadamards;
-                minGatesProposedOptimized = gatesProposedOptimized;
+                quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
+                initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
+                depthProposed = quCircuitGenerator.getLayer() + 1;
+                if (gatesProposed < minGates) {
+                    minGates = gatesProposed;
+                    minSwaps = swaps;
+                    minHadamards = hadamards;
+                    minGatesProposedOptimized = gatesProposedOptimized;
+                }
+                if (gatesProposed > max)
+                    max = gatesProposed;
+                total += gatesProposed;
+                cout << "\tg* = " << gatesProposed << endl;
+                //            results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
+                delete strategy;
             }
-            if (gatesProposed > max)
-                max = gatesProposed;
-            total += gatesProposed;
-            cout <<  "\tg* = " << gatesProposed << endl;
-//            results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
+
+            sort(costs.begin(), costs.end());
+            cout << "OPTIMAL COST: " << costs[0] << endl;
         }
         average = total / runs;
         cout << "min : " << minGates << endl;

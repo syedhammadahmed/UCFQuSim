@@ -26,9 +26,7 @@ private:
     AllShortestPathsFinder* allSPF;
     AllPairShortestPathFinder* allPairShortestPathFinder;
     map<string, vector<int>> preCalShortestPaths;
-    QuMappingInitializer mappingInitializer;
 //    QuMappingInitializerZulehner mappingInitializer;
-    vector<QuMapping> initialMappings;
     unsigned int hadamards;
     unsigned int totalSwaps;
     unsigned int totalHadamards;
@@ -39,10 +37,11 @@ private:
     vector<int> currentInstructionIds; // to be used in init mappings that's why attribute
 
     unordered_map<int, shared_ptr<QuGate>> nonUnaryInstructionsMap;
+    vector<QuMapping> initialMappings;
 
 
 public:
-    QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture);
+    QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture, vector<QuMapping>& initialMappings);
 
 //    int findTotalSwaps() override;
     pair<int, QuMapping> findTotalSwaps() override;
@@ -59,8 +58,7 @@ public:
     void insertEndingUnaryInstructions(vector<shared_ptr<QuGate> > &finalProgram);
     void hadamardCheck(vector<shared_ptr<QuGate>>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
     QuMapping generateOptimalInstructions();
-    vector<QuMapping> generateInitialMappings();
-    pair<vector<pair<int, int>>, vector<pair<int, int>>> makeRestrictionPairList(int k);
+//    vector<QuMapping> generateInitialMappings();
     unsigned int getHadamards() const;
     void mappingSanityCheck();
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
@@ -68,7 +66,6 @@ public:
     pair<int, vector<struct QuMapping>> findMinCostMappingsForNextInstruction(vector<QuMapping> &inputMappings);
     int optimize(vector<shared_ptr<QuGate>>& finalProgram);
     vector<int> getCurrentInstructionIds();
-    vector<shared_ptr<QuGate> > getKRestrictInstructions(int k);
     bool isNewInsturction(shared_ptr<QuGate> currentInstruction, vector<shared_ptr<QuGate> > &instructions);
     int findTotalCostDefault();
     int findTotalCostDAG();
@@ -94,7 +91,6 @@ public:
 
     int findTotalCostDefaultAllPermutations();
 
-    void initInitializerMappingCounter();
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H
