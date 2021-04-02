@@ -10,7 +10,7 @@
 using namespace std;
 
 int main() {
-    Util::verbose = true;
+//    Util::verbose = true;
     cout << "Processing files... this may take a while..." << endl;
     string inputDirectory = "../input/";
     string outputDirectory = "../output/";
