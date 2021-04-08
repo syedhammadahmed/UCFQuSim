@@ -41,6 +41,9 @@ public:
     explicit QuCircuit(int rows);
     explicit QuCircuit(string file, int rows);
 
+    vector<shared_ptr<QuGate>> getBinaryInstructions();
+    vector<shared_ptr<QuGate>> getKBinaryInstructions(int k);
+
     void run();
 
     void printGrid();
@@ -54,8 +57,8 @@ public:
     void setGrid(shared_ptr<QuGate>** grid);
     void setFileName(const string &fileName);
     void setSimpleGrid(int **simpleGrid);
-    void setInstructions0(const vector<shared_ptr<QuGate>> instructions);
-    void setInstructions1(const vector<shared_ptr<QuGate>> & instructions1);
+    void setInstructions0(const vector<shared_ptr<QuGate>>& instructions0);
+    void setInstructions1(const vector<shared_ptr<QuGate>>& instructions1);
     void setHadamards(int hadamards);
     void setSwaps(int swaps);
     void setSrcFrequencies(const vector<int> &srcFrequencies);
@@ -65,7 +68,7 @@ public:
     int getRows() const;
     int getN() const;
     int getHadamards() const;
-    vector<shared_ptr<QuGate>> getInstructions0();
+    vector<shared_ptr<QuGate>>& getInstructions0();
     vector<shared_ptr<QuGate>>& getInstructions1();
     int getOptimizations() const;
     int getSwaps() const;

@@ -65,6 +65,9 @@ public:
     vector<shared_ptr<QuGate>> getKRestrictInstructions(int k);
 
     vector<QuMapping> generateAllPermutationInitialMappings();
+    vector<QuMapping> generateAllZeroCostInitialMappings(int k);
+
+    void restrict(pair<int, int> couple, shared_ptr<QuGate> instruction);
 };
 
 

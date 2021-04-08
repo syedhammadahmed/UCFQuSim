@@ -22,6 +22,30 @@ QuCircuit::QuCircuit(int rows): rows(rows), grid(NULL) {
 QuCircuit::QuCircuit(string file, int rows): fileName(file), rows(rows), grid(NULL) {
 }
 
+vector<shared_ptr<QuGate>> QuCircuit::getBinaryInstructions(){
+    vector<shared_ptr<QuGate>> nonUnaryInstructions;
+    for(shared_ptr<QuGate> currentInstruction: instructions0){
+        if(currentInstruction->getCardinality()> 1) {
+            nonUnaryInstructions.push_back(currentInstruction);
+        }
+    }
+    return nonUnaryInstructions;
+}
+
+vector<shared_ptr<QuGate>> QuCircuit::getKBinaryInstructions(int k){
+    vector<shared_ptr<QuGate>> nonUnaryInstructions;
+    int i = 0;
+    for(shared_ptr<QuGate> currentInstruction: instructions0){
+        if(currentInstruction->getCardinality()> 1) {
+            nonUnaryInstructions.push_back(currentInstruction);
+            i++;
+        }
+        if(i==k)
+            break;
+    }
+    return nonUnaryInstructions;
+}
+
 void QuCircuit::run() {
     if(Util::verbose)
         cout << "Circuit execution start..." << endl;
@@ -126,7 +150,7 @@ void QuCircuit::setGrid(shared_ptr<QuGate>** grid) {
     this -> grid = std::move(grid);
 }
 
-void QuCircuit::setInstructions0(const vector<shared_ptr<QuGate>> instructions) {
+void QuCircuit::setInstructions0(const vector<shared_ptr<QuGate>>& instructions) {
     this -> instructions0 = instructions;
 }
 
@@ -138,7 +162,7 @@ void QuCircuit::setInstructions1(const vector<shared_ptr<QuGate>>& instructions1
     this->instructions1 = instructions1;
 }
 
-vector<shared_ptr<QuGate>> QuCircuit::getInstructions0() {
+vector<shared_ptr<QuGate>>& QuCircuit::getInstructions0() {
     return instructions0;
 }
 

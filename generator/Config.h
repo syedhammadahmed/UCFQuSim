@@ -20,7 +20,7 @@
 
 #define PERM_N 5
 
-#define DAG_SCHEME true
+#define DAG_SCHEME false
 #define ALL_PERMUTATIONS_SCHEME false
 #define INIT_MAPPING_RESTRICT_MODE false
 #define K 4

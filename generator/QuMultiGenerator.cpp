@@ -78,12 +78,14 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             gatesOriginal = circuit.getInstructions0().size();
             QuMappingInitializer mappingInitializer(circuit, quArchitecture);
             vector<QuMapping> initialMappings = mappingInitializer.generateAllPermutationInitialMappings();
+//            vector<QuMapping> initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(1);
+
             vector<int> costs;
             for (auto& mapping: initialMappings) {
-                vector<QuMapping> temp;
-                temp.push_back(mapping);
+                vector<QuMapping> singleInitMapping;
+                singleInitMapping.push_back(mapping);
                 //            QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, initialMappings);
-                QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, temp);
+                QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, singleInitMapping);
 
                 auto data = strategy->findTotalSwaps();
                 unsigned int totalCost = data.first;

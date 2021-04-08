@@ -6,6 +6,7 @@
 #include <queue>
 #include <algorithm>
 #include <core/QuCircuit.h>
+#include <util/Constants.h>
 #include "Config.h"
 #include "QuMappingInitializer.h"
 #include "PriorityGraph.h"
@@ -99,6 +100,7 @@ void QuMappingInitializer::makeCouples(){
             }
         }
     }
+    Util::printPairs(couples);
 }
 
 struct MappingEqualityComparator {
@@ -582,6 +584,30 @@ vector<QuMapping> QuMappingInitializer::generateAllPermutationInitialMappings() 
     generateMappingsFromPermutations();
     return initialMappings;
 }
+
+// all mappings that give 0 cost for 1st k instructions
+vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k) {
+    initialMappings.clear();
+    makeCouples();
+    vector<shared_ptr<QuGate>> instructions = circuit.getKBinaryInstructions(k);
+    /////////////////
+    for (auto instruction: instructions) {
+        for (auto pair: couples) {
+            restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
+            restrict(pair, instruction);
+            initialMappings.push_back(restrictedMapping);
+            cout << restrictedMapping.toString() << endl;
+        }
+    }
+    return initialMappings;
+}
+
+void QuMappingInitializer::restrict(pair<int, int> couple, shared_ptr<QuGate> instruction) {
+    restrictedMapping[couple.first] = instruction->getArgAtIndex(0);
+    restrictedMapping[couple.second] = instruction->getArgAtIndex(1);
+    restrictedMapping.setUnallocatedQuBits();
+}
+
 
 vector<QuMapping> QuMappingInitializer::generateInitialMappings() {
         vector<pair<int, int>> restrictionList;

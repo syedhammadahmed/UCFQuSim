@@ -245,6 +245,12 @@ void Util::randomSampling(vector<QuMapping>& population, vector<QuMapping>& samp
     sample.insert(sample.begin(), population.begin(), population.begin() + sampleSize);
 }
 
+void Util::printPairs(vector<pair<int, int>> pairs) {
+    for(auto pair: pairs) {
+        cout << pair.first << ", " << pair.second << endl;
+    }
+}
+
 vector<int> Util::makeMappingVector() {
     vector<int> mappingVector(Constants::QX5_N);
     const int *mappingArray = Constants::HARDCODED_INIT_MAPPINGS[Constants::sqn_258];

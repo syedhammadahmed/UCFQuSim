@@ -202,7 +202,6 @@ void QuMapping::setUnallocatedQuBits() {
         if (physicalToLogical[j] != -1)
             remaining.erase(remove(remaining.begin(), remaining.end(), physicalToLogical[j]), remaining.end());
     }
-
     for (int j = 0; j < n; ++j) {
         if (physicalToLogical[j] == -1) {
             physicalToLogical[j] = remaining[0];
