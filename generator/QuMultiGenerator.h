@@ -11,6 +11,7 @@
 #include <vector>
 #include <core/QuMapping.h>
 #include <unordered_map>
+#include <core/QuCircuit.h>
 #include "util/Result.h"
 
 using namespace std;
@@ -31,7 +32,10 @@ public:
     pair<vector<Result>, unordered_map<string, QuMapping>> generateAllCircuits();
 
 //    void timeIt(bool isEnd);
-};
+    vector<int> findCostUsingInitialMappings1by1(QuCircuit &circuit, vector<QuMapping> initialMappings);
+    vector<int> findCostUsingInitialMappingsTogether(QuCircuit &circuit, vector<QuMapping> initialMappings);
+
+    };
 
 
 #endif //UCFQUSIM_QUMULTIGENERATOR_H

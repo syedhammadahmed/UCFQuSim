@@ -28,7 +28,7 @@ int main() {
     Result::printHeader();
     for (Result result: results) {
         result.print();
-        Util::setVerbose();
+//        Util::setVerbose();
         string name = "output_" + result.getFile() + ".qasm";
         QuMapping initialMapping = initialMappingsMap[name];
 //        initialMapping.print();

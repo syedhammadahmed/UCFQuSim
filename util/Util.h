@@ -55,6 +55,8 @@ public:
     static void randomSampling(vector<QuMapping> &population, vector<QuMapping> &sample, int sampleSize);
 
     static vector<int> makeMappingVector();
+
+    static void printPairs(vector<pair<int, int>> pairs);
 };
 
 
