@@ -75,57 +75,98 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             QuCircuitGenerator quCircuitGenerator(quArchitecture.getN(), file);
             QuCircuit &circuit = quCircuitGenerator.getCircuit();
             Util::timeIt(false);
-            gatesOriginal = circuit.getInstructions0().size();
             QuMappingInitializer mappingInitializer(circuit, quArchitecture);
-            vector<QuMapping> initialMappings = mappingInitializer.generateAllPermutationInitialMappings();
-//            vector<QuMapping> initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(1);
+//            vector<QuMapping> initialMappings = mappingInitializer.generateAllPermutationInitialMappings();
+            vector<QuMapping> initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(1);
 
-            vector<int> costs;
-            for (auto& mapping: initialMappings) {
-                vector<QuMapping> singleInitMapping;
-                singleInitMapping.push_back(mapping);
-                //            QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, initialMappings);
-                QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, singleInitMapping);
-
-                auto data = strategy->findTotalSwaps();
-                unsigned int totalCost = data.first;
-                auto initMapping = data.second;
-                timeProposed = Util::timeIt(true); // todo loss due to cast
-                unsigned int hadamards = circuit.getHadamards();
-                unsigned int swaps = circuit.getSwaps();
-                //            int totalCost = hadamards + swaps * 7;
-                unsigned int gatesProposed = totalCost + gatesOriginal;
-                costs.push_back(gatesProposed);
-
-                gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
-
-                quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
-                initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
-                depthProposed = quCircuitGenerator.getLayer() + 1;
-                if (gatesProposed < minGates) {
-                    minGates = gatesProposed;
-                    minSwaps = swaps;
-                    minHadamards = hadamards;
-                    minGatesProposedOptimized = gatesProposedOptimized;
-                }
-                if (gatesProposed > max)
-                    max = gatesProposed;
-                total += gatesProposed;
-                cout << "\tg* = " << gatesProposed << endl;
-                //            results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
-                delete strategy;
-            }
+//            vector<int> costs = findCostUsingInitialMappings1by1(circuit, initialMappings);
+            vector<int> costs = findCostUsingInitialMappingsTogether(circuit, initialMappings);
 
             sort(costs.begin(), costs.end());
             cout << "OPTIMAL COST: " << costs[0] << endl;
+            minGates = costs[0];
         }
-        average = total / runs;
-        cout << "min : " << minGates << endl;
-        cout << "max : " << max << endl;
-        cout << "avg : " << average << endl;
+//        average = total / runs;
+//        cout << "min : " << minGates << endl;
+//        cout << "max : " << max << endl;
+//        cout << "avg : " << average << endl;
+
         results.push_back(Result(file, minSwaps, gatesOriginal, minGates, depthProposed, minHadamards, timeProposed, gatesProposedOptimized));
 //        circuit.printGrid();
 //        circuit.printSimpleGrid();
     }
     return make_pair(results, initialMappingsMap);
+}
+
+vector<int> QuMultiGenerator::findCostUsingInitialMappings1by1(QuCircuit &circuit, vector<QuMapping> initialMappings) {
+    vector<int> costs;
+    for (auto& mapping: initialMappings) {
+        vector<QuMapping> singleInitMapping;
+        singleInitMapping.push_back(mapping);
+        //            QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, initialMappings);
+        QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, singleInitMapping);
+
+        auto data = strategy->findTotalSwaps();
+        unsigned int totalCost = data.first;
+        auto initMapping = data.second;
+        unsigned int hadamards = circuit.getHadamards();
+        unsigned int swaps = circuit.getSwaps();
+        //            int totalCost = hadamards + swaps * 7;
+        int gatesOriginal = circuit.getInstructions0().size();
+        unsigned int gatesProposed = totalCost + gatesOriginal;
+        costs.push_back(gatesProposed);
+
+//        int gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
+
+//        quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
+//        initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
+//        depthProposed = quCircuitGenerator.getLayer() + 1;
+//        if (gatesProposed < minGates) {
+//            minGates = gatesProposed;
+//            minSwaps = swaps;
+//            minHadamards = hadamards;
+//            minGatesProposedOptimized = gatesProposedOptimized;
+//        }
+//        if (gatesProposed > max)
+//            max = gatesProposed;
+//        total += gatesProposed;
+        cout << "\tg* = " << gatesProposed << endl;
+        //            results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
+        delete strategy;
+    }
+    return costs;
+}
+
+vector<int> QuMultiGenerator::findCostUsingInitialMappingsTogether(QuCircuit &circuit, vector<QuMapping> initialMappings) {
+    vector<int> costs;
+    QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, initialMappings);
+
+    auto data = strategy->findTotalSwaps();
+    unsigned int totalCost = data.first;
+    auto initMapping = data.second;
+    unsigned int hadamards = circuit.getHadamards();
+    unsigned int swaps = circuit.getSwaps();
+    //            int totalCost = hadamards + swaps * 7;
+    int gatesOriginal = circuit.getInstructions0().size();
+    unsigned int gatesProposed = totalCost + gatesOriginal;
+    costs.push_back(gatesProposed);
+
+//        int gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
+
+//        quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i]);
+//        initialMappingsMap.insert(make_pair(outputFiles[i], initMapping));
+//        depthProposed = quCircuitGenerator.getLayer() + 1;
+//        if (gatesProposed < minGates) {
+//            minGates = gatesProposed;
+//            minSwaps = swaps;
+//            minHadamards = hadamards;
+//            minGatesProposedOptimized = gatesProposedOptimized;
+//        }
+//        if (gatesProposed > max)
+//            max = gatesProposed;
+//        total += gatesProposed;
+    cout << "\tg* = " << gatesProposed << endl;
+    //            results.push_back(Result(file, swaps, gatesOriginal, gatesProposed, depthProposed, hadamards, timeProposed));
+    delete strategy;
+    return costs;
 }
