@@ -49,8 +49,8 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
 //    int layer = -1;
     int duals = 0;
     header = "";
-    fileName = Constants::INPUT_FILES_DIRECTORY_RPATH + fileName + Constants::FILE_EXTENSION;
-                   ifs.open(fileName);
+    string theFileName = Constants::INPUT_FILES_DIRECTORY_RPATH + fileName + Constants::FILE_EXTENSION;
+    ifs.open(theFileName);
     while (!ifs.eof() && quGate != "creg") {
         string line;
         getline(ifs, line);
@@ -241,6 +241,27 @@ void QuCircuitGenerator::deleteGrids() {
     for (int i = 0; i < n; i++)
         delete[] simpleGrid[i];
     delete[] simpleGrid;
+}
+
+void QuCircuitGenerator::makeProgramFile(string outputFileName, vector<shared_ptr<QuGate>> finalProgram) {
+    ofstream ofs;
+    ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
+    try {
+        ofs << header << endl;
+        for (shared_ptr<QuGate> quGate: finalProgram) {
+            string mnemonic = Util::toLower(quGate->getMnemonic());
+            if(mnemonic == "rz")
+                mnemonic += "(" + quGate->getTheta() + ")";
+            string instruction = mnemonic + " q[" + to_string(quGate->getArgIndex()[0]) + "]";
+            if (quGate->getCardinality() > 1)
+                instruction += ",q[" + to_string(quGate->getArgIndex()[1]) + "]";
+            instruction += ";";
+            ofs << instruction << endl;
+        }
+        ofs.close();
+    } catch (exception& e){
+        cout << "Exception : " << e.what() << '\n';
+    }
 }
 
 void QuCircuitGenerator::makeProgramFile(string outputFileName) {

@@ -56,6 +56,9 @@ public:
     void setN(int n);
     void setGrid(shared_ptr<QuGate>** grid);
     void setFileName(const string &fileName);
+
+    const string &getFileName() const;
+
     void setSimpleGrid(int **simpleGrid);
     void setInstructions0(const vector<shared_ptr<QuGate>>& instructions0);
     void setInstructions1(const vector<shared_ptr<QuGate>>& instructions1);

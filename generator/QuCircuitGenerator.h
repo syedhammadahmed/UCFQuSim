@@ -40,6 +40,7 @@ public:
     void deleteGrids();
 
     void makeProgramFile(string outputFileName);
+    void makeProgramFile(string outputFileName, vector<shared_ptr<QuGate>> finalProgram);
 
     int getLayer() const;
     QuCircuit& getCircuit();
