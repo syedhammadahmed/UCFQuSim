@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <generator/Config.h>
 
 #include "evaluator/QuMultiEvaluator.h"
 #include "generator/QuMultiGenerator.h"
@@ -25,12 +26,17 @@ int main() {
     auto results = data.first;
     auto initialMappingsMap = data.second;
 
+    cout << endl;
+    cout << "Flexibility in SWAPS: " << Constants::FLEXIBILITY_NO_OF_SWAPS << endl;
+    cout << ((INIT_MAPPING_ALL_PERMUTATIONS) ? "ALL PERMUTATIONS, " : "ZERO COST PERMUTATIONS, ");
+    cout << ((INIT_MAPPING_1_BY_1) ? "1-by-1" : "TOGETHER");
+    cout << endl;
     Result::printHeader();
     for (Result result: results) {
         result.print();
 //        Util::setVerbose();
         string name = "output_" + result.getFile() + ".qasm";
-        QuMapping initialMapping = initialMappingsMap[name];
+        QuMapping initialMapping = initialMappingsMap[result.getFile()];
 //        initialMapping.print();
         Util::resetVerbose();
     }

@@ -214,5 +214,9 @@ void QuCircuit::setOptimizations(int optimizations) {
     this->optimizations = optimizations;
 }
 
+const string &QuCircuit::getFileName() const {
+    return fileName;
+}
+
 
 

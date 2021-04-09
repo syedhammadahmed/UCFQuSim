@@ -25,6 +25,7 @@ private:
     vector<string> inputFiles;
     vector<string> outputFiles;
 
+    vector<Result> results;
     void loadFiles();
 
 public:
@@ -32,10 +33,12 @@ public:
     pair<vector<Result>, unordered_map<string, QuMapping>> generateAllCircuits();
 
 //    void timeIt(bool isEnd);
-    vector<int> findCostUsingInitialMappings1by1(QuCircuit &circuit, vector<QuMapping> initialMappings);
-    vector<int> findCostUsingInitialMappingsTogether(QuCircuit &circuit, vector<QuMapping> initialMappings);
+//    vector<int> findMinCostUsingInitialMappings1by1(QuCircuit &circuit, vector<QuMapping> initialMappings);
+//    vector<int> findMinCostUsingInitialMappingsTogether(QuCircuit &circuit, vector<QuMapping> initialMappings);
+    pair<int, QuMapping> findMinCostUsingInitialMappings1by1(QuCircuit &circuit, vector<QuMapping> initialMappings, vector<shared_ptr<QuGate>>& minFinalProgram);
+    pair<int, QuMapping> findMinCostUsingInitialMappingsTogether(QuCircuit &circuit, vector<QuMapping> initialMappings, vector<shared_ptr<QuGate>>& minFinalProgram);
 
-    };
+};
 
 
 #endif //UCFQUSIM_QUMULTIGENERATOR_H
