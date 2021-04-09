@@ -555,6 +555,10 @@ void QuSmartSwapper::insertSwapGates(int source, int destination){
 QuSmartSwapper::QuSmartSwapper(QuCircuit &circuit, QuArchitecture& architecture, vector<QuMapping>& initialMappings)
         : QuSwapStrategy(circuit, architecture), perInstructionMappingCounter(0), allSPF(
         nullptr), allPairShortestPathFinder(nullptr), hadamards(0), totalSwaps(0), totalHadamards(0), initialMappings(initialMappings) {
+    for (int i = 0; i < initialMappings.size(); ++i) {
+        initialMappings[i].setParentMappingId("*");
+        initialMappings[i].setMappingId("0." + to_string(i));
+    }
 
 }
 

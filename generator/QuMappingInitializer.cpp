@@ -376,8 +376,8 @@ vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, i
         totalPermutations = perms.size();
         for(int i=0; i<totalPermutations; i++){
             initMappings.push_back(getNextMapping());
-            initMappings[i].setParentMappingId("*");
-            initMappings[i].setMappingId("0." + to_string(i));
+//            initMappings[i].setParentMappingId("*");
+//            initMappings[i].setMappingId("0." + to_string(i));
         }
     }
 
@@ -572,8 +572,8 @@ vector<QuMapping> QuMappingInitializer::getNextPermutationMapping() {
     }
     nextMapping.setUnallocatedQuBits();
     count++;
-    nextMapping.setParentMappingId("*");
-    nextMapping.setMappingId("0.0");
+//    nextMapping.setParentMappingId("*");
+//    nextMapping.setMappingId("0.0");
     initMappings.push_back(nextMapping);
 
     return initMappings;
@@ -595,8 +595,11 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
         for (auto pair: couples) {
             restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
             restrict(pair, instruction);
-            initialMappings.push_back(restrictedMapping);
-            cout << restrictedMapping.toString() << endl;
+            vector<QuMapping> temp = generatePermutationsAfterRestrictions();
+            initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
+
+//            initialMappings.push_back(restrictedMapping);
+//            cout << restrictedMapping.toString() << endl;
         }
     }
     return initialMappings;
@@ -605,9 +608,42 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
 void QuMappingInitializer::restrict(pair<int, int> couple, shared_ptr<QuGate> instruction) {
     restrictedMapping[couple.first] = instruction->getArgAtIndex(0);
     restrictedMapping[couple.second] = instruction->getArgAtIndex(1);
-    restrictedMapping.setUnallocatedQuBits();
+//    restrictedMapping.setUnallocatedQuBits();
 }
 
+vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions() {
+    vector<QuMapping> restrictedMappings;
+    vector<int> permInput;
+    vector<vector<int>> perms;
+    count = 0;
+
+    int n = architecture.getN();
+    for (int i = 0; i < n; ++i) {
+        permInput.push_back(i);
+    }
+
+    for (int j = 0; j < n; ++j) {
+        if (restrictedMapping[j] != -1)
+            permInput.erase(remove(permInput.begin(), permInput.end(), restrictedMapping[j]), permInput.end());
+    }
+
+    Util::permute(permInput, 0, permInput.size() - 1, perms);
+
+    for (int k = 0; k < perms.size(); ++k) {
+        QuMapping nextMapping(restrictedMapping);
+        for(int i=0; i<perms[k].size(); i++){
+            int val = perms[k][i];
+            nextMapping.setValueAtNextFree(val);
+        }
+//        nextMapping.setParentMappingId("*");
+//        nextMapping.setMappingId("0." + to_string(count));
+
+        restrictedMappings.push_back(nextMapping);
+        count++;
+    }
+
+    return restrictedMappings;
+}
 
 vector<QuMapping> QuMappingInitializer::generateInitialMappings() {
         vector<pair<int, int>> restrictionList;
