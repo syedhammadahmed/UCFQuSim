@@ -637,7 +637,7 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions() 
         }
 //        nextMapping.setParentMappingId("*");
 //        nextMapping.setMappingId("0." + to_string(count));
-
+        cout << nextMapping.toString() << endl;
         restrictedMappings.push_back(nextMapping);
         count++;
     }
