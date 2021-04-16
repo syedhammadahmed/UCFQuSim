@@ -18,7 +18,14 @@ class Constants {
         static const string OUTPUT_FILES_DIRECTORY_RPATH;
         static const string FILE_EXTENSION;
 
-        static const int ising_model_10 = 0;
+        static const string QCODE_INPUT_FILES_DIRECTORY_RPATH;
+        static const string QCODE_OUTPUT_FILES_DIRECTORY_RPATH;
+        static const string QCODE_FILE_EXTENSION;
+
+        static const string QASM_HEADER_5_BITS;
+        static const string QASM_HEADER_16_BITS;
+
+    static const int ising_model_10 = 0;
         static const int ising_model_13 = 1;
         static const int qft_10 = 2;
         static const int rd73_140 = 3;
@@ -30,7 +37,7 @@ class Constants {
         static const int INIT_MAPPING_HARD_CODED = 1;
         static const int INIT_MAPPING_NO_MAPPING = 2;
 
-        static const int FLEXIBILITY_NO_OF_SWAPS = 2;
+        static const int FLEXIBILITY_NO_OF_SWAPS = 0;
         static const int FLEXIBILITY_IN_COST = 7 * FLEXIBILITY_NO_OF_SWAPS;
 
     constexpr static const int HARDCODED_INIT_MAPPINGS [][QX5_N] = {

@@ -57,6 +57,9 @@ public:
     static vector<int> makeMappingVector();
 
     static void printPairs(vector<pair<int, int>> pairs);
+
+    static vector<string> tokenize(string str, string delim = " ");
+
 };
 
 

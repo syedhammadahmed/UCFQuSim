@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <string>
 #include <generator/Config.h>
+#include <util/QuFileConverter.h>
 
 #include "evaluator/QuMultiEvaluator.h"
 #include "generator/QuMultiGenerator.h"
@@ -38,7 +39,7 @@ int main() {
         string name = "output_" + result.getFile() + ".qasm";
         QuMapping initialMapping = initialMappingsMap[result.getFile()];
 //        initialMapping.print();
-        Util::resetVerbose();
+//        Util::resetVerbose();
     }
 
     QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
@@ -46,6 +47,13 @@ int main() {
 
     return 0;
 }
+
+//int main() {
+//    QuFileConverter quFileConverter(Constants::QCODE_INPUT_FILES_DIRECTORY_RPATH, Constants::QCODE_OUTPUT_FILES_DIRECTORY_RPATH);
+//    quFileConverter.convertAllFiles();
+//    return 0;
+//}
+
 
 //int main(){
 //    vector<shared_ptr<QuGate>> program;
