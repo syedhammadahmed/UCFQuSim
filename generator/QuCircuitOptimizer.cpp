@@ -52,59 +52,68 @@ int QuCircuitOptimizer::performCNOTCancellations(vector<shared_ptr<QuGate>>& fin
     return count;
 }
 
-int QuCircuitOptimizer::performUnaryCancellations(vector<shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
+// todo also check non-adjacent single qubits and check in-between
+int QuCircuitOptimizer::performUnaryCancellations(vector<shared_ptr<QuGate>>& finalProgram) {
     int cancellations = 0;
-//    cout << "program size (before): " << finalProgram.size() << endl;
-    int i = 0, j = 0, g = finalProgram.size();
-    bool cancelled = false;
-    // todo identity opearation to cancel out
-    while(i < g){
-        bool isUnary1 = finalProgram[i]->isUnary();
-        int arg1 = finalProgram[i]->getArgAtIndex(0);
-        if (isUnary1) {
-            j = i + 1;
-            cancelled = false;
-            while (j < g) {
-                bool isUnary2 = finalProgram[j]->isUnary();
-                int arg2 = finalProgram[j]->getArgAtIndex(0);
-                if(isUnary2){
-                    if(arg1 == arg2){
-                        cancelled = true;
-                    }
-                }
-                else {
-                    int arg3 = finalProgram[j]->getArgAtIndex(1);
-                    if((arg2 != arg1) && (arg3 != arg1)) {
-                        j++;
-                        continue;
-                    }
-                    else {
-                        i = j;
-                        break;
-                    }
-                }
-                if(cancelled) {
-                    finalProgram.erase(finalProgram.begin() + j);
-                    cancellations++;
-                    g--;
-                } else
-                    j++;
-                if (j < g) {
-                    isUnary2 = finalProgram[j]->isUnary();
-                    arg2 = finalProgram[j]->getArgAtIndex(0);
-                }
-            }
-        }
-        else {
-            cancelled = false;
-        }
-        if(cancelled)
-            i = j + 1;
-        else
-            i++;
-//        cout << i << endl;
-    }
-//    cout << "program size (after): " << finalProgram.size()  << " cancellations: " <<  cancellations << endl;
+
+
 
     return cancellations;
 }
+
+//int QuCircuitOptimizer::performUnaryCancellations(vector<shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
+//    int cancellations = 0;
+////    cout << "program size (before): " << finalProgram.size() << endl;
+//    int i = 0, j = 0, g = finalProgram.size();
+//    bool cancelled = false;
+//    // todo identity opearation to cancel out
+//    while(i < g){
+//        bool isUnary1 = finalProgram[i]->isUnary();
+//        int arg1 = finalProgram[i]->getArgAtIndex(0);
+//        if (isUnary1) {
+//            j = i + 1;
+//            cancelled = false;
+//            while (j < g) {
+//                bool isUnary2 = finalProgram[j]->isUnary();
+//                int arg2 = finalProgram[j]->getArgAtIndex(0);
+//                if(isUnary2){
+//                    if(arg1 == arg2){
+//                        cancelled = true;
+//                    }
+//                }
+//                else {
+//                    int arg3 = finalProgram[j]->getArgAtIndex(1);
+//                    if((arg2 != arg1) && (arg3 != arg1)) {
+//                        j++;
+//                        continue;
+//                    }
+//                    else {
+//                        i = j;
+//                        break;
+//                    }
+//                }
+//                if(cancelled) {
+//                    finalProgram.erase(finalProgram.begin() + j);
+//                    cancellations++;
+//                    g--;
+//                } else
+//                    j++;
+//                if (j < g) {
+//                    isUnary2 = finalProgram[j]->isUnary();
+//                    arg2 = finalProgram[j]->getArgAtIndex(0);
+//                }
+//            }
+//        }
+//        else {
+//            cancelled = false;
+//        }
+//        if(cancelled)
+//            i = j + 1;
+//        else
+//            i++;
+////        cout << i << endl;
+//    }
+////    cout << "program size (after): " << finalProgram.size()  << " cancellations: " <<  cancellations << endl;
+//
+//    return cancellations;
+//}

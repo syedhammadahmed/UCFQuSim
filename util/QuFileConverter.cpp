@@ -72,15 +72,13 @@ void QuFileConverter::convertFile(string file) {
     getline(lineStream, qubits, ' '); // mnemonic for qu-gate e.g. h for Hadamard, x for NOT, cx for C-NOT, etc.
     skipEmptyLines(ifs);
 
-    if (stoi(qubits) <= 5) {
+    if (stoi(qubits) <= Constants::QX4_N) {  // convert only files with <= 5 qubits
         ofs.open(theOutputFileName, std::ofstream::out | std::ofstream::trunc);
 
         string qasmHeader = makeHeaderForQASM();
         ofs << qasmHeader << endl;
 
         while (!ifs.eof()) {
-            i = 0;
-            pos1 = 0;
             string line;
             string newLine;
             getline(ifs, line);
@@ -102,6 +100,7 @@ void QuFileConverter::convertOneInstruction(string &qcode, string &qasm) {
     stringstream lineStream(qcode);
     vector<string> tokens = Util::tokenize(qcode);
     string mnemonic = getMnemonicForQASM(Util::toLower(tokens[0]));
+    cout << mnemonic << endl;
     qasm += mnemonic + " ";
     qasm += putSubscripts(tokens[1]);
     if (tokens.size() > 2) {

@@ -38,9 +38,9 @@ int QuSmartSwapper::findTotalCostDAG() {
     nonUnaryInstructionsMap = layerManager->getInstructionMap();
 
     for(int i=0; i<totalInstructions; i++){
-        Util::setVerbose();
+//        Util::setVerbose();
         Util::println("INSTRUCTION ANALYSIS START: programCounter: " + to_string(programCounter));
-        Util::resetVerbose();
+//        Util::resetVerbose();
 
          this->currentInstruction = nullptr;
 
@@ -98,10 +98,10 @@ int QuSmartSwapper::findTotalCostDAG() {
 
         totalCost += minCostLayer;
 
-        Util::setVerbose();
+//        Util::setVerbose();
         Util::println("minCostLayer: " + to_string(minCostLayer) + " totalCost: " + to_string(totalCost));
         Util::println("INSTRUCTION ANALYSIS END: programCounter: " + to_string(programCounter) + " gateId: " + to_string(minId));
-        Util::resetVerbose();
+//        Util::resetVerbose();
 //        previousInstruction = currentInstruction;
         programCounter++;
     }
@@ -150,7 +150,7 @@ int QuSmartSwapper::findTotalCostDefaultAllPermutations() {
     for(shared_ptr<QuGate> instruction: nonUnaryInstructions){
         cout << "Iteration # " << i++ << endl;
         Util::timeIt(false);
-        Util::setVerbose();
+//        Util::setVerbose();
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
         this->currentInstruction = instruction;
         cout << *instruction << endl;

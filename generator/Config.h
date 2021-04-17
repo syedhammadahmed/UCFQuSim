@@ -34,7 +34,7 @@
 #define RANDOM_SAMPLING_MAPPINGS_PRUNING false
 #define RANDOM_SAMPLING_RUNS 40
 
-#define DAG_SCHEME true
+#define DAG_SCHEME false
 
 //#define INIT_MAPPING_ALL_PERMUTATIONS true
 //#define INIT_MAPPING_1_BY_1 true
