@@ -2,7 +2,9 @@
 // Created by YUSHAH on 12/4/2020.
 //
 
+#include <util/Util.h>
 #include "QuCircuitOptimizer.h"
+#include "QuCircuitGenerator.h"
 
 
 bool QuCircuitOptimizer::isClearInBetween(int left, int right, vector<shared_ptr<QuGate> > &finalProgram) {
@@ -35,7 +37,7 @@ bool QuCircuitOptimizer::areCancellable(int left, int right, vector<shared_ptr<Q
     return false;
 }
 
-int QuCircuitOptimizer::performCNOTCancellations(vector<shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent CNOTS and check in-between see fig 9 SOTA 2
+int QuCircuitOptimizer::performCNOTCancellations(int n, vector<shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent CNOTS and check in-between see fig 9 SOTA 2
     int left = -1, right = -1;
     int count = 0;
     for (left = 0; left < finalProgram.size() - 1; left++) {
@@ -53,67 +55,33 @@ int QuCircuitOptimizer::performCNOTCancellations(vector<shared_ptr<QuGate>>& fin
 }
 
 // todo also check non-adjacent single qubits and check in-between
-int QuCircuitOptimizer::performUnaryCancellations(vector<shared_ptr<QuGate>>& finalProgram) {
+int QuCircuitOptimizer::performUnaryCancellations(int n, vector<shared_ptr<QuGate>>& finalProgram) {
     int cancellations = 0;
+    QuCircuitGenerator quCircuitGenerator(n, finalProgram);
+    quCircuitGenerator.buildGrid();
+    auto& circuit = quCircuitGenerator.getCircuit();
+    auto grid = circuit.getGrid();
+    Util::setVerbose();
+    circuit.printGrid();
+    Util::resetVerbose();
 
-
-
+    for (int i = 0; i < n; ++i) {
+        int unarySoFar = 0;
+        for (int j = 0; j < finalProgram.size(); ++j) {
+            if (grid[i][j] == NULL)
+                continue;
+            if (!grid[i][j]->isUnary()) {
+                if (unarySoFar > 0)
+                    cancellations += unarySoFar - 1;
+                unarySoFar = 0;
+            }
+            else { // isUnary
+                unarySoFar++;
+            }
+        }
+        if (unarySoFar > 1)
+            cancellations += unarySoFar - 1;
+    }
     return cancellations;
 }
 
-//int QuCircuitOptimizer::performUnaryCancellations(vector<shared_ptr<QuGate>>& finalProgram) { // todo also check non-adjacent single qubits and check in-between
-//    int cancellations = 0;
-////    cout << "program size (before): " << finalProgram.size() << endl;
-//    int i = 0, j = 0, g = finalProgram.size();
-//    bool cancelled = false;
-//    // todo identity opearation to cancel out
-//    while(i < g){
-//        bool isUnary1 = finalProgram[i]->isUnary();
-//        int arg1 = finalProgram[i]->getArgAtIndex(0);
-//        if (isUnary1) {
-//            j = i + 1;
-//            cancelled = false;
-//            while (j < g) {
-//                bool isUnary2 = finalProgram[j]->isUnary();
-//                int arg2 = finalProgram[j]->getArgAtIndex(0);
-//                if(isUnary2){
-//                    if(arg1 == arg2){
-//                        cancelled = true;
-//                    }
-//                }
-//                else {
-//                    int arg3 = finalProgram[j]->getArgAtIndex(1);
-//                    if((arg2 != arg1) && (arg3 != arg1)) {
-//                        j++;
-//                        continue;
-//                    }
-//                    else {
-//                        i = j;
-//                        break;
-//                    }
-//                }
-//                if(cancelled) {
-//                    finalProgram.erase(finalProgram.begin() + j);
-//                    cancellations++;
-//                    g--;
-//                } else
-//                    j++;
-//                if (j < g) {
-//                    isUnary2 = finalProgram[j]->isUnary();
-//                    arg2 = finalProgram[j]->getArgAtIndex(0);
-//                }
-//            }
-//        }
-//        else {
-//            cancelled = false;
-//        }
-//        if(cancelled)
-//            i = j + 1;
-//        else
-//            i++;
-////        cout << i << endl;
-//    }
-////    cout << "program size (after): " << finalProgram.size()  << " cancellations: " <<  cancellations << endl;
-//
-//    return cancellations;
-//}

@@ -15,6 +15,13 @@
 
 using namespace std;
 
+QuCircuitGenerator::QuCircuitGenerator(int n, vector<shared_ptr<QuGate>> instructions): n(n), circuit(n) {
+    quBitRecentLayer = new int[n];
+    for(int i=0; i<n; i++)
+        quBitRecentLayer[i] = -1;
+    circuit.setInstructions0(instructions);
+}
+
 QuCircuitGenerator::QuCircuitGenerator(int n, string fileName):n(n), circuit(fileName, n), layer(-1) {
     quBitRecentLayer = new int[n];
     for(int i=0; i<n; i++)
@@ -295,3 +302,4 @@ int QuCircuitGenerator::getLayer() const {
 QuCircuit& QuCircuitGenerator::getCircuit() {
     return circuit;
 }
+

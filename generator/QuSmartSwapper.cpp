@@ -817,9 +817,10 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
 
 
 int QuSmartSwapper::optimize(vector<shared_ptr<QuGate>>& finalProgram){
-    int cnotCancellations = QuCircuitOptimizer::performCNOTCancellations(finalProgram);
+    int physicalBits = architecture.getN();
+    int cnotCancellations = QuCircuitOptimizer::performCNOTCancellations(physicalBits, finalProgram);
     cout << "CNOT cancellations: " << cnotCancellations << endl;
-    int unaryCancellations = QuCircuitOptimizer::performUnaryCancellations(finalProgram);
+    int unaryCancellations = QuCircuitOptimizer::performUnaryCancellations(physicalBits, finalProgram);
     cout << "Unary cancellations: " << unaryCancellations << endl;
     cout << "Total optimization: " << unaryCancellations + cnotCancellations << endl;
     return unaryCancellations + cnotCancellations;

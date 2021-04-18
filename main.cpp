@@ -56,25 +56,31 @@ using namespace std;
 //    return 0;
 //}
 
+/*
+gate = QuGateFactory::getQuGate("x");
+gate->setArgAtIndex(0, 3);
+program.push_back(gate);
 
+gate = QuGateFactory::getQuGate("cx");
+gate->setArgAtIndex(0, 3);
+gate->setArgAtIndex(1, 4);
+program.push_back(gate);
+*/
 int main(){
     vector<shared_ptr<QuGate>> program;
     shared_ptr<QuGate> gate = nullptr;
 
-    gate = QuGateFactory::getQuGate("x");
-    gate->setArgAtIndex(0, 0);
+
+    gate = QuGateFactory::getQuGate("h");
+    gate->setArgAtIndex(0, 2);
     program.push_back(gate);
 
     gate = QuGateFactory::getQuGate("cx");
-    gate->setArgAtIndex(0, 1);
-    gate->setArgAtIndex(1, 2);
+    gate->setArgAtIndex(0, 2);
+    gate->setArgAtIndex(1, 3);
     program.push_back(gate);
 
-    gate = QuGateFactory::getQuGate("x");
-    gate->setArgAtIndex(0, 0);
-    program.push_back(gate);
-
-    cout << "unary cancellations: "  << QuCircuitOptimizer::performUnaryCancellations(program) << endl;
+    cout << "unary cancellations: "  << QuCircuitOptimizer::performUnaryCancellations(Constants::QX4_N, program) << endl;
 
     return 0;
 }
