@@ -35,7 +35,7 @@ public:
     QuGate(int cardinality, std::string symbol, string mnemonic);
     QuGate(int cardinality, std::string symbol, string mnemonic, int printIndex);
 
-    QuBit& operator[](int);
+    int& operator[](int);
 
     friend std::ostream &operator<<(std::ostream &os, const QuGate& quGate);
 
@@ -50,6 +50,7 @@ public:
     const string &getMnemonic() const;
     void setMnemonic(const string &mnemonic);
     bool isUnary();
+    bool isBinary();
     int getArgAtIndex(int index) const;
     void setArgAtIndex(int index, int val);
     const vector<int> &getArgIndex() const;
@@ -60,7 +61,6 @@ public:
     void setGateId(int gateId);
 
     bool isCancelled() const;
-
     void setCancelled(bool cancelled);
 
     bool operator==(QuGate& arg);

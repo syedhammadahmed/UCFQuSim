@@ -125,7 +125,7 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
 
         delete strategy;
     }
-    results.push_back(Result(circuit.getFileName(), minSwaps, gatesOriginal, minGates, -1, minHadamards, -1, gatesProposedOptimized));
+    results.push_back(Result(circuit.getFileName(), minSwaps, gatesOriginal, minGates, -1, minHadamards, -1, minGatesProposedOptimized, circuit.getN()));
 
     return make_pair(minGates, minMapping);
 }
@@ -149,7 +149,8 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappingsTogether(Q
     // todo time elapsed
 
     delete strategy;
-    results.push_back(Result(circuit.getFileName(), swaps, gatesOriginal, gatesProposed, -1, hadamards, -1, gatesProposedOptimized));
+//    results.push_back(Result(circuit.getFileName(), swaps, gatesOriginal, gatesProposed, -1, hadamards, -1, gatesProposedOptimized));
+    results.push_back(Result(circuit.getFileName(), swaps, gatesOriginal, gatesProposed, -1, hadamards, -1, gatesProposedOptimized, circuit.getN()));
 
     return make_pair(gatesProposed, initMapping);
 }

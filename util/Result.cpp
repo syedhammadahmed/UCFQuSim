@@ -7,6 +7,7 @@
 
 void Result::print() {
     cout << std::setw(20) << std::left << file << "\t";
+    cout << std::setw(20) << std::left << n << "\t";
     cout << std::setw(20) << std::left << gatesOriginal << "\t";
 //    cout << std::setw(20) << std::left << swaps << "\t";
 //    cout << std::setw(20) << std::left << hadamards << "\t";
@@ -19,6 +20,7 @@ void Result::print() {
 
 void Result::printHeader() {
     cout << std::setw(20) << std::left << "File"  << "\t";
+    cout << std::setw(20) << std::left << "n"  << "\t";
     cout << std::setw(20) << std::left << "g"  << "\t";
 //    cout << std::setw(20) << std::left << "s"  << "\t";
 //    cout << std::setw(20) << std::left << "h"  << "\t";
@@ -30,11 +32,11 @@ void Result::printHeader() {
 }
 
 Result::Result(const string &file, int swaps, int gatesOriginal, int gatesProposed,
-               int depthProposed, int hadamards, double timeProposed) : file(file), swaps(swaps), gatesOriginal(gatesOriginal), gatesProposed(gatesProposed),
-                                                      depthProposed(depthProposed), hadamards(hadamards), timeProposed(timeProposed) {}
+               int depthProposed, int hadamards, double timeProposed, int n) : file(file), swaps(swaps), gatesOriginal(gatesOriginal), gatesProposed(gatesProposed),
+                                                      depthProposed(depthProposed), hadamards(hadamards), timeProposed(timeProposed), n(n) {}
 Result::Result(const string &file, int swaps, int gatesOriginal, int gatesProposed,
-               int depthProposed, int hadamards, double timeProposed, int gatesProposedOptimized) : file(file), swaps(swaps), gatesOriginal(gatesOriginal), gatesProposed(gatesProposed),
-                                                      depthProposed(depthProposed), hadamards(hadamards), timeProposed(timeProposed), gatesProposedOptimized(gatesProposedOptimized) {}
+               int depthProposed, int hadamards, double timeProposed, int gatesProposedOptimized, int n) : file(file), swaps(swaps), gatesOriginal(gatesOriginal), gatesProposed(gatesProposed),
+                                                      depthProposed(depthProposed), hadamards(hadamards), timeProposed(timeProposed), gatesProposedOptimized(gatesProposedOptimized), n(n) {}
 
 string Result::getFile() {
     return file;

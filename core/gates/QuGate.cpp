@@ -16,18 +16,18 @@ QuGate::QuGate() : depth(0), isElementary(false), cardinality(1), symbol("@"), p
 //}
 //QuGate::QuGate(int depth, bool isElementary, int cardinality) : depth(depth), isElementary(isElementary), cardinality(cardinality) {
 //}
-QuGate::QuGate(int cardinality, string symbol, string mnemonic) : cardinality(cardinality), symbol(symbol), printIndex(0), mnemonic(mnemonic) {
+QuGate::QuGate(int cardinality, string symbol, string mnemonic) : cardinality(cardinality), symbol(symbol), printIndex(0), mnemonic(mnemonic), cancelled(false) {
     for(int i=0; i<cardinality; i++)
         argIndex.push_back(-1);
 }
 
-QuGate::QuGate(int cardinality, string symbol, string mnemonic, int printIndex) : cardinality(cardinality), symbol(symbol), printIndex(printIndex), mnemonic(mnemonic) {
+QuGate::QuGate(int cardinality, string symbol, string mnemonic, int printIndex) : cardinality(cardinality), symbol(symbol), printIndex(printIndex), mnemonic(mnemonic), cancelled(false) {
     for(int i=0; i<cardinality; i++)
         argIndex.push_back(-1);
 }
 
-QuBit& QuGate::operator[](int i) {
-    return *arg[i];
+int& QuGate::operator[](int i) {
+    return argIndex[i];
 }
 
 QuGate::~QuGate() {
@@ -76,6 +76,10 @@ std::ostream &operator<<(std::ostream &os, const QuGate& quGate) {
 
 bool QuGate::isUnary() {
     return (cardinality == 1);
+}
+
+bool QuGate::isBinary() {
+    return (cardinality == 2);
 }
 
 int QuGate::getArgAtIndex(int index) const {
@@ -144,8 +148,9 @@ bool QuGate::isCancelled() const {
 }
 
 void QuGate::setCancelled(bool cancelled) {
-    QuGate::cancelled = cancelled;
+    this->cancelled = cancelled;
 }
+
 
 //void QuGate::operator=(QuGate &arg) {
 //    cardinality = arg.cardinality;

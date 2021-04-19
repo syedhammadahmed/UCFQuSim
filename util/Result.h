@@ -22,12 +22,13 @@ private:
     int hadamards;
     double timeProposed;
     int gatesProposedOptimized;
+    int n;
 
 public:
     Result(const string &file, int swaps, int gatesOriginal, int gatesProposed, int depthProposed, int hadamards,
-           double timeProposed);
+           double timeProposed, int n);
     Result(const string &file, int swaps, int gatesOriginal, int gatesProposed, int depthProposed, int hadamards,
-           double timeProposed, int gatesProposedOptimized);
+           double timeProposed, int gatesProposedOptimized, int n);
 
     void print();
     static void printHeader();
