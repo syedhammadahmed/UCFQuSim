@@ -37,7 +37,7 @@ class Constants {
         static const int INIT_MAPPING_HARD_CODED = 1;
         static const int INIT_MAPPING_NO_MAPPING = 2;
 
-        static const int FLEXIBILITY_NO_OF_SWAPS = 0;
+        static const int FLEXIBILITY_NO_OF_SWAPS = 1;
         static const int FLEXIBILITY_IN_COST = 7 * FLEXIBILITY_NO_OF_SWAPS;
 
     constexpr static const int HARDCODED_INIT_MAPPINGS [][QX5_N] = {
