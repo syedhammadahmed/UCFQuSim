@@ -15,14 +15,15 @@
 
 using namespace std;
 
-QuCircuitGenerator::QuCircuitGenerator(int n, vector<shared_ptr<QuGate>> instructions): n(n), circuit(n) {
+QuCircuitGenerator::QuCircuitGenerator(int n, vector<shared_ptr<QuGate>> instructions): n(n), circuit(n), fromFile(false) {
     quBitRecentLayer = new int[n];
     for(int i=0; i<n; i++)
         quBitRecentLayer[i] = -1;
     circuit.setInstructions0(instructions);
+
 }
 
-QuCircuitGenerator::QuCircuitGenerator(int n, string fileName):n(n), circuit(fileName, n), layer(-1) {
+QuCircuitGenerator::QuCircuitGenerator(int n, string fileName):n(n), circuit(fileName, n), layer(-1), fromFile(true) {
     quBitRecentLayer = new int[n];
     for(int i=0; i<n; i++)
         quBitRecentLayer[i] = -1;
@@ -45,6 +46,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     int pos2 = 0;
     int i = 0;
     cols = 0;
+    fromFile = true;
     vector<int> qubits;
     vector<shared_ptr<QuGate>> instructions; // original qasm program instructions/qugates
 
@@ -151,10 +153,12 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
 }
 
 void QuCircuitGenerator::buildGrid() {
+    auto instructions = circuit.getInstructions0();
+    if (!fromFile)
+        cols = instructions.size();
     initGrids(); // make grid
     try {
         int currentInstruction = 0;
-        auto instructions = circuit.getInstructions0();
         for (shared_ptr<QuGate> newGate: instructions) {
             int operands = newGate -> getCardinality();
             vector<int> args = newGate -> getArgIndex();

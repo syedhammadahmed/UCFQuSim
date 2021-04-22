@@ -94,7 +94,9 @@ void QuMappingInitializer::makeCouples(){
         for (int j = 0; j < architecture.getN(); j++){
             if ((i != j) && (architecture.getCouplingMap()[i][j] > 0)){
 //                counts[i].second++;
-                couples.emplace_back(i, j);
+                couples.push_back(make_pair(i, j));
+                if(IGNORE_DIRECTION_IN_ZERO_COST_INIT_MAPPING_RESTRICTION)
+                    couples.push_back(make_pair(j, i));
                 couplingMapAdjList[i].push_back(j);
                 couplingMapAdjList[j].push_back(i);
             }

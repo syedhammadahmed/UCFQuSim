@@ -4,6 +4,7 @@
 
 #include <dirent.h>
 #include <fstream>
+#include <direct.h>
 #include <core/gates/QuGate.h>
 #include <sstream>
 #include <core/gates/QuGateFactory.h>
@@ -134,6 +135,6 @@ void QuFileConverter::createOutputDirectoryIfNotExists() {
     string directory = Constants::QCODE_OUTPUT_FILES_DIRECTORY_RPATH;
     dir = opendir(directory.c_str());
     if(dir == NULL)
-//        _mkdir(directory.c_str());
-        mkdir(directory.c_str(), 0777);
+        _mkdir(directory.c_str());
+//        mkdir(directory.c_str(), 0777);
 }

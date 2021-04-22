@@ -23,6 +23,7 @@ private:
     string inputFileAbsPath;
     string header;
 
+    bool fromFile;
 public:
     QuCircuitGenerator(int n, string inputFileAbsPath);
     QuCircuitGenerator(int n, vector<shared_ptr<QuGate>> instructions);
