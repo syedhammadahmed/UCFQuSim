@@ -2,6 +2,9 @@
 #include <iomanip>
 #include <string>
 #include <generator/Config.h>
+#include <util/QuFileConverter.h>
+#include <core/gates/QuGateFactory.h>
+#include <generator/QuCircuitOptimizer.h>
 
 #include "evaluator/QuMultiEvaluator.h"
 #include "generator/QuMultiGenerator.h"
@@ -38,7 +41,7 @@ int main() {
         string name = "output_" + result.getFile() + ".qasm";
         QuMapping initialMapping = initialMappingsMap[result.getFile()];
 //        initialMapping.print();
-        Util::resetVerbose();
+//        Util::resetVerbose();
     }
 
     QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
@@ -47,39 +50,63 @@ int main() {
     return 0;
 }
 
-//int main(){
-//    vector<shared_ptr<QuGate>> program;
-//    shared_ptr<QuGate> gate = nullptr;
-//
-//    gate = QuGateFactory::getQuGate("h");
-//    gate->setArgAtIndex(0, 0);
-//    program.push_back(gate);
-//
-//    gate = QuGateFactory::getQuGate("h");
-//    gate->setArgAtIndex(0, 0);
-//    program.push_back(gate);
-//
-//    gate = QuGateFactory::getQuGate("cx");
-//    gate->setArgAtIndex(0, 0);
-//    gate->setArgAtIndex(1, 1);
-//    program.push_back(gate);
-//
-//    gate = QuGateFactory::getQuGate("h");
-//    gate->setArgAtIndex(0, 0);
-//    program.push_back(gate);
-//
-//    gate = QuGateFactory::getQuGate("h");
-//    gate->setArgAtIndex(0, 0);
-//    program.push_back(gate);
-//
-//    gate = QuGateFactory::getQuGate("h");
-//    gate->setArgAtIndex(0, 0);
-//    program.push_back(gate);
-//
-//    QuCircuitOptimizer::performUnaryCancellations(program);
-//
+//int main() {
+//    QuFileConverter quFileConverter(Constants::QCODE_INPUT_FILES_DIRECTORY_RPATH, Constants::QCODE_OUTPUT_FILES_DIRECTORY_RPATH);
+//    quFileConverter.convertAllFiles();
 //    return 0;
 //}
+
+/*
+gate = QuGateFactory::getQuGate("x");
+gate->setArgAtIndex(0, 3);
+program.push_back(gate);
+
+gate = QuGateFactory::getQuGate("cx");
+gate->setArgAtIndex(0, 3);
+gate->setArgAtIndex(1, 4);
+program.push_back(gate);
+int main(){
+    vector<shared_ptr<QuGate>> program;
+    shared_ptr<QuGate> gate = nullptr;
+
+
+    gate = QuGateFactory::getQuGate("h");
+    gate->setArgAtIndex(0, 0);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 0);
+    gate->setArgAtIndex(1, 1);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 0);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 1);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 1);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    gate = QuGateFactory::getQuGate("cx");
+    gate->setArgAtIndex(0, 0);
+    gate->setArgAtIndex(1, 2);
+    program.push_back(gate);
+
+    int uc = QuCircuitOptimizer::performUnaryCancellations(Constants::QX4_N, program);
+    int cc = QuCircuitOptimizer::performCNOTCancellations(Constants::QX4_N, program);
+    cout << "unary cancellations: "  << uc << endl;
+    cout << "cnot cancellations: "  << cc << endl;
+
+    return 0;
+}
+*/
 
 /*
 unary optimizer cases:

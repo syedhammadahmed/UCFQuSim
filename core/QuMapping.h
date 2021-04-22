@@ -63,6 +63,7 @@ public:
     void setPhysicalToLogical(const vector<int> &physicalToLogical);
     void setSwapInstructions(const vector<Swap> swapInstructions);
 
+    static void printAll(vector<QuMapping> mappings);
 };
 
 

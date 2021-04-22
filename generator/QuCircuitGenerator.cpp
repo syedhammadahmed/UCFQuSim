@@ -15,6 +15,13 @@
 
 using namespace std;
 
+QuCircuitGenerator::QuCircuitGenerator(int n, vector<shared_ptr<QuGate>> instructions): n(n), circuit(n) {
+    quBitRecentLayer = new int[n];
+    for(int i=0; i<n; i++)
+        quBitRecentLayer[i] = -1;
+    circuit.setInstructions0(instructions);
+}
+
 QuCircuitGenerator::QuCircuitGenerator(int n, string fileName):n(n), circuit(fileName, n), layer(-1) {
     quBitRecentLayer = new int[n];
     for(int i=0; i<n; i++)
@@ -123,7 +130,9 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     std::sort(qubits.begin(), qubits.end());
     auto qit = std::unique(qubits.begin(), qubits.begin() + qubits.size());
     qubits.resize(std::distance(qubits.begin(),qit));
-    circuit.setN(*(qubits.end()-1) + 1);
+
+    int n = *(qubits.end()-1) + 1;
+    circuit.setN(n);
 
     // for ranking todo: not used -- may remove
     if (INIT_MAPPING_START_NODE_RANK_WISE) {
@@ -293,3 +302,4 @@ int QuCircuitGenerator::getLayer() const {
 QuCircuit& QuCircuitGenerator::getCircuit() {
     return circuit;
 }
+

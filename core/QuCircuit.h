@@ -76,6 +76,8 @@ public:
     int getOptimizations() const;
     int getSwaps() const;
 
+    shared_ptr<QuGate> **getGrid() const;
+
 
 };
 

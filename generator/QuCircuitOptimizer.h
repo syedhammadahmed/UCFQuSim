@@ -11,11 +11,11 @@
 using namespace std;
 
 class QuCircuitOptimizer {
-
 public:
-    static int performCNOTCancellations(vector<shared_ptr<QuGate> > &finalProgram);
-    static int performUnaryCancellations(vector<shared_ptr<QuGate> > &finalProgram);
+    static int performCNOTCancellations(int n, vector<shared_ptr<QuGate>>& finalProgram);
+    static int performUnaryCancellations(int n, vector<shared_ptr<QuGate>>& finalProgram);
 private:
+    static shared_ptr<QuGate>** grid;
     static bool isClearInBetween(int left, int right, vector<shared_ptr<QuGate>>& finalProgram);
     static bool areCancellable(int left, int right, vector<shared_ptr<QuGate>>& finalProgram);
 

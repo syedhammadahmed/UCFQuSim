@@ -57,6 +57,7 @@ void QuCircuit::run() {
 void QuCircuit::printGrid(){
     if(Util::verbose) {
         cout << "Printing Circuit Grid (grid of pointers to qugates): " << endl;
+        cols = instructions0.size();
         for (int i = 0; i < 50; i++) cout << "__";   // todo make it generic for any layers
         cout << endl;
         for (int i = 0; i < rows; i++) {
@@ -216,6 +217,10 @@ void QuCircuit::setOptimizations(int optimizations) {
 
 const string &QuCircuit::getFileName() const {
     return fileName;
+}
+
+shared_ptr<QuGate>** QuCircuit::getGrid() const {
+    return grid;
 }
 
 

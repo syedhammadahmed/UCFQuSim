@@ -257,3 +257,23 @@ vector<int> Util::makeMappingVector() {
     memcpy(&mappingVector[0], mappingArray, Constants::QX5_N*sizeof(int));
     return mappingVector;
 }
+
+vector<string> Util::tokenize(string str, string delim) {
+    vector<string> tokens;
+
+    int start = 0;
+    int end = str.find(delim);
+    string token;
+    while (end != -1) {
+        token = str.substr(start, end - start);
+        token.erase(std::remove(token.begin(), token.end(), ','), token.end());
+        tokens.push_back(token);
+        start = end + delim.size();
+        end = str.find(delim, start);
+    }
+    token = str.substr(start, end - start);
+    tokens.push_back(token);
+
+    return tokens;
+}
+

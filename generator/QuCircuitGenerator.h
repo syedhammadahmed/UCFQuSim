@@ -25,6 +25,7 @@ private:
 
 public:
     QuCircuitGenerator(int n, string inputFileAbsPath);
+    QuCircuitGenerator(int n, vector<shared_ptr<QuGate>> instructions);
     ~QuCircuitGenerator();
 
     void buildFromFile(string fileName); // then call this; this creates grid as well as vector of instructions
