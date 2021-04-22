@@ -116,9 +116,10 @@ void QuMapping::printShort() {
 string QuMapping::toString() {
     string mappingStr = "";
     for (int i = 0; i < n; i++) {
-        mappingStr += to_string(i) + "->" + to_string(physicalToLogical[i]);
-        if(i<n-1)
-            mappingStr += ", ";
+        mappingStr += to_string(physicalToLogical[i]) + " ";
+//        mappingStr += to_string(i) + "->" + to_string(physicalToLogical[i]);
+//        if(i<n-1)
+//            mappingStr += ", ";
     }
     return mappingStr;
 }
@@ -237,3 +238,9 @@ QuMapping::QuMapping() {
 
 }
 
+void QuMapping::printAll(vector<QuMapping> mappings) {
+    cout << "Total Mappings: " << mappings.size() << endl;
+    for (auto& mapping: mappings) {
+        cout << mapping.getMappingId() + " : " + mapping.toString() << endl;
+    }
+}

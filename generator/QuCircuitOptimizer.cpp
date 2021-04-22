@@ -127,7 +127,7 @@ int QuCircuitOptimizer::performUnaryCancellations(int n, vector<shared_ptr<QuGat
 //    Util::setVerbose();
 //    circuit.printGrid();
 //    Util::resetVerbose();
-
+    vector<int> cancelledGatesIds;
     for (int i = 0; i < n; ++i) {
         int unarySoFar = 0;
         for (int j = 0; j < finalProgram.size(); ++j) {

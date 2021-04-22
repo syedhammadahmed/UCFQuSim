@@ -18,18 +18,12 @@ class AllPairShortestPathsFinder;
 
 class QuSmartSwapper: public QuSwapStrategy {
 private:
-//    static int MAPPING_THRESHOLD;
-//    QuMapping initialMapping;
     vector<vector<QuMapping>> instructionWiseMappings;  // instructionWiseMappings[0] = mappings for instruction 0 (1st instruction)
     int perInstructionMappingCounter;
     vector<shared_ptr<QuGate>> nonUnaryInstructions;
     AllShortestPathsFinder* allSPF;
     AllPairShortestPathFinder* allPairShortestPathFinder;
-    map<string, vector<int>> preCalShortestPaths;
-//    QuMappingInitializerZulehner mappingInitializer;
     unsigned int hadamards;
-    unsigned int totalSwaps;
-    unsigned int totalHadamards;
     vector<vector<int>> mappingWiseShortestPathCosts;
     vector<vector<vector<int>>> mappingWiseShortestPaths;
 
@@ -58,8 +52,6 @@ public:
     void insertEndingUnaryInstructions(vector<shared_ptr<QuGate> > &finalProgram);
     void hadamardCheck(vector<shared_ptr<QuGate>>& finalProgram, QuArchitecture& quArchitecture, QuMapping& currentMapping, int index);
     QuMapping generateOptimalInstructions();
-//    vector<QuMapping> generateInitialMappings();
-    unsigned int getHadamards() const;
     void mappingSanityCheck();
     int calculateHadamardCost(vector<int> shortestPath, int **couplingMap);
     int findShortestPathsMinimumCost();
@@ -77,9 +69,6 @@ public:
     void init();
 
     void findShortestPathsForAllInputMappings(vector<QuMapping> inputMappings);
-    static int performCNOTCancellations(vector<shared_ptr<QuGate> > &vector);
-    static int performUnaryCancellations(vector<shared_ptr<QuGate> > &finalProgram);
-    static vector<shared_ptr<QuGate> >::iterator findMergingPartner(vector<shared_ptr<QuGate> >::iterator it1, vector<shared_ptr<QuGate> >::iterator end);
 
     QuMapping generateOptimalInstructionsDAG();
 

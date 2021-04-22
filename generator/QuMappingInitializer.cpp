@@ -100,7 +100,7 @@ void QuMappingInitializer::makeCouples(){
             }
         }
     }
-    Util::printPairs(couples);
+//    Util::printPairs(couples);
 }
 
 struct MappingEqualityComparator {
@@ -452,7 +452,7 @@ void QuMappingInitializer::initGenerator() {
     }
     int l = circuit.getN(); // todo check in circuit if it is set after file reading
 
-    cout << "logical bits: " << l << endl;
+//    cout << "logical bits: " << l << endl;
     restrictedMapping.setN(n);
     restrictedMapping.noMappingInit();
 }
@@ -556,7 +556,7 @@ void QuMappingInitializer::initInitializerMappingCounter() {
     if (permInput.size() > PERM_N) // 10! perms
         permInput.erase(permInput.begin() + PERM_N, permInput.end());
     Util::permute(permInput, 0, permInput.size() - 1, perms);
-    cout << perms.size() << " permutations generated!"<< endl;
+//    cout << perms.size() << " permutations generated!"<< endl;
 
 }
 
@@ -637,7 +637,7 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions() 
         }
 //        nextMapping.setParentMappingId("*");
 //        nextMapping.setMappingId("0." + to_string(count));
-        cout << nextMapping.toString() << endl;
+//        cout << nextMapping.toString() << endl;
         restrictedMappings.push_back(nextMapping);
         count++;
     }

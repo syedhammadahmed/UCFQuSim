@@ -69,6 +69,9 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         if (INIT_MAPPING_ZERO_COST_PERMUTATIONS)
             initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(1);
 
+        // sha
+        QuMapping::printAll(initialMappings);
+
 ////////////////////////
         pair<int, QuMapping> costNMapping;
         if (INIT_MAPPING_1_BY_1)
@@ -113,12 +116,14 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
         // todo get layer from finalProgram
 //        depthProposed = quCircuitGenerator.getLayer() + 1;
     // todo time elapsed
-
-        if (gatesProposed < minGates) {
+        cout << "minGatesProposedOptimized: " << minGatesProposedOptimized << endl;
+        cout << "gatesProposedOptimized: " << gatesProposedOptimized << endl;
+        cout << "MinMapping: " << minMapping.toString() << endl;
+        if (gatesProposedOptimized < minGatesProposedOptimized) {
+            minGatesProposedOptimized = gatesProposedOptimized;
             minGates = gatesProposed;
             minSwaps = swaps;
             minHadamards = hadamards;
-            minGatesProposedOptimized = gatesProposedOptimized;
             minFinalProgram =  circuit.getInstructions1();
             minMapping = initMapping;
         }
