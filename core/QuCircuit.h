@@ -36,6 +36,8 @@ private:
     vector<int> srcFrequencies;
     vector<int> destFrequencies;
 
+    vector<int> qubits;
+
 public:
     QuCircuit();
     explicit QuCircuit(int rows);
@@ -79,6 +81,9 @@ public:
     shared_ptr<QuGate> **getGrid() const;
 
 
+    void setQubits(vector<int> qubits);
+
+    vector<int> getQubits();
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

@@ -128,13 +128,11 @@ bool QuArchitecture::isCompatable(int src, int dest) {
 void QuArchitecture::makeSourceFrequencyPriorityList() {
     vector<pair<int ,int>> frequencies(n, make_pair(0, 0));
 
-    if(Util::verbose) {
-        for (int i = 0; i < n; i++) {
-            frequencies[i].first = i;
-            for (int j = 0; j < n; j++) {
-                if (couplingMap[i][j] == 1) {
-                    frequencies[i].second++;
-                }
+    for (int i = 0; i < n; i++) {
+        frequencies[i].first = i;
+        for (int j = 0; j < n; j++) {
+            if (couplingMap[i][j] == 1) {
+                frequencies[i].second++;
             }
         }
     }
@@ -148,13 +146,11 @@ void QuArchitecture::makeSourceFrequencyPriorityList() {
 void QuArchitecture::makeTargetFrequencyPriorityList() {
     vector<pair<int ,int>> frequencies(n, make_pair(0, 0));
 
-    if(Util::verbose) {
-        for (int j = 0; j < n; j++) {
-            frequencies[j].first = j;
-            for (int i = 0; i < n; i++) {
-                if (couplingMap[i][j] == 1) {
-                    frequencies[j].second++;
-                }
+    for (int j = 0; j < n; j++) {
+        frequencies[j].first = j;
+        for (int i = 0; i < n; i++) {
+            if (couplingMap[i][j] == 1) {
+                frequencies[j].second++;
             }
         }
     }

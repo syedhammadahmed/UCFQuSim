@@ -5,6 +5,7 @@
 #include <util/QuFileConverter.h>
 #include <core/gates/QuGateFactory.h>
 #include <generator/QuCircuitOptimizer.h>
+#include <generator/QuCircuitGenerator.h>
 
 #include "evaluator/QuMultiEvaluator.h"
 #include "generator/QuMultiGenerator.h"
@@ -22,7 +23,7 @@ int main() {
         cout << "Input File Directory: " << inputDirectory << endl;
 
 //    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
-    QuArchitecture architectureQX(Constants::QX4_N); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
 
     auto data = quMultiGenerator.generateAllCircuits();
@@ -49,6 +50,24 @@ int main() {
 
     return 0;
 }
+
+
+//int main() {
+//
+//    string inputDirectory = "../input/";
+//    string outputDirectory = "../output/";
+//    if (Util::verbose)
+//        cout << "Input File Directory: " << inputDirectory << endl;
+//
+////    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
+//    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
+//    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
+//
+//    auto data = quMultiGenerator.generateAllCircuits();
+//
+//    return 0;
+//}
+
 
 //int main() {
 //    QuFileConverter quFileConverter(Constants::QCODE_INPUT_FILES_DIRECTORY_RPATH, Constants::QCODE_OUTPUT_FILES_DIRECTORY_RPATH);

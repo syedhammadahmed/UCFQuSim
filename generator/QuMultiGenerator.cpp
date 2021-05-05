@@ -70,7 +70,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
             initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(1);
 
         // sha
-        QuMapping::printAll(initialMappings);
+//        QuMapping::printAll(initialMappings);
 
 ////////////////////////
         pair<int, QuMapping> costNMapping;

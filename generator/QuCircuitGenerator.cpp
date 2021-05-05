@@ -133,8 +133,12 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     auto qit = std::unique(qubits.begin(), qubits.begin() + qubits.size());
     qubits.resize(std::distance(qubits.begin(),qit));
 
+    Util::setVerbose();
+    Util::printPath(qubits);
+    Util::resetVerbose();
     int n = *(qubits.end()-1) + 1;
     circuit.setN(n);
+    circuit.setQubits(qubits);
 
     // for ranking todo: not used -- may remove
     if (INIT_MAPPING_START_NODE_RANK_WISE) {

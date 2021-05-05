@@ -223,5 +223,13 @@ shared_ptr<QuGate>** QuCircuit::getGrid() const {
     return grid;
 }
 
+void QuCircuit::setQubits(vector<int> qubits) {
+    this->qubits = qubits;
+}
+
+vector<int> QuCircuit::getQubits() {
+    return qubits;
+}
+
 
 
