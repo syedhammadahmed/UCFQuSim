@@ -395,7 +395,7 @@ pair<int, int> QuMappingInitializer::getSmartCouple(int first, int second) {
 void QuMappingInitializer::restrict(int first, int second) {
     pair<int, int> couple;
     if (!isAllocated(first)){
-        if (!isAllocated(second)){
+        if (!isAllocated(second)){  // both logical qubits unallocated
             if (INIT_MAPPING_START_NODE_RANK_WISE)
                 couple = getSmartCouple(first, second);  // get 2 adjacent pairs maintaining a connected component
             else
@@ -406,7 +406,7 @@ void QuMappingInitializer::restrict(int first, int second) {
             allocated[first] = true;
             allocated[second] = true;
         }
-        else {
+        else { // 1st logical qubit free, 2nd allocated
             int physicalQuBit1 = findNearest(second);
             restrictedMapping.setValueAt(physicalQuBit1, first);
             allocated[first] = true;
@@ -594,24 +594,31 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
     architecture.makeSourceFrequencyPriorityList();
     architecture.makeTargetFrequencyPriorityList();
     architecture.makeCommonFrequencyPriorityLists();
+//todo todo shashasha
+//    auto instruction0 = instructions[0];
+//    for (auto pair: couples) {
+//        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
+//        restrict(pair, instruction0); // assigns logical qubits of instruction to 1 physical couple
+//        vector<QuMapping> temp = generatePermutationsAfterRestrictions();
+//        initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
+//    }
+//
+//    // restrict more instructions
+//    for (int i=1; i< instructions.size();i++) {
+//
+//
+//    }
 
-    for (auto instruction: instructions) {
-        for (auto pair: couples) {
-            restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
-            restrict(pair, instruction); // assigns logical qubits of instruction to 1 physical couple
-            vector<QuMapping> temp = generatePermutationsAfterRestrictions();
-            initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
-
-//            initialMappings.push_back(restrictedMapping);
-//            cout << restrictedMapping.toString() << endl;
-        }
-    }
     return initialMappings;
 }
 
 void QuMappingInitializer::restrict(pair<int, int> couple, shared_ptr<QuGate> instruction) {
     restrictedMapping[couple.first] = instruction->getArgAtIndex(0);
     restrictedMapping[couple.second] = instruction->getArgAtIndex(1);
+//    int logicalQubit1 = instruction->getArgAtIndex(0);
+//    int logicalQubit2 = instruction->getArgAtIndex(1);
+
+
 //    restrictedMapping.setUnallocatedQuBits();
 }
 
