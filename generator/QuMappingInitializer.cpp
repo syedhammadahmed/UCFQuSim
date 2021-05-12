@@ -585,16 +585,16 @@ vector<QuMapping> QuMappingInitializer::generateAllPermutationInitialMappings() 
     return initialMappings;
 }
 
-// all mappings that give 0 cost for 1st k instructions
-vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k) {
-    initialMappings.clear();
-    makeCouples();
-    vector<shared_ptr<QuGate>> instructions = circuit.getKBinaryInstructions(k);
-    /////////////////
-    architecture.makeSourceFrequencyPriorityList();
-    architecture.makeTargetFrequencyPriorityList();
-    architecture.makeCommonFrequencyPriorityLists();
-//todo todo shashasha
+//// all mappings that give 0 cost for 1st k instructions
+//vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k) {
+//    initialMappings.clear();
+//    makeCouples();
+//    vector<shared_ptr<QuGate>> instructions = circuit.getKBinaryInstructions(k);
+//    /////////////////
+//    architecture.makeSourceFrequencyPriorityList();
+//    architecture.makeTargetFrequencyPriorityList();
+//    architecture.makeCommonFrequencyPriorityLists();
+////todo todo shashasha
 //    auto instruction0 = instructions[0];
 //    for (auto pair: couples) {
 //        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
@@ -602,6 +602,45 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
 //        vector<QuMapping> temp = generatePermutationsAfterRestrictions();
 //        initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
 //    }
+////
+////    // restrict more instructions
+////    for (int i=1; i< instructions.size();i++) {
+////
+////
+////    }
+//
+//    return initialMappings;
+//}
+
+// all mappings that give 0 cost for 1st k instructions
+vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k) {
+    initialMappings.clear();
+    vector<QuMapping> restrictedMappings;
+//    makeCouples();
+    vector<shared_ptr<QuGate>> instructions = circuit.getKBinaryInstructions(k);
+    /////////////////
+    architecture.makeSourceFrequencyPriorityList();
+    architecture.makeTargetFrequencyPriorityList();
+    architecture.makeCommonFrequencyPriorityLists();
+//todo todo shashasha
+    restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
+    restrictedMappings.push_back(restrictedMapping);
+
+    vector<QuMapping> restrictedMappingsForAll;
+    for (auto nextInstruction: instructions) {
+        for (auto restrictedMapping: restrictedMappings) {
+            vector<QuMapping> restrictedMappingsFor1 = findRestrictedMappingsFor1Mapping(restrictedMapping, nextInstruction);
+            restrictedMappingsForAll.insert(restrictedMappingsForAll.end(), restrictedMappingsFor1.begin(), restrictedMappingsFor1.end());
+        }
+        restrictedMappings = restrictedMappingsForAll;
+    }
+    auto instruction0 = instructions[0];
+    for (auto pair: couples) {
+        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
+        restrict(pair, instruction0); // assigns logical qubits of instruction to 1 physical couple
+        vector<QuMapping> temp = generatePermutationsAfterRestrictions();
+        initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
+    }
 //
 //    // restrict more instructions
 //    for (int i=1; i< instructions.size();i++) {
@@ -738,4 +777,44 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuMappingInitializer::makeR
     }
     // restrictedPairs: unique pairs; restrictedPairSources: all pairs => pairs = binary cnot gate args (src , target)
     return make_pair(restrictedPairs, restrictedPairSources);
+}
+
+vector<QuMapping>
+QuMappingInitializer::findRestrictedMappingsFor1Mapping(QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction) {
+    vector<QuMapping> mappings;
+
+    vector<int> allocatedPQs = inputMapping.findAllocatedPhysicalQubits();
+    vector<int> prospectivePQs = findNeighboursOfAllocatedPhysicalQubits(allocatedPQs);
+    makeCouplesFromProspectivePhysicalQubits(prospectivePQs, inputMapping, nextInstruction); // includes overlapping couples as well
+
+
+    return mappings;
+}
+
+vector<int> QuMappingInitializer::findNeighboursOfAllocatedPhysicalQubits(vector<int> allocatedPQs) {
+    vector<int> neighbours;
+    for(auto physicalQuBit: allocatedPQs) {
+        neighbours.insert(neighbours.end(), couplingMapAdjList[physicalQuBit].begin(), couplingMapAdjList[physicalQuBit].end());
+    }
+    Util::removeDuplicates(neighbours);
+    return neighbours;
+}
+
+// finds the pairs of edges (ignoring hadamard so 2x) from the prospective physical qubits (neighbours of allocated)
+void QuMappingInitializer::makeCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction) {
+    couples.clear();
+    int logical1 = (*nextInstruction.get())[0];
+    int logical2 = (*nextInstruction.get())[1];
+    for(auto i: prospectivePQs) {
+        for(auto j: couplingMapAdjList[i]) {
+            if(!inputMapping.isPhysicalAllocated(j)) {
+                if (architecture.getCouplingMap()[i][j] > 0) {
+                    couples.push_back(make_pair(i, j));
+                    if (IGNORE_DIRECTION_IN_ZERO_COST_INIT_MAPPING_RESTRICTION)
+                        couples.push_back(make_pair(j, i));
+                }
+            }
+        }
+    }
+    cout << endl;
 }

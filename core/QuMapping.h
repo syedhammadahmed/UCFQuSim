@@ -64,6 +64,12 @@ public:
     void setSwapInstructions(const vector<Swap> swapInstructions);
 
     static void printAll(vector<QuMapping> mappings);
+
+    vector<int> findAllocatedPhysicalQubits();
+
+    bool isLogicalAllocated(int logicalQubit);
+
+    bool isPhysicalAllocated(int physicalQubit);
 };
 
 

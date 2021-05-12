@@ -244,3 +244,24 @@ void QuMapping::printAll(vector<QuMapping> mappings) {
         cout << mapping.getMappingId() + " : " + mapping.toString() << endl;
     }
 }
+
+vector<int> QuMapping::findAllocatedPhysicalQubits() {
+    vector<int> allocatedPhysicalQubits;
+    for (int i=0; i<physicalToLogical.size(); i++) {
+        if(physicalToLogical[i] != -1)
+            allocatedPhysicalQubits.push_back(i);
+    }
+    return allocatedPhysicalQubits;
+}
+
+bool QuMapping::isLogicalAllocated(int logicalQubit) {
+    for (int i=0; i<physicalToLogical.size(); i++) {
+        if (physicalToLogical[i] == logicalQubit)
+            return true;
+    }
+    return false;
+}
+
+bool QuMapping::isPhysicalAllocated(int physicalQubit) {
+    return (physicalToLogical[physicalQubit] != -1);
+}

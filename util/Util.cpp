@@ -277,3 +277,8 @@ vector<string> Util::tokenize(string str, string delim) {
     return tokens;
 }
 
+void Util::removeDuplicates(vector<int>& list) {
+    sort(list.begin(), list.end());
+    list.erase(unique(list.begin(), list.end()), list.end());
+}
+
