@@ -77,6 +77,9 @@ private:
     vector<int> findNeighboursOfAllocatedPhysicalQubits(vector<int> allocatedPQs);
 
     void makeCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction);
+    vector<QuMapping> restrictAllCouples1By1For1Instruction(shared_ptr<QuGate> nextInstruction);
+
+    void makeCouplingMapAdjacencyList();
 };
 
 

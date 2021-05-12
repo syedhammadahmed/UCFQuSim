@@ -271,3 +271,11 @@ const vector<pair<int, int>> QuArchitecture::getCommonSrcFreqPriorityList() cons
 const vector<pair<int, int>> QuArchitecture::getCommonTargetFreqPriorityList() const{
     return commonTargetFreqPriorityList;
 }
+
+vector<int> QuArchitecture::getPhysicalQubitsList() {
+    vector<int> physicalQubitList;
+    for(int i=0; i<n; i++) {
+        physicalQubitList.push_back(i);
+    }
+    return physicalQubitList;
+}

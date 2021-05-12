@@ -105,6 +105,20 @@ void QuMappingInitializer::makeCouples(){
 //    Util::printPairs(couples);
 }
 
+void QuMappingInitializer::makeCouplingMapAdjacencyList(){
+    couplingMapAdjList.resize(architecture.getN());
+    for(int i = 0; i < architecture.getN(); i++) {
+        for (int j = 0; j < architecture.getN(); j++){
+            if ((i != j) && (architecture.getCouplingMap()[i][j] > 0)){
+                couplingMapAdjList[i].push_back(j);
+                if(IGNORE_DIRECTION_IN_ZERO_COST_INIT_MAPPING_RESTRICTION)
+                    couplingMapAdjList[j].push_back(i);
+            }
+        }
+    }
+//    Util::printPairs(couples);
+}
+
 struct MappingEqualityComparator {
     bool pred(QuMapping &a, QuMapping &b) {
         for (int i = 0; i < a.getN(); ++i) {
@@ -455,6 +469,8 @@ void QuMappingInitializer::initGenerator() {
 
     restrictedMapping.setN(n);
     restrictedMapping.noMappingInit();
+
+    makeCouplingMapAdjacencyList();
 }
 
 void QuMappingInitializer::removeAdjacents(int physicalQuBit){
@@ -634,19 +650,7 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
         }
         restrictedMappings = restrictedMappingsForAll;
     }
-    auto instruction0 = instructions[0];
-    for (auto pair: couples) {
-        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
-        restrict(pair, instruction0); // assigns logical qubits of instruction to 1 physical couple
-        vector<QuMapping> temp = generatePermutationsAfterRestrictions();
-        initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
-    }
-//
-//    // restrict more instructions
-//    for (int i=1; i< instructions.size();i++) {
-//
-//
-//    }
+    initialMappings = restrictedMappingsForAll;
 
     return initialMappings;
 }
@@ -667,7 +671,9 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions() 
     vector<vector<int>> perms;
     count = 0;
 
-    int n = architecture.getN();
+    int n = circuit.getN();
+    permInput = circuit.getQubits();
+//    int n = architecture.getN();
 //    for (int i = 0; i < PERM_N + 2; ++i) {
 //        permInput.push_back(i);
 //    }
@@ -779,14 +785,13 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuMappingInitializer::makeR
     return make_pair(restrictedPairs, restrictedPairSources);
 }
 
-vector<QuMapping>
-QuMappingInitializer::findRestrictedMappingsFor1Mapping(QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction) {
+vector<QuMapping> QuMappingInitializer::findRestrictedMappingsFor1Mapping(QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction) {
     vector<QuMapping> mappings;
 
     vector<int> allocatedPQs = inputMapping.findAllocatedPhysicalQubits();
     vector<int> prospectivePQs = findNeighboursOfAllocatedPhysicalQubits(allocatedPQs);
     makeCouplesFromProspectivePhysicalQubits(prospectivePQs, inputMapping, nextInstruction); // includes overlapping couples as well
-
+    mappings = restrictAllCouples1By1For1Instruction(nextInstruction);
 
     return mappings;
 }
@@ -797,6 +802,9 @@ vector<int> QuMappingInitializer::findNeighboursOfAllocatedPhysicalQubits(vector
         neighbours.insert(neighbours.end(), couplingMapAdjList[physicalQuBit].begin(), couplingMapAdjList[physicalQuBit].end());
     }
     Util::removeDuplicates(neighbours);
+    if(neighbours.empty()) {
+        neighbours = architecture.getPhysicalQubitsList();
+    }
     return neighbours;
 }
 
@@ -817,4 +825,17 @@ void QuMappingInitializer::makeCouplesFromProspectivePhysicalQubits(vector<int> 
         }
     }
     cout << endl;
+}
+
+
+vector<QuMapping> QuMappingInitializer::restrictAllCouples1By1For1Instruction(shared_ptr<QuGate> nextInstruction) {
+    vector<QuMapping> mappings;
+    mappings.clear();
+    for (auto pair: couples) {
+        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
+        restrict(pair, nextInstruction); // assigns logical qubits of instruction to 1 physical couple
+        vector<QuMapping> temp = generatePermutationsAfterRestrictions();
+        mappings.insert(mappings.end(), temp.begin(), temp.end());
+    }
+    return mappings;
 }

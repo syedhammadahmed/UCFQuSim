@@ -52,6 +52,8 @@ public:
     const vector<pair<int, int>> getCommonSrcFreqPriorityList() const;
     const vector<pair<int, int>> getCommonTargetFreqPriorityList() const;
 
+    vector<int> getPhysicalQubitsList();
+
 };
 
 #endif //UCFQUSIM_QUARCHITECTURE_H
