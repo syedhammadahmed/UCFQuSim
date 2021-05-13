@@ -69,7 +69,7 @@ public:
 
     void restrict(pair<int, int> couple, shared_ptr<QuGate> instruction);
 
-    vector<QuMapping> generatePermutationsAfterRestrictions();
+    vector<QuMapping> generatePermutationsAfterRestrictions(QuMapping& restrictedMapping);
 
 private:
     vector<QuMapping> findRestrictedMappingsFor1Mapping(QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction);
@@ -77,9 +77,11 @@ private:
     vector<int> findNeighboursOfAllocatedPhysicalQubits(vector<int> allocatedPQs);
 
     void makeCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction);
-    vector<QuMapping> restrictAllCouples1By1For1Instruction(shared_ptr<QuGate> nextInstruction);
+    vector<QuMapping> restrictAllCouples1By1For1Instruction(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction);
 
     void makeCouplingMapAdjacencyList();
+
+    void restrict(QuMapping &newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction);
 };
 
 
