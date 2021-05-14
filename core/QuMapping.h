@@ -38,6 +38,7 @@ public:
     void hardCodedInit();
     void setValueAtNextFree(int i);
     void setUnallocatedQuBits();
+    void setUnallocatedQuBits(vector<int> logicalQubits);
     bool isLegit(); // check if all allocated
 
     int getPhysicalBit(int logicalBit);

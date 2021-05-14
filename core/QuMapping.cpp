@@ -265,3 +265,21 @@ bool QuMapping::isLogicalAllocated(int logicalQubit) {
 bool QuMapping::isPhysicalAllocated(int physicalQubit) {
     return (physicalToLogical[physicalQubit] != -1);
 }
+
+void QuMapping::setUnallocatedQuBits(vector<int> logicalQubits) {
+    vector<int> remaining;
+    for (int j = 0; j < n; ++j) {
+        remaining.push_back(j);
+    }
+    for (int j = 0; j < n; ++j) {
+        if (physicalToLogical[j] != -1)
+            remaining.erase(remove(remaining.begin(), remaining.end(), physicalToLogical[j]), remaining.end());
+    }
+    for (int j = 0; j < n; ++j) {
+        if (physicalToLogical[j] == -1) {
+            physicalToLogical[j] = remaining[0];
+            remaining.erase(remaining.begin());
+        }
+    }
+
+}

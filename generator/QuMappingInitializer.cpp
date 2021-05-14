@@ -658,7 +658,7 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
         vector<QuMapping> temp = generatePermutationsAfterRestrictions(mapping);
         initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
     }
-    for (int i = 10000; i <10050 ; ++i) {
+    for (int i = initialMappings.size()/2; i <initialMappings.size()/2 + 20 ; ++i) {
         initialMappings[i].printShort();
     }
     cout << "initialMappings.size(): " << initialMappings.size() << endl;
@@ -697,7 +697,7 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(Qu
 //        permInput.push_back(i);
 //    }
 
-    for (int j = 0; j < n; ++j) {
+    for (int j = 0; j < architecture.getN(); ++j) {
         if (restrictedMapping[j] != -1)
             permInput.erase(remove(permInput.begin(), permInput.end(), restrictedMapping[j]), permInput.end());
     }
@@ -713,7 +713,7 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(Qu
 //        nextMapping.setParentMappingId("*");
 //        nextMapping.setMappingId("0." + to_string(count));
 //        cout << nextMapping.toString() << endl;
-        nextMapping.setUnallocatedQuBits();
+        nextMapping.setUnallocatedQuBits(circuit.getQubits());
         restrictedMappings.push_back(nextMapping);
         count++;
     }
