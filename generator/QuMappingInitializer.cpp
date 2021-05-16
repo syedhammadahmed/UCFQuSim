@@ -675,11 +675,17 @@ void QuMappingInitializer::restrict(pair<int, int> couple, shared_ptr<QuGate> in
 //    restrictedMapping.setUnallocatedQuBits();
 }
 void QuMappingInitializer::restrict(QuMapping& newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction) {
-    newRestrictedMapping[couple.first] = instruction->getArgAtIndex(0);
-    newRestrictedMapping[couple.second] = instruction->getArgAtIndex(1);
-//    int logicalQubit1 = instruction->getArgAtIndex(0);
-//    int logicalQubit2 = instruction->getArgAtIndex(1);
+    int logicalQubit1 = instruction->getArgAtIndex(0);
+    int logicalQubit2 = instruction->getArgAtIndex(1);
+    int physicalQubit1 = couple.first;
+    int physicalQubit2 = couple.second;
+    if(isOverlapping(newRestrictedMapping, physicalQubit1, physicalQubit2, logicalQubit1, logicalQubit2)) {
 
+    }
+    else {
+        newRestrictedMapping[physicalQubit1] = logicalQubit1;
+        newRestrictedMapping[physicalQubit2] = logicalQubit2;
+    }
 
 //    restrictedMapping.setUnallocatedQuBits();
 }
@@ -832,6 +838,7 @@ void QuMappingInitializer::makeCouplesFromProspectivePhysicalQubits(vector<int> 
     couples.clear();
     int logical1 = (*nextInstruction.get())[0];
     int logical2 = (*nextInstruction.get())[1];
+            //todo shashasha  incorporate overlapping here
     for(auto i: prospectivePQs) {
         for(auto j: couplingMapAdjList[i]) {
             if(!inputMapping.isPhysicalAllocated(j) && !inputMapping.isPhysicalAllocated(i)) {
@@ -853,10 +860,18 @@ vector<QuMapping> QuMappingInitializer::restrictAllCouples1By1For1Instruction(Qu
     for (auto pair: couples) {
         QuMapping newRestrictedMapping(restrictedMapping);
 //        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
+        Util::printPairs(couples);
         restrict(newRestrictedMapping, pair, nextInstruction); // assigns logical qubits of instruction to 1 physical couple
 //        vector<QuMapping> temp = generatePermutationsAfterRestrictions(newRestrictedMapping);
-//        mappings.insert(mappings.end(), temp.begin(), temp.end());
+//        mappings.insert(mdappings.end(), temp.begin(), temp.end());
         mappings.push_back(newRestrictedMapping);
     }
     return mappings;
+}
+
+bool QuMappingInitializer::isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1,
+                                         int logicalQubit2) {
+
+
+    return false;
 }

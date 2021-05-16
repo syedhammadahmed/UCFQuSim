@@ -82,6 +82,9 @@ private:
     void makeCouplingMapAdjacencyList();
 
     void restrict(QuMapping &newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction);
+
+    bool
+    isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1, int logicalQubit2);
 };
 
 
