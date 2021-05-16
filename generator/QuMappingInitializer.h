@@ -77,14 +77,18 @@ private:
     vector<int> findNeighboursOfAllocatedPhysicalQubits(vector<int> allocatedPQs);
 
     void makeCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction);
+    void makeCouplesFromOverlappedPhysicalQubits(vector<int> allocatedPQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction);
+
     vector<QuMapping> restrictAllCouples1By1For1Instruction(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction);
 
     void makeCouplingMapAdjacencyList();
 
     void restrict(QuMapping &newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction);
 
-    bool
-    isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1, int logicalQubit2);
+    bool isOverlapping(QuMapping &mapping, shared_ptr<QuGate> instruction);
+//    bool isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1, int logicalQubit2);
+
+    int findNearest(QuMapping &restrictedMapping, int physicalQuBit1);
 };
 
 

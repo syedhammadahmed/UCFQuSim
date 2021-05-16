@@ -529,6 +529,41 @@ int QuMappingInitializer::findNearest(int physicalQuBit1) {
     return physicalQuBit2;
 }
 
+int QuMappingInitializer::findNearest(QuMapping& restrictedMapping, int physicalQuBit1) {
+    int physicalQuBit2 = -1;
+
+    int bestNeighbor = getNeighborFromCommonFreqLists(physicalQuBit1);
+
+    if (bestNeighbor != -1) {
+        if (restrictedMapping.getValueAt(bestNeighbor) == -1) { // todo test more corner cases : >3 neighbors
+            physicalQuBit2 = bestNeighbor;
+        }
+        else {
+            bestNeighbor = -1;
+        }
+    }
+    if (bestNeighbor == -1) {
+        queue<int> todoNodes;
+        bool found = false;
+        while (!found) {
+            for (int i = 0; i < couplingMapAdjList[physicalQuBit1].size(); ++i) {
+                int neighbor = couplingMapAdjList[physicalQuBit1][i];
+                todoNodes.push(neighbor);
+                if (restrictedMapping.getValueAt(neighbor) == -1) { // todo test more corner cases : >3 neighbors
+                    physicalQuBit2 = neighbor;
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                physicalQuBit1 = todoNodes.front();
+                todoNodes.pop();
+            }
+        }
+    }
+    return physicalQuBit2;
+}
+
 QuMappingInitializer::QuMappingInitializer(QuCircuit &circuit, QuArchitecture& architecture): circuit(circuit), architecture(architecture), count(0), restrictedMapping(architecture.getN()){
     initGenerator();
 }
@@ -812,12 +847,21 @@ pair<vector<pair<int, int>>, vector<pair<int, int>>> QuMappingInitializer::makeR
 
 vector<QuMapping> QuMappingInitializer::findRestrictedMappingsFor1Mapping(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction) {
     vector<QuMapping> mappings;
+    vector<int> allocatedPQs;
+    vector<int> prospectivePQs;
 
-    vector<int> allocatedPQs = restrictedMapping.findAllocatedPhysicalQubits();
-    vector<int> prospectivePQs = findNeighboursOfAllocatedPhysicalQubits(allocatedPQs);
-    makeCouplesFromProspectivePhysicalQubits(prospectivePQs, restrictedMapping, nextInstruction); // includes overlapping couples as well
-    mappings = restrictAllCouples1By1For1Instruction(restrictedMapping, nextInstruction);
+    allocatedPQs = restrictedMapping.findAllocatedPhysicalQubits();
+    if(isOverlapping(restrictedMapping, nextInstruction)) {
+        makeCouplesFromOverlappedPhysicalQubits(allocatedPQs, restrictedMapping,
+                                                 nextInstruction); // includes overlapping couples as well
 
+    }
+    else {
+        prospectivePQs = findNeighboursOfAllocatedPhysicalQubits(allocatedPQs);
+        makeCouplesFromProspectivePhysicalQubits(prospectivePQs, restrictedMapping,
+                                                 nextInstruction); // includes overlapping couples as well
+        mappings = restrictAllCouples1By1For1Instruction(restrictedMapping, nextInstruction);
+    }
     return mappings;
 }
 
@@ -834,11 +878,36 @@ vector<int> QuMappingInitializer::findNeighboursOfAllocatedPhysicalQubits(vector
 }
 
 // finds the pairs of edges (ignoring hadamard so 2x) from the prospective physical qubits (neighbours of allocated)
+// overlapping case
+void QuMappingInitializer::makeCouplesFromOverlappedPhysicalQubits(vector<int> allocatedPQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction) {
+    couples.clear();
+    int logical1 = (*nextInstruction.get())[0];
+    int logical2 = (*nextInstruction.get())[1];
+
+    vector<int> prospectivePQs;
+    int logical = inputMapping.isLogicalAllocated(logical1) ? logical1 : -1;
+    logical = ((logical != -1) && (inputMapping.isLogicalAllocated(logical2))) ? logical2 : -1;
+    if(logical != -1) {
+        prospectivePQs.insert(prospectivePQs.end(), couplingMapAdjList[inputMapping.getPhysicalBit(logical)].begin(), couplingMapAdjList[inputMapping.getPhysicalBit(logical)].end());
+        for (int i=0; i<prospectivePQs.size(); i++) {
+            if (inputMapping.isPhysicalAllocated(prospectivePQs[i]))
+                prospectivePQs.erase(remove(prospectivePQs.begin(), prospectivePQs.end(), prospectivePQs[i]),
+                                     prospectivePQs.end());
+        }
+        makeCouplesFromProspectivePhysicalQubits(prospectivePQs, restrictedMapping, nextInstruction);
+    }
+
+
+
+}
+
+// finds the pairs of edges (ignoring hadamard so 2x) from the prospective physical qubits (neighbours of allocated)
+// non-overlapping case
 void QuMappingInitializer::makeCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction) {
     couples.clear();
     int logical1 = (*nextInstruction.get())[0];
     int logical2 = (*nextInstruction.get())[1];
-            //todo shashasha  incorporate overlapping here
+    //todo shashasha - incorporate overlapping here
     for(auto i: prospectivePQs) {
         for(auto j: couplingMapAdjList[i]) {
             if(!inputMapping.isPhysicalAllocated(j) && !inputMapping.isPhysicalAllocated(i)) {
@@ -852,7 +921,6 @@ void QuMappingInitializer::makeCouplesFromProspectivePhysicalQubits(vector<int> 
     }
     cout << endl;
 }
-
 
 vector<QuMapping> QuMappingInitializer::restrictAllCouples1By1For1Instruction(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction) {
     vector<QuMapping> mappings;
@@ -869,9 +937,16 @@ vector<QuMapping> QuMappingInitializer::restrictAllCouples1By1For1Instruction(Qu
     return mappings;
 }
 
-bool QuMappingInitializer::isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1,
-                                         int logicalQubit2) {
+bool QuMappingInitializer::isOverlapping(QuMapping &mapping, shared_ptr<QuGate> nextInstruction) {
+    int logical1 = (*nextInstruction.get())[0];
+    int logical2 = (*nextInstruction.get())[1];
 
-
-    return false;
+    return mapping.isLogicalAllocated(logical1) || mapping.isLogicalAllocated(logical2);
 }
+
+//bool QuMappingInitializer::isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1,
+//                                         int logicalQubit2) {
+//
+//
+//    return false;
+//}
