@@ -84,6 +84,8 @@ public:
     void setQubits(vector<int> qubits);
 
     vector<int> getQubits();
+
+    vector<shared_ptr<QuGate>> getKUniqueBinaryInstructions(int k);
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

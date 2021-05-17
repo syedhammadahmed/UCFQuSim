@@ -668,7 +668,7 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
     initialMappings.clear();
     vector<QuMapping> restrictedMappings;
 //    makeCouples();
-    vector<shared_ptr<QuGate>> instructions = circuit.getKBinaryInstructions(k);
+    vector<shared_ptr<QuGate>> instructions = circuit.getKUniqueBinaryInstructions(k);
     /////////////////
     architecture.makeSourceFrequencyPriorityList();
     architecture.makeTargetFrequencyPriorityList();
@@ -682,9 +682,10 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
         restrictedMappingsForAll.clear();
         for (auto restrictedMapping: restrictedMappings) {
             vector<QuMapping> restrictedMappingsFor1 = findRestrictedMappingsFor1Mapping(restrictedMapping, nextInstruction);
-            cout << "restrictedMappingsFor1.size(): " << restrictedMappingsFor1.size() << endl;
+
             restrictedMappingsForAll.insert(restrictedMappingsForAll.end(), restrictedMappingsFor1.begin(), restrictedMappingsFor1.end());
         }
+        cout << "restrictedMappingsForAll.size(): " << restrictedMappingsForAll.size() << endl;
         restrictedMappings = restrictedMappingsForAll;
     }
 
@@ -693,9 +694,9 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k
         vector<QuMapping> temp = generatePermutationsAfterRestrictions(mapping);
         initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
     }
-    for (int i = initialMappings.size()/2; i <initialMappings.size()/2 + 20 ; ++i) {
-        initialMappings[i].printShort();
-    }
+//    for (int i = initialMappings.size()/2; i <initialMappings.size()/2 + 20 ; ++i) {
+//        initialMappings[i].printShort();
+//    }
     cout << "initialMappings.size(): " << initialMappings.size() << endl;
     return initialMappings;
 }
@@ -729,16 +730,16 @@ void QuMappingInitializer::restrictOverlapped(QuMapping& newRestrictedMapping, p
     int allocated2 = newRestrictedMapping.getValueAt(physicalQubit2);
 
     if (allocated1 == logicalQubit1) {
-        newRestrictedMapping[physicalQubit2] = logicalQubit2;
+        newRestrictedMapping[findNearest(newRestrictedMapping, physicalQubit1)] = logicalQubit2;
     }
     else if (allocated1 == logicalQubit2) {
-        newRestrictedMapping[physicalQubit2] = logicalQubit1;
+        newRestrictedMapping[findNearest(newRestrictedMapping, physicalQubit1)] = logicalQubit1;
     }
     else if (allocated2 == logicalQubit1) {
-        newRestrictedMapping[physicalQubit1] = logicalQubit2;
+        newRestrictedMapping[findNearest(newRestrictedMapping, physicalQubit2)] = logicalQubit2;
     }
     else {
-        newRestrictedMapping[physicalQubit1] = logicalQubit1;
+        newRestrictedMapping[findNearest(newRestrictedMapping, physicalQubit2)] = logicalQubit1;
     }
 
 }
@@ -772,10 +773,16 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(Qu
 //        nextMapping.setParentMappingId("*");
 //        nextMapping.setMappingId("0." + to_string(count));
 //        cout << nextMapping.toString() << endl;
-        nextMapping.setUnallocatedQuBits(circuit.getQubits());
+        nextMapping.setUnallocatedQuBits();
         restrictedMappings.push_back(nextMapping);
         count++;
     }
+
+    if (restrictedMappings.empty()) {
+        restrictedMapping.setUnallocatedQuBits();
+        restrictedMappings.push_back(restrictedMapping);
+    }
+
 
     return restrictedMappings;
 }
@@ -976,6 +983,7 @@ vector<QuMapping> QuMappingInitializer::restrictAllOverlappedCouples1By1For1Inst
         QuMapping newRestrictedMapping(restrictedMapping);
 //        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
         Util::printPairs(couples);
+
         restrictOverlapped(newRestrictedMapping, pair, nextInstruction); // assigns logical qubits of instruction to 1 physical couple
 //        vector<QuMapping> temp = generatePermutationsAfterRestrictions(newRestrictedMapping);
 //        mappings.insert(mdappings.end(), temp.begin(), temp.end());

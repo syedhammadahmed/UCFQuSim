@@ -46,6 +46,32 @@ vector<shared_ptr<QuGate>> QuCircuit::getKBinaryInstructions(int k){
     return nonUnaryInstructions;
 }
 
+bool isNewInstruction(vector<shared_ptr<QuGate>> instructions, shared_ptr<QuGate> nextInstruction){
+    int i = 0;
+    for(shared_ptr<QuGate> oldInstruction: instructions) {
+        if ((*oldInstruction) == (*nextInstruction))
+            return false;
+    }
+    return true;
+}
+
+
+vector<shared_ptr<QuGate>> QuCircuit::getKUniqueBinaryInstructions(int k){
+    vector<shared_ptr<QuGate>> nonUnaryInstructions;
+    int i = 0;
+    for(shared_ptr<QuGate> currentInstruction: instructions0){
+        if(currentInstruction->getCardinality()> 1) {
+            if (isNewInstruction(nonUnaryInstructions, currentInstruction)) {
+                nonUnaryInstructions.push_back(currentInstruction);
+                i++;
+            }
+        }
+        if(i==k)
+            break;
+    }
+    return nonUnaryInstructions;
+}
+
 void QuCircuit::run() {
     if(Util::verbose)
         cout << "Circuit execution start..." << endl;

@@ -136,7 +136,7 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     Util::setVerbose();
     Util::printPath(qubits);
     Util::resetVerbose();
-    int n = *(qubits.end()-1) + 1;
+    int n = qubits.size();
     circuit.setN(n);
     circuit.setQubits(qubits);
 
