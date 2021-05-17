@@ -709,20 +709,38 @@ void QuMappingInitializer::restrict(pair<int, int> couple, shared_ptr<QuGate> in
 
 //    restrictedMapping.setUnallocatedQuBits();
 }
+
 void QuMappingInitializer::restrict(QuMapping& newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction) {
     int logicalQubit1 = instruction->getArgAtIndex(0);
     int logicalQubit2 = instruction->getArgAtIndex(1);
     int physicalQubit1 = couple.first;
     int physicalQubit2 = couple.second;
-    if(isOverlapping(newRestrictedMapping, physicalQubit1, physicalQubit2, logicalQubit1, logicalQubit2)) {
+    newRestrictedMapping[physicalQubit1] = logicalQubit1;
+    newRestrictedMapping[physicalQubit2] = logicalQubit2;
+}
 
+void QuMappingInitializer::restrictOverlapped(QuMapping& newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction) {
+    int logicalQubit1 = instruction->getArgAtIndex(0);
+    int logicalQubit2 = instruction->getArgAtIndex(1);
+    int physicalQubit1 = couple.first;
+    int physicalQubit2 = couple.second;
+
+    int allocated1 = newRestrictedMapping.getValueAt(physicalQubit1);
+    int allocated2 = newRestrictedMapping.getValueAt(physicalQubit2);
+
+    if (allocated1 == logicalQubit1) {
+        newRestrictedMapping[physicalQubit2] = logicalQubit2;
+    }
+    else if (allocated1 == logicalQubit2) {
+        newRestrictedMapping[physicalQubit2] = logicalQubit1;
+    }
+    else if (allocated2 == logicalQubit1) {
+        newRestrictedMapping[physicalQubit1] = logicalQubit2;
     }
     else {
         newRestrictedMapping[physicalQubit1] = logicalQubit1;
-        newRestrictedMapping[physicalQubit2] = logicalQubit2;
     }
 
-//    restrictedMapping.setUnallocatedQuBits();
 }
 
 vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(QuMapping& restrictedMapping) {
@@ -854,7 +872,7 @@ vector<QuMapping> QuMappingInitializer::findRestrictedMappingsFor1Mapping(QuMapp
     if(isOverlapping(restrictedMapping, nextInstruction)) {
         makeCouplesFromOverlappedPhysicalQubits(allocatedPQs, restrictedMapping,
                                                  nextInstruction); // includes overlapping couples as well
-
+        mappings = restrictAllOverlappedCouples1By1For1Instruction(restrictedMapping, nextInstruction);
     }
     else {
         prospectivePQs = findNeighboursOfAllocatedPhysicalQubits(allocatedPQs);
@@ -886,7 +904,7 @@ void QuMappingInitializer::makeCouplesFromOverlappedPhysicalQubits(vector<int> a
 
     vector<int> prospectivePQs;
     int logical = inputMapping.isLogicalAllocated(logical1) ? logical1 : -1;
-    logical = ((logical != -1) && (inputMapping.isLogicalAllocated(logical2))) ? logical2 : -1;
+    logical = ((logical == -1) && (inputMapping.isLogicalAllocated(logical2))) ? logical2 : logical;
     if(logical != -1) {
         prospectivePQs.insert(prospectivePQs.end(), couplingMapAdjList[inputMapping.getPhysicalBit(logical)].begin(), couplingMapAdjList[inputMapping.getPhysicalBit(logical)].end());
         for (int i=0; i<prospectivePQs.size(); i++) {
@@ -894,10 +912,24 @@ void QuMappingInitializer::makeCouplesFromOverlappedPhysicalQubits(vector<int> a
                 prospectivePQs.erase(remove(prospectivePQs.begin(), prospectivePQs.end(), prospectivePQs[i]),
                                      prospectivePQs.end());
         }
-        makeCouplesFromProspectivePhysicalQubits(prospectivePQs, restrictedMapping, nextInstruction);
+        int physical = inputMapping.getPhysicalBit(logical);
+
+        makeOverlappedCouplesFromProspectivePhysicalQubits(prospectivePQs, physical);
     }
+}
 
-
+// finds the pairs of edges (ignoring hadamard so 2x) from the prospective physical qubits (neighbours of allocated)
+// overlapping case
+void QuMappingInitializer::makeOverlappedCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, int physical) {
+    couples.clear();
+    int j = physical;
+    for(auto i: prospectivePQs) {
+        if (architecture.getCouplingMap()[i][j] > 0) {
+            couples.push_back(make_pair(i, j));
+            if (IGNORE_DIRECTION_IN_ZERO_COST_INIT_MAPPING_RESTRICTION)
+                couples.push_back(make_pair(j, i));
+        }
+    }
 
 }
 
@@ -930,6 +962,21 @@ vector<QuMapping> QuMappingInitializer::restrictAllCouples1By1For1Instruction(Qu
 //        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
         Util::printPairs(couples);
         restrict(newRestrictedMapping, pair, nextInstruction); // assigns logical qubits of instruction to 1 physical couple
+//        vector<QuMapping> temp = generatePermutationsAfterRestrictions(newRestrictedMapping);
+//        mappings.insert(mdappings.end(), temp.begin(), temp.end());
+        mappings.push_back(newRestrictedMapping);
+    }
+    return mappings;
+}
+
+vector<QuMapping> QuMappingInitializer::restrictAllOverlappedCouples1By1For1Instruction(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction) {
+    vector<QuMapping> mappings;
+    mappings.clear();
+    for (auto pair: couples) {
+        QuMapping newRestrictedMapping(restrictedMapping);
+//        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
+        Util::printPairs(couples);
+        restrictOverlapped(newRestrictedMapping, pair, nextInstruction); // assigns logical qubits of instruction to 1 physical couple
 //        vector<QuMapping> temp = generatePermutationsAfterRestrictions(newRestrictedMapping);
 //        mappings.insert(mdappings.end(), temp.begin(), temp.end());
         mappings.push_back(newRestrictedMapping);

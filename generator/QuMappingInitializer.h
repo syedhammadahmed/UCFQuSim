@@ -78,6 +78,7 @@ private:
 
     void makeCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction);
     void makeCouplesFromOverlappedPhysicalQubits(vector<int> allocatedPQs, QuMapping& inputMapping, shared_ptr<QuGate> nextInstruction);
+    void makeOverlappedCouplesFromProspectivePhysicalQubits(vector<int> prospectivePQs, int physical);
 
     vector<QuMapping> restrictAllCouples1By1For1Instruction(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction);
 
@@ -89,6 +90,11 @@ private:
 //    bool isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1, int logicalQubit2);
 
     int findNearest(QuMapping &restrictedMapping, int physicalQuBit1);
+
+    vector<QuMapping>
+    restrictAllOverlappedCouples1By1For1Instruction(QuMapping &restrictedMapping, shared_ptr<QuGate> nextInstruction);
+
+    void restrictOverlapped(QuMapping &newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction);
 };
 
 

@@ -67,7 +67,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         if(INIT_MAPPING_ALL_PERMUTATIONS)
             initialMappings = mappingInitializer.generateAllPermutationInitialMappings();
         if (INIT_MAPPING_ZERO_COST_PERMUTATIONS)
-            initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(6);
+            initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(10);
 
         // sha
 //        QuMapping::printAll(initialMappings);
