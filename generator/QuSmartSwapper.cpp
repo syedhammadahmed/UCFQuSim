@@ -146,7 +146,7 @@ int QuSmartSwapper::findTotalCostDefaultAllPermutations() {
     programCounter = 0;
     instructionWiseMappings.clear();
     for(shared_ptr<QuGate> instruction: nonUnaryInstructions){
-        cout << "Iteration # " << i++ << endl;
+        cout << "CNOT Instruction # " << i++ << endl;
         Util::timeIt(false);
 //        Util::setVerbose();
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
@@ -176,18 +176,18 @@ int QuSmartSwapper::findTotalCostDefaultAllPermutations() {
             }
 //            instructionWiseMappings.push_back(inputMappings);
             instructionWiseMappings.push_back(filteredSPMappingsForAllMappings);
-            cout << "filteredSPMappingsForAllMappings: " << filteredSPMappingsForAllMappings.size() << endl;
+//            cout << "filteredSPMappingsForAllMappings: " << filteredSPMappingsForAllMappings.size() << endl;
         }
         else {
             cout << "WWWWWWWWWWWWHHHHHHHHHHHHHHHYYYYYYYYYYYYYYYYYY!" << endl;
         }
 //        doExtraHadamardFiltering(currentInstruction, architecture);
         totalCost += minCost;
-        cout << "mincost: " << minCost << " , totalCost: " << totalCost << endl;
+//        cout << "mincost: " << minCost << " , totalCost: " << totalCost << endl;
         Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
         programCounter++;
 //        previousInstruction = currentInstruction;
-        cout << "time per instruction: " << Util::timeIt(true) << endl;
+//        cout << "time per instruction: " << Util::timeIt(true) << endl;
     }
     delete allSPF;
     delete allPairShortestPathFinder;
@@ -202,7 +202,7 @@ int QuSmartSwapper::findTotalCostDefault() {
 
     int i=0;
     for(shared_ptr<QuGate> instruction: nonUnaryInstructions){
-        cout << "Iteration # " << i++ << endl;
+        cout << "CNOT Instruction # " << i++ << endl;
         Util::timeIt(false);
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
         this->currentInstruction = instruction;
@@ -220,7 +220,7 @@ int QuSmartSwapper::findTotalCostDefault() {
         if(!filteredSPMappingsForAllMappings.empty()){
             auto totalMappingsCounter = 0;
             for (auto& mapping: filteredSPMappingsForAllMappings) {
-                cout << mapping.toString() << endl;
+//                cout << mapping.toString() << endl;
                 mapping.setMappingId(to_string(programCounter) + "." + to_string(totalMappingsCounter));
                 totalMappingsCounter++;
             }
@@ -280,7 +280,7 @@ pair<int, QuMapping> QuSmartSwapper::findTotalSwaps() {
     QuMapping initialMapping = generateOptimalInstructions();
 
     // sha
-    initialMapping.printShort();
+//    initialMapping.printShort();
 
     return make_pair(totalCost, initialMapping);
 }
@@ -474,8 +474,12 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     }
     else {
         if(mappings.size() > MAPPING_THRESHOLD) {
+            cout << "MAPPINGS FOR NEXT ITERATION (BEFORE PRUNING): " << mappings.size() << endl;
             mappings.erase(mappings.begin() + MAPPING_THRESHOLD, mappings.end());
+            cout << "MAPPINGS FOR NEXT ITERATION (AFTER PRUNING): " << mappings.size() << endl;
         }
+        else
+            cout << "MAPPINGS FOR NEXT ITERATION (NO PRUNING): " << mappings.size() << endl;
     }
     return mappings;
 }

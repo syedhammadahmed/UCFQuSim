@@ -86,6 +86,8 @@ public:
     vector<int> getQubits();
 
     vector<shared_ptr<QuGate>> getKUniqueBinaryInstructions(int k);
+
+    vector<shared_ptr<QuGate>> getTopKBinaryInstructionsHavingAtleastXQubits(int x);
 };
 
 #endif //UCFQUSIM_QUCIRCUIT_H

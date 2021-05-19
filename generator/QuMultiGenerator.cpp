@@ -64,13 +64,17 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         QuCircuit &circuit = quCircuitGenerator.getCircuit();
         Util::timeIt(false);
         QuMappingInitializer mappingInitializer(circuit, quArchitecture);
+        int x = 6;
+//        int x = circuit.getN() - MAX_PERMUTATION_N;
+//        int x = circuit.getN() - MAX_PERMUTATION_N;
         if(INIT_MAPPING_ALL_PERMUTATIONS)
             initialMappings = mappingInitializer.generateAllPermutationInitialMappings();
         if (INIT_MAPPING_ZERO_COST_PERMUTATIONS)
-            initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(6);
+            initialMappings = mappingInitializer.generateAllZeroCostInitialMappings(x);
 
         // sha
 //        QuMapping::printAll(initialMappings);
+
         cout << "Initial Mappings generated!" << endl;
 ////////////////////////
         pair<int, QuMapping> costNMapping;
@@ -98,8 +102,10 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
     unsigned int gatesOriginal = circuit.getInstructions0().size();
     unsigned int gatesProposedOptimized;
     QuMapping minMapping(initialMappings[0].getN());
-
+    int i = 0;
     for (auto& mapping: initialMappings) {
+        cout << endl << endl << "[Mapping 1-by-1] Mapping # " << ++i << " of " << initialMappings.size() << endl << endl;
+
         vector<QuMapping> singleInitMapping;
         singleInitMapping.push_back(mapping);
         QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, singleInitMapping);

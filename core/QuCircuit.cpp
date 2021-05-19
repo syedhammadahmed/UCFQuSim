@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <set>
 #include "generator/QuSwapStrategy.h"
 #include "generator/QuSmartSwapper.h"
 #include "QuCircuit.h"
@@ -71,6 +72,29 @@ vector<shared_ptr<QuGate>> QuCircuit::getKUniqueBinaryInstructions(int k){
     }
     return nonUnaryInstructions;
 }
+
+vector<shared_ptr<QuGate>> QuCircuit::getTopKBinaryInstructionsHavingAtleastXQubits(int x){
+    vector<shared_ptr<QuGate>> nonUnaryInstructions;
+    set<int> qubits;
+    int j = 0; // instruction count for debuggin only - remove for release
+    int i = 0;
+    for(shared_ptr<QuGate> currentInstruction: instructions0){
+        if(currentInstruction->getCardinality()> 1) {
+            j++;
+            if (isNewInstruction(nonUnaryInstructions, currentInstruction)) {
+                nonUnaryInstructions.push_back(currentInstruction);
+                qubits.insert(currentInstruction->getArgAtIndex(0));
+                qubits.insert(currentInstruction->getArgAtIndex(1));
+                i=qubits.size();
+            }
+        }
+        if(i==x)
+            break;
+    }
+    cout << j << " instructions for " << x << " qubits " << endl;
+    return nonUnaryInstructions;
+}
+
 
 void QuCircuit::run() {
     if(Util::verbose)

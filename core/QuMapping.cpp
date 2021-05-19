@@ -88,7 +88,7 @@ void QuMapping::quSwapLogical(int i, int j) {
 
 vector<Swap> QuMapping::fixMappings(std::vector<int> swapSeq) {
     vector<Swap> swapGates;
-    this->print();
+//    this->print();
     int swapSeqSize = swapSeq.size();
     for(int i=0; i<signed(swapSeqSize-1); i++){
         quSwapPhysical(swapSeq[i], swapSeq[i + 1]);
