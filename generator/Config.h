@@ -54,7 +54,6 @@
 
 #define IGNORE_DIRECTION_IN_ZERO_COST_INIT_MAPPING_RESTRICTION true // generate 2x as many mappings (0-cost + 4-cost)
 
-
 #define ELEMENTARY_SWAP_DECOMPOSITION true
 
 #define CIRCUIT_BUILD_GRID true

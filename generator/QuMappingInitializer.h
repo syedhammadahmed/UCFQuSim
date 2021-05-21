@@ -8,6 +8,20 @@
 
 #include "core/QuMapping.h"
 #include "PriorityGraph.h"
+#include <unordered_set>
+using namespace std;
+
+class MyHashFunction {
+public:
+
+    // We use predfined hash functions of strings
+    // and define our hash function as XOR of the
+    // hash values.
+    size_t operator()(const QuMapping& p)
+    {
+        return hash<string>()(p.toString());
+    }
+};
 
 class QuMappingInitializer {
 private:

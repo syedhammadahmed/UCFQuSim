@@ -22,6 +22,7 @@ private:
     string mappingId;
     string parentMappingId;
     vector<Swap> swapInstructions;
+    bool dirty;
 
 public:
     QuMapping();
@@ -38,6 +39,7 @@ public:
     void hardCodedInit();
     void setValueAtNextFree(int i);
     void setUnallocatedQuBits();
+    void setUnallocatedQuBits(vector<int> qubits);
     bool isLegit(); // check if all allocated
 
     int getPhysicalBit(int logicalBit);
@@ -49,7 +51,7 @@ public:
 
     void print();
     void printShort();
-    string toString();
+    string toString() const;
 
     const string getMappingId() const;
     void setMappingId(const string &mappingId);
@@ -63,13 +65,22 @@ public:
     void setPhysicalToLogical(const vector<int> &physicalToLogical);
     void setSwapInstructions(const vector<Swap> swapInstructions);
 
+    bool isDirty() const;
+
+    void setDirty(bool dirty);
+
     static void printAll(vector<QuMapping> mappings);
+    static void uniquify(vector<QuMapping>& mappings);
 
     vector<int> findAllocatedPhysicalQubits();
 
     bool isLogicalAllocated(int logicalQubit);
 
     bool isPhysicalAllocated(int physicalQubit);
+
+    bool hasDuplicateMappings();
+
+    const vector<int> &getPhysicalToLogical() const;
 };
 
 

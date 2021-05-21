@@ -60,7 +60,7 @@ public:
 
     static vector<string> tokenize(string str, string delim = " ");
 
-    static void removeDuplicates(vector<int>& list);
+    static void removeDuplicates(vector<int> &list);
 };
 
 

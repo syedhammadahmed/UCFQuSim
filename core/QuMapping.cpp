@@ -113,7 +113,7 @@ void QuMapping::printShort() {
     cout << toString() << endl;
 }
 
-string QuMapping::toString() {
+string QuMapping::toString() const {
     string mappingStr = "";
     for (int i = 0; i < n; i++) {
         mappingStr += to_string(physicalToLogical[i]) + " ";
@@ -215,6 +215,14 @@ void QuMapping::setN(int n) {
     this->n = n;
 }
 
+bool QuMapping::hasDuplicateMappings() {
+    auto dup = physicalToLogical;
+    Util::removeDuplicates(dup);
+    if (dup.size() != physicalToLogical.size())
+        return true;
+    return false;
+}
+
 bool QuMapping::isLegit() {
     for (int j = 0; j < n; ++j)
         if (physicalToLogical[j] == -1)
@@ -264,4 +272,46 @@ bool QuMapping::isLogicalAllocated(int logicalQubit) {
 
 bool QuMapping::isPhysicalAllocated(int physicalQubit) {
     return (physicalToLogical[physicalQubit] != -1);
+}
+
+bool QuMapping::isDirty() const {
+    return dirty;
+}
+
+void QuMapping::setDirty(bool dirty) {
+    this->dirty = dirty;
+}
+
+const vector<int> &QuMapping::getPhysicalToLogical() const {
+    return physicalToLogical;
+}
+
+void QuMapping::setUnallocatedQuBits(vector<int> qubits) {
+    vector<int> remaining;
+    for (int j = 0; j < n; ++j) {
+        remaining.push_back(j);
+    }
+    for (int j = 0; j < qubits.size(); ++j) {
+        remaining.erase(remove(remaining.begin(), remaining.end(), qubits[j]), remaining.end());
+    }
+    for (int j = 0; j < n; ++j) {
+        if (physicalToLogical[j] == -1) {
+            physicalToLogical[j] = remaining[0];
+            remaining.erase(remaining.begin());
+        }
+    }
+}
+
+void QuMapping::uniquify(vector<QuMapping> &mappings) {
+    auto end = mappings.end();
+
+    cout << "before uniquify(): " << mappings.size() << ", ";
+
+    for (auto i = mappings.begin(); i != end; ++i) {
+        end = std::remove(i + 1, end, *i);
+    }
+    mappings.erase(end, mappings.end());
+
+    cout << "after uniquify(): " << mappings.size() << endl;
+
 }
