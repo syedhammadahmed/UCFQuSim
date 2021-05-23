@@ -81,6 +81,8 @@ public:
     bool hasDuplicateMappings();
 
     const vector<int> &getPhysicalToLogical() const;
+
+    void setValuesAtNextFree(vector<int> vals);
 };
 
 

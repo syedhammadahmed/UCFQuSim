@@ -190,6 +190,17 @@ void QuMapping::setValueAtNextFree(int i) {
     }
 }
 
+void QuMapping::setValuesAtNextFree(vector<int> vals) {
+    for (auto& i: vals) {
+        for (int j = 0; j < n; ++j) {
+            if(physicalToLogical[j] == -1) {
+                physicalToLogical[j] = i;
+                break;
+            }
+        }
+    }
+}
+
 int QuMapping::getValueAt(int i) {
     return physicalToLogical[i];
 }
@@ -216,11 +227,18 @@ void QuMapping::setN(int n) {
 }
 
 bool QuMapping::hasDuplicateMappings() {
-    auto dup = physicalToLogical;
-    Util::removeDuplicates(dup);
-    if (dup.size() != physicalToLogical.size())
-        return true;
+    for(int i=0; i<physicalToLogical.size(); i++) {
+        for(int j=0; j<physicalToLogical.size(); j++) {
+            if ((physicalToLogical[i] != -1) && (physicalToLogical[i] == physicalToLogical[j]) && (i!=j))
+                return true;
+        }
+    }
     return false;
+    //    auto dup = physicalToLogical;
+//    Util::removeDuplicates(dup);
+//    if (dup.size() != physicalToLogical.size())
+//        return true;
+//    return false;
 }
 
 bool QuMapping::isLegit() {

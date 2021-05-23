@@ -64,7 +64,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         QuCircuit &circuit = quCircuitGenerator.getCircuit();
         Util::timeIt(false);
         QuMappingInitializer mappingInitializer(circuit, quArchitecture);
-        int x = 8;
+        int x = RESTRICTED_QUBITS;
 //        int x = circuit.getN() - MAX_PERMUTATION_N;
 //        int x = circuit.getN() - MAX_PERMUTATION_N;
         if(INIT_MAPPING_ALL_PERMUTATIONS)
@@ -102,10 +102,21 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
     unsigned int gatesOriginal = circuit.getInstructions0().size();
     unsigned int gatesProposedOptimized;
     QuMapping minMapping(initialMappings[0].getN());
-    int i = 0;
+//    int i = 0;
+    vector<QuMapping> sample;
+    if (initialMappings.size() > INITIAL_MAPPING_THRESHOLD) {
+        Util::randomSampling(initialMappings, sample, INITIAL_MAPPING_THRESHOLD);
+        initialMappings = sample;
+    }
+//    auto indexes = Util::getNRandomIndexes(size, initialMappings.size());
+//    vector<int> ind(indexes.begin(), indexes.end());
+//
+//    for (int i=0; i<ind.size(); i++) {
     for (int i=0; i<initialMappings.size(); i++) {
-        cout << endl << endl << "[Mapping 1-by-1] Mapping # " << i+1 << " of " << initialMappings.size() << endl << endl;
+        cout << endl << endl << "[Mapping 1-by-1] Mapping # " << i << " of " << initialMappings.size() << endl << endl;
+//        cout << endl << endl << "[Mapping 1-by-1] Mapping # " << i << " of " << ind.size() << endl << endl;
         QuMapping& mapping = initialMappings[i];
+//        QuMapping& mapping = initialMappings[ind[i]];
         if (mapping.hasDuplicateMappings())
             cout << "hello!" << endl;
         vector<QuMapping> singleInitMapping;
@@ -124,6 +135,7 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
         // todo get layer from finalProgram
 //        depthProposed = quCircuitGenerator.getLayer() + 1;
     // todo time elapsed
+        cout << "file: " << circuit.getFileName() << endl;
         cout << "minGatesProposedOptimized: " << minGatesProposedOptimized << endl;
         cout << "gatesProposedOptimized: " << gatesProposedOptimized << endl;
         cout << "MinMapping: " << minMapping.toString() << endl;

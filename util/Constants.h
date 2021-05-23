@@ -16,6 +16,9 @@ class Constants {
 
         static const string INPUT_FILES_DIRECTORY_RPATH;
         static const string OUTPUT_FILES_DIRECTORY_RPATH;
+        static const string MAPPINGS_FILES_DIRECTORY_RPATH;
+        static const string CONFIGURATION_FILES_DIRECTORY_RPATH;
+
         static const string FILE_EXTENSION;
 
         static const string QCODE_INPUT_FILES_DIRECTORY_RPATH;

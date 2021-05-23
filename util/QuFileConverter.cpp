@@ -138,3 +138,4 @@ void QuFileConverter::createOutputDirectoryIfNotExists() {
 //        _mkdir(directory.c_str());
         mkdir(directory.c_str(), 0777);
 }
+

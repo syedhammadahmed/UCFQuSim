@@ -9,6 +9,8 @@
 #include <unordered_set>
 #include <core/QuMapping.h>
 #include <cstring>
+#include <dirent.h>
+#include <sys/stat.h>
 #include "Util.h"
 #include "Constants.h"
 
@@ -280,5 +282,14 @@ vector<string> Util::tokenize(string str, string delim) {
 void Util::removeDuplicates(vector<int>& list) {
     sort(list.begin(), list.end());
     list.erase(unique(list.begin(), list.end()), list.end());
+}
+
+void Util::createDirectoryIfNotExists(string path) {
+    DIR* dir = NULL;
+    string directory = path;
+    dir = opendir(directory.c_str());
+    if(dir == NULL)
+//        _mkdir(directory.c_str());
+        mkdir(directory.c_str(), 0777);
 }
 

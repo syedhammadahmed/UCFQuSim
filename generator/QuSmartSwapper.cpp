@@ -454,6 +454,9 @@ bool QuSmartSwapper::isNewInsturction(shared_ptr<QuGate> currentInstruction, vec
 //    return initialMappings;
 //}
 
+vector<QuMapping> QuSmartSwapper::pruneMappings(bool random) {
+
+}
 
 vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     vector<QuMapping> mappings;
@@ -466,27 +469,30 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     }
     else
         mappings = instructionWiseMappings[programCounter-1];
+    if(mappings.size() > MAPPING_THRESHOLD) {
+        cout << "MAPPINGS FOR NEXT ITERATION (BEFORE PRUNING): " << mappings.size() << endl;
 
-    if (RANDOM_SAMPLING_MAPPINGS_PRUNING) {
-        // todo divide threshold among mappings
-        vector<QuMapping> sampledMappings;
-        unsigned long threshold = MAPPING_THRESHOLD;
-        if (mappings.size() <= threshold)
-            threshold = mappings.size();
-        Util::randomSampling(mappings, sampledMappings, threshold);
-        mappings = sampledMappings;
-    }
-    else {
-        if(mappings.size() > MAPPING_THRESHOLD) {
-            cout << "MAPPINGS FOR NEXT ITERATION (BEFORE PRUNING): " << mappings.size() << endl;
-            mappings.erase(mappings.begin() + MAPPING_THRESHOLD, mappings.end());
-            cout << "MAPPINGS FOR NEXT ITERATION (AFTER PRUNING): " << mappings.size() << endl;
+        if (RANDOM_SAMPLING_MAPPINGS_PRUNING) {
+            // todo divide threshold among mappings
+            vector<QuMapping> sampledMappings;
+            unsigned long threshold = MAPPING_THRESHOLD;
+            if (mappings.size() <= threshold)
+                threshold = mappings.size();
+            Util::randomSampling(mappings, sampledMappings, threshold);
+            mappings = sampledMappings;
         }
-        else
-            cout << "MAPPINGS FOR NEXT ITERATION (NO PRUNING): " << mappings.size() << endl;
+        else {
+            mappings.erase(mappings.begin() + MAPPING_THRESHOLD, mappings.end());
+        }
+        cout << "MAPPINGS FOR NEXT ITERATION (AFTER PRUNING): " << mappings.size() << endl;
     }
-    return mappings;
+    else
+        cout << "MAPPINGS FOR NEXT ITERATION (NO PRUNING): " << mappings.size() << endl;
+
+return mappings;
 }
+
+
 
 QuMapping QuSmartSwapper::getCurrentMapping() {
     QuMapping currentMapping(this->architecture.getN());

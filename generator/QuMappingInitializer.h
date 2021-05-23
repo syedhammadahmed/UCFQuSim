@@ -109,6 +109,8 @@ private:
     restrictAllOverlappedCouples1By1For1Instruction(QuMapping &restrictedMapping, shared_ptr<QuGate> nextInstruction);
 
     void restrictOverlapped(QuMapping &newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction);
+
+    void saveMappingsToFile(string outputFileName, vector<QuMapping> &mappings);
 };
 
 

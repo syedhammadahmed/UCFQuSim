@@ -19,6 +19,7 @@ int main() {
     cout << "Processing files... this may take a while..." << endl;
     string inputDirectory = "../input/";
     string outputDirectory = "../output/";
+
     if (Util::verbose)
         cout << "Input File Directory: " << inputDirectory << endl;
 

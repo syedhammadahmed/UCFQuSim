@@ -80,6 +80,7 @@ public:
 
     int findTotalCostDefaultAllPermutations();
 
+    vector<QuMapping> pruneMappings(bool random);
 };
 
 #endif //UCFQUSIM_QUSMARTSWAPPER_H

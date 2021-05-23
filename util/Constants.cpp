@@ -10,6 +10,8 @@ using namespace std;
 const string Constants::FILE_EXTENSION = ".qasm";
 const string Constants::INPUT_FILES_DIRECTORY_RPATH = "../input/";
 const string Constants::OUTPUT_FILES_DIRECTORY_RPATH = "../output/";
+const string Constants::MAPPINGS_FILES_DIRECTORY_RPATH = "../mappings/";
+const string Constants::CONFIGURATION_FILES_DIRECTORY_RPATH = "../configurations/";
 
 const string Constants::QCODE_FILE_EXTENSION = ".qcode";
 const string Constants::QCODE_INPUT_FILES_DIRECTORY_RPATH = "../input/qcode/";
