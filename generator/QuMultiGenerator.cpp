@@ -76,6 +76,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
 //        QuMapping::printAll(initialMappings);
 
         cout << "Initial Mappings generated!" << endl;
+
 ////////////////////////
         pair<int, QuMapping> costNMapping;
         if (INIT_MAPPING_1_BY_1)
@@ -90,6 +91,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
 //////////////////////
         quCircuitGenerator.makeProgramFile(outputDirectory + outputFiles[i], finalProgram);
         initialMappingsMap.insert(make_pair(circuit.getFileName(), initMapping));
+
     }
     return make_pair(results, initialMappingsMap);
 }
@@ -105,8 +107,12 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
 //    int i = 0;
     vector<QuMapping> sample;
     if (initialMappings.size() > INITIAL_MAPPING_THRESHOLD) {
-        Util::randomSampling(initialMappings, sample, INITIAL_MAPPING_THRESHOLD);
-        initialMappings = sample;
+        if (RANDOM_SAMPLING_INIT_MAPPINGS) {
+            Util::randomSampling(initialMappings, sample, INITIAL_MAPPING_THRESHOLD);
+            initialMappings = sample;
+        }
+        else
+            initialMappings.erase(initialMappings.begin() + INITIAL_MAPPING_THRESHOLD, initialMappings.end());
     }
 //    auto indexes = Util::getNRandomIndexes(size, initialMappings.size());
 //    vector<int> ind(indexes.begin(), indexes.end());

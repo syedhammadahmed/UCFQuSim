@@ -323,13 +323,13 @@ void QuMapping::setUnallocatedQuBits(vector<int> qubits) {
 void QuMapping::uniquify(vector<QuMapping> &mappings) {
     auto end = mappings.end();
 
-    cout << "before uniquify(): " << mappings.size() << ", ";
+//    cout << "before uniquify(): " << mappings.size() << ", ";
 
     for (auto i = mappings.begin(); i != end; ++i) {
         end = std::remove(i + 1, end, *i);
     }
     mappings.erase(end, mappings.end());
 
-    cout << "after uniquify(): " << mappings.size() << endl;
+//    cout << "after uniquify(): " << mappings.size() << endl;
 
 }

@@ -202,8 +202,8 @@ int QuSmartSwapper::findTotalCostDefault() {
 
     int i=0;
     for(shared_ptr<QuGate> instruction: nonUnaryInstructions){
-        cout << "CNOT Instruction # " << i++ << " of " << nonUnaryInstructions.size() << endl;
-        cout << "instruction: " << *instruction << endl;
+        cout << "CNOT Instruction # " << i++ << " of " << nonUnaryInstructions.size();
+        cout << ": " << *instruction << endl;
         Util::timeIt(false);
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
         this->currentInstruction = instruction;
@@ -226,16 +226,14 @@ int QuSmartSwapper::findTotalCostDefault() {
                 totalMappingsCounter++;
             }
             instructionWiseMappings.push_back(filteredSPMappingsForAllMappings);
-            cout << "filteredSPMappingsForAllMappings: " << filteredSPMappingsForAllMappings.size() << endl;
+            cout << "before filtering: " <<  before << ", after filtering: " << after << endl;
         }
-        else {
-            cout << "WWWWWWWWWWWWHHHHHHHHHHHHHHHYYYYYYYYYYYYYYYYYY!" << endl;
-        }
+
         totalCost += minCost;
-        cout << "mincost: " << minCost << " , totalCost: " << totalCost << endl;
+        cout << "cost: " << minCost << " , totalCost: " << totalCost << endl;
         Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
         programCounter++;
-        cout << "time per instruction: " << Util::timeIt(true) << endl;
+//        cout << "time per instruction: " << Util::timeIt(true) << endl;
     }
     delete allSPF;
     delete allPairShortestPathFinder;
@@ -462,9 +460,6 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     vector<QuMapping> mappings;
     string pid = "*";
     if (!programCounter) { // 1st instruction
-//        if (ALL_PERMUTATIONS_SCHEME)
-//            mappings = initialMappings = mappingInitializer.getNextPermutationMapping();
-//        else
             mappings = initialMappings;
     }
     else
@@ -484,15 +479,14 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
         else {
             mappings.erase(mappings.begin() + MAPPING_THRESHOLD, mappings.end());
         }
-        cout << "MAPPINGS FOR NEXT ITERATION (AFTER PRUNING): " << mappings.size() << endl;
+//        cout << "MAPPINGS FOR NEXT ITERATION (AFTER PRUNING): " << mappings.size() << endl;
     }
     else
-        cout << "MAPPINGS FOR NEXT ITERATION (NO PRUNING): " << mappings.size() << endl;
+        ;
+//        cout << "MAPPINGS FOR NEXT ITERATION (NO PRUNING): " << mappings.size() << endl;
 
 return mappings;
 }
-
-
 
 QuMapping QuSmartSwapper::getCurrentMapping() {
     QuMapping currentMapping(this->architecture.getN());

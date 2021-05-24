@@ -15,30 +15,6 @@
 
 using namespace std;
 
-//int QuMappingInitializer::TOTAL_PERM = 1000000000; // # of qubits
-//int QuMappingInitializer::TOTAL_PERM = 1000; // # of qubits
-//int QuMappingInitializer::n = 0; // # of qubits
-//int QuMappingInitializer::count = 0; // permutation count
-//QuMapping QuMappingInitializer::defaultMapping;
-//vector<string> QuMappingInitializer::perms;
-
-
-
-void QuMappingInitializer::generatePermutations() {
-    vector<int> permInput;
-    int n = architecture.getN();
-    for (int i = 0; i < n; ++i) {
-        permInput.push_back(i);
-    }
-    if (permInput.size() > PERM_N) // 10! perms
-        permInput.erase(permInput.begin() + PERM_N, permInput.end());
-    Util::permute(permInput, 0, permInput.size() - 1, perms);
-    cout << "Permutations generated!"<< endl;
-    if (perms.size() > TOTAL_PERM) {
-        perms.erase(perms.begin() + TOTAL_PERM, perms.end());
-    }
-}
-
 void QuMappingInitializer::generateMappingsFromPermutations() {
     initialMappings.clear();
     for (auto& perm: perms) {
@@ -48,53 +24,11 @@ void QuMappingInitializer::generateMappingsFromPermutations() {
     }
 }
 
-
-//void QuMappingInitializer::generateMappings() {
-//    string str = "0123456789";
-//    int n = str.size();
-//    Util::permute(str, 0, n-1, QuMappingInitializer::perms);
-//}
-//
-//void QuMappingInitializer::makeSmartCouples(architecture& architecture){
-//    couplingMapAdjList.resize(architecture.getN());
-//
-//    for(int i = 0; i < architecture.getN(); i++) {
-//        for (int j = 0; j < architecture.getN(); j++){
-//            if ((i != j) && (architecture.getCouplingMap()[i][j] > 0)){
-//                 couples.push_back(make_pair(i, j));
-//                couplingMapAdjList[i].push_back(j);
-//                couplingMapAdjList[j].push_back(i);
-//            }
-//        }
-//    }
-// make couples according to src freq priority
-//    vector<pair<int, int>> srcPriorityListPhysical = architecture.getSrcFreqPriorityList();
-//    vector<pair<int, int>> targetPriorityListPhysical = architecture.getTargetFreqPriorityList();
-//
-//    for (const auto& pair: srcPriorityListPhysical) { // make couples according to src freq priority
-//        vector<int> neighbors = couplingMapAdjList[pair.first];
-//        for (auto& item: neighbors) {
-//            couples.push_back(make_pair(pair.first, item));
-//        }
-//    }
-// make couples according to target freq priority todo: bad bad bad remove it
-//    vector<pair<int, int>> srcPriorityListPhysical = architecture.getSrcFreqPriorityList();
-//    vector<pair<int, int>> targetPriorityListPhysical = architecture.getTargetFreqPriorityList();
-//
-//    for (const auto& pair: targetPriorityListPhysical) { // make couples according to src freq priority
-//        vector<int> neighbors = couplingMapAdjList[pair.second];
-//        for (auto& item: neighbors) {
-//            couples.push_back(make_pair(item, pair.second));
-//        }
-//    }
-//}
-
 void QuMappingInitializer::makeCouples(){
     couplingMapAdjList.resize(architecture.getN());
     for(int i = 0; i < architecture.getN(); i++) {
         for (int j = 0; j < architecture.getN(); j++){
             if ((i != j) && (architecture.getCouplingMap()[i][j] > 0)){
-//                counts[i].second++;
                 couples.push_back(make_pair(i, j));
                 if(IGNORE_DIRECTION_IN_ZERO_COST_INIT_MAPPING_RESTRICTION)
                     couples.push_back(make_pair(j, i));
@@ -103,7 +37,6 @@ void QuMappingInitializer::makeCouples(){
             }
         }
     }
-//    Util::printPairs(couples);
 }
 
 void QuMappingInitializer::makeCouplingMapAdjacencyList(){
@@ -119,16 +52,6 @@ void QuMappingInitializer::makeCouplingMapAdjacencyList(){
     }
 //    Util::printPairs(couples);
 }
-
-struct MappingEqualityComparator {
-    bool pred(QuMapping &a, QuMapping &b) {
-        for (int i = 0; i < a.getN(); ++i) {
-            if (a.getValueAt(i) != b.getValueAt(i))
-                return false;
-        }
-        return true;
-    }
-};
 
 //vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs, architecture& architecture) {
 //    vector<QuMapping> initMappings;
@@ -299,105 +222,6 @@ PriorityNode QuMappingInitializer::allocateTopRankNode(){
     logicalQuBitToAllocate.setPhysicalQubit(physicalQuBit);
 
     return logicalQuBitToAllocate;
-}
-
-//
-//vector<QuMapping> QuMappingInitializer::generateHardcodedMappings(vector<int> physicalToLogical, architecture& architecture) {
-//    vector<QuMapping> initMappings;
-//    QuMapping initMapping(architecture.getN());
-//    initMapping.setPhysicalToLogical(physicalToLogical);
-//    initMappings.push_back(initMapping);
-//
-//    return initMappings;
-//}
-
-vector<QuMapping> QuMappingInitializer::generateSmartMappings(vector<pair<int, int>> restrictionListSources, vector<pair<int, int>> restrictionPairs) {
-    vector<QuMapping> initMappings;
-    int n = architecture.getN();
-    if (INIT_MAPPING_DEFAULT_ONLY || INIT_MAPPING_HARD_CODED_ONLY) {
-        initMappings.clear(); // todo remove it.. just testing..
-        QuMapping initialMapping(n);
-        if (INIT_MAPPING_DEFAULT_ONLY)
-            initialMapping.defaultInit();
-        else
-            initialMapping.hardCodedInit();
-
-        initialMapping.setParentMappingId("*");
-        initialMapping.setMappingId("0.0");
-
-        initMappings.insert(initMappings.begin(), initialMapping);
-    }
-    else {
-        if (INIT_MAPPING_START_NODE_RANK_WISE) {
-            buildRankGraph(restrictionListSources);
-            startingNode = allocateTopRankNode(); // starting point of init mapping allocation
-            makeCouples();  // makes an adj list of coupling map for restriction mappings
-        }
-        else
-            makeCouples();
-
-        // testing.. begin todo remove this and uncomment line that follows the block
-
-//    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[0].first), permInput.end());
-//    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[0].second), permInput.end());
-//    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[1].first), permInput.end());
-//    permInput.erase(remove(permInput.begin(), permInput.end(), restrictio1000nPairs[1].second), permInput.end());
-//    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[2].first), permInput.end());
-//    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[2].second), permInput.end());
-//
-//    restrictedMapping.setValueAt(3, 0);
-//    restrictedMapping.setValueAt(2, 6);
-//    restrictedMapping.setValueAt(14, 5);
-
-        // testing.. end
-
-        // todo remove next 2 lines after testing
-//    restrictionPairs.clear();
-//    restrictedMapping.noMappingInit();
-
-        if (INIT_MAPPING_RESTRICT_MODE) {
-            for (int i = 0; i < restrictionPairs.size(); i++) {
-                restrict(restrictionPairs[i].first, restrictionPairs[i].second);
-                if (!permInput.empty()) {
-                    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
-                    permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second), permInput.end());
-                }
-            }
-        }
-//
-        //    for(int i=0; i<restrictionPairs.size(); i++){
-//        permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].first), permInput.end());
-//        permInput.erase(remove(permInput.begin(), permInput.end(), restrictionPairs[i].second), permInput.end());
-//
-//        restrict(restrictionPairs[i].first, restrictionPairs[i].second);
-//    }
-        int totalPermutations = TOTAL_PERM;
-
-        if (RANDOM_SAMPLING_INIT_MAPPINGS) {
-            perms = Util::getNRandomPermutations(totalPermutations, permInput);
-        }
-        else {
-            // no random sampling start
-            generatePermutations();
-//            if (permInput.size() > PERM_N) // 10! perms
-//                permInput.erase(permInput.begin() + PERM_N, permInput.end());
-//            Util::permute(permInput, 0, permInput.size() - 1, perms);
-//            cout << "Permutations generated!"<< endl;
-//            if (perms.size() > totalPermutations) {
-//                perms.erase(perms.begin() + totalPermutations, perms.end());
-//            }
-            // no random sampling end
-        }
-
-        totalPermutations = perms.size();
-        for(int i=0; i<totalPermutations; i++){
-            initMappings.push_back(getNextMapping());
-//            initMappings[i].setParentMappingId("*");
-//            initMappings[i].setMappingId("0." + to_string(i));
-        }
-    }
-
-    return initMappings;
 }
 
 pair<int, int> QuMappingInitializer::getSmartCouple(int first, int second) {
@@ -601,16 +425,16 @@ void QuMappingInitializer::buildRankGraph(vector<pair<int, int>> quBitPairs) {
     rankGraph.sortByRank();
 }
 
-void QuMappingInitializer::initInitializerMappingCounter() {
-    count = 0;
-    int totalPermutations = TOTAL_PERM;
-
-    if (permInput.size() > PERM_N) // 10! perms
-        permInput.erase(permInput.begin() + PERM_N, permInput.end());
-    Util::permute(permInput, 0, permInput.size() - 1, perms);
-//    cout << perms.size() << " permutations generated!"<< endl;
-
-}
+//void QuMappingInitializer::initInitializerMappingCounter() {
+//    count = 0;
+//    int totalPermutations = TOTAL_PERM;
+//
+//    if (permInput.size() > PERM_N) // 10! perms
+//        permInput.erase(permInput.begin() + PERM_N, permInput.end());
+//    Util::permute(permInput, 0, permInput.size() - 1, perms);
+////    cout << perms.size() << " permutations generated!"<< endl;
+//
+//}
 
 
 vector<QuMapping> QuMappingInitializer::getNextPermutationMapping() {
@@ -631,50 +455,16 @@ vector<QuMapping> QuMappingInitializer::getNextPermutationMapping() {
     return initMappings;
 }
 
-vector<QuMapping> QuMappingInitializer::generateAllPermutationInitialMappings() {
-    generatePermutations();
-    generateMappingsFromPermutations();
-    return initialMappings;
-}
-
-//// all mappings that give 0 cost for 1st k instructions
-//vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int k) {
-//    initialMappings.clear();
-//    makeCouples();
-//    vector<shared_ptr<QuGate>> instructions = circuit.getKBinaryInstructions(k);
-//    /////////////////
-//    architecture.makeSourceFrequencyPriorityList();
-//    architecture.makeTargetFrequencyPriorityList();
-//    architecture.makeCommonFrequencyPriorityLists();
-////todo todo shashasha
-//    auto instruction0 = instructions[0];
-//    for (auto pair: couples) {
-//        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
-//        restrict(pair, instruction0); // assigns logical qubits of instruction to 1 physical couple
-//        vector<QuMapping> temp = generatePermutationsAfterRestrictions();
-//        initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
-//    }
-////
-////    // restrict more instructions
-////    for (int i=1; i< instructions.size();i++) {
-////
-////
-////    }
-//
-//    return initialMappings;
-//}
-
 // all mappings that give 0 cost for 1st k instructions
 vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int x) {
     initialMappings.clear();
     vector<QuMapping> restrictedMappings;
-//    makeCouples();
     vector<shared_ptr<QuGate>> instructions = circuit.getTopKBinaryInstructionsHavingAtleastXQubits(x);
     /////////////////
     architecture.makeSourceFrequencyPriorityList();
     architecture.makeTargetFrequencyPriorityList();
     architecture.makeCommonFrequencyPriorityLists();
-//todo todo shashasha
+
     restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
     restrictedMappings.push_back(restrictedMapping);
 
@@ -685,17 +475,14 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int x
         cout << "Restricting instruction # " << i << ": " << *nextInstruction << endl;
         restrictedMappingsForAll.clear();
         int j = 0;
-//        cout << "1: ";
-//        QuMapping::uniquify(restrictedMappings);
         for (auto restrictedMapping: restrictedMappings) {
             QuMapping& mapping = restrictedMapping;
             vector<QuMapping> restrictedMappingsFor1 = findRestrictedMappingsFor1Mapping(restrictedMapping, nextInstruction);
-//            cout << "2: ";
-            QuMapping::uniquify(restrictedMappingsFor1);
+            if(restrictedMappingsFor1.size() > 1)
+                QuMapping::uniquify(restrictedMappingsFor1); // remove duplicate mappings
             restrictedMappingsForAll.insert(restrictedMappingsForAll.end(), restrictedMappingsFor1.begin(), restrictedMappingsFor1.end());
             j++;
         }
-//        cout << "restrictedMappingsForAll.size(): " << restrictedMappingsForAll.size() << endl;
         if (!restrictedMappingsForAll.empty())
             restrictedMappings = restrictedMappingsForAll;
     }
@@ -706,20 +493,12 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int x
     else
         restrictedMappingsForAll = restrictedMappings;
 
-
     for (auto& mapping: restrictedMappingsForAll) {
         if (mapping.hasDuplicateMappings())
             cout << "hello!" << endl;
         vector<QuMapping> temp = generatePermutationsAfterRestrictions(mapping);
-//        cout << "3: ";
-//        QuMapping::uniquify(temp);
-
         initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
-//        cout << "initialMappings.size(): " << initialMappings.size() << endl;
     }
-//    cout << "4: ";
-//
-//    QuMapping::uniquify(initialMappings);
 
 //    if (initialMappings.size() > MAPPING_THRESHOLD)
 //        initialMappings.erase(initialMappings.begin() + MAPPING_THRESHOLD, initialMappings.end());
@@ -729,15 +508,9 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int x
 }
 
 
-
 void QuMappingInitializer::restrict(pair<int, int> couple, shared_ptr<QuGate> instruction) {
     restrictedMapping[couple.first] = instruction->getArgAtIndex(0);
     restrictedMapping[couple.second] = instruction->getArgAtIndex(1);
-//    int logicalQubit1 = instruction->getArgAtIndex(0);
-//    int logicalQubit2 = instruction->getArgAtIndex(1);
-
-
-//    restrictedMapping.setUnallocatedQuBits();
 }
 
 void QuMappingInitializer::restrict(QuMapping& newRestrictedMapping, pair<int, int> couple, shared_ptr<QuGate> instruction) {
@@ -770,27 +543,15 @@ void QuMappingInitializer::restrictOverlapped(QuMapping& restrictedMapping, pair
     else {
         restrictedMapping[findNearest(restrictedMapping, physicalQubit2)] = logicalQubit1;
     }
-//    cout << endl;
 }
 
 vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(QuMapping& restrictedMapping) {
     vector<QuMapping> restrictedMappings;
-//    vector<int> permInput;
     vector<vector<int>> perms;
     count = 0;
 
     int n = circuit.getN();
     permInput = circuit.getQubits();
-
-
-    //shashasha bug ... why 4 and 8 weren't allocated!
-
-
-
-    //    int n = architecture.getN();
-//    for (int i = 0; i < PERM_N + 2; ++i) {
-//        permInput.push_back(i);
-//    }
 
     int restrictedCount = 0;
     for (int j = 0; j < architecture.getN(); ++j) {
@@ -804,12 +565,9 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(Qu
         vector<int> list = circuit.getQubits();
         permInput.erase(permInput.begin() + MAX_PERMUTATION_N, permInput.end());
         pruned.insert(pruned.end(), list.end() - (list.size() - MAX_PERMUTATION_N - restrictedCount), list.end());
-//        pruned.insert(pruned.end(), permInput.)
     }
 
     Util::permute(permInput, 0, permInput.size() - 1, perms);
-
-//    if (permInput.size())
 
     for (int k = 0; k < perms.size(); ++k) { // for each permutation make a mapping
         QuMapping nextMapping(restrictedMapping); // init mapping from restricted
@@ -818,14 +576,11 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(Qu
             nextMapping.setValueAtNextFree(val);
         }
         nextMapping.setValuesAtNextFree(pruned);
-//        nextMapping.setUnallocatedQuBits(pruned);
         nextMapping.setUnallocatedQuBits(circuit.getQubits());
-        //
-        //
+
         if (nextMapping.hasDuplicateMappings())
             cout << "hello!" << endl;
-        //
-        //
+
         restrictedMappings.push_back(nextMapping);
         count++;
     }
@@ -835,91 +590,7 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(Qu
         restrictedMappings.push_back(restrictedMapping);
     }
 
-
     return restrictedMappings;
-}
-
-vector<QuMapping> QuMappingInitializer::generateInitialMappings() {
-        vector<pair<int, int>> restrictionList;
-        vector<pair<int, int>> restrictionListSources;
-
-        // set k unique instructions to restrict // todo SHA: no restrictions
-        if (INIT_MAPPING_RESTRICT_MODE) {
-            pair<vector<pair<int, int>>, vector<pair<int, int>>> restrictionData = makeRestrictionPairList(K);
-            restrictionList = restrictionData.first;
-            restrictionListSources = restrictionData.second;
-        }
-        initialMappings = generateSmartMappings(restrictionListSources, restrictionList);
-    return initialMappings;
-}
-
-vector<shared_ptr<QuGate>> QuMappingInitializer::getKRestrictInstructions(int k){
-    // todo get nonunary from circuit
-    vector<shared_ptr<QuGate>> instructions;
-//    if (k > nonUnaryInstructions.size())
-//        k = nonUnaryInstructions.size();
-//    if (k > 0) {
-//        if (DAG_SCHEME) {
-//            vector<shared_ptr<QuGate> > temp;
-//            QuCircuitLayerManager* layerManager = QuCircuitLayerManager::getInstance(nonUnaryInstructions, circuit.getN());
-//            vector<int> instructionIds = layerManager->getFirstKInstructionIds(k);
-//            for (auto id: instructionIds) {
-//                for (shared_ptr<QuGate> inst: nonUnaryInstructions) {
-//                    if (inst->getGateId() == id) {
-//                        instructions.push_back(inst);
-//                    }
-//                }
-//            }
-//        } else {
-//            int i = 1;
-//            instructions.push_back(nonUnaryInstructions[0]);
-//            while (!instructions.empty() && i<nonUnaryInstructions.size() && instructions.size() < k) {
-//                if (isNewInsturction(nonUnaryInstructions[i], instructions))
-//                    instructions.push_back(nonUnaryInstructions[i]);
-//                i++;
-//            }
-//        }
-//    }
-    return instructions;
-}
-
-pair<vector<pair<int, int>>, vector<pair<int, int>>> QuMappingInitializer::makeRestrictionPairList(int k){ // top k unique instructions
-    vector<pair<int, int>> restrictedPairs;
-    vector<pair<int, int>> restrictedPairSources;
-    int j = 0;
-    bool dup = false;
-
-    vector<shared_ptr<QuGate>> instructions = getKRestrictInstructions(k);
-
-    int x = k; // k is max restrictions
-//    for (int i = 0; i < k && j<nonUnaryInstructions.size(); ++i) {
-//    for (int i = 0; i < k; ++i) {
-    for (int i = 0; i < k && i < instructions.size(); ++i) {
-        dup = false;
-        shared_ptr<QuGate> gate = instructions[i];
-//        cout << i << " " << j << " " << k << "::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl;
-//        cout << *gate << endl;
-        pair<int, int> newPair = make_pair(gate->getArgAtIndex(0), gate->getArgAtIndex(1));
-        restrictedPairSources.push_back(newPair);
-        pair<int, int> newPairInverted = make_pair(gate->getArgAtIndex(1), gate->getArgAtIndex(0));
-        for (int l = 0; l < restrictedPairs.size(); ++l) {
-            if (newPair == restrictedPairs[l] || newPairInverted == restrictedPairs[l]) {
-                dup = true;
-                break;
-            }
-            else
-                j++;
-        }
-        if (!dup)
-            restrictedPairs.push_back(newPair);
-//        cout << "k = " << k;
-//        cout << ", j = " << j << endl;
-//        cout << ", restrictedPairs.size() = " << restrictedPairs.size() << endl;
-        if (j>=k) break;
-
-    }
-    // restrictedPairs: unique pairs; restrictedPairSources: all pairs => pairs = binary cnot gate args (src , target)
-    return make_pair(restrictedPairs, restrictedPairSources);
 }
 
 vector<QuMapping> QuMappingInitializer::findRestrictedMappingsFor1Mapping(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction) {
@@ -988,13 +659,8 @@ void QuMappingInitializer::makeOverlappedCouplesFromProspectivePhysicalQubits(ve
     couples.clear();
     int j = physical;
     for(auto i: prospectivePQs) {
-//        if (architecture.getCouplingMap()[i][j] > 0) {
             couples.push_back(make_pair(i, j));
-//            if (IGNORE_DIRECTION_IN_ZERO_COST_INIT_MAPPING_RESTRICTION)
-//                couples.push_back(make_pair(j, i));
-//        }
     }
-
 }
 
 // finds the pairs of edges (ignoring hadamard so 2x) from the prospective physical qubits (neighbours of allocated)
@@ -1021,17 +687,13 @@ void QuMappingInitializer::makeCouplesFromProspectivePhysicalQubits(vector<int> 
 vector<QuMapping> QuMappingInitializer::restrictAllCouples1By1For1Instruction(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction) {
     vector<QuMapping> mappings;
     mappings.clear();
-    cout << "restrictAllCouples1By1For1Instruction: " << endl;
     cout << "printing pairs..." << endl;
     Util::printPairs(couples);
     cout << "pairs printed!" << endl;
 
     for (auto pair: couples) {
         QuMapping newRestrictedMapping(restrictedMapping);
-//        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
         restrict(newRestrictedMapping, pair, nextInstruction); // assigns logical qubits of instruction to 1 physical couple
-//        vector<QuMapping> temp = generatePermutationsAfterRestrictions(newRestrictedMapping);
-//        mappings.insert(mdappings.end(), temp.begin(), temp.end());
         if (newRestrictedMapping.hasDuplicateMappings()) {
             cout << endl << "DANGER!!!! " << endl <<
                  "=> restrictAllOverlappedCouples1By1For1Instruction()" << endl <<
@@ -1048,14 +710,9 @@ vector<QuMapping> QuMappingInitializer::restrictAllCouples1By1For1Instruction(Qu
 vector<QuMapping> QuMappingInitializer::restrictAllOverlappedCouples1By1For1Instruction(QuMapping& restrictedMapping, shared_ptr<QuGate> nextInstruction) {
     vector<QuMapping> mappings;
     mappings.clear();
-//    Util::printPairs(couples);
     for (auto pair: couples) {
         QuMapping newRestrictedMapping(restrictedMapping);
-//        restrictedMapping.init(Constants::INIT_MAPPING_NO_MAPPING);
-
         restrictOverlapped(newRestrictedMapping, pair, nextInstruction); // assigns logical qubits of instruction to 1 physical couple
-//        vector<QuMapping> temp = generatePermutationsAfterRestrictions(newRestrictedMapping);
-//        mappings.insert(mdappings.end(), temp.begin(), temp.end());
         mappings.push_back(newRestrictedMapping);
     }
     return mappings;
@@ -1068,19 +725,11 @@ bool QuMappingInitializer::isOverlapping(QuMapping &mapping, shared_ptr<QuGate> 
     return mapping.isLogicalAllocated(logical1) || mapping.isLogicalAllocated(logical2);
 }
 
-//bool QuMappingInitializer::isOverlapping(QuMapping &mapping, int physicalQubit1, int physicalQubit2, int logicalQubit1,
-//                                         int logicalQubit2) {
-//
-//
-//    return false;
-//}
-
-
 void QuMappingInitializer::saveMappingsToFile(string outputFileName, vector<QuMapping>& mappings) {
     ofstream ofs;
     Util::createDirectoryIfNotExists(Constants::MAPPINGS_FILES_DIRECTORY_RPATH);
-    ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
     try {
+        ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
         ofs << mappings.size() << endl;
         for (auto& mapping: mappings) {
             ofs << mapping.toString() << endl;
