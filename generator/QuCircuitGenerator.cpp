@@ -133,9 +133,6 @@ void QuCircuitGenerator::buildFromFile(string fileName) {
     auto qit = std::unique(qubits.begin(), qubits.begin() + qubits.size());
     qubits.resize(std::distance(qubits.begin(),qit));
 
-    Util::setVerbose();
-    Util::printPath(qubits);
-    Util::resetVerbose();
     int n = qubits.size();
     circuit.setN(n);
     circuit.setQubits(qubits);

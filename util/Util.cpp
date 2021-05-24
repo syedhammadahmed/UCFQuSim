@@ -2,15 +2,14 @@
 // Created by SHA on 10/21/2019.
 //
 
-#include <time.h>
-#include <iostream>
 #include <random>
 #include <algorithm>
 #include <unordered_set>
-#include <core/QuMapping.h>
 #include <cstring>
 #include <dirent.h>
 #include <sys/stat.h>
+
+#include "core/QuMapping.h"
 #include "Util.h"
 #include "Constants.h"
 
@@ -279,6 +278,21 @@ vector<string> Util::tokenize(string str, string delim) {
     return tokens;
 }
 
+vector<int> Util::tokenizeInt(string str, string delim) {
+    vector<string> tokensStr = tokenize(str, delim);
+    return strToInt(tokensStr);
+}
+
+vector<int> Util::strToInt(vector<string> strs) {
+    vector<int> tokens;
+    for (auto& token: strs) {
+        if (token == "")
+            continue;
+        tokens.push_back(stoi(token));
+    }
+    return tokens;
+}
+
 void Util::removeDuplicates(vector<int>& list) {
     sort(list.begin(), list.end());
     list.erase(unique(list.begin(), list.end()), list.end());
@@ -293,3 +307,18 @@ void Util::createDirectoryIfNotExists(string path) {
         mkdir(directory.c_str(), 0777);
 }
 
+vector<string> Util::getFileList(string directory) {
+    vector<string> files;
+    DIR* dir = NULL;
+    struct dirent *dirPtr;
+
+    dir = opendir(directory.c_str());
+    while ((dirPtr = readdir(dir)) != NULL) {
+        string temp = string(dirPtr->d_name);
+        if(temp == "." || temp == "..")
+            continue;
+        files.push_back(temp);
+    }
+    closedir(dir);
+    return files;
+}

@@ -49,6 +49,8 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
     unordered_map<string, QuMapping> initialMappingsMap;
     vector<shared_ptr<QuGate>> finalProgram;
 
+    setParams(INITIAL_MAPPING_THRESHOLD, MAPPING_THRESHOLD, RESTRICTED_QUBITS);
+
     for(unsigned int i=0; i<inputFiles.size(); i++) {
         string file = inputFiles[i].substr(0, inputFiles[i].length() - 5); //removing .qasm extension
         int runs = 1;
@@ -64,7 +66,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         QuCircuit &circuit = quCircuitGenerator.getCircuit();
         Util::timeIt(false);
         QuMappingInitializer mappingInitializer(circuit, quArchitecture);
-        int x = RESTRICTED_QUBITS;
+        int x = restrictedQubits;
 //        int x = circuit.getN() - MAX_PERMUTATION_N;
 //        int x = circuit.getN() - MAX_PERMUTATION_N;
         if(INIT_MAPPING_ALL_PERMUTATIONS)
@@ -76,6 +78,17 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
 //        QuMapping::printAll(initialMappings);
 
         cout << "Initial Mappings generated!" << endl;
+
+        vector<QuMapping> sample;
+        if (initialMappings.size() > initialMappingsThreshold) {
+            if (RANDOM_SAMPLING_INIT_MAPPINGS) {
+                Util::randomSampling(initialMappings, sample, INITIAL_MAPPING_THRESHOLD);
+                initialMappings = sample;
+            }
+            else
+                initialMappings.erase(initialMappings.begin() + initialMappingsThreshold, initialMappings.end());
+        }
+
 
 ////////////////////////
         pair<int, QuMapping> costNMapping;
@@ -96,6 +109,33 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
     return make_pair(results, initialMappingsMap);
 }
 
+pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::findCostFor1Benchmark(vector<QuMapping>& initialMappings, string benchmark) {
+    unordered_map<string, QuMapping> initialMappingsMap;
+    vector<shared_ptr<QuGate>> finalProgram;
+
+//    cout << "file: " << benchmark << endl;
+    QuCircuitGenerator quCircuitGenerator(quArchitecture.getN(), benchmark);
+    QuCircuit &circuit = quCircuitGenerator.getCircuit();
+    Util::timeIt(false);
+
+    pair<int, QuMapping> costNMapping;
+    if (INIT_MAPPING_1_BY_1)
+        costNMapping = findMinCostUsingInitialMappings1by1(circuit, initialMappings, finalProgram);
+    if (INIT_MAPPING_TOGETHER)
+        costNMapping = findMinCostUsingInitialMappingsTogether(circuit, initialMappings, finalProgram);
+
+//        auto minCost = costNMapping.first;
+    auto initMapping = costNMapping.second;
+
+//////////////////////
+    quCircuitGenerator.makeProgramFile(outputDirectory + "output_" + benchmark, finalProgram);
+    initialMappingsMap.insert(make_pair(circuit.getFileName(), initMapping));
+
+    return make_pair(results, initialMappingsMap);
+}
+
+
+
 pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCircuit &circuit, vector<QuMapping> initialMappings, vector<shared_ptr<QuGate>>& minFinalProgram) {
     unsigned int minGates = INT32_MAX;
     unsigned int minSwaps = INT32_MAX;
@@ -103,28 +143,11 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
     unsigned int minGatesProposedOptimized = INT32_MAX;
     unsigned int gatesOriginal = circuit.getInstructions0().size();
     unsigned int gatesProposedOptimized;
-    QuMapping minMapping(initialMappings[0].getN());
-//    int i = 0;
-    vector<QuMapping> sample;
-    if (initialMappings.size() > INITIAL_MAPPING_THRESHOLD) {
-        if (RANDOM_SAMPLING_INIT_MAPPINGS) {
-            Util::randomSampling(initialMappings, sample, INITIAL_MAPPING_THRESHOLD);
-            initialMappings = sample;
-        }
-        else
-            initialMappings.erase(initialMappings.begin() + INITIAL_MAPPING_THRESHOLD, initialMappings.end());
-    }
-//    auto indexes = Util::getNRandomIndexes(size, initialMappings.size());
-//    vector<int> ind(indexes.begin(), indexes.end());
-//
-//    for (int i=0; i<ind.size(); i++) {
+    QuMapping minMapping(quArchitecture.getN());
+
     for (int i=0; i<initialMappings.size(); i++) {
-        cout << endl << endl << "[Mapping 1-by-1] Mapping # " << i << " of " << initialMappings.size() << endl << endl;
-//        cout << endl << endl << "[Mapping 1-by-1] Mapping # " << i << " of " << ind.size() << endl << endl;
+//        cout << "<" << circuit.getFileName() << "> Mapping # " << i << " of " << initialMappings.size() << ": ";
         QuMapping& mapping = initialMappings[i];
-//        QuMapping& mapping = initialMappings[ind[i]];
-        if (mapping.hasDuplicateMappings())
-            cout << "hello!" << endl;
         vector<QuMapping> singleInitMapping;
         singleInitMapping.push_back(mapping);
         QuSwapStrategy *strategy = new QuSmartSwapper(circuit, quArchitecture, singleInitMapping);
@@ -141,10 +164,6 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
         // todo get layer from finalProgram
 //        depthProposed = quCircuitGenerator.getLayer() + 1;
     // todo time elapsed
-        cout << "file: " << circuit.getFileName() << endl;
-        cout << "minGatesProposedOptimized: " << minGatesProposedOptimized << endl;
-        cout << "gatesProposedOptimized: " << gatesProposedOptimized << endl;
-        cout << "MinMapping: " << minMapping.toString() << endl;
         if (gatesProposedOptimized < minGatesProposedOptimized) {
             minGatesProposedOptimized = gatesProposedOptimized;
             minGates = gatesProposed;
@@ -153,6 +172,9 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
             minFinalProgram =  circuit.getInstructions1();
             minMapping = initMapping;
         }
+
+        cout << "g+: " << minGatesProposedOptimized;
+        cout << "  Mapping: [" << minMapping.toString() << "]" << endl;
 
         delete strategy;
     }
@@ -184,6 +206,12 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappingsTogether(Q
     results.push_back(Result(circuit.getFileName(), swaps, gatesOriginal, gatesProposed, -1, hadamards, -1, gatesProposedOptimized, circuit.getN()));
 
     return make_pair(gatesProposed, initMapping);
+}
+
+void QuMultiGenerator::setParams(int initialMappingsThreshold, int otherMappingsThreshold, int restrictedQubits) {
+    this->initialMappingsThreshold = initialMappingsThreshold;
+    this->otherMappingsThreshold = otherMappingsThreshold;
+    this->restrictedQubits = restrictedQubits;
 }
 
 

@@ -63,6 +63,12 @@ public:
     static void removeDuplicates(vector<int> &list);
 
     static void createDirectoryIfNotExists(string path);
+
+    static vector<string> getFileList(string directory);
+
+    static vector<int> tokenizeInt(string str, string delim);
+
+    static vector<int> strToInt(vector<string> strs);
 };
 
 

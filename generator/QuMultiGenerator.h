@@ -21,6 +21,12 @@ private:
     string inputDirectory;
     string outputDirectory;
 
+    // configurable params
+    int initialMappingsThreshold;
+    int otherMappingsThreshold;
+    int restrictedQubits;
+    //
+
     QuArchitecture& quArchitecture;  // reference to instance of the physical architecture
     vector<string> inputFiles;
     vector<string> outputFiles;
@@ -38,6 +44,12 @@ public:
     pair<int, QuMapping> findMinCostUsingInitialMappings1by1(QuCircuit &circuit, vector<QuMapping> initialMappings, vector<shared_ptr<QuGate>>& minFinalProgram);
     pair<int, QuMapping> findMinCostUsingInitialMappingsTogether(QuCircuit &circuit, vector<QuMapping> initialMappings, vector<shared_ptr<QuGate>>& minFinalProgram);
 
+    pair<vector<Result>, unordered_map<string, QuMapping>> generateAllCircuits(vector<QuMapping> &initialMappings);
+
+    pair<vector<Result>, unordered_map<string, QuMapping>>
+    findCostFor1Benchmark(vector<QuMapping> &initialMappings, string benchmark);
+
+    void setParams(int initialMappingsThreshold, int otherMappingsThreshold, int restrictedQubits);
 };
 
 

@@ -393,6 +393,7 @@ QuMappingInitializer::QuMappingInitializer(QuCircuit &circuit, QuArchitecture& a
     initGenerator();
 }
 
+
 int QuMappingInitializer::getNeighborFromCommonFreqLists(int physicalQuBit) {
     int bestNeighbor = -1;
     vector<pair<int, int>> commonSrcListPhysical = architecture.getCommonSrcFreqPriorityList();
@@ -578,9 +579,6 @@ vector<QuMapping> QuMappingInitializer::generatePermutationsAfterRestrictions(Qu
         nextMapping.setValuesAtNextFree(pruned);
         nextMapping.setUnallocatedQuBits(circuit.getQubits());
 
-        if (nextMapping.hasDuplicateMappings())
-            cout << "hello!" << endl;
-
         restrictedMappings.push_back(nextMapping);
         count++;
     }
@@ -729,12 +727,22 @@ void QuMappingInitializer::saveMappingsToFile(string outputFileName, vector<QuMa
     ofstream ofs;
     Util::createDirectoryIfNotExists(Constants::MAPPINGS_FILES_DIRECTORY_RPATH);
     try {
-        ofs.open(outputFileName, std::ofstream::out | std::ofstream::trunc);
-        ofs << mappings.size() << endl;
-        for (auto& mapping: mappings) {
-            ofs << mapping.toString() << endl;
+        long mappingsSize = mappings.size();
+        int batchSize = 1024;
+        int batches = mappingsSize/batchSize; // 1 file having 1024 mappings
+        for (int i = 0; i <= batches; ++i) {
+            ofs.open(outputFileName + "_" + to_string(i) , std::ofstream::out | std::ofstream::trunc);
+            if (mappingsSize >= batchSize)
+                ofs << batchSize << endl;
+            else
+                ofs << mappingsSize << endl;
+
+            mappingsSize -= batchSize;
+            for (auto& mapping: mappings) {
+                ofs << mapping.toString() << endl;
+            }
+            ofs.close();
         }
-        ofs.close();
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';
     }

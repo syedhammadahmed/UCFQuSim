@@ -164,9 +164,9 @@ int QuSmartSwapper::findTotalCostDefaultAllPermutations() {
         auto minCost = minData.first;
         auto filteredSPMappingsForAllMappings = minData.second;
         int after = filteredSPMappingsForAllMappings.size();
-        cout << "Before filtering: " << before << endl;
-        cout << "Filtered OUT: " << before - after << endl;
-        cout << "After filtering: " << after << endl;
+//        cout << "Before filtering: " << before << endl;
+//        cout << "Filtered OUT: " << before - after << endl;
+//        cout << "After filtering: " << after << endl;
         if(!filteredSPMappingsForAllMappings.empty()){
             auto totalMappingsCounter = 0;
             for (auto& mapping: filteredSPMappingsForAllMappings) {
@@ -202,8 +202,8 @@ int QuSmartSwapper::findTotalCostDefault() {
 
     int i=0;
     for(shared_ptr<QuGate> instruction: nonUnaryInstructions){
-        cout << "CNOT Instruction # " << i++ << " of " << nonUnaryInstructions.size();
-        cout << ": " << *instruction << endl;
+//        cout << "CNOT Instruction # " << i++ << " of " << nonUnaryInstructions.size();
+//        cout << ": " << *instruction << endl;
         Util::timeIt(false);
         Util::println("INSTRUCTION ANALYSIS START: " + to_string(programCounter));
         this->currentInstruction = instruction;
@@ -213,7 +213,6 @@ int QuSmartSwapper::findTotalCostDefault() {
         // all mappingwise shortest paths calculated. Next, need to find all swap permutations
         findShortestPathsForAllInputMappings(inputMappings);
         int before = inputMappings.size();
-
         auto minData = findMinCostMappingsForNextInstruction(inputMappings);
         auto minCost = minData.first;
         auto filteredSPMappingsForAllMappings = minData.second;
@@ -226,11 +225,11 @@ int QuSmartSwapper::findTotalCostDefault() {
                 totalMappingsCounter++;
             }
             instructionWiseMappings.push_back(filteredSPMappingsForAllMappings);
-            cout << "before filtering: " <<  before << ", after filtering: " << after << endl;
+//            cout << "before filtering: " <<  before << ", after filtering: " << after << endl;
         }
 
         totalCost += minCost;
-        cout << "cost: " << minCost << " , totalCost: " << totalCost << endl;
+//        cout << "cost: " << minCost << " , totalCost: " << totalCost << endl;
         Util::println("INSTRUCTION ANALYSIS END: " + to_string(programCounter));
         programCounter++;
 //        cout << "time per instruction: " << Util::timeIt(true) << endl;
@@ -509,8 +508,6 @@ void QuSmartSwapper::findShortestPathsFor1InputMapping() {
     allSPFSwapPaths.clear();    // for all SPs
 
     QuMapping mapping = getCurrentMapping();
-    if (mapping.getMappingId()=="88.0")
-        cout << mapping.isLegit() << " " << mapping.hasDuplicateMappings() << endl;
     int src = mapping.getPhysicalBit(currentInstruction->getArgAtIndex(0));
     int dest = mapping.getPhysicalBit(currentInstruction->getArgAtIndex(1));
 
@@ -823,10 +820,10 @@ QuMapping QuSmartSwapper::generateOptimalInstructions() {
 int QuSmartSwapper::optimize(vector<shared_ptr<QuGate>>& finalProgram){
     int physicalBits = architecture.getN();
     int cnotCancellations = QuCircuitOptimizer::performCNOTCancellations(physicalBits, finalProgram);
-    cout << "CNOT cancellations: " << cnotCancellations << endl;
+//    cout << "CNOT cancellations: " << cnotCancellations << endl;
     int unaryCancellations = QuCircuitOptimizer::performUnaryCancellations(physicalBits, finalProgram);
-    cout << "Unary cancellations: " << unaryCancellations << endl;
-    cout << "Total optimization: " << unaryCancellations + cnotCancellations << endl;
+//    cout << "Unary cancellations: " << unaryCancellations << endl;
+//    cout << "Total optimization: " << unaryCancellations + cnotCancellations << endl;
     return unaryCancellations + cnotCancellations;
 }
 

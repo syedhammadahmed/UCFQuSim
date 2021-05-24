@@ -6,6 +6,7 @@
 #include <core/gates/QuGateFactory.h>
 #include <generator/QuCircuitOptimizer.h>
 #include <generator/QuCircuitGenerator.h>
+#include <configurator/ResultsGenerator.h>
 
 #include "evaluator/QuMultiEvaluator.h"
 #include "generator/QuMultiGenerator.h"
@@ -14,43 +15,122 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
 //    Util::verbose = true;
-    cout << "Processing files... this may take a while..." << endl;
-    string inputDirectory = "../input/";
-    string outputDirectory = "../output/";
+//    cout << "Processing files... this may take a while..." << endl;
+//    string inputDirectory = "../input/";
+//    string outputDirectory = "../output/";
+//    string mappingsDirectory = "../mappings/";
+//    int architectureSize = Constants::QX5_N;
+    string inputDirectory = argv[1];
+    string outputDirectory = argv[2];
+    string mappingsDirectory = argv[3];
+    int architectureSize = stoi(argv[4]);
+    string mappingsFile = argv[5];
 
-    if (Util::verbose)
-        cout << "Input File Directory: " << inputDirectory << endl;
-
-//    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
-    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX(architectureSize); // includes the coupling map having CNOT constraints
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
+    ResultsGenerator resultsGenerator(quMultiGenerator, mappingsDirectory);
+//    cout << "Starting..." << endl;
+    auto data = resultsGenerator.generateResultsFrom1MappingsFile(mappingsFile);
 
-    auto data = quMultiGenerator.generateAllCircuits();
     auto results = data.first;
     auto initialMappingsMap = data.second;
 
-    cout << endl;
-    cout << "Flexibility in SWAPS: " << Constants::FLEXIBILITY_NO_OF_SWAPS << endl;
-    cout << ((INIT_MAPPING_ALL_PERMUTATIONS) ? "ALL PERMUTATIONS, " : "ZERO COST PERMUTATIONS, ");
-    cout << ((INIT_MAPPING_1_BY_1) ? "1-by-1" : "TOGETHER");
-    cout << endl;
     Result::printHeader();
     for (Result result: results) {
         result.print();
 //        Util::setVerbose();
         string name = "output_" + result.getFile() + ".qasm";
         QuMapping initialMapping = initialMappingsMap[result.getFile()];
-//        initialMapping.print();
+        initialMapping.print();
 //        Util::resetVerbose();
     }
 
-    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
-    quMultiEvaluator.evaluateAllCircuits();
+//    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
+//    quMultiEvaluator.evaluateAllCircuits();
 
     return 0;
 }
+//
+//int main(int argc, char *argv[]) {
+////    Util::verbose = true;
+//    cout << "Processing files... this may take a while..." << endl;
+//    string inputDirectory = "../input/";
+//    string outputDirectory = "../output/";
+//
+//    if (Util::verbose)
+//        cout << "Input File Directory: " << inputDirectory << endl;
+//
+////    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
+//    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
+//    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
+//    ResultsGenerator resultsGenerator(quMultiGenerator);
+//
+//    vector<string> inputFiles = Util::getFileList(Constants::MAPPINGS_FILES_DIRECTORY_RPATH);
+//    auto data = resultsGenerator.generateResultsFrom1MappingsFile(inputFiles[0]);
+//
+//    auto results = data.first;
+//    auto initialMappingsMap = data.second;
+//
+//    cout << endl;
+//    cout << "Flexibility in SWAPS: " << Constants::FLEXIBILITY_NO_OF_SWAPS << endl;
+//    cout << ((INIT_MAPPING_ALL_PERMUTATIONS) ? "ALL PERMUTATIONS, " : "ZERO COST PERMUTATIONS, ");
+//    cout << ((INIT_MAPPING_1_BY_1) ? "1-by-1" : "TOGETHER");
+//    cout << endl;
+//    Result::printHeader();
+//    for (Result result: results) {
+//        result.print();
+////        Util::setVerbose();
+//        string name = "output_" + result.getFile() + ".qasm";
+//        QuMapping initialMapping = initialMappingsMap[result.getFile()];
+////        initialMapping.print();
+////        Util::resetVerbose();
+//    }
+//
+//    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
+//    quMultiEvaluator.evaluateAllCircuits();
+//
+//    return 0;
+//}
+
+//int main() {
+////    Util::verbose = true;
+//    cout << "Processing files... this may take a while..." << endl;
+//    string inputDirectory = "../input/";
+//    string outputDirectory = "../output/";
+//
+//    if (Util::verbose)
+//        cout << "Input File Directory: " << inputDirectory << endl;
+//
+////    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
+//    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
+//    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
+//
+//    auto data = quMultiGenerator.generateAllCircuits();
+//    auto results = data.first;
+//    auto initialMappingsMap = data.second;
+//
+//    cout << endl;
+//    cout << "Flexibility in SWAPS: " << Constants::FLEXIBILITY_NO_OF_SWAPS << endl;
+//    cout << ((INIT_MAPPING_ALL_PERMUTATIONS) ? "ALL PERMUTATIONS, " : "ZERO COST PERMUTATIONS, ");
+//    cout << ((INIT_MAPPING_1_BY_1) ? "1-by-1" : "TOGETHER");
+//    cout << endl;
+//    Result::printHeader();
+//    for (Result result: results) {
+//        result.print();
+////        Util::setVerbose();
+//        string name = "output_" + result.getFile() + ".qasm";
+//        QuMapping initialMapping = initialMappingsMap[result.getFile()];
+////        initialMapping.print();
+////        Util::resetVerbose();
+//    }
+//
+//    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
+//    quMultiEvaluator.evaluateAllCircuits();
+//
+//    return 0;
+//}
 
 
 //int main() {
