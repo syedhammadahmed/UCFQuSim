@@ -14,14 +14,9 @@
 #include "util/Util.h"
 
 using namespace std;
-
+ // for script
+/*
 int main(int argc, char *argv[]) {
-//    Util::verbose = true;
-//    cout << "Processing files... this may take a while..." << endl;
-//    string inputDirectory = "../input/";
-//    string outputDirectory = "../output/";
-//    string mappingsDirectory = "../mappings/";
-//    int architectureSize = Constants::QX5_N;
     string inputDirectory = argv[1];
     string outputDirectory = argv[2];
     string mappingsDirectory = argv[3];
@@ -31,27 +26,74 @@ int main(int argc, char *argv[]) {
     QuArchitecture architectureQX(architectureSize); // includes the coupling map having CNOT constraints
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
     ResultsGenerator resultsGenerator(quMultiGenerator, mappingsDirectory);
-//    cout << "Starting..." << endl;
     auto data = resultsGenerator.generateResultsFrom1MappingsFile(mappingsFile);
 
     auto results = data.first;
     auto initialMappingsMap = data.second;
 
+    for (Result result: results)
+        result.print();
+    return 0;
+}*/
+
+// to make mappings file
+/*
+int main() {
+//    Util::verbose = true;
+    cout << "Processing files... this may take a while..." << endl;
+    string inputDirectory = "../input/";
+    string outputDirectory = "../output/";
+
+    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
+    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
+    auto data = quMultiGenerator.generateAllCircuits();
+
+    return 0;
+}
+*/
+/*
+ * main main
+*/
+int main() {
+//    Util::verbose = true;
+    cout << "Processing files... this may take a while..." << endl;
+    string inputDirectory = "../input/";
+    string outputDirectory = "../output/";
+
+    if (Util::verbose)
+        cout << "Input File Directory: " << inputDirectory << endl;
+
+//    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX(Constants::QX2_N); // includes the coupling map having CNOT constraints
+    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
+
+    auto data = quMultiGenerator.generateAllCircuits();
+    auto results = data.first;
+    auto initialMappingsMap = data.second;
+
+    cout << endl;
+    cout << "Flexibility in SWAPS: " << Constants::FLEXIBILITY_NO_OF_SWAPS << endl;
+    cout << ((INIT_MAPPING_ALL_PERMUTATIONS) ? "ALL PERMUTATIONS, " : "ZERO COST PERMUTATIONS, ");
+    cout << ((INIT_MAPPING_1_BY_1) ? "1-by-1" : "TOGETHER");
+    cout << endl;
     Result::printHeader();
     for (Result result: results) {
         result.print();
 //        Util::setVerbose();
         string name = "output_" + result.getFile() + ".qasm";
         QuMapping initialMapping = initialMappingsMap[result.getFile()];
-        initialMapping.print();
+//        initialMapping.print();
 //        Util::resetVerbose();
     }
 
-//    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
-//    quMultiEvaluator.evaluateAllCircuits();
+    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
+    quMultiEvaluator.evaluateAllCircuits();
 
     return 0;
 }
+
+
+/*
 //
 //int main(int argc, char *argv[]) {
 ////    Util::verbose = true;
@@ -95,45 +137,6 @@ int main(int argc, char *argv[]) {
 //}
 
 //int main() {
-////    Util::verbose = true;
-//    cout << "Processing files... this may take a while..." << endl;
-//    string inputDirectory = "../input/";
-//    string outputDirectory = "../output/";
-//
-//    if (Util::verbose)
-//        cout << "Input File Directory: " << inputDirectory << endl;
-//
-////    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
-//    QuArchitecture architectureQX(Constants::QX5_N); // includes the coupling map having CNOT constraints
-//    QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
-//
-//    auto data = quMultiGenerator.generateAllCircuits();
-//    auto results = data.first;
-//    auto initialMappingsMap = data.second;
-//
-//    cout << endl;
-//    cout << "Flexibility in SWAPS: " << Constants::FLEXIBILITY_NO_OF_SWAPS << endl;
-//    cout << ((INIT_MAPPING_ALL_PERMUTATIONS) ? "ALL PERMUTATIONS, " : "ZERO COST PERMUTATIONS, ");
-//    cout << ((INIT_MAPPING_1_BY_1) ? "1-by-1" : "TOGETHER");
-//    cout << endl;
-//    Result::printHeader();
-//    for (Result result: results) {
-//        result.print();
-////        Util::setVerbose();
-//        string name = "output_" + result.getFile() + ".qasm";
-//        QuMapping initialMapping = initialMappingsMap[result.getFile()];
-////        initialMapping.print();
-////        Util::resetVerbose();
-//    }
-//
-//    QuMultiEvaluator quMultiEvaluator(architectureQX, initialMappingsMap);
-//    quMultiEvaluator.evaluateAllCircuits();
-//
-//    return 0;
-//}
-
-
-//int main() {
 //
 //    string inputDirectory = "../input/";
 //    string outputDirectory = "../output/";
@@ -156,7 +159,7 @@ int main(int argc, char *argv[]) {
 //    return 0;
 //}
 
-/*
+
 gate = QuGateFactory::getQuGate("x");
 gate->setArgAtIndex(0, 3);
 program.push_back(gate);
@@ -338,5 +341,4 @@ h q[3];
 cx q[1], q[0];
 h q[2];
 
-
- */
+*/

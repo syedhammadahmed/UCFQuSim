@@ -49,7 +49,6 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
     unordered_map<string, QuMapping> initialMappingsMap;
     vector<shared_ptr<QuGate>> finalProgram;
 
-    setParams(INITIAL_MAPPING_THRESHOLD, MAPPING_THRESHOLD, RESTRICTED_QUBITS);
 
     for(unsigned int i=0; i<inputFiles.size(); i++) {
         string file = inputFiles[i].substr(0, inputFiles[i].length() - 5); //removing .qasm extension
@@ -65,6 +64,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
         QuCircuitGenerator quCircuitGenerator(quArchitecture.getN(), file);
         QuCircuit &circuit = quCircuitGenerator.getCircuit();
         Util::timeIt(false);
+        setParams(INITIAL_MAPPING_THRESHOLD, MAPPING_THRESHOLD, 2);
         QuMappingInitializer mappingInitializer(circuit, quArchitecture);
         int x = restrictedQubits;
 //        int x = circuit.getN() - MAX_PERMUTATION_N;
@@ -78,7 +78,6 @@ pair<vector<Result>, unordered_map<string, QuMapping>> QuMultiGenerator::generat
 //        QuMapping::printAll(initialMappings);
 
         cout << "Initial Mappings generated!" << endl;
-
         vector<QuMapping> sample;
         if (initialMappings.size() > initialMappingsThreshold) {
             if (RANDOM_SAMPLING_INIT_MAPPINGS) {
@@ -146,7 +145,7 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
     QuMapping minMapping(quArchitecture.getN());
 
     for (int i=0; i<initialMappings.size(); i++) {
-//        cout << "<" << circuit.getFileName() << "> Mapping # " << i << " of " << initialMappings.size() << ": ";
+//        cout << "<" << circuit.getFileName() << "> Mapping # " << i << " of " << initialMappings.size() << endl;
         QuMapping& mapping = initialMappings[i];
         vector<QuMapping> singleInitMapping;
         singleInitMapping.push_back(mapping);
@@ -158,7 +157,6 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
         unsigned int gatesProposed = totalCost + gatesOriginal;
         unsigned int hadamards = circuit.getHadamards();
         unsigned int swaps = circuit.getSwaps();
-
         //todo optimizations
         gatesProposedOptimized = gatesProposed - circuit.getOptimizations();
         // todo get layer from finalProgram
@@ -173,11 +171,12 @@ pair<int, QuMapping> QuMultiGenerator::findMinCostUsingInitialMappings1by1(QuCir
             minMapping = initMapping;
         }
 
-        cout << "g+: " << minGatesProposedOptimized;
-        cout << "  Mapping: [" << minMapping.toString() << "]" << endl;
+//        cout << "g+: " << minGatesProposedOptimized;
+//        cout << "  Mapping: [" << minMapping.toString() << "]" << endl;
 
         delete strategy;
     }
+//    results.clear();
     results.push_back(Result(circuit.getFileName(), minSwaps, gatesOriginal, minGates, -1, minHadamards, -1, minGatesProposedOptimized, circuit.getN()));
 
     return make_pair(minGates, minMapping);

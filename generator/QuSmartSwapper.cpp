@@ -464,7 +464,7 @@ vector<QuMapping> QuSmartSwapper::getAllMappingsForCurrentInstruction() {
     else
         mappings = instructionWiseMappings[programCounter-1];
     if(mappings.size() > MAPPING_THRESHOLD) {
-        cout << "MAPPINGS FOR NEXT ITERATION (BEFORE PRUNING): " << mappings.size() << endl;
+//        cout << "MAPPINGS FOR NEXT ITERATION (BEFORE PRUNING): " << mappings.size() << endl;
 
         if (RANDOM_SAMPLING_MAPPINGS_PRUNING) {
             // todo divide threshold among mappings

@@ -456,6 +456,28 @@ vector<QuMapping> QuMappingInitializer::getNextPermutationMapping() {
     return initMappings;
 }
 
+
+void QuMappingInitializer::generatePermutations() {
+    vector<int> permInput;
+    int n = architecture.getN();
+    for (int i = 0; i < n; ++i) {
+        permInput.push_back(i);
+    }
+    if (permInput.size() > PERM_N) // 10! perms
+        permInput.erase(permInput.begin() + PERM_N, permInput.end());
+    Util::permute(permInput, 0, permInput.size() - 1, perms);
+    cout << "Permutations generated!"<< endl;
+    if (perms.size() > TOTAL_PERM) {
+        perms.erase(perms.begin() + TOTAL_PERM, perms.end());
+    }
+}
+
+vector<QuMapping> QuMappingInitializer::generateAllPermutationInitialMappings() {
+    generatePermutations();
+    generateMappingsFromPermutations();
+    return initialMappings;
+}
+
 // all mappings that give 0 cost for 1st k instructions
 vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int x) {
     initialMappings.clear();
@@ -495,8 +517,6 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int x
         restrictedMappingsForAll = restrictedMappings;
 
     for (auto& mapping: restrictedMappingsForAll) {
-        if (mapping.hasDuplicateMappings())
-            cout << "hello!" << endl;
         vector<QuMapping> temp = generatePermutationsAfterRestrictions(mapping);
         initialMappings.insert(initialMappings.end(), temp.begin(), temp.end());
     }
@@ -504,6 +524,19 @@ vector<QuMapping> QuMappingInitializer::generateAllZeroCostInitialMappings(int x
 //    if (initialMappings.size() > MAPPING_THRESHOLD)
 //        initialMappings.erase(initialMappings.begin() + MAPPING_THRESHOLD, initialMappings.end());
     cout << "initial mappingss size: " << initialMappings.size() << endl;
+
+    int initialMappingsThreshold = INITIAL_MAPPING_THRESHOLD;
+    vector<QuMapping> sample;
+    if (initialMappings.size() > initialMappingsThreshold) {
+        if (RANDOM_SAMPLING_INIT_MAPPINGS) {
+            Util::randomSampling(initialMappings, sample, INITIAL_MAPPING_THRESHOLD);
+            initialMappings = sample;
+        }
+        else
+            initialMappings.erase(initialMappings.begin() + initialMappingsThreshold, initialMappings.end());
+    }
+
+    cout << "initial mappingss size after sampling: " << initialMappings.size() << endl;
     saveMappingsToFile(Constants::MAPPINGS_FILES_DIRECTORY_RPATH + circuit.getFileName(), initialMappings);
     return initialMappings;
 }
@@ -731,17 +764,19 @@ void QuMappingInitializer::saveMappingsToFile(string outputFileName, vector<QuMa
         int batchSize = 1024;
         int batches = mappingsSize/batchSize; // 1 file having 1024 mappings
         for (int i = 0; i <= batches; ++i) {
-            ofs.open(outputFileName + "_" + to_string(i) , std::ofstream::out | std::ofstream::trunc);
+            int n = mappingsSize;
             if (mappingsSize >= batchSize)
-                ofs << batchSize << endl;
-            else
-                ofs << mappingsSize << endl;
-
-            mappingsSize -= batchSize;
-            for (auto& mapping: mappings) {
-                ofs << mapping.toString() << endl;
+                n = batchSize;
+            if (n>0) {
+                ofs.open(outputFileName + "_" + to_string(i), std::ofstream::out | std::ofstream::trunc);
+                ofs << n << endl;
+                mappingsSize -= batchSize;
+                for (int j = 0; j < n; j++) {
+                    int index = i * batchSize + j;
+                    ofs << mappings[index].toString() << endl;
+                }
+                ofs.close();
             }
-            ofs.close();
         }
     } catch (exception& e){
         cout << "Exception : " << e.what() << '\n';

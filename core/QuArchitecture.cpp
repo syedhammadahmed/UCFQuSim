@@ -28,10 +28,10 @@ QuArchitecture::~QuArchitecture() {
 void QuArchitecture::init() {
     if (n == Constants::QX5_N) // default QX5
         addConstraintsQX5();
+    //    addConstraintsQX3();
     else if (n == Constants::QX4_N)
+//        addConstraintsQX2();
         addConstraintsQX4();
-    else
-        addConstraintsQX3();
     makeSourceFrequencyPriorityList();
     makeTargetFrequencyPriorityList();
     makeCommonFrequencyPriorityLists();
@@ -78,6 +78,19 @@ void QuArchitecture::addConstraintsQX4() {
 
     architectureQX4.addConstraint(3,2);
     architectureQX4.addConstraint(3,4);
+}
+
+void QuArchitecture::addConstraintsQX2() {
+    QuArchitecture& architectureQX2 = *this;
+    architectureQX2.addConstraint(0,1);
+    architectureQX2.addConstraint(0,2);
+
+    architectureQX2.addConstraint(1,2);
+
+    architectureQX2.addConstraint(3,2);
+    architectureQX2.addConstraint(3,4);
+
+    architectureQX2.addConstraint(4,2);
 }
 
 void QuArchitecture::addConstraintsQX5() {

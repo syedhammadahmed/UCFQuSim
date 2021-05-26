@@ -27,6 +27,7 @@ public:
 
     // adds a CNOT constraint from src qubit to dest qubit
     void addConstraint(int src, int dest);
+    void addConstraintsQX2();
     void addConstraintsQX3();
     void addConstraintsQX4();
     void addConstraintsQX5();

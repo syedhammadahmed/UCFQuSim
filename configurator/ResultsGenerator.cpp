@@ -21,7 +21,7 @@ pair<vector<Result>, unordered_map<string, QuMapping>> ResultsGenerator::generat
 
         cout << file << "; (" << benchmark << ")" << endl;
 
-        auto temp = loadInitialMappingsFromFile(file);
+        auto temp = loadInitialMappingsFromFile(benchmark + "/" + file);
         auto result = quMultiGenerator.findCostFor1Benchmark(temp, benchmark);
 
 //    }
