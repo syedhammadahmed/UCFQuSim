@@ -17,7 +17,6 @@ void Result::print() {
     cout << std::setw(20) << std::left << timeProposed << "\t";
     cout << std::setw(20) << std::left << endl;
 }
-
 void Result::printHeader() {
     cout << std::setw(20) << std::left << "File"  << "\t";
     cout << std::setw(20) << std::left << "n"  << "\t";

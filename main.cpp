@@ -64,7 +64,7 @@ int main() {
         cout << "Input File Directory: " << inputDirectory << endl;
 
 //    QuArchitecture architectureQX5(physicalQuBitsQX5); // includes the coupling map having CNOT constraints
-    QuArchitecture architectureQX(Constants::QX2_N); // includes the coupling map having CNOT constraints
+    QuArchitecture architectureQX(Constants::QX4_N); // includes the coupling map having CNOT constraints
     QuMultiGenerator quMultiGenerator(inputDirectory, outputDirectory, architectureQX);
 
     auto data = quMultiGenerator.generateAllCircuits();
